@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Users</title>
+    <link rel="stylesheet" href="/stylesheets/users.css" />
+  </head>
+  <body>
+    <div class="users">
+      <% for (let i = 0; i < users.length; i++) { %>
+      <div class="user">
+        <div class="userName">Name: <%= users[i].name.firstName %></div>
+        <div class="userAge">Age: <%= users[i].age %></div>
+        <div class="userLocation">Location: <%= users[i].location %></div>
+        <div class="userBio">Bio: <%= users[i].bio %></div>
+      </div>
+      <%} %>
+    </div>
+    <a href="/">Back to Homepage</a>
+
+  </body>
+</html>
