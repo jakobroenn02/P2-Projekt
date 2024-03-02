@@ -1,12 +1,13 @@
 const { MongoClient } = require("mongodb");
+if(process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
 
 let dbConnection;
-const dbName = "database";
-let uri = `mongodb+srv://lasse301003:LWpUdRZ1vcmOfLUx@cluster0.umqdk3l.mongodb.net/${dbName}?retryWrites=true&w=majority&appName=Cluster0`;
 
 module.exports = {
   connectToDb: (cb) => {
-    MongoClient.connect(uri)
+    MongoClient.connect(process.env.DBURL)
       .then((client) => {
         dbConnection = client.db();
         return cb();
