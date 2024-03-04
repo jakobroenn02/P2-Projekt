@@ -10,13 +10,13 @@
   <div class="index-upcoming_events">
     <div class="upcoming-events-title">Your Upcoming Events</div>
     <% events.forEach(event => { %>
-    <div class="upcoming-event">
+    <a href="user/events/<%=event._id%>" class="upcoming-event">
       <div class="upcoming-event-name"><%= event.eventName %></div>
       <div class="upcoming-event-date">
         <%= event.date.month %>/<%= event.date.day %>-<%= event.date.hour %>:<%=
-        event.date.minute %>
+        event.date.minute %>0
       </div>
-    </div>
+    </a>
     <%})%>
   </div>
 

@@ -16,8 +16,13 @@ app.use(expessLayouts);
 const indexRouter = require("./routes/index");
 app.use("/", indexRouter);
 
-const usersRouter = require("./routes/users");
-app.use("/users", usersRouter);
+
+
+const groupsRouter = require("./routes/groups");
+app.use("/groups", groupsRouter);
+
+const userRouter = require("./routes/user");
+app.use("/user", userRouter);
 
 
 
