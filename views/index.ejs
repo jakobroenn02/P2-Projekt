@@ -1,13 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Homepage</title>
-</head>
-<body>
-    <div>Welcome to this page</div>
-    <a href="/users/65e03e4f361d8c19ff395a8f">See the best user</a><br>
-    <a href="/users">See all the users</a>
-</body>
-</html>
+<%- include("./partials/header.ejs") %>
+<div class="index-body">
+  <div class="index-groups">
+    <div class="index-groups-title">Your Groups</div>
+    <% groups.forEach(group => { %>
+    <a href="/groups/<%=group._id%>" class="index-group"><%= group.groupName %></a>
+    <%})%>
+  </div>
+
+  <div class="index-upcoming_events">
+    <div class="upcoming-events-title">Your Upcoming Events</div>
+    <% events.forEach(event => { %>
+    <div class="upcoming-event">
+      <div class="upcoming-event-name"><%= event.eventName %></div>
+      <div class="upcoming-event-date">
+        <%= event.date.month %>/<%= event.date.day %>-<%= event.date.hour %>:<%=
+        event.date.minute %>
+      </div>
+    </div>
+    <%})%>
+  </div>
+
+  <div class="index-suggested-groups">
+    <div class="suggested-groups-title">
+        Suggested Groups
+    </div>
+  </div>
+
+</div>

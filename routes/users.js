@@ -14,7 +14,7 @@ connectToDb((err) => {
 //routes
 
 router.get("/", (req, res) => {
-
+  
   let users = [];
 
   db.collection("users")

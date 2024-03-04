@@ -1,0 +1,86 @@
+.index-body {
+    display: flex;
+}
+
+.index-groups-title {
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+    font-weight: 600;
+    height: 64px;    
+    justify-content: center;
+    border-bottom:2px solid black
+
+}
+
+.index-groups {
+    display: flex;
+    flex-direction: column;
+    width: 320px;
+    border-right: 2px solid rgb(56, 54, 54);;
+}
+
+.index-group {
+    height: 64px;
+    width: 100%;
+    border-bottom: 2px solid rgb(56, 54, 54);
+    font-weight: 600;
+}
+
+.index-group:hover {
+    background-color: rgb(221, 221, 221);
+    cursor: pointer;
+}
+
+.index-upcoming_events {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    border-right:1px solid black ;
+
+}
+
+.upcoming-events-title {
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+    font-weight: 600;
+    height: 64px;    
+    justify-content: center;
+    border-bottom:2px solid black
+
+}
+
+.upcoming-event{
+    height: 64px;
+    border-bottom: 2px solid rgb(56, 54, 54);
+
+}
+
+.upcoming-event-name {
+    font-weight: 600;
+}
+
+.upcoming-event-date {
+    color: grey;
+    font-size: 12px;
+}
+
+.index-suggested-groups {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    border-left:1px solid black ;
+
+}
+
+.suggested-groups-title {
+    display: flex;
+    align-items: center;
+    border-bottom:2px solid black;
+    font-size: 20px;
+    font-weight: 600;
+    height: 64px;    
+    justify-content: center;
+}
+
