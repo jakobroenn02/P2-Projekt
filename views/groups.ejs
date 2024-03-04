@@ -1,0 +1,11 @@
+<%- include("./partials/header.ejs") %>
+
+<div class="groups-body">
+  <div class="groups-list">
+    <% groups.forEach(group => { %>
+    <a href="user/groups/<%=group._id%>" class="group"><div class="groupDiv"><%= group.groupName %></div></a>
+    <%})%>
+  </div>
+
+
+

@@ -1,0 +1,18 @@
+.groups-body{
+    background-color: rgb(197, 197, 197);
+    text-align: center;
+}
+
+.group{
+    
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+    text-align: center;
+}
+
+.groupDiv{
+    height: 50px;
+    border-bottom: 2px solid black; 
+   
+}
