@@ -1,11 +1,25 @@
 <%- include("./partials/header.ejs") %>
 
-<div class="groups-body">
-  <div class="groups-list">
+<div class="groups-container">
+  
     <% groups.forEach(group => { %>
-    <a href="user/groups/<%=group._id%>" class="group"><div class="groupDiv"><%= group.groupName %></div></a>
+    <div class="group-div">
+      <a href="./groups/<%=group._id%>" class="group-anchor"><div class="group-anchor-div"><%= group.groupName %></div></a>
+    </div>
     <%})%>
-  </div>
+  
+<div>
 
 
+<!-- Rettelser
 
+  1. Routing gik før til "user/user/groups/groupID" fra /groups siden af - Det er blevet fikset til at være lig startsiden groups så "user/groups/groupID"
+  2. Ændrede i css for groups således det burde gøre brug af flex wrapping og tillader op til 4 divs på hver række - OBS er ikke blevet testet med flere end 2 grupper
+
+-->
+
+<!-- Forslag
+
+  1. Vi skal have ændret i hvordan vores link til gruppen fungerer. Det virker helt dumt den måde det er lavet på nu i forhold til div element
+
+-->

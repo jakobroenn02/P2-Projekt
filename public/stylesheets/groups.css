@@ -1,18 +1,31 @@
-.groups-body{
-    background-color: rgb(197, 197, 197);
-    text-align: center;
+/* TODO Skal testes i forhold til flere grupper - Er ikke helt sikker på hvordan det vil se ud ift wrap og spacing*/
+
+
+.groups-container{
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+
+    /*justify-content: space-evenly;*/
 }
 
-.group{
-    
+.group-anchor{
     text-decoration: none;
     color: black;
     font-weight: bold;
     text-align: center;
 }
 
-.groupDiv{
-    height: 50px;
+.group-div{
+    height: 200px;
     border-bottom: 2px solid black; 
-   
+    border-right: 2px solid black; 
+    width: 25vw;
+    background: linear-gradient(to right, rgb(255, 255, 255) 0%, rgb(230, 230, 230) 100% );
+}
+
+
+.group-anchor-div{
+    height: 100%;
+    width: 100%;
 }
