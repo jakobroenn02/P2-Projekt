@@ -1,31 +1,55 @@
 /* TODO Skal testes i forhold til flere grupper - Er ikke helt sikker på hvordan det vil se ud ift wrap og spacing*/
 
-
-.groups-container{
-    display: flex;
-    flex-wrap: wrap;
-    align-content: flex-start;
-
-    /*justify-content: space-evenly;*/
+.groups-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
 }
 
-.group-anchor{
-    text-decoration: none;
-    color: black;
+.group-div {
+  height: 200px;
+  width: 300px;
+  background-color: lightgray;
+  border-radius: 15px;
+  margin: 10px;
+}
+
+.group-anchor-div {
+  background-color: gray;
+  width: 80%;
+  height: 25px;
+  margin: 0 auto;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.group-anchor {
+  /* Only for text manipulation of the anchor elements*/
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+}
+
+.group-name{
     font-weight: bold;
-    text-align: center;
+    color: black;
+    margin-left: 10px;
 }
 
-.group-div{
-    height: 200px;
-    border-bottom: 2px solid black; 
-    border-right: 2px solid black; 
-    width: 25vw;
-    background: linear-gradient(to right, rgb(255, 255, 255) 0%, rgb(230, 230, 230) 100% );
+.group-image{
+    margin-left: 10px;
+    margin-top: 10px;
+    background-color: black;
+    width: 90px;
+    height: 90px;
+    border-radius: 15px;
 }
 
-
-.group-anchor-div{
-    height: 100%;
-    width: 100%;
+.groups-title{
+    padding: 10px;
+    margin: 0px;
 }
+
+/*background: linear-gradient(to right, rgb(255, 255, 255) 0%, rgb(230, 230, 230) 100% );*/
