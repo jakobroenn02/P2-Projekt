@@ -1,0 +1,55 @@
+/* TODO Skal testes i forhold til flere grupper - Er ikke helt sikker på hvordan det vil se ud ift wrap og spacing*/
+
+.groups-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+}
+
+.group-div {
+  height: 200px;
+  width: 300px;
+  background-color: lightgray;
+  border-radius: 15px;
+  margin: 10px;
+}
+
+.group-anchor-div {
+  background-color: gray;
+  width: 80%;
+  height: 25px;
+  margin: 0 auto;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.group-anchor {
+  /* Only for text manipulation of the anchor elements*/
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+}
+
+.group-name{
+    font-weight: bold;
+    color: black;
+    margin-left: 10px;
+}
+
+.group-image{
+    margin-left: 10px;
+    margin-top: 10px;
+    background-color: black;
+    width: 90px;
+    height: 90px;
+    border-radius: 15px;
+}
+
+.groups-title{
+    padding: 10px;
+    margin: 0px;
+}
+
+/*background: linear-gradient(to right, rgb(255, 255, 255) 0%, rgb(230, 230, 230) 100% );*/

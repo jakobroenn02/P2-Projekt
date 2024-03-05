@@ -46,6 +46,31 @@ router.get("/events", (req, res) => {
     });
 });
 
+
+router.get("/groups", (req, res) => {
+  const logedInId = "65e03e4f361d8c19ff395a8f";
+  let groups = [];
+
+  db.collection("users")
+    .findOne({ _id: new ObjectId(logedInId) })
+    .then((user) => {
+      db.collection("groups")
+        .find({
+          _id: {
+            $in: user.groupIds,
+          },
+        })
+        .forEach((group) => {
+          groups.push(group);
+        })
+        .then(() => {
+          res.render("groups", { groups });
+        });
+    });
+});
+
+
+
 router.get("/:id", (req, res) => {
   const id = req.params.id;
 

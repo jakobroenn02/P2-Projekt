@@ -3,7 +3,7 @@
   <div class="index-groups">
     <div class="index-groups-title">Your Groups</div>
     <% groups.forEach(group => { %>
-    <a href="/groups/<%=group._id%>" class="index-group"><%= group.groupName %></a>
+    <a href="user/groups/<%=group._id%>" class="index-group"><%= group.groupName %></a>
     <%})%>
   </div>
 
