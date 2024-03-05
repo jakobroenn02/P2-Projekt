@@ -1,12 +1,15 @@
 <%- include("./partials/header.ejs") %>
+<% if (!isLoggedIn) {%>
+    <a href="/login">Log in please</a>
+<% } else { %>
 <div class="userEvents">
-   <div class="userEvents-title">Events</div>
+    <div class="userEvents-title">Events</div>
     <div class="userEvents-events">
         <% for(let i =0; i<events.length; i++) {%>
-        <div class="userEvents-event">
-            <%= events[i].eventName %>
-        </div>
-        <%}%>
+            <div class="userEvents-event">
+                <%= events[i].eventName %>
+            </div>
+        <%}%> 
     </div>
-
-</div>
+ </div>
+    <%} %>

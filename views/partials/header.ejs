@@ -8,9 +8,16 @@
     <div class="header-find_groups"><a href="groups/find">Find Groups</a></div>
   </div>
   <div class="header-right">
-    <div class="header-profile"></div>
-    <div class="header-settings">
-      <i class="fa-solid fa-gear"></i>
-    </div>
+    <% if (isLoggedIn) {%>
+      <div class="header-profile"></div>
+      <div class="header-settings">
+        <i class="fa-solid fa-gear"></i>
+      </div>
+      <a href="/login/logout">Logout</a>
+    <%} else {%>
+      <a href="/login">Login</a>
+      <a href="/register">Register</a>
+    <%} %>
+   
   </div>
 </nav>
