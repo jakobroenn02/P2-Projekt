@@ -1,1 +1,18 @@
 <%- include("./partials/header.ejs") %>
+register
+<form action="/user/register" method="post">
+    <label for="username">username</label>
+    <input name="username" type="text">
+    <label for="password">password</label>
+    <input name="password" type="password">
+    <button type="submit">Submit</button>
+</form>
+
+login
+<form action="/user/login" method="post">
+    <label for="username">username</label>
+    <input name="username" type="text">
+    <label for="password">password</label>
+    <input name="password" type="password">
+    <button type="submit">Submit</button>
+</form>
