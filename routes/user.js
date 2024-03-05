@@ -40,7 +40,8 @@ router.get("/events", (req, res) => {
           events.push(event);
         })
         .then(() => {
-          res.render("user", { events });
+          console.log(events)
+          res.render("userEvents", {events});
         });
     });
 });

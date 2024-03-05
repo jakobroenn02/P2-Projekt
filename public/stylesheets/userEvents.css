@@ -1,0 +1,16 @@
+.userEvents{
+    display: flex;
+    flex-direction: column;
+    background-color: green;
+}
+.userEvents-title{
+    font-size: 24px;
+    display: flex;
+    font-weight: 600;
+    margin: 20px 20px 10px 20px;
+
+}
+
+.userEvents-events{
+    margin: 10px 20px 20px 20px;
+}
