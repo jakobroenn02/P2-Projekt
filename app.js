@@ -24,6 +24,12 @@ app.use("/groups", groupsRouter);
 const userRouter = require("./routes/user");
 app.use("/user", userRouter);
 
+const loginRouter = require("./routes/login");
+app.use("/login", loginRouter);
+
+const registerRouter = require("./routes/register");
+app.use("/register", registerRouter);
+
 
 
 //Port
