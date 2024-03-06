@@ -1,0 +1,18 @@
+<%- include("./partials/header.ejs") %>
+
+ 
+<% if (isLoggedIn) {%>
+  <div>You are already logged in</div>
+<% } else { %>
+  <div class="login-container">
+    <form action="/login" method="post">
+      <label for="username"><b>Username</b></label>
+      <input type="text" placeholder="Enter username" name="username" required>
+  
+      <label for="password"><b>Password</b></label>
+      <input type="password" placeholder="Enter Password" name="password" required>
+      <button type="submit">Login</button>
+      <label>
+    </form>
+  </div>
+  <%} %>

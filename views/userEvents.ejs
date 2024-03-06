@@ -1,7 +1,9 @@
 <%- include("./partials/header.ejs") %>
+<% if (!isLoggedIn) {%>
+    <a href="/login">Log in please</a>
+<% } else { %>
 <div class="userEvents">
   <h1 class="events-title">Your events</h1>
-
   <div class="events-container">
     <% events.forEach(event => { %>
     <div class="event-div">

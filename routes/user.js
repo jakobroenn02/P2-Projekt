@@ -1,7 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const { ObjectId } = require("mongodb");
+const { ObjectId, ReturnDocument } = require("mongodb");
 const { connectToDb, getDb } = require("../db");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 //connect to db
 let db;
@@ -13,81 +15,57 @@ connectToDb((err) => {
 
 //routes
 
-router.get("/", (req, res) => {
-  const logedInId = "65e03e4f361d8c19ff395a8f";
-
-  db.collection("users")
-    .findOne({ _id: new ObjectId(logedInId) })
-    .then((user) => {
-      res.render("user", { user });
-    });
-});
-
 router.get("/events", (req, res) => {
-  const logedInId = "65e03e4f361d8c19ff395a8f";
-  let events = [];
+  if (req.cookies.token == null) {
+    return res.render("userEvents", { isLoggedIn: false });
+  } else {
+    const decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
+    let events = [];
 
-  db.collection("users")
-    .findOne({ _id: new ObjectId(logedInId) })
-    .then((user) => {
-      db.collection("events")
-        .find({
-          _id: {
-            $in: user.eventIds,
-          },
-        })
-        .forEach((event) => {
-          events.push(event);
-        })
-        .then(() => {
-          console.log(events)
-          res.render("userEvents", {events});
-        });
-    });
+    db.collection("users")
+      .findOne({ username: decodedUser.username })
+      .then((user) => {
+        db.collection("events")
+          .find({
+            _id: {
+              $in: user.eventIds,
+            },
+          })
+          .forEach((event) => {
+            events.push(event);
+          })
+          .then(() => {
+            console.log(events);
+            res.render("userEvents", { events, isLoggedIn: true });
+          });
+      });
+  }
 });
-
 
 router.get("/groups", (req, res) => {
-  const logedInId = "65e03e4f361d8c19ff395a8f";
-  let groups = [];
+  if (req.cookies.token == null) {
+    return res.render("userEvents", { isLoggedIn: false });
+  } else {
+    const decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
+    let groups = [];
 
-  db.collection("users")
-    .findOne({ _id: new ObjectId(logedInId) })
-    .then((user) => {
-      db.collection("groups")
-        .find({
-          _id: {
-            $in: user.groupIds,
-          },
-        })
-        .forEach((group) => {
-          groups.push(group);
-        })
-        .then(() => {
-          res.render("groups", { groups });
-        });
-    });
-});
-
-
-
-router.get("/:id", (req, res) => {
-  const id = req.params.id;
-
-  db.collection("users")
-    .findOne({ _id: new ObjectId(id) })
-    .then((user) => {
-      res.render("user", { user });
-    });
-});
-
-router.post("/", (req, res) => {
-  const user = req.body;
-  db.collection("users")
-    .insertOne(user)
-    .then((result) => {
-      res.render("user");
-    });
+    db.collection("users")
+      .findOne({ username: decodedUser.username })
+      .then((user) => {
+        db.collection("groups")
+          .find({
+            _id: {
+              $in: user.groupIds,
+            },
+          })
+          .forEach((group) => {
+            groups.push(group);
+          })
+          .then(() => {
+            res.render("groups", { groups, isLoggedIn: true });
+          });
+      });
+  }
 });
 
 module.exports = router;
