@@ -1,18 +1,5 @@
 <%- include("./partials/header.ejs") %>
 <div class="register-container">
-<<<<<<< Updated upstream
-    <label for="firstname"><b>First Name</b></label>
-    <input type="text" placeholder="Enter First Name" name="firstname" required>
-    <label for="lastname"><b>Last Name</b></label>
-    <input type="text" placeholder="Enter Last Name" name="lastname" required>
-    <label for="email"><b>Email</b></label>
-    <input type="text" placeholder="Enter Email" name="email" required>
-    <label for="psw"><b>Password</b></label>
-    <input type="password" placeholder="Enter Password" name="psw" required>
-    <label for="confirmedPsw"><b>Confirm Password</b></label>
-    <input type="password" placeholder="Confirm Password" name="confirmedPsw" required>
-    <button type="submit">Register</button>
-=======
   <form action="/register" method="post">
     <label for="firstName"><b>First Name</b></label>
     <input type="text" placeholder="Enter First Name" name="firstName" required />
@@ -33,6 +20,5 @@
     <input type="password" placeholder="Confirm Password" name="confirmedPassword" required />
 
     <button type="submit"><a href="/interests"></a>Register</button>
->>>>>>> Stashed changes
     <caption><br>Already have an account?: <a href="/login">Sign In Here</a></caption>
 </div>
