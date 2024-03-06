@@ -16,56 +16,50 @@ connectToDb((err) => {
 //routes
 
 router.get("/events", (req, res) => {
-  if (req.cookies.token == null) {
-    return res.render("userEvents", { isLoggedIn: false });
-  } else {
-    const decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
-    let events = [];
+  const decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
+  let events = [];
 
-    db.collection("users")
-      .findOne({ username: decodedUser.username })
-      .then((user) => {
-        db.collection("events")
-          .find({
-            _id: {
-              $in: user.eventIds,
-            },
-          })
-          .forEach((event) => {
-            events.push(event);
-          })
-          .then(() => {
-            console.log(events);
-            res.render("userEvents", { events, isLoggedIn: true });
-          });
-      });
-  }
+  db.collection("users")
+    .findOne({ username: decodedUser.username })
+    .then((user) => {
+      db.collection("events")
+        .find({
+          _id: {
+            $in: user.eventIds,
+          },
+        })
+        .forEach((event) => {
+          events.push(event);
+        })
+        .then(() => {
+          console.log(events);
+          res.render("userEvents", { events });
+        });
+    });
 });
 
 router.get("/groups", (req, res) => {
-  if (req.cookies.token == null) {
-    return res.render("userEvents", { isLoggedIn: false });
-  } else {
-    const decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
-    let groups = [];
+  const decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
+  let groups = [];
 
-    db.collection("users")
-      .findOne({ username: decodedUser.username })
-      .then((user) => {
-        db.collection("groups")
-          .find({
-            _id: {
-              $in: user.groupIds,
-            },
-          })
-          .forEach((group) => {
-            groups.push(group);
-          })
-          .then(() => {
-            res.render("groups", { groups, isLoggedIn: true });
-          });
-      });
-  }
+  db.collection("users")
+    .findOne({ username: decodedUser.username })
+    .then((user) => {
+      db.collection("groups")
+        .find({
+          _id: {
+            $in: user.groupIds,
+          },
+        })
+        .forEach((group) => {
+          groups.push(group);
+        })
+        .then(() => {
+          res.render("groups", { groups });
+        });
+    });
+});
+
 });
 
 module.exports = router;
