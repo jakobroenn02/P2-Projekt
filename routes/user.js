@@ -59,5 +59,15 @@ router.get("/groups", (req, res) => {
         });
     });
 });
+router.get("/interests", (req, res)=> {
+  const decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
+
+  db.collection("users")
+    .findOne({username: decodedUser.username })
+    .then((user)=> {
+      res.render("interests", {isLoggedIn:true, user});
+    })
+});
+
 
 module.exports = router;
