@@ -1,9 +1,13 @@
-<%- include("./partials/header.ejs") %>
+<%- include("./partials/header.ejs") %> <% if (!isLoggedIn) {%>
+<a href="/login">Log in please</a>
+<% } else { %>
 <div class="index-body">
   <div class="index-groups">
     <div class="index-groups-title">Your Groups</div>
     <% groups.forEach(group => { %>
-    <a href="user/groups/<%=group._id%>" class="index-group"><%= group.groupName %></a>
+    <a href="user/groups/<%=group._id%>" class="index-group"
+      ><%= group.groupName %></a
+    >
     <%})%>
   </div>
 
@@ -21,9 +25,7 @@
   </div>
 
   <div class="index-suggested-groups">
-    <div class="suggested-groups-title">
-        Suggested Groups
-    </div>
+    <div class="suggested-groups-title">Suggested Groups</div>
   </div>
-
 </div>
+<%} %>
