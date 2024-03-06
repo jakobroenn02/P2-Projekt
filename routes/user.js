@@ -33,7 +33,7 @@ router.get("/events", (req, res) => {
         })
         .then(() => {
           console.log(events);
-          res.render("userEvents", { events });
+          res.render("userEvents", { isLoggedIn: true, events });
         });
     });
 });
@@ -55,11 +55,9 @@ router.get("/groups", (req, res) => {
           groups.push(group);
         })
         .then(() => {
-          res.render("groups", { groups });
+          res.render("groups", { isLoggedIn: true, groups });
         });
     });
-});
-
 });
 
 module.exports = router;

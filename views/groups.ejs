@@ -1,6 +1,5 @@
 <!--TODO Tilføj endpoints til leave ikon-->
-<%- include("./partials/header.ejs") %>
-<% if (!isLoggedIn) {%>
+<%- include("./partials/header.ejs") %> <% if (!isLoggedIn) {%>
 <a href="/login">Log in please</a>
 <% } else { %>
 <h1 class="groups-title">Your groups</h1>
@@ -9,7 +8,9 @@
   <% groups.forEach(group => { %>
   <div class="group-div">
     <div class="group-div-top">
-      <div class="group-image-div"><img class="group-image" src="/img/<%=group.interest%>.jpeg" /></div>
+      <div class="group-image-div">
+        <img class="group-image" src="/img/<%=group.interest%>.jpeg" />
+      </div>
       <p class="group-name"><%= group.groupName %></p>
     </div>
     <div class="group-buttons">
@@ -18,13 +19,6 @@
         <i class="fa-solid fa-arrow-right-from-bracket group-leave-icon"></i>
       </div>
     </div>
-  </div>
-  <%})%>
-    <div class="group-image"></div>
-    <p class="group-name"><%= group.groupName %></p>
-    <a href="./groups/<%=group._id%>" class="group-anchor"
-      ><div class="group-anchor-div">Show Group</div></a
-    >
   </div>
   <%})%>
   <div><%} %></div>
