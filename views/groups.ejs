@@ -1,0 +1,15 @@
+<%- include("./partials/header.ejs") %>
+
+<h1 class="groups-title">Your groups</h1>
+
+<div class="groups-container">
+  
+    <% groups.forEach(group => { %>
+    <div class="group-div">
+      <div class="group-image"></div>
+      <p class="group-name"><%= group.groupName %></p>
+      <a href="./groups/<%=group._id%>" class="group-anchor"><div class="group-anchor-div">Show Group</div></a>
+    </div>
+    <%})%>
+  
+<div>

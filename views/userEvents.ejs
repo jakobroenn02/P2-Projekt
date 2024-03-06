@@ -1,0 +1,12 @@
+<%- include("./partials/header.ejs") %>
+<div class="userEvents">
+   <div class="userEvents-title">Events</div>
+    <div class="userEvents-events">
+        <% for(let i =0; i<events.length; i++) {%>
+        <div class="userEvents-event">
+            <%= events[i].eventName %>
+        </div>
+        <%}%>
+    </div>
+
+</div>
