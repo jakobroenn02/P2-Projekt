@@ -60,4 +60,6 @@ router.get("/groups", (req, res) => {
     });
 });
 
+});
+
 module.exports = router;

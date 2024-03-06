@@ -1,4 +1,7 @@
 <%- include("./partials/header.ejs") %>
+<% if (isLoggedIn) {%>
+  <div>You are already logged in</div>
+<% } else { %>
 <div class="login-container">
   <form action="/login/auth" method="get" target="_blank">
     <label for="uname"><b>Email</b></label>
@@ -11,3 +14,5 @@
     </label>
     <caption><br>Don't have an account: <a href="/register">Sign Up</a></caption>
   </form></div>
+ <%} %>
+
