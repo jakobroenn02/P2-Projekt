@@ -1,31 +1,23 @@
 <%- include("./partials/header.ejs") %> <% if (!isLoggedIn) {%>
 <a href="/login">Log in please</a>
 <% } else { %>
-<div class="index-body">
-  <div class="index-groups">
-    <div class="index-groups-title">Your Groups</div>
-    <% groups.forEach(group => { %>
-    <a href="user/groups/<%=group._id%>" class="index-group"
-      ><%= group.groupName %></a
-    >
-    <%})%>
-  </div>
 
-  <div class="index-upcoming_events">
-    <div class="upcoming-events-title">Your Upcoming Events</div>
-    <% events.forEach(event => { %>
-    <a href="user/events/<%=event._id%>" class="upcoming-event">
-      <div class="upcoming-event-name"><%= event.eventName %></div>
-      <div class="upcoming-event-date">
-        <%= event.date.month %>/<%= event.date.day %>-<%= event.date.hour %>:<%=
-        event.date.minute %>0
+<div class="homepage">
+  <div class="homepage-groups-container">
+    <% for (let i = 0; i < groups.length; i++) {%>
+    <a href="/user/groups/<%=groups[i]._id%>" class="homepage-group">
+      <div class="homepage-group-image-container">
+        <img src="/img/<%=groups[i].interest%>.jpeg" alt="" class="homepage-group-image" />
+      </div>
+      <div class="homepage-group-info">
+        <div class="homepage-group-name"><%= groups[i].groupName%></div>
+        <div class="homepage-group-message">Hej hvordan går det med jer her på sådan her en god skøn dag?</div>
       </div>
     </a>
-    <%})%>
-  </div>
 
-  <div class="index-suggested-groups">
-    <div class="suggested-groups-title">Suggested Groups</div>
+    <%} %>
   </div>
+  <div class="homepage-events-container"></div>
+  <div class="homepage-discover-container"></div>
 </div>
 <%} %>
