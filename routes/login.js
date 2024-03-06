@@ -49,7 +49,7 @@ router.post("/", async (req, res) => {
 
       res.redirect("/");
     } else {
-      res.send("not allowed");
+      res.send("Wrong password")
     }
   } catch {
     res.status(500).send();
