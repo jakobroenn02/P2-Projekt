@@ -15,46 +15,47 @@ connectToDb((err) => {
 
 router.get("/", (req, res) => {
   if (req.cookies.token == null) {
-    return res.render("login", { isLoggedIn: false });
+
+    return res.render("register", { isLoggedIn: false });
   } else {
-    res.render("login", { isLoggedIn: true });
+    res.render("register", { isLoggedIn: true });
   }
 });
 
 router.post("/", async (req, res) => {
-  let logedInUser = await db
-    .collection("users")
-    .findOne({ username: req.body.username });
-
-  if (!logedInUser) {
-    return res.status(400).send("cannot find user");
-  }
-
+  
   try {
-    const passMatch = await bcrypt.compare(
-      req.body.password,
-      logedInUser.password
-    );
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    const user = {
+      name: { firstName: req.body.firstName, lastName: req.body.lastName },
+      password: hashedPassword,
+      bio: "",
+      age: 0,
+      location: "",
+      groupIds: [],
+      interests: [],
+      eventIds: [],
+      username: req.body.username,
+    };
 
-    if (passMatch) {
-      //Creates jwt token
-      const token = jwt.sign(logedInUser, process.env.JWTSECRET, {
-        expiresIn: "30m",
+    db.collection("users")
+      .insertOne(user)
+      .then(() => {
+        const token = jwt.sign(user, process.env.JWTSECRET, {
+          expiresIn: "30m",
+        });
+  
+        //sets cookie in browser
+        res.cookie("token", token, {
+          httpOnly: true,
+        });
+        res.redirect("/");
       });
-
-      //sets cookie in browser
-      res.cookie("token", token, {
-        httpOnly: true,
-      });
-
-      res.redirect("/");
-    } else {
-      res.send("Wrong password")
-    }
   } catch {
     res.status(500).send();
   }
 });
+
 
 router.get("/logout", (req, res) => {
   res.clearCookie("token")

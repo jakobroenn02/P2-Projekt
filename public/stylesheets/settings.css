@@ -1,0 +1,30 @@
+.header-settings {
+  position: relative;
+}
+
+.header-settings-icon {
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+  }
+  
+.header-settings-icon:hover{
+    background-color: rgb(85, 85, 85);
+  }
+  
+  
+.settings-dropdown{
+  position: absolute;
+  top: 43px;
+  right: 20px;
+  background-color: rgb(255, 255, 255);
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  border-radius: 6px;
+  text-align: left;
+  padding: 30px;
+  display: none;
+  flex-direction: column;
+  gap: 12px;
+}

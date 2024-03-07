@@ -1,12 +1,32 @@
 <%- include("./partials/header.ejs") %>
+<% if (!isLoggedIn) {%>
+    <a href="/login">Log in please</a>
+<% } else { %>
 <div class="userEvents">
-   <div class="userEvents-title">Events</div>
-    <div class="userEvents-events">
-        <% for(let i =0; i<events.length; i++) {%>
-        <div class="userEvents-event">
-            <%= events[i].eventName %>
+  <h1 class="events-title">Your events</h1>
+  <div class="events-container">
+    <% events.forEach(event => { %>
+    <div class="event-div">
+      <a href="/user/events/<%=event._id%>"
+        ><div class="event-name"><%= event.eventName %></div>
+        <div class="event-description">
+          <%=event.description%>
         </div>
-        <%}%>
+        <div class="event-address">
+          <%= event.location.name%> | <%= event.location.address %>
+        </div>
+        <div class="event-date">
+          <%= event.date.day < 10 ? "0": ""%><%=event.date.day%>/<%=
+          event.date.month < 10 ? "0": ""%><%=event.date.month%>/<%=
+          event.date.year%> <%= event.date.hour < 10 ? "0":
+          ""%><%=event.date.hour%>:<%= event.date.minute < 10 ? "0":
+          ""%><%=event.date.minute%>
+        </div>
+      </a>
     </div>
+    <%})%>
+    <%}%>
 
+    <div></div>
+  </div>
 </div>
