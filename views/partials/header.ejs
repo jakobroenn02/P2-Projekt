@@ -13,18 +13,16 @@
     <% if (isLoggedIn) {%>
       <div class="header-profile"></div>
       <div class="header-settings">
-        <div class="dropdown">
-          <button onclick="dropdown_funktion()" class="dropbtn"><i class="fa-solid fa-gear"></i></button>
-          <div id="mydropdown" class="dropdown-content">
-            <a href="something">logout</a>
-          </div>
+        <div class="header-settings-icon">
+          <i class="fa-solid fa-gear"></i>
         </div>
+        <div class="settings-dropdown"><a href="/login/logout">Logout</a></div>
       </div>
-      <a href="/login/logout">Logout</a>
-      <%} else {%>
-        <a href="/login">Login</a>
-        <a href="/register">Register</a>
-        <%} %>
-
   </div>
+  <%} else {%>
+    <a href="/login">Login</a>
+    <a href="/register">Register</a>
+    <%} %>
+
+      </div>
 </nav>

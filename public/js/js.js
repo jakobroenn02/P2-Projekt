@@ -1,17 +1,15 @@
-function dropdown_funktion(){
-    document.getElementById("mydropdown").classList.toggle("show")
-}
+const settingsButton = document.querySelector(".header-settings-icon");
 
-window.onclick = function(event) {
-    if (!event.target.matches('.dropbtn')){
-        var dropdown = document.getElementsByClassName("dropdown-content");
-        var i
-        for (i= 0; i < dropdown.length; i++) {
-            var opendropdown = dropdown[i];
-            if (opendropdown.classList.contains('show')){
-                opendropdown.classList.remove('show');
-            } 
-            
-        }
+settingsButton.addEventListener("click", (e) => {
+    const dropdown = document.querySelector(".settings-dropdown");
+    console.log(dropdown.style.display)
+    if(dropdown.style.display == "none") {
+        dropdown.style.display = "flex";
+    } else {
+        dropdown.style.display = "none";
     }
-}
+})
+
+
+
+
