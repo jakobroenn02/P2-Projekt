@@ -75,8 +75,6 @@ label{
  display: flex;
  flex-direction: column;
  margin-left: 20px;
-margin-bottom: 20px;
- 
 }
 
 .user-activity-list{
@@ -107,4 +105,25 @@ margin-bottom: 20px;
 }
 .row3{
   margin-bottom: 20px;
+}
+.delete-account{
+  outline: auto;
+  outline-width: large;
+  background-color: red;
+  color: white;
+  padding: 14px 20px;
+  margin-left: 20px;
+  margin-top: 50px; 
+  width: 50%;
+}
+.button-delete{
+  background-color: red;
+  color: black;
+  padding: 14px 20px;
+  margin-top: 20px;
+  border: none;
+  cursor: pointer;
+  width: 50%;
+  outline: auto;
+  background-color: white;
 }
