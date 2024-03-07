@@ -92,4 +92,25 @@ router.get("/interests", (req, res) => {
   }
 });
 
+
+
+
+router.get("/discover", (req, res) => {
+  let decodedUser;
+
+  if (req.cookies.token != null) {
+    decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
+  }
+
+  if (decodedUser == null) {
+    res.render("discover", { isLoggedIn: false });
+  } else {
+    db.collection("users")
+  .findOne({ username: decodedUser.username })
+  .then((user) => {
+    res.render("discover", { isLoggedIn: true, user });
+  });
+  }
+})
+
 module.exports = router;
