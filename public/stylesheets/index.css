@@ -6,7 +6,7 @@
 .homepage-groups-container {
   width: 360px;
   height: 100%;
-  display: flex;
+  display: block;
   align-items: center;
   flex-direction: column;
   flex-wrap: nowrap;
@@ -17,6 +17,8 @@
 }
 
 .homepage-group {
+  margin-right: auto;
+  margin-left: auto;
   width: 95%;
   height: 80px;
   background-color: lightgray;
@@ -97,15 +99,18 @@
   border-right: 1px solid lightgray; /* Rent visuelt, skal nok fjernes */
   height: 100%;
   flex: 1;
-  display: flex;
+  display: block;
   align-items: center;
   flex-direction: column;
   flex-wrap: nowrap;
+  overflow-y: hidden;
 }
 
 .homepage-event {
+  margin-left: auto;
+  margin-right: auto;
   background-color: lightgray;
-  width: 97%;
+  width: 95%;
   height: 180px;
   display: flex;
   flex-direction: column;
@@ -192,11 +197,9 @@
 .homepage-discover-container {
   border-left: 1px solid lightgray; /* Rent visuelt, skal nok fjernes */
   width: 360px;
-  height: 100%;
-  display: flex;
+  display: block;
   align-items: center;
   flex-direction: column;
-  flex-wrap: nowrap;
   border-right: 1px solid lightgray;
   overflow-y: scroll;
   scrollbar-width: thin;
@@ -212,6 +215,8 @@
   flex-direction: row;
   border-radius: 10px;
   margin-top: 12px;
+  margin-left: auto;
+  margin-right: auto;
   transition: all 0.05;
   align-items: center;
   position: relative;
@@ -244,7 +249,7 @@
   flex-direction: row;
 }
 
-.homepage-discover-title {
+.homepage-discover-title {  
   font-size: 16px;
   font-weight: 600;
   display: flex;
@@ -288,8 +293,15 @@
 .homepage-groups-title {
   font-weight: 600;
   font-size: 18px;
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
   color: white;
   background-color: rgb(67, 67, 67);
   padding: 8px;
-  border-radius: 6px;
+  border-radius: 0 0 6px 6px;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  text-align: center;
 }
