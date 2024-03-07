@@ -20,5 +20,18 @@
   font-weight: 600;
 
 }
-
-
+.user-settings-title {
+  font-size: 2em;
+  margin-top: 100px;
+  margin-left: 50px;
+  
+}
+.usersettings-container {
+  width: 33%;
+  outline: auto;
+  outline-width: medium;
+}
+.input-change-name{
+  width: 100%;
+  margin-bottom: 10px;
+}

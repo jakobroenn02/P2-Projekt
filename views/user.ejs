@@ -1,6 +1,17 @@
 <%- include("./partials/header.ejs") %> <% if (!isLoggedIn) {%>
 <a href="/login">Log in please</a>
 <% } else { %>
-  Userpage
-
+  <div class="userpage">
+    <div class="usersettings-container">
+      <div class="user-settings-title">Your settings</div>
+      <div class="change-form">
+        <form action="change-username">
+          <label fname="username">Change username</label>
+          <input class="input-change-name" type="text" name="username" />
+        </form>
+      </div>
+      
+      
+  </div>
+</div>
 <%}%>
