@@ -1,31 +1,71 @@
 <%- include("./partials/header.ejs") %> <% if (!isLoggedIn) {%>
 <a href="/login">Log in please</a>
 <% } else { %>
-<div class="index-body">
-  <div class="index-groups">
-    <div class="index-groups-title">Your Groups</div>
-    <% groups.forEach(group => { %>
-    <a href="user/groups/<%=group._id%>" class="index-group"
-      ><%= group.groupName %></a
-    >
-    <%})%>
-  </div>
 
-  <div class="index-upcoming_events">
-    <div class="upcoming-events-title">Your Upcoming Events</div>
-    <% events.forEach(event => { %>
-    <a href="user/events/<%=event._id%>" class="upcoming-event">
-      <div class="upcoming-event-name"><%= event.eventName %></div>
-      <div class="upcoming-event-date">
-        <%= event.date.month %>/<%= event.date.day %>-<%= event.date.hour %>:<%=
-        event.date.minute %>0
+<div class="homepage">
+  <div class="homepage-groups-container">
+    <div class="homepage-groups-title">Groups</div>
+    <% for (let i = 0; i < groups.length; i++) {%>
+    <a href="/user/groups/<%=groups[i]._id%>" class="homepage-group">
+      <div class="homepage-group-image-container">
+        <img
+          src="/img/<%=groups[i].interest%>.jpeg"
+          alt=""
+          class="homepage-group-image"
+        />
+      </div>
+      <div class="homepage-group-info">
+        <div class="homepage-group-name"><%= groups[i].groupName%></div>
+        <div class="homepage-group-message">
+          Hej hvordan går det med jer her på sådan her en god skøn dag?
+        </div>
       </div>
     </a>
-    <%})%>
-  </div>
 
-  <div class="index-suggested-groups">
-    <div class="suggested-groups-title">Suggested Groups</div>
+    <%} %>
+  </div>
+  <div class="homepage-events-container">
+    <div class="homepage-events-title">Upcomming Events</div>
+
+    <% for(let i = 0; i < events.length; i++) {%>
+    <a href="/user/events/<%=events[i]._id%>" class="homepage-event">
+      <div class="homepage-event-title"><%= events[i].eventName%></div>
+      <div class="homepage-event-info">
+        <div class="homepage-event-description">
+          <%= events[i].description%>
+        </div>
+        <div class="homepage-event-date">
+          <%= events[i].date.day < 10 ? "0": ""%><%=events[i].date.day%>/<%=
+          events[i].date.month < 10 ? "0": ""%><%=events[i].date.month%>/<%=
+          events[i].date.year%> <%= events[i].date.hour < 10 ? "0":
+          ""%><%=events[i].date.hour%>:<%= events[i].date.minute < 10 ? "0":
+          ""%><%=events[i].date.minute%>
+        </div>
+        <div class="homepage-event-location">
+          <%=events[i].location.name%> | <%=events[i].location.address%>
+        </div>
+      </div>
+    </a>
+    <%}%>
+  </div>
+  <div class="homepage-discover-container">
+    <div class="homepage-discovers-title">Discover</div>
+    <!-- TODO: Check user is not already in group before rendering -->
+    <% for(let i = 0; i < allgroups.length; i++){%>
+    <div class="homepage-discover">
+      <div class="homepage-discover-image-container">
+        <img
+          src="/img/<%=allgroups[i].interest%>.jpeg"
+          alt=""
+          class="homepage-discover-image"
+        />
+      </div>
+      <div class="homepage-discover-info">
+        <div class="homepage-discover-title"><%=allgroups[i].groupName%></div>
+        <a href="/groups/<%=allgroups[i]._id%>" class="homepage-discover-anchor"><i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+    </div>
+    <%}%>
   </div>
 </div>
 <%} %>
