@@ -1,6 +1,5 @@
-<%- include("./partials/header.ejs") %>
-<% if (!isLoggedIn) {%>
-    <a href="/login">Log in please</a>
+<%- include("./partials/header.ejs") %> <% if (!isLoggedIn) {%>
+<a href="/login">Log in please</a>
 <% } else { %>
 <div class="userEvents">
   <h1 class="events-title">Your events</h1>
@@ -9,9 +8,7 @@
     <div class="event-div">
       <a href="/user/events/<%=event._id%>"
         ><div class="event-name"><%= event.eventName %></div>
-        <div class="event-description">
-          <%=event.description%>
-        </div>
+        <div class="event-description"><%=event.description%></div>
         <div class="event-address">
           <%= event.location.name%> | <%= event.location.address %>
         </div>
@@ -25,8 +22,6 @@
       </a>
     </div>
     <%})%>
-    <%}%>
-
-    <div></div>
   </div>
 </div>
+<%}%>

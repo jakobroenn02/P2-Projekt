@@ -15,6 +15,19 @@ connectToDb((err) => {
 
 //routes
 
+router.get("/", (req, res) => {
+  let decodedUser;
+  if (req.cookies.token != null) {
+    decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
+  }
+  if (decodedUser != null) {
+    res.render("user", { isLoggedIn: true });
+  } else {
+    res.render("user", { isLoggedIn: false });
+
+  }
+});
+
 router.get("/events", (req, res) => {
   const decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
   let events = [];
