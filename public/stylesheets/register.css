@@ -1,7 +1,7 @@
 form{
     border: 4px red
 }
-input[type=text], input[type=email], input[type=password]{
+.register-input{
 width: 100%;
 padding: 12px 20px;
 margin:  6px;
@@ -9,7 +9,7 @@ display: inline-block;
 border: 1px solid #ccc;
 box-sizing: border-box;
 }
-button{
+.register-button{
     background-color: green;
     color: white;
     padding: 14px 20px;
@@ -19,7 +19,7 @@ button{
     border-radius: 5px;
     width: 100%;
 }
-button:hover{
+.register-button:hover{
     opacity: 0.8;
 }
 .register-container {
