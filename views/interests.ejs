@@ -1,32 +1,30 @@
 <%- include("./partials/header.ejs") %>
-    <div>Hello</div>
 
-    <% for(let i=0; i<user.interests.length; i++) {%> 
-        <div>
-            Currently you have these interests selected: <%= user.interests[i]%>
-        </div>
-        <%}%>
-        <body>
-                <div class="selected-interests" id="selected-interests">
+  <div class="interestsPage">
 
-                </div>
-                <input type="search" placeholder="Search">
-                <div class="all-interests" id="all-interests">
-                    <% fetch('hobbies.json')
-                    .then(response => response.json())
-                    .then(data => {
-                      const allInterests = document.getElementById('all-interests');
-                  
-                      // Iterate over the data and create interest cards
-                      data.forEach(interest => {
-                        const interestCard = document.createElement('div');
-                        interestCard.classList.add('interest-card');
-                        interestCard.textContent = interest.name;
-                        interestsContainer.appendChild(interestCard);
-                      });
-                    })
-                    .catch(error => console.error('Error fetching interests:', error)); %>
-                </div>
-            </div>
-        </body>
-        </html>
+    <div class="interestsPageLeft">
+      <div class="interestsSearch">
+        <input class="interestsSearchInput" type="text" name="interestsSearch" placeholder="Search Interests">
+      </div>
+      <div class="interestsContainer">
+        <% for (let i=0; i < allInterests.length; i++) { %>
+          <div class="specificInterest <%if (user.interests.includes(allInterests[i].hobby)) {%>
+            <%="selected"%>
+            <% } %>">
+              <%= allInterests[i].hobby %>
+          </div>
+
+          <% } %>
+      </div>
+    </div>
+    <div class="interestsPageRight">
+      <div class="interestsPageRightWrapper">
+        <% for (let i=0; i < user.interests.length; i++) { %>
+          <div class="specificSelectedInterest">
+            <%= user.interests[i] %>
+          </div>
+          <% } %>
+      </div>
+
+    </div>
+  </div>

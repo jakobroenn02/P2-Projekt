@@ -74,21 +74,27 @@ router.get("/groups", (req, res) => {
       });
   }
 });
-router.get("/interests", (req, res) => {
+router.get("/interests", async (req, res) => {
   let decodedUser;
-
+  let allInterests = [];
   if (req.cookies.token != null) {
     decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
   }
 
   if (decodedUser == null) {
-    res.render("groups", { isLoggedIn: false });
+    res.render("interests", { isLoggedIn: false });
   } else {
-    db.collection("users")
+    await db
+      .collection("interests")
+      .find()
+      .forEach((interest) => {
+        allInterests.push(interest);
+      })
+
+    await db.collection("users")
       .findOne({ username: decodedUser.username })
-      .then((user) => {
-        res.render("interests", { isLoggedIn: true, user });
-      });
+
+    res.render("interests", { isLoggedIn: true, allInterests, user:decodedUser});
   }
 });
 
