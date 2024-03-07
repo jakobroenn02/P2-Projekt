@@ -12,23 +12,28 @@ connectToDb((err) => {
 });
 
 //routes
-router.get("/", async(req, res) => {
+router.get("/", async (req, res) => {
+  let decodedUser;
   let groups = [];
   let allgroups = [];
   let events = [];
-  
-  if (req.cookies.token == null) {
-    return res.render("index", { isLoggedIn: false});
-  } else {
-  const decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
 
-    await db.collection("groups")
+  if (req.cookies.token != null) {
+    decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
+  }
+
+  if (decodedUser == null) {
+    return res.render("index", { isLoggedIn: false });
+  } else {
+    await db
+      .collection("groups")
       .find({})
       .forEach((group) => {
         allgroups.push(group);
-      })
+      });
 
-    await db.collection("users")
+    await db
+      .collection("users")
       .findOne({ username: decodedUser.username })
       .then((user) => {
         db.collection("groups")
@@ -51,7 +56,12 @@ router.get("/", async(req, res) => {
                 events.push(event);
               })
               .then(() => {
-                res.render("index", { isLoggedIn: true, groups, events, allgroups });
+                res.render("index", {
+                  isLoggedIn: true,
+                  groups,
+                  events,
+                  allgroups,
+                });
               });
           });
       });

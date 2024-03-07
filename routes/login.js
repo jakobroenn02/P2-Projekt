@@ -14,7 +14,13 @@ connectToDb((err) => {
 });
 
 router.get("/", (req, res) => {
-  if (req.cookies.token == null) {
+  let decodedUser;
+
+  if (req.cookies.token != null) {
+    decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
+  }
+
+  if (decodedUser == null) {
     return res.render("login", { isLoggedIn: false });
   } else {
     res.render("login", { isLoggedIn: true });
@@ -39,9 +45,7 @@ router.post("/", async (req, res) => {
     if (passMatch) {
       //Creates jwt token
       const token = jwt.sign(logedInUser, process.env.JWTSECRET, {
-
         expiresIn: "2h",
-
       });
 
       //sets cookie in browser
@@ -51,7 +55,7 @@ router.post("/", async (req, res) => {
 
       res.redirect("/");
     } else {
-      res.send("Wrong password")
+      res.send("Wrong password");
     }
   } catch {
     res.status(500).send();
@@ -59,7 +63,7 @@ router.post("/", async (req, res) => {
 });
 
 router.get("/logout", (req, res) => {
-  res.clearCookie("token")
+  res.clearCookie("token");
   return res.redirect("/");
 });
 

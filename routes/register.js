@@ -14,8 +14,13 @@ connectToDb((err) => {
 });
 
 router.get("/", (req, res) => {
-  if (req.cookies.token == null) {
+  let decodedUser;
 
+  if (req.cookies.token != null) {
+    decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
+  }
+
+  if (decodedUser == null) {
     return res.render("register", { isLoggedIn: false });
   } else {
     res.render("register", { isLoggedIn: true });
@@ -23,7 +28,6 @@ router.get("/", (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  
   try {
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     const user = {
@@ -44,7 +48,7 @@ router.post("/", async (req, res) => {
         const token = jwt.sign(user, process.env.JWTSECRET, {
           expiresIn: "30m",
         });
-  
+
         //sets cookie in browser
         res.cookie("token", token, {
           httpOnly: true,
@@ -56,9 +60,8 @@ router.post("/", async (req, res) => {
   }
 });
 
-
 router.get("/logout", (req, res) => {
-  res.clearCookie("token")
+  res.clearCookie("token");
   return res.redirect("/");
 });
 
