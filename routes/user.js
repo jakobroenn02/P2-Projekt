@@ -16,58 +16,80 @@ connectToDb((err) => {
 //routes
 
 router.get("/events", (req, res) => {
-  const decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
+  let decodedUser;
   let events = [];
 
-  db.collection("users")
-    .findOne({ username: decodedUser.username })
-    .then((user) => {
-      db.collection("events")
-        .find({
-          _id: {
-            $in: user.eventIds,
-          },
-        })
-        .forEach((event) => {
-          events.push(event);
-        })
-        .then(() => {
-          console.log(events);
-          res.render("userEvents", { isLoggedIn: true, events });
-        });
-    });
+  if (req.cookies.token != null) {
+    decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
+  }
+
+  if (decodedUser == null) {
+    res.render("userEvents", { isLoggedIn: false });
+  } else {
+    db.collection("users")
+      .findOne({ username: decodedUser.username })
+      .then((user) => {
+        db.collection("events")
+          .find({
+            _id: {
+              $in: user.eventIds,
+            },
+          })
+          .forEach((event) => {
+            events.push(event);
+          })
+          .then(() => {
+            res.render("userEvents", { isLoggedIn: true, events });
+          });
+      });
+  }
 });
 
 router.get("/groups", (req, res) => {
-  const decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
   let groups = [];
+  let decodedUser;
 
-  db.collection("users")
-    .findOne({ username: decodedUser.username })
-    .then((user) => {
-      db.collection("groups")
-        .find({
-          _id: {
-            $in: user.groupIds,
-          },
-        })
-        .forEach((group) => {
-          groups.push(group);
-        })
-        .then(() => {
-          res.render("groups", { isLoggedIn: true, groups });
-        });
-    });
+  if (req.cookies.token != null) {
+    decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
+  }
+
+  if (decodedUser == null) {
+    res.render("groups", { isLoggedIn: false });
+  } else {
+    db.collection("users")
+      .findOne({ username: decodedUser.username })
+      .then((user) => {
+        db.collection("groups")
+          .find({
+            _id: {
+              $in: user.groupIds,
+            },
+          })
+          .forEach((group) => {
+            groups.push(group);
+          })
+          .then(() => {
+            res.render("groups", { isLoggedIn: true, groups });
+          });
+      });
+  }
 });
-router.get("/interests", (req, res)=> {
-  const decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
+router.get("/interests", (req, res) => {
+  let decodedUser;
 
-  db.collection("users")
-    .findOne({username: decodedUser.username })
-    .then((user)=> {
-      res.render("interests", {isLoggedIn:true, user});
-    })
+  if (req.cookies.token != null) {
+    decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
+  }
+
+  if (decodedUser == null) {
+    res.render("groups", { isLoggedIn: false });
+  } else {
+    db.collection("users")
+      .findOne({ username: decodedUser.username })
+      .then((user) => {
+        res.render("interests", { isLoggedIn: true, user });
+      });
+  }
 });
-
 
 module.exports = router;
