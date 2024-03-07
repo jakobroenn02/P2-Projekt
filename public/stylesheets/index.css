@@ -10,6 +10,7 @@
   align-items: center;
   flex-direction: column;
   flex-wrap: nowrap;
+  border-right: 1px solid lightgray; /* Rent visuelt, skal nok fjernes */
 }
 
 .homepage-group {
@@ -24,9 +25,8 @@
 }
 
 .homepage-group:hover {
-    background-color: rgb(200, 200, 200);
+  background-color: rgb(200, 200, 200);
 }
-
 
 .homepage-group-image-container {
   height: 100%;
@@ -67,13 +67,138 @@
 }
 
 .homepage-events-container {
-  background-color: blue;
+  border-left: 1px solid lightgray; /* Rent visuelt, skal nok fjernes */
+  border-right: 1px solid lightgray; /* Rent visuelt, skal nok fjernes */
   height: 100%;
   flex: 1;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  flex-wrap: nowrap;
+}
+
+.homepage-event {
+  background-color: lightgray;
+  width: 70%;
+  height: 180px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 10px;
+  margin-top: 20px;
+  transition: all 0.05;
+  align-items: center;
+  position: relative;
+}
+
+.homepage-event:hover {
+  cursor: pointer;
+}
+
+.homepage-event-title {
+  color: black;
+  font-size: 25px;
+  font-weight: 600;
+  width: 80%;
+  text-align: center;
+  border-bottom: 2px solid rgb(196, 195, 195);
+  margin-bottom: 16px;
+  margin-top: 6px;
+  padding-bottom: 3px;
+}
+
+.homepage-event-info {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.homepage-event-description {
+  width: 90%;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 6px;
+  color: black;
+}
+
+.homepage-event-date {
+  position: absolute;
+  bottom: 12px;
+  left: 10%;
+  font-size: 13px;
+  color: rgb(149, 149, 149);
+}
+
+.homepage-event-location {
+  color: black;
+  position: absolute;
+  bottom: 12px;
+  right: 10%;
 }
 
 .homepage-discover-container {
+  border-left: 1px solid lightgray; /* Rent visuelt, skal nok fjernes */
+  width: 360px;
   height: 100%;
-  background-color: orange;
-  width: 300px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  border-right: 1px solid lightgray;
+}
+
+.homepage-discover {
+  width: 95%;
+  height: 80px;
+  background-color: lightgray;
+  display: flex;
+  overflow: hidden;
+  flex-direction: row;
+  border-radius: 10px;
+  margin-top: 12px;
+  transition: all 0.05;
+  align-items: center;
+  position: relative;
+}
+
+.homepage-discover-image-container {
+  height: 100%;
+  width: 80px;
+  background-color: black;
+  margin-right: 12px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.homepage-discover-image {
+  object-fit: cover;
+  min-width: 100%;
+  min-height: 100%;
+  opacity: 0.8;
+}
+
+.homepage-discover-info {
+  display: flex; 
+  flex-direction: row;
+}
+
+.homepage-discover-title {
+  font-size: 16px;
+  font-weight: 600;
+  display: flex; 
+  text-align: center;
+  align-items: center;
+}
+
+.homepage-discover-anchor {
+  color: black;
+  font-size: 20px;
+  position: absolute;
+  right: 30px;
 }
