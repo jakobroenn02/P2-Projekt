@@ -5,30 +5,26 @@
 <div class="register-container">
   <form action="/register" method="post">
     <label for="firstName"><b>First Name</b></label>
-    <input
-      type="text"
-      placeholder="Enter First Name"
-      name="firstName"
-      required
-    />
+    <input type="text" placeholder="Enter First Name" name="firstName" required />
+
 
     <label for="lastName"><b>Last Name</b></label>
     <input type="text" placeholder="Enter Last Name" name="lastName" required />
 
     <label for="username"><b>Username</b></label>
     <input type="text" placeholder="Enter Username" name="username" required />
+
     <label for="email"><b>Email</b></label>
-    <input type="text" placeholder="Enter Email" name="email" required />
+    <input type="email" placeholder="Enter Email" name="email" required />
+
     <label for="password"><b>Password</b></label>
     <input type="password" placeholder="Enter Password" name="password" required />
+
     <label for="confirmedPassword"><b>Confirm Password</b></label>
-    <input
-      type="password"
-      placeholder="Confirm Password"
-      name="confirmedPassword"
-      required
-    />
-    <button type="submit">Register</button>
+    <input type="password" placeholder="Confirm Password" name="confirmedPassword" required />
+
+    <button type="submit"><a href="/interests"></a>Register</button>
+
     <caption><br>Already have an account?: <a href="/login">Sign In Here</a></caption>
   </form>
 </div>

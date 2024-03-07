@@ -1,0 +1,32 @@
+<%- include("./partials/header.ejs") %>
+    <div>Hello</div>
+
+    <% for(let i=0; i<user.interests.length; i++) {%> 
+        <div>
+            Currently you have these interests selected: <%= user.interests[i]%>
+        </div>
+        <%}%>
+        <body>
+                <div class="selected-interests" id="selected-interests">
+
+                </div>
+                <input type="search" placeholder="Search">
+                <div class="all-interests" id="all-interests">
+                    <% fetch('hobbies.json')
+                    .then(response => response.json())
+                    .then(data => {
+                      const allInterests = document.getElementById('all-interests');
+                  
+                      // Iterate over the data and create interest cards
+                      data.forEach(interest => {
+                        const interestCard = document.createElement('div');
+                        interestCard.classList.add('interest-card');
+                        interestCard.textContent = interest.name;
+                        interestsContainer.appendChild(interestCard);
+                      });
+                    })
+                    .catch(error => console.error('Error fetching interests:', error)); %>
+                </div>
+            </div>
+        </body>
+        </html>

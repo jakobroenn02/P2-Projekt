@@ -5,6 +5,7 @@ const { connectToDb, getDb } = require("../db");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
+//connect to db
 let db;
 connectToDb((err) => {
   if (!err) {
@@ -14,6 +15,7 @@ connectToDb((err) => {
 
 router.get("/", (req, res) => {
   if (req.cookies.token == null) {
+
     return res.render("register", { isLoggedIn: false });
   } else {
     res.render("register", { isLoggedIn: true });
@@ -21,6 +23,7 @@ router.get("/", (req, res) => {
 });
 
 router.post("/", async (req, res) => {
+  
   try {
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     const user = {
@@ -51,6 +54,12 @@ router.post("/", async (req, res) => {
   } catch {
     res.status(500).send();
   }
+});
+
+
+router.get("/logout", (req, res) => {
+  res.clearCookie("token")
+  return res.redirect("/");
 });
 
 module.exports = router;
