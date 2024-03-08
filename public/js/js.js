@@ -42,7 +42,9 @@ specificInterestCheckboxes.forEach((box) => {
   box.addEventListener("change", (e) => {
     if (e.target.checked) {
       // if check - add to right box + make background of interest black
-      interestsPageRightWrapper.appendChild(createNewSelectedInterestElement(e.target.value));
+      interestsPageRightWrapper.appendChild(
+        createNewSelectedInterestElement(e.target.value)
+      );
       updateSpecificInterest(
         e.target.value.replaceAll(" ", "-"),
         e.target.checked
@@ -59,15 +61,26 @@ specificInterestCheckboxes.forEach((box) => {
   });
 });
 
+document.querySelectorAll(".specificSelectedInterest").forEach((elem) => {
+  elem.addEventListener("click", () => {
+    const interest = elem.innerText
+    uncheckSpecificInterest(interest);
+    updateSpecificInterest(interest.replaceAll(" ", "-"), false);
+    removeSelectedInterest(interest.replaceAll(" ", "-"));
+  });
+});
+
 //Function for creating new interest div for right interests box (selected)
 function createNewSelectedInterestElement(interest) {
   const newSelectedElement = document.createElement("div");
   newSelectedElement.innerText = interest;
   newSelectedElement.classList.add("specificSelectedInterest");
-  newSelectedElement.id = `specific-${interest.replaceAll(
-    " ",
-    "-"
-  )}-selected`;
+  newSelectedElement.id = `specific-${interest.replaceAll(" ", "-")}-selected`;
+  newSelectedElement.addEventListener("click", () => {
+    uncheckSpecificInterest(interest);
+    updateSpecificInterest(interest.replaceAll(" ", "-"), false);
+    removeSelectedInterest(interest.replaceAll(" ", "-"));
+  });
   return newSelectedElement;
 }
 
@@ -85,4 +98,10 @@ function removeSelectedInterest(interestId) {
     `#specific-${interestId}-selected`
   );
   unSelectedElement.remove();
+}
+
+function uncheckSpecificInterest(interest) {
+  document.getElementById(
+    `specific-${interest.replaceAll(" ", "-")}-checkbox`
+  ).checked = false;
 }

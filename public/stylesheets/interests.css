@@ -1,12 +1,20 @@
+/* TODO CSS & HTML er et rod, skal ryddes op :) */
+
 .interestsPage {
   display: flex;
+  flex-direction: column;
   width: 100vw;
   height: calc(100vh - 88px);
   justify-content: center;
   align-items: center;
-  gap: 20px;
 }
 
+
+
+.interestsPageContent {
+  display: flex;
+  gap: 20px;
+}
 .interestsPageLeft {
   display: flex;
   flex-direction: column;
@@ -15,15 +23,17 @@
 
 .interestsSearch {
   width: 100%;
-  margin-bottom: 15px;
+  margin-bottom: 56px;
 }
 
 .interestsSearch input {
-  width: 90%;
-  padding: 6px 12px;
+  width: 95%;
+  padding: 8px 12px;
   border: 1px solid black;
-  border-radius: 5px;
+  border-radius: 0;
 }
+
+.interestsSearch input::placeholder {}
 
 .interestsSearch input:focus {
   outline: none;
@@ -39,11 +49,27 @@
   padding: 8px;
 }
 
+.interestsPageTitleLeft {
+  position: absolute;
+  height: 48px;
+  left: 0;
+  right: 0;
+  top: 44px;
+  background-color: rgb(42, 42, 42);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+}
+
 .interestsContainerWrapper {
   flex-wrap: wrap;
   display: flex;
   gap: 12px;
 }
+
+
 
 .specificInterest {
   padding: 4px 8px;
@@ -78,12 +104,13 @@
   height: 40px;
   left: 0px;
   right: 0;
-  bottom: -38px;
+  bottom: -35px;
   border: 2px solid black;
   background-color: rgb(4, 133, 4);
   font-weight: 600;
   color: white;
   cursor: pointer;
+  user-select: none;
   transition: all 0.2s;
 }
 
@@ -92,14 +119,29 @@
 }
 
 .interestsPageRight {
+  position: relative;
   align-items: flex-start;
   height: 300px;
   display: flex;
   width: 200px;
-  margin-top: 44.6px;
+  margin-top: 91.6px;
   border: 2px solid black;
   padding: 8px;
-  overflow-y: scroll;
+  overflow-y: auto;
+}
+
+.interestsPageTitleRight {
+  position: absolute;
+  height: 48px;
+  left: 540px;
+  right: -240px;
+  top: 44px;
+  background-color: rgb(42, 42, 42);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
 }
 
 .interestsPageRightWrapper {
@@ -115,6 +157,7 @@
   border-radius: 10px;
   transition: all 0.2s;
   cursor: pointer;
+  user-select: none;
 }
 
 .specificSelectedInterest:hover {
