@@ -7,14 +7,19 @@
         <input class="interestsSearchInput" type="text" name="interestsSearch" placeholder="Search Interests">
       </div>
       <div class="interestsContainer">
-        <% for (let i=0; i < allInterests.length; i++) { %>
+        <form method="post" action="/user/interests" class="interestsContainerWrapper">
+          <% for (let i=0; i < allInterests.length; i++) { %>
           <div class="specificInterest <%if (user.interests.includes(allInterests[i].hobby)) {%>
             <%="selected"%>
             <% } %>">
               <%= allInterests[i].hobby %>
+              <input <% if (user.interests.includes(allInterests[i].hobby)) {%><%="checked"%><%} %>
+               type="checkbox" name="<%= allInterests[i].hobby %>" value="<%= allInterests[i].hobby %>">
           </div>
-
           <% } %>
+          <button class="interestsSaveButton" type="submit">SAVE</button>
+        </form>
+        
       </div>
     </div>
     <div class="interestsPageRight">

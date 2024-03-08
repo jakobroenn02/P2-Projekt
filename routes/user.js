@@ -89,13 +89,59 @@ router.get("/interests", async (req, res) => {
       .find()
       .forEach((interest) => {
         allInterests.push(interest);
-      })
+      });
 
-    await db.collection("users")
-      .findOne({ username: decodedUser.username })
+    let user = await db
+      .collection("users")
+      .findOne({ username: decodedUser.username });
 
-    res.render("interests", { isLoggedIn: true, allInterests, user:decodedUser});
+    res.render("interests", { isLoggedIn: true, allInterests, user });
   }
+});
+
+router.post("/interests", async (req, res) => {
+  let decodedUser;
+  const selectedInterests = Object.values(req.body);
+  let allInterests = [];
+
+  if (req.cookies.token != null) {
+    decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
+  }
+  if (decodedUser != null) {
+    await db
+      .collection("interests")
+      .find()
+      .forEach((interest) => {
+        allInterests.push(interest);
+      });
+
+    let user = await db
+      .collection("users")
+      .findOne({ username: decodedUser.username });
+
+    selectedInterests.forEach((interest) => {
+      if (!user.interests.includes(interest)) {
+        db.collection("users").updateOne(
+          { username: decodedUser.username },
+          {
+            $push: {
+              interests: interest,
+            },
+          }
+        );
+      }
+    });
+
+    user = await db
+      .collection("users")
+      .findOne({ username: decodedUser.username });
+
+    res.render("interests", { isLoggedIn: true, allInterests, user });
+  }
+});
+
+router.delete("/interests", (req, res) => {
+  
 });
 
 module.exports = router;

@@ -10,7 +10,7 @@ settingsButton.addEventListener("click", (e) => {
 });
 
 const inputInterests = document.querySelector(".interestsSearchInput");
-const interestsContainer = document.querySelector(".interestsContainer");
+const interestsContainer = document.querySelector(".interestsContainerWrapper");
 
 inputInterests.addEventListener("keyup", (e) => {
   var children = interestsContainer.children;
