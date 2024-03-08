@@ -13,6 +13,22 @@
   position: relative;
 }
 
+.interestsSearch {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.interestsSearch input {
+  width: 90%;
+  padding: 6px 12px;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+.interestsSearch input:focus {
+  outline: none;
+}
+
 .interestsContainer {
   align-items: flex-start;
   height: 300px;
@@ -36,6 +52,8 @@
   border-radius: 10px;
   transition: all 0.2s;
   cursor: pointer;
+  position: relative;
+  user-select: none;
 }
 
 .specificInterest:hover {
@@ -43,20 +61,34 @@
   background-color: black;
 }
 
-.interestsSearch {
-  width: 100%;
-  margin-bottom: 15px;
+.specificInterestCheckbox:not(:checked),
+.specificInterestCheckbox:checked {
+  position: absolute;
+  width: 100px;
+  left: -99999%;
 }
 
-.interestsSearch input {
-  width: 90%;
-  padding: 6px 12px;
-  border: 1px solid black;
-  border-radius: 5px;
+.selected {
+  color: white;
+  background-color: black;
 }
 
-.interestsSearch input:focus {
-  outline: none;
+.interestsSaveButton {
+  position: absolute;
+  height: 40px;
+  left: 0px;
+  right: 0;
+  bottom: -38px;
+  border: 2px solid black;
+  background-color: rgb(4, 133, 4);
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.interestsSaveButton:hover {
+  background-color: rgb(5, 119, 5);
 }
 
 .interestsPageRight {
@@ -89,27 +121,3 @@
   border: 2px solid red;
   cursor: pointer;
 }
-
-.selected {
-  color: white;
-  background-color: black;
-}
-
-.interestsSaveButton {
-  position: absolute;
-  height: 40px;
-  left: 0px;
-  right: 0;
-  bottom: -38px;
-  border: 2px solid black;
-  background-color: rgb(4, 133, 4);
-  font-weight: 600;
-  color: white;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.interestsSaveButton:hover {
-    background-color: rgb(5, 119, 5);
-  }
-  

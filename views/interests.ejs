@@ -1,7 +1,6 @@
 <%- include("./partials/header.ejs") %>
 
   <div class="interestsPage">
-
     <div class="interestsPageLeft">
       <div class="interestsSearch">
         <input class="interestsSearchInput" type="text" name="interestsSearch" placeholder="Search Interests">
@@ -9,27 +8,25 @@
       <div class="interestsContainer">
         <form method="post" action="/user/interests" class="interestsContainerWrapper">
           <% for (let i=0; i < allInterests.length; i++) { %>
-          <div class="specificInterest <%if (user.interests.includes(allInterests[i].hobby)) {%>
+          <label id="specific-<%= allInterests[i].hobby.replaceAll(" ", "-") %>" class="specificInterest <%if (user.interests.includes(allInterests[i].hobby)) {%>
             <%="selected"%>
             <% } %>">
               <%= allInterests[i].hobby %>
-              <input <% if (user.interests.includes(allInterests[i].hobby)) {%><%="checked"%><%} %>
+              <input class="specificInterestCheckbox" <% if (user.interests.includes(allInterests[i].hobby)) {%><%="checked"%><%} %>
                type="checkbox" name="<%= allInterests[i].hobby %>" value="<%= allInterests[i].hobby %>">
-          </div>
+          </label>
           <% } %>
           <button class="interestsSaveButton" type="submit">SAVE</button>
         </form>
-        
       </div>
     </div>
     <div class="interestsPageRight">
       <div class="interestsPageRightWrapper">
         <% for (let i=0; i < user.interests.length; i++) { %>
-          <div class="specificSelectedInterest">
+          <div id="specific-<%= user.interests[i].replaceAll(" ", "-") %>-selected" class="specificSelectedInterest">
             <%= user.interests[i] %>
           </div>
           <% } %>
       </div>
-
     </div>
   </div>

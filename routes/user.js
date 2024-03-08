@@ -119,29 +119,23 @@ router.post("/interests", async (req, res) => {
       .collection("users")
       .findOne({ username: decodedUser.username });
 
-    selectedInterests.forEach((interest) => {
-      if (!user.interests.includes(interest)) {
-        db.collection("users").updateOne(
-          { username: decodedUser.username },
-          {
-            $push: {
-              interests: interest,
-            },
-          }
-        );
+    db.collection("users").updateOne(
+      { username: decodedUser.username },
+      {
+        $set: {
+          interests: selectedInterests,
+        },
       }
-    });
+    );
 
     user = await db
       .collection("users")
       .findOne({ username: decodedUser.username });
 
-    res.render("interests", { isLoggedIn: true, allInterests, user });
+    res.redirect("/user/interests");
   }
 });
 
-router.delete("/interests", (req, res) => {
-  
-});
+router.delete("/interests", (req, res) => {});
 
 module.exports = router;
