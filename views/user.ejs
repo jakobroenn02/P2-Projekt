@@ -1,15 +1,15 @@
 <%- include("./partials/header.ejs") %> <% if (!isLoggedIn) {%>
 <a href="/login">Log in please</a>
 <% } else { %>
-
+<body>
 <div class="userpage">
   <div class="user-settings-title">
     <h1 class="user-settings-title">Your Profile</h1>
   </div>
   <div class="user-information">
     <div class="first-row">
-      <div class="profilepic">
-        <img src="../public/img/Fodbold.jpeg" alt="profilepic" />
+      <div class="profile-pic">
+        <img id="profilepic" src="/img/70WoJVY.jpeg" alt="profilepic" />
       </div>
       <div class="user-info-form">
         <form>
@@ -70,18 +70,37 @@
         </form>
       </div>
     </div>
-    <div class="row3">
-      <div class="delete-account">
-        <h2>Delete</h2>
-        <p>
-          Are you sure you want to delete your account? If you delete your
-          account you will lose definitive access to it with no way of recovery.
-          Your personal data will be erased and lost as well as any ongoing
-          events.
-        </p>
-        <button class="button-delete" type="submit">Delete account</button>
-      </div>
+   
+  </div>
+  <div class="row3">
+    <div class="delete-account">
+      <h2>Delete</h2>
+      <p>
+        Are you sure you want to delete your account? If you delete your
+        account you will lose definitive access to it with no way of recovery.
+        Your personal data will be erased and lost as well as any ongoing
+        events.
+      </p>
+      <form id="delete-account-form">
+        <input type="checkbox" id="delete-account" name="delete-account" />
+        <label for="delete-account">I understand and want to delete my account</label>
+      <button class="button-delete" type="submit">Delete account</button>
+      </form>
     </div>
   </div>
   <% }%>
 </div>
+<script>
+  document.getElementById("delete-account-form").addEventListener('submit',function(event){
+    event.preventDefault();
+    if (document.getElementById('delete-account').checked){
+      fetch('/user/delete-profile', {
+        method: 'DELETE',
+        })
+        .then((response) => response.text())
+        .then(data => 
+          console.log(data))
+  }
+  });
+</script>
+</body>

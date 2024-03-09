@@ -27,6 +27,25 @@ router.get("/", (req, res) => {
   }
 });
 
+router.delete("/delete-profile", (req, res) => {
+  let decodedUser;
+  if (req.cookies.token != null) {
+    decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
+  }
+
+  if (decodedUser == null) {
+    res.status(401).send("Not authorized");
+  }
+  else {
+    db.collection("users").deleteOne({ username: decodedUser.username })
+    .then(() => {
+      res.clearCookie("token");
+      res.status(200).send("Profile deleted");
+    })
+  .catch((err) => { console.error(err); res.status(500).send("Error deleting profile"); });
+  }
+});
+
 router.get("/events", (req, res) => {
   let decodedUser;
   let events = [];
