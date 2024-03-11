@@ -1,11 +1,10 @@
 <%- include("./partials/header.ejs") %> <% if (!isLoggedIn) {%>
 <a href="/login">Log in please</a>
 <% } else { %>
-
 <div class="homepage">
   <div class="homepage-groups-container">
     <div class="homepage-groups-title">Groups</div>
-    <% for (let i = 0; i < groups.length; i++) {%>
+    <% for (let i = 0; i < groups.length && i < 10; i++) {%>
     <a href="/user/groups/<%=groups[i]._id%>" class="homepage-group">
       <div class="homepage-group-image-container">
         <img
@@ -22,18 +21,23 @@
       </div>
     </a>
 
-    <%} %>
+    <%}%>
+
+    <div class="homepage-groups-showMore">
+      <a href="/user/groups" class="homepage-groups-showMore-anchor"
+        ><i id="homepage-groups-linkIcon" class="fa-solid fa-link"></i>Show
+        More...</a
+      >
+    </div>
   </div>
   <div class="homepage-events-container">
-    <div class="homepage-events-title">Upcomming Events</div>
-
-    <% for(let i = 0; i < events.length; i++) {%>
+    <div class="homepage-events-title">Upcoming Events</div>
+      <!--Hardcoded max entries to 2 to avoid overflow-->
+    <% for(let i = 0; i < events.length && i < 2; i++) {%>
     <a href="/user/events/<%=events[i]._id%>" class="homepage-event">
       <div class="homepage-event-title"><%= events[i].eventName%></div>
       <div class="homepage-event-info">
-        <div class="homepage-event-description">
-          <%= events[i].description%>
-        </div>
+        <div class="homepage-event-description"><%=events[i].description%></div>
         <div class="homepage-event-date">
           <%= events[i].date.day < 10 ? "0": ""%><%=events[i].date.day%>/<%=
           events[i].date.month < 10 ? "0": ""%><%=events[i].date.month%>/<%=
@@ -47,12 +51,19 @@
       </div>
     </a>
     <%}%>
+    <div class="homepage-events-showMore">
+      <a href="/user/events" class="homepage-events-showMore-anchor"
+        ><i id="homepage-events-linkIcon" class="fa-solid fa-link"></i>Show
+        More...</a
+      >
+    </div>
   </div>
   <div class="homepage-discover-container">
     <div class="homepage-discovers-title">Discover</div>
     <!-- TODO: Check user is not already in group before rendering -->
-    <% for(let i = 0; i < allgroups.length; i++){%>
-    <div class="homepage-discover">
+    <% for(let i = 0; i < allgroups.length && i < 10; i++){%>
+    <%if(!(groupsNames.includes(allgroups[i].groupName))){%>
+    <a href="/groups/<%=allgroups[i]._id%>" class="homepage-discover">
       <div class="homepage-discover-image-container">
         <img
           src="/img/<%=allgroups[i].interest%>.jpeg"
@@ -62,12 +73,17 @@
       </div>
       <div class="homepage-discover-info">
         <div class="homepage-discover-title"><%=allgroups[i].groupName%></div>
-        <a href="/groups/<%=allgroups[i]._id%>" class="homepage-discover-anchor"
-          ><i class="fa-solid fa-arrow-right"></i
-        ></a>
+        <i id="homepage-discover-icon" class="fa-solid fa-arrow-right"></i>
       </div>
+    </a>
+    <%}}%>
+
+    <div class="homepage-discover-showMore">
+      <a href="/groups/find" class="homepage-discover-showMore-anchor"
+        ><i id="homepage-discover-linkIcon" class="fa-solid fa-link"></i>Show
+        More...</a
+      >
     </div>
-    <%}%>
   </div>
 </div>
 <%} %>
