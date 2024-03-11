@@ -1,9 +1,34 @@
 <%- include("./partials/header.ejs") %> <% if (!isLoggedIn) {%>
 <a href="/login">Log in please</a>
 <% } else { %>
+  <h1 class="profile-welcome-title">Welcome User</h1>
 <body>
+  <div class="user-page-upper">
+    <div class="profile-picture">
+      <img class="profile-picture-picture" src="/img/70WoJVY.jpeg" />
+    </div>
 
-    
+    <div class="profile-bio">
+      <form class="bio-form" method="post">
+        <label for="Bio" class="profile-bio-title">Bio</label>
+        <textarea
+        class="input-profile-bio"
+          id="Bio"
+          name="Bio"
+          rows="5"
+          cols="30"
+          placeholder="Flemming"
+          maxlength="300"
+        ></textarea>
+        <input type="submit" value="submit" class="submit-bio-button">
+      </form>
+    </div>
+    <div class="profile-information"></div>
+  </div>
 
-
+  <div class="user-page-lower">
+    <div class="profile-interest"></div>
+  </div>
 </body>
+
+<%} %>

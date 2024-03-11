@@ -21,3 +21,41 @@
 
 }
 
+.profile-picture{
+  width: 300px;
+  height: 250px;
+  display: flex;
+
+}
+.profile-picture-picture{
+  border-radius: 50%;
+}
+.user-page-upper{
+display: flex;
+background-color: green;
+height: 400px;
+margin-bottom: 30px;
+}
+
+.profile-bio{
+  width: 260px;
+  margin: 0px 0px 0px 50px;
+  padding: 3px;
+}
+
+.input-profile-bio{
+  width: 250px;
+  box-sizing: border-box;
+  border: 2px solid black;
+  border-radius: 10px;
+  height: 200px;
+  padding: 3px;
+}
+.submit-bio-button{
+  width: 250px;
+  display: flex;
+}
+.profile-bio-title{
+  margin-left: 5px;
+  display: flex;
+}
