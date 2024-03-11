@@ -9,47 +9,47 @@
   display: flex;
   flex-direction: column;
   padding: 6px;
-  
 }
 
-.user>div:not(.userName) {
-    color: rgb(100,100,100);
+.user > div:not(.userName) {
+  color: rgb(100, 100, 100);
 }
 
-.userName{
+.userName {
   font-weight: 600;
-
+}
+.user-page{
+  width: 100%;
+  background-color: red;
 }
 .user-page{
   width: 100%;
   background-color: red;
 }
 
-.profile-picture{
+.profile-picture {
   width: 300px;
   height: 250px;
   display: flex;
-
 }
-.profile-picture-picture{
+.profile-picture-picture {
   border-radius: 50%;
 }
-.user-page-upper{
-display: flex;
-background-color: #ccc;
-height: 420px;
-margin-bottom: 15px;
-
+.user-page-upper {
+  display: flex;
+  background-color: #ccc;
+  height: 420px;
+  margin-bottom: 15px;
 }
 
-.profile-bio{
+.profile-bio {
   margin: 0px 0px 0px 50px;
   padding: 3px;
   display: flex;
   flex-direction: column;
 }
 
-.input-profile-bio{
+.input-profile-bio {
   width: 250px;
   box-sizing: border-box;
   border: 2px solid black;
@@ -57,7 +57,7 @@ margin-bottom: 15px;
   height: 200px;
   padding: 3px;
 }
-.submit-bio-button{
+.submit-bio-button {
   width: 100%;
   display: flex;
   background-color: green;
@@ -67,14 +67,14 @@ margin-bottom: 15px;
   padding: 3px;
   border: none;
 }
-.submit-bio-button:hover{
+.submit-bio-button:hover {
   opacity: 0.8;
 }
-.profile-bio-title{
+.profile-bio-title {
   margin-left: 5px;
   display: flex;
 }
-.profile-information{
+.profile-information {
   width: 250px;
   display: flex;
   flex-direction: column;
@@ -82,13 +82,13 @@ margin-bottom: 15px;
   padding: 3px;
   border: 2px solid black;
 }
-.profile-information-title{
+.profile-information-title {
   display: flex;
   margin-bottom: 10px;
   align-self: center;
   font-size: large;
 }
-.profile-information-content-item-content{
+.profile-information-content-item-content {
   width: 100%;
   padding: 12px 20px;
   margin: 8px 0;
@@ -159,3 +159,37 @@ margin-bottom: 15px;
   margin-bottom: 15px;
 }
 
+.modal {
+  display: none;
+  width: 500px;
+  height: 500px;
+  overflow: auto;
+  background-color: rgb(174, 174, 174);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  top: 50%;
+
+}
+
+.model-content {
+  background-color: #b6b6b681;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #b0b0b0;
+  width: 100px;
+  height: 100px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+.close-mark:hover {
+  cursor: pointer;
+}
+.close-container {
+  margin-top: 5px;
+  display: flex;
+  width: 490px;
+  justify-content: space-between;
+}
