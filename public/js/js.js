@@ -1,7 +1,7 @@
 const settingsButton = document.querySelector(".header-settings-icon");
 const dropdown = document.querySelector(".settings-dropdown");
 
-//JS for dropdown menu in header
+
 settingsButton.addEventListener("click", (e) => {
   if (window.getComputedStyle(dropdown).display == "none") {
     dropdown.style.display = "flex";
@@ -105,3 +105,4 @@ function uncheckSpecificInterest(interest) {
     `specific-${interest.replaceAll(" ", "-")}-checkbox`
   ).checked = false;
 }
+
