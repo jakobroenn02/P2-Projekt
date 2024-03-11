@@ -4,25 +4,23 @@
   <div class="header-left">
     <div class="header-logo"><a href="/">Community Finder</a></div>
     <% if (isLoggedIn) {%>
-      <div class="header-groups"><a href="/user/groups">Groups</a></div>
-      <div class="header-events"><a href="/user/events">Events</a></div>
-      <div class="header-find_groups"><a href="groups/find">Find Groups</a></div>
-      <%}%>
+    <div class="header-groups"><a href="/user/groups">Groups</a></div>
+    <div class="header-events"><a href="/user/events">Events</a></div>
+    <div class="header-find_groups"><a href="groups/find">Find Groups</a></div>
+    <%}%>
   </div>
   <div class="header-right">
     <% if (isLoggedIn) {%>
-      <a href="/user"><div class="header-profile"></div></a>
-      <div class="header-settings">
-        <div class="header-settings-icon">
-          <i class="fa-solid fa-gear"></i>
-        </div>
-        <div class="settings-dropdown"><a href="/login/logout">Logout</a></div>
-      </div>
+    <a href="/user"><div class="header-profile"></div></a>
+    <div class="header-settings-icon"><i class="fa-solid fa-gear"></i></div>
+    
   </div>
   <%} else {%>
-    <a href="/login">Login</a>
-    <a href="/register">Register</a>
-    <%} %>
-
-      </div>
+  <a href="/login">Login</a>
+  <a href="/register">Register</a>
+  <%} %>
 </nav>
+<div class="header-settings-dropdown" hidden>
+  <a href="/login/logout">Logout</a>
+</div>
+<script src="/js/navbarSettings.js"></script>
