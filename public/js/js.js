@@ -11,5 +11,15 @@ settingsButton.addEventListener("click", (e) => {
 })
 
 
-
+const DeleteButton = document.getElementById("delete-account-form").addEventListener('submit',function(event){
+    event.preventDefault();
+    if (document.getElementById('delete-account').checked){
+      fetch('/user/delete-profile', {
+        method: 'DELETE',
+        })
+        .then((response) => response.text())
+        .then(data => 
+          console.log(data))
+  }
+  });
 

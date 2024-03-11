@@ -16,6 +16,8 @@ connectToDb((err) => {
 //routes
 
 router.get("/", (req, res) => {
+  let decodedUser;
+
   if (req.cookies.token != null) {
     decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
   }
@@ -23,11 +25,11 @@ router.get("/", (req, res) => {
   if (decodedUser == null) {
     res.render("user", { isLoggedIn: false });
   } else {
-    res.render("user", { isLoggedIn: true });
+    res.render("user", { isLoggedIn: true, decodedUser});
   }
 });
 
-router.delete("/delete-profile", (req, res) => {
+router.delete("/:username", (req, res) => {
   let decodedUser;
   if (req.cookies.token != null) {
     decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
@@ -35,14 +37,15 @@ router.delete("/delete-profile", (req, res) => {
 
   if (decodedUser == null) {
     res.status(401).send("Not authorized");
-  }
-  else {
-    db.collection("users").deleteOne({ username: decodedUser.username })
-    .then(() => {
-      res.clearCookie("token");
-      res.status(200).send("Profile deleted");
-    })
-  .catch((err) => { console.error(err); res.status(500).send("Error deleting profile"); });
+  } else {
+    if (req.params.username == decodedUser.username) {
+      db.collection("users")
+        .deleteOne({ username: decodedUser.username })
+        .then(() => {
+          res.clearCookie("token");
+          res.redirect("/");
+        });
+    }
   }
 });
 
