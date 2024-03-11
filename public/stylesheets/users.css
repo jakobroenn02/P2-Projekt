@@ -32,15 +32,16 @@
 }
 .user-page-upper{
 display: flex;
-background-color: green;
+background-color: #f2f2f2;
 height: 400px;
 margin-bottom: 30px;
 }
 
 .profile-bio{
-  width: 260px;
   margin: 0px 0px 0px 50px;
   padding: 3px;
+  display: flex;
+  flex-direction: column;
 }
 
 .input-profile-bio{
@@ -52,10 +53,35 @@ margin-bottom: 30px;
   padding: 3px;
 }
 .submit-bio-button{
-  width: 250px;
+  width: 100%;
   display: flex;
+  background-color: green;
+  color: white;
+  justify-content: center;
+  align-items: center;
+  padding: 3px;
+  border: none;
+}
+.submit-bio-button:hover{
+  opacity: 0.8;
 }
 .profile-bio-title{
   margin-left: 5px;
   display: flex;
+}
+.profile-information{
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  margin: 0px 0px 0px 50px;
+  padding: 3px;
+  border: 2px solid black;
+}
+.profile-information-title{
+  display: flex;
+  margin-bottom: 10px;
+  align-self: center;
+}
+.profile-information-content-item-content{
+  width: 100%;
 }

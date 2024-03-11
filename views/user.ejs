@@ -1,34 +1,49 @@
-<%- include("./partials/header.ejs") %> <% if (!isLoggedIn) {%>
-<a href="/login">Log in please</a>
-<% } else { %>
-  <h1 class="profile-welcome-title">Welcome User</h1>
-<body>
-  <div class="user-page-upper">
-    <div class="profile-picture">
-      <img class="profile-picture-picture" src="/img/70WoJVY.jpeg" />
-    </div>
+<%- include("./partials/header.ejs") %>
+  <% if (!isLoggedIn) {%>
+    <a href="/login">Log in please</a>
+    <% } else { %>
+      <h1 class="profile-welcome-title">Welcome User</h1>
 
-    <div class="profile-bio">
-      <form class="bio-form" method="post">
-        <label for="Bio" class="profile-bio-title">Bio</label>
-        <textarea
-        class="input-profile-bio"
-          id="Bio"
-          name="Bio"
-          rows="5"
-          cols="30"
-          placeholder="Flemming"
-          maxlength="300"
-        ></textarea>
-        <input type="submit" value="submit" class="submit-bio-button">
-      </form>
-    </div>
-    <div class="profile-information"></div>
-  </div>
+      <body>
+        <div class="user-page-upper">
+          <div class="profile-picture">
+            <img class="profile-picture-picture" src="/img/70WoJVY.jpeg" />
+          </div>
 
-  <div class="user-page-lower">
-    <div class="profile-interest"></div>
-  </div>
-</body>
+          <div class="profile-bio">
+            <form class="bio-form" method="post">
+              <label for="Bio" class="profile-bio-title">Bio</label>
+              <textarea class="input-profile-bio" id="Bio" name="Bio" rows="5" cols="30" placeholder="Flemming"
+                maxlength="300"></textarea>
+              <button type="submit" value="submit" class="submit-bio-button">Submit
+            </form>
+          </div>
 
-<%} %>
+          <div class="profile-information">
+            <div class="profile-information-title">Change Your Information</div>
+            <form class="profile-information-content-form" method="post">
+                  <div class="profile-information-content-item-title">Change First Name</div>
+                  <input class="profile-information-content-item-content" type="text"
+                    placeholder="<%= user.name.firstName  %> ">
+                    <div class="profile-information-content-item-title">Change Last Name</div>
+                    <input class="profile-information-content-item-content" type="text"
+                      placeholder="<%= user.name.lastName  %> ">
+                    <div class="profile-information-content-item-title">Change Username</div>
+                    <input class="profile-information-content-item-content" type="text"
+                      placeholder="<%= user.username  %> ">
+                      <div class="profile-information-content-item-title">Change Email</div>
+                      <input class="profile-information-content-item-content" type="text"
+                        placeholder="123@gmail.com">
+            </form>
+          </div>
+
+          <div class="user-page-lower">
+            <% for(let i=0; i<user.interests.length; i++) {%> 
+              <div class="profile-interests">
+                  Currently you have these interests selected: <%= user.interests[i]%>
+              </div>
+              <%}%>
+          </div>
+      </body>
+
+      <%} %>

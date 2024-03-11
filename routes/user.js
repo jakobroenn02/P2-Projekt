@@ -25,7 +25,7 @@ router.get("/", (req, res) => {
   if (decodedUser == null) {
     res.render("user", { isLoggedIn: false });
   } else {
-    res.render("user", { isLoggedIn: true, decodedUser});
+    res.render("user", { isLoggedIn: true, user: decodedUser });
   }
 });
 
