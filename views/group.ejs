@@ -1,0 +1,45 @@
+<%- include("./partials/header.ejs") %> <% if (!isLoggedIn) {%>
+<a href="/login">Log in please</a>
+<% } else { %>
+<div class="group-page">
+  <div class="group-page-left">
+    <div class="group-messages">
+        <div class="group-message">
+            <div class="group-message-author">Søren</div>
+            <div class="group-message-text">Hey gruppen! skal vi spille fodbold på søndag?</div>
+        </div>
+    </div>
+    <div class="group-message-input-container">
+      <form class="group-message-input-form">
+        <input
+          placeholder="Type message..."
+          class="group-message-input"
+          type="text"
+          name="message"
+        />
+        <button type="submit" class="group-message-send-button">
+          <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </form>
+    </div>
+  </div>
+  <div class="group-page-right">
+    <div class="group-title">
+      <div class="group-title-name"><%= group.groupName%></div>
+      <i class="fa-solid fa-ellipsis-vertical"></i>
+    </div>
+    <div class="group-users">
+      <% groupUsers.forEach(user => {%>
+      <div class="group-user">
+        <div class="group-user-image-container">
+          <img class="group-user-image" src="/img/70WoJVY.jpeg" alt="" />
+        </div>
+        <div class="group-user-name">
+          <%= user.name.firstName %> <%= user.name.lastName %>
+        </div>
+      </div>
+      <% }); %>
+    </div>
+  </div>
+</div>
+<%} %>

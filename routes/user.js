@@ -35,14 +35,17 @@ router.delete("/delete-profile", (req, res) => {
 
   if (decodedUser == null) {
     res.status(401).send("Not authorized");
-  }
-  else {
-    db.collection("users").deleteOne({ username: decodedUser.username })
-    .then(() => {
-      res.clearCookie("token");
-      res.status(200).send("Profile deleted");
-    })
-  .catch((err) => { console.error(err); res.status(500).send("Error deleting profile"); });
+  } else {
+    db.collection("users")
+      .deleteOne({ username: decodedUser.username })
+      .then(() => {
+        res.clearCookie("token");
+        res.status(200).send("Profile deleted");
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send("Error deleting profile");
+      });
   }
 });
 
@@ -105,6 +108,34 @@ router.get("/groups", (req, res) => {
       });
   }
 });
+
+router.get("/groups/:id", async (req, res) => {
+  let decodedUser;
+  let groupUsers = [];
+
+  if (req.cookies.token != null) {
+    decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
+  }
+
+  if (decodedUser == null) {
+    res.render("group", { isLoggedIn: false });
+  } else {
+    const group = await db
+      .collection("groups")
+      .findOne({ _id: new ObjectId(req.params.id) });
+
+    const userIds = group.userIds.map((userId) => new ObjectId(userId));
+
+    groupUsers = await db
+      .collection("users")
+      .find({ _id: { $in: userIds } })
+      .toArray();
+
+    console.log(groupUsers);
+    res.render("group", { isLoggedIn: true, groupUsers, group });
+  }
+});
+
 router.get("/interests", async (req, res) => {
   let decodedUser;
   let allInterests = [];
