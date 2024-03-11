@@ -4,7 +4,7 @@
 <div class="homepage">
   <div class="homepage-groups-container">
     <div class="homepage-groups-title">Groups</div>
-    <% for (let i = 0; i < groups.length; i++) {%>
+    <% for (let i = 0; i < groups.length && i < 10; i++) {%>
     <a href="/user/groups/<%=groups[i]._id%>" class="homepage-group">
       <div class="homepage-group-image-container">
         <img
@@ -61,7 +61,7 @@
   <div class="homepage-discover-container">
     <div class="homepage-discovers-title">Discover</div>
     <!-- TODO: Check user is not already in group before rendering -->
-    <% for(let i = 0; i < allgroups.length; i++){%>
+    <% for(let i = 0; i < allgroups.length && i < 10; i++){%>
     <%if(!(groupsNames.includes(allgroups[i].groupName))){%>
     <a href="/groups/<%=allgroups[i]._id%>" class="homepage-discover">
       <div class="homepage-discover-image-container">
