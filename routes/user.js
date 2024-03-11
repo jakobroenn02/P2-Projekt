@@ -105,22 +105,68 @@ router.get("/groups", (req, res) => {
       });
   }
 });
-router.get("/interests", (req, res) => {
+router.get("/interests", async (req, res) => {
   let decodedUser;
-
+  let allInterests = [];
   if (req.cookies.token != null) {
     decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
   }
 
   if (decodedUser == null) {
-    res.render("groups", { isLoggedIn: false });
+    res.render("interests", { isLoggedIn: false });
   } else {
-    db.collection("users")
-      .findOne({ username: decodedUser.username })
-      .then((user) => {
-        res.render("interests", { isLoggedIn: true, user });
+    await db
+      .collection("interests")
+      .find()
+      .forEach((interest) => {
+        allInterests.push(interest);
       });
+
+    let user = await db
+      .collection("users")
+      .findOne({ username: decodedUser.username });
+
+    res.render("interests", { isLoggedIn: true, allInterests, user });
   }
 });
+
+router.post("/interests", async (req, res) => {
+  let decodedUser;
+  const selectedInterests = Object.values(req.body);
+  let allInterests = [];
+
+  if (req.cookies.token != null) {
+    decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
+  }
+  if (decodedUser != null) {
+    await db
+      .collection("interests")
+      .find()
+      .forEach((interest) => {
+        allInterests.push(interest);
+      });
+
+    let user = await db
+      .collection("users")
+      .findOne({ username: decodedUser.username });
+
+    db.collection("users").updateOne(
+      { username: decodedUser.username },
+      {
+        $set: {
+          interests: selectedInterests,
+        },
+      }
+    );
+
+    user = await db
+      .collection("users")
+      .findOne({ username: decodedUser.username });
+
+    res.redirect("/user/interests");
+  }
+});
+
+router.delete("/interests", (req, res) => {});
 
 module.exports = router;

@@ -41,7 +41,6 @@ router.post("/", async (req, res) => {
       eventIds: [],
       username: req.body.username,
     };
-
     db.collection("users")
       .insertOne(user)
       .then(() => {
