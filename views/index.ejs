@@ -3,7 +3,7 @@
 <% } else { %>
 <div class="homepage">
   <div class="homepage-groups-container">
-    <div class="homepage-groups-title">Groups</div>
+    <div class="homepage-title">Groups</div>
     <% for (let i = 0; i < groups.length && i < 10; i++) {%>
     <a href="/user/groups/<%=groups[i]._id%>" class="homepage-group">
       <div class="homepage-group-image-container">
@@ -23,15 +23,15 @@
 
     <%}%>
 
-    <div class="homepage-groups-showMore">
-      <a href="/user/groups" class="homepage-groups-showMore-anchor"
-        ><i id="homepage-groups-linkIcon" class="fa-solid fa-link"></i>Show
+    <div class="homepage-showMore">
+      <a href="/user/groups" class="homepage-showMore-anchor"
+        ><i class="homepage-linkIcon fa-solid fa-link"></i>Show
         More...</a
       >
     </div>
   </div>
   <div class="homepage-events-container">
-    <div class="homepage-events-title">Upcoming Events</div>
+    <div class="homepage-title">Upcoming Events</div>
       <!--Hardcoded max entries to 2 to avoid overflow-->
     <% for(let i = 0; i < events.length && i < 2; i++) {%>
     <a href="/user/events/<%=events[i]._id%>" class="homepage-event">
@@ -51,15 +51,15 @@
       </div>
     </a>
     <%}%>
-    <div class="homepage-events-showMore">
-      <a href="/user/events" class="homepage-events-showMore-anchor"
-        ><i id="homepage-events-linkIcon" class="fa-solid fa-link"></i>Show
+    <div class="homepage-showMore">
+      <a href="/user/events" class="homepage-showMore-anchor"
+        ><i class="homepage-linkIcon fa-solid fa-link"></i>Show
         More...</a
       >
     </div>
   </div>
   <div class="homepage-discover-container">
-    <div class="homepage-discovers-title">Discover</div>
+    <div class="homepage-title">Discover</div>
     <!-- TODO: Check user is not already in group before rendering -->
     <% for(let i = 0; i < allgroups.length && i < 10; i++){%>
     <%if(!(groupsNames.includes(allgroups[i].groupName))){%>
@@ -78,9 +78,9 @@
     </a>
     <%}}%>
 
-    <div class="homepage-discover-showMore">
-      <a href="/groups/find" class="homepage-discover-showMore-anchor"
-        ><i id="homepage-discover-linkIcon" class="fa-solid fa-link"></i>Show
+    <div class="homepage-showMore">
+      <a href="/groups/find" class="homepage-showMore-anchor"
+        ><i class="homepage-linkIcon fa-solid fa-link"></i>Show
         More...</a
       >
     </div>
