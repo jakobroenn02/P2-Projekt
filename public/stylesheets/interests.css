@@ -1,57 +1,166 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+/* TODO CSS & HTML er et rod, skal ryddes op :) */
+
+.interestsPage {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: calc(100vh - 88px);
+  justify-content: center;
+  align-items: center;
 }
 
-/* Container styles */
-.interests-container {
-    max-width: 400px;
-    margin: auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+
+
+.interestsPageContent {
+  display: flex;
+  gap: 20px;
+}
+.interestsPageLeft {
+  display: flex;
+  flex-direction: column;
+  position: relative;
 }
 
-/* Header styles */
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+.interestsSearch {
+  width: 100%;
+  margin-bottom: 56px;
 }
 
-/* Button styles */
-button {
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
+.interestsSearch input {
+  width: 95%;
+  padding: 8px 12px;
+  border: 1px solid black;
+  border-radius: 0;
 }
 
-/* Selected interests styles */
-.selected-interests span {
-    display: inline-block;
-    margin-right: 10px;
-    padding: 5px;
-    border: 1px solid #ddd;
-    border-radius: 3px;
-    font-size: 14px;
+.interestsSearch input::placeholder {}
+
+.interestsSearch input:focus {
+  outline: none;
 }
 
-/* Search input styles */
-input[type="text"] {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ddd;
-    border-radius: 3px;
-    font-size: 14px;
+.interestsContainer {
+  align-items: flex-start;
+  height: 300px;
+  display: flex;
+  width: 500px;
+  overflow-y: auto;
+  border: 2px solid black;
+  padding: 8px;
 }
 
-/* All interests styles */
-.all-interests span {
-    display: block;
-    margin-bottom: 10px;
-    font-size: 14px;
+.interestsPageTitleLeft {
+  position: absolute;
+  height: 48px;
+  left: 0;
+  right: 0;
+  top: 44px;
+  background-color: rgb(42, 42, 42);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+}
+
+.interestsContainerWrapper {
+  flex-wrap: wrap;
+  display: flex;
+  gap: 12px;
+}
+
+
+
+.specificInterest {
+  padding: 4px 8px;
+  border: 2px solid black;
+  color: black;
+  border-radius: 10px;
+  transition: all 0.2s;
+  cursor: pointer;
+  position: relative;
+  user-select: none;
+}
+
+.specificInterest:hover {
+  color: white;
+  background-color: black;
+}
+
+.specificInterestCheckbox:not(:checked),
+.specificInterestCheckbox:checked {
+  position: absolute;
+  width: 100px;
+  left: -99999%;
+}
+
+.selected {
+  color: white;
+  background-color: black;
+}
+
+.interestsSaveButton {
+  position: absolute;
+  height: 40px;
+  left: 0px;
+  right: 0;
+  bottom: -35px;
+  border: 2px solid black;
+  background-color: rgb(4, 133, 4);
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.2s;
+}
+
+.interestsSaveButton:hover {
+  background-color: rgb(5, 119, 5);
+}
+
+.interestsPageRight {
+  position: relative;
+  align-items: flex-start;
+  height: 300px;
+  display: flex;
+  width: 200px;
+  margin-top: 91.6px;
+  border: 2px solid black;
+  padding: 8px;
+  overflow-y: auto;
+}
+
+.interestsPageTitleRight {
+  position: absolute;
+  height: 48px;
+  left: 540px;
+  right: -240px;
+  top: 44px;
+  background-color: rgb(42, 42, 42);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+}
+
+.interestsPageRightWrapper {
+  flex-wrap: wrap;
+  display: flex;
+  gap: 12px;
+}
+
+.specificSelectedInterest {
+  padding: 4px 8px;
+  border: 2px solid black;
+  color: black;
+  border-radius: 10px;
+  transition: all 0.2s;
+  cursor: pointer;
+  user-select: none;
+}
+
+.specificSelectedInterest:hover {
+  border: 2px solid red;
+  cursor: pointer;
 }
