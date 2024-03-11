@@ -1,6 +1,12 @@
 
 const settingsButton = document.querySelector(".header-settings-icon");
 const dropdown = document.querySelector(".settings-dropdown");
+const pictureProfile = document.querySelector(".profile-picture-picture");
+const pictureModal = document.querySelector(".modal");
+const closeModal = document.querySelector(".close-modal");
+
+
+
 
 settingsButton.addEventListener("click", (e) => {
     if(window.getComputedStyle(dropdown).display == "none") {
@@ -11,15 +17,16 @@ settingsButton.addEventListener("click", (e) => {
 })
 
 
-const DeleteButton = document.getElementById("delete-account-form").addEventListener('submit',function(event){
-    event.preventDefault();
-    if (document.getElementById('delete-account').checked){
-      fetch('/user/delete-profile', {
-        method: 'DELETE',
-        })
-        .then((response) => response.text())
-        .then(data => 
-          console.log(data))
-  }
-  });
+pictureProfile.addEventListener("click", () => {
+    pictureModal.style.display = "flex";
+});
+closeModal.addEventListener("click", () => {
+    pictureModal.style.display = "none";
+});
+window.addEventListener("click", (event) => {
+    if (event.target == pictureModal) {
+        pictureModal.style.display = "none";
+    }
+});
+
 
