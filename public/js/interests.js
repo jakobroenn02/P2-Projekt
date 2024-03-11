@@ -1,15 +1,3 @@
-const settingsButton = document.querySelector(".header-settings-icon");
-const dropdown = document.querySelector(".settings-dropdown");
-
-
-settingsButton.addEventListener("click", (e) => {
-  if (window.getComputedStyle(dropdown).display == "none") {
-    dropdown.style.display = "flex";
-  } else {
-    dropdown.style.display = "none";
-  }
-});
-
 //JS for search input on interests page
 const inputInterests = document.querySelector(".interestsSearchInput");
 const interestsContainer = document.querySelector(".interestsContainerWrapper");
