@@ -20,6 +20,10 @@
   font-weight: 600;
 
 }
+.user-page{
+  width: 100%;
+  background-color: red;
+}
 
 .profile-picture{
   width: 300px;
@@ -32,9 +36,10 @@
 }
 .user-page-upper{
 display: flex;
-background-color: #f2f2f2;
-height: 400px;
-margin-bottom: 30px;
+background-color: #ccc;
+height: 420px;
+margin-bottom: 15px;
+
 }
 
 .profile-bio{
@@ -81,7 +86,76 @@ margin-bottom: 30px;
   display: flex;
   margin-bottom: 10px;
   align-self: center;
+  font-size: large;
 }
 .profile-information-content-item-content{
   width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  border-radius: 10px;
 }
+
+.profile-interests-container{
+  display: flex;
+  flex-direction: row;
+  align-items: left;
+  gap: 10px;
+  border: 2px solid black;
+  width: 300px;
+  height: fit-content;
+  border-radius: 20px;
+  padding: 5px 10px;
+}
+
+.profile-interests{
+  width: 250px;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  margin: 0px 0px 0px 0px;
+  padding: 2px;
+  border: 1px solid black;
+  border-radius: 10px;
+}
+.profile-interests-container-title{
+  margin-bottom: 5px;
+  display: flex;
+  margin-left: 260px; 
+  font-size: large;
+}
+.change-interests-anchor{
+  color: black;
+  text-decoration: none;
+  display: flex;
+}
+.change-interests-anchor:hover{
+  cursor: pointer;
+  color: blue;
+}
+.profile-groups-container-title{
+  margin-bottom: 5px;
+  display: flex;
+  flex-direction: row;
+  font-size: large;
+}
+.profile-groups-container{
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  border: 2px solid black;
+  width: 300px;
+  height: fit-content;
+  border-radius: 20px;
+  padding: 5px 10px;
+}
+.user-page-lower{
+  display: flex;
+  flex-direction: row;
+  background-color: #ccc;
+  height: fit-content;
+  margin-bottom: 15px;
+}
+

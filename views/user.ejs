@@ -2,7 +2,8 @@
   <% if (!isLoggedIn) {%>
     <a href="/login">Log in please</a>
     <% } else { %>
-      <h1 class="profile-welcome-title">Welcome User</h1>
+      <h1 class="profile-welcome-title">Welcome <%= user.username %>
+      </h1>
 
       <body>
         <div class="user-page-upper">
@@ -22,27 +23,55 @@
           <div class="profile-information">
             <div class="profile-information-title">Change Your Information</div>
             <form class="profile-information-content-form" method="post">
-                  <div class="profile-information-content-item-title">Change First Name</div>
-                  <input class="profile-information-content-item-content" type="text"
-                    placeholder="<%= user.name.firstName  %> ">
-                    <div class="profile-information-content-item-title">Change Last Name</div>
-                    <input class="profile-information-content-item-content" type="text"
-                      placeholder="<%= user.name.lastName  %> ">
-                    <div class="profile-information-content-item-title">Change Username</div>
-                    <input class="profile-information-content-item-content" type="text"
-                      placeholder="<%= user.username  %> ">
-                      <div class="profile-information-content-item-title">Change Email</div>
-                      <input class="profile-information-content-item-content" type="text"
-                        placeholder="123@gmail.com">
+              <div class="profile-information-content-item-title">Change First Name</div>
+              <input class="profile-information-content-item-content" type="text"
+                placeholder="<%= user.name.firstName  %> ">
+              <div class="profile-information-content-item-title">Change Last Name</div>
+              <input class="profile-information-content-item-content" type="text"
+                placeholder="<%= user.name.lastName  %> ">
+              <div class="profile-information-content-item-title">Change Username</div>
+              <input class="profile-information-content-item-content" type="text" placeholder="<%= user.username  %> ">
+              <div class="profile-information-content-item-title">Change Email</div>
+              <input class="profile-information-content-item-content" type="text" placeholder="123@gmail.com">
+              <div class="profile-information-content-item-title">Change Password</div>
+              <input class="profile-information-content-item-content" type="password" placeholder="New Password">
             </form>
           </div>
+        </div>
 
-          <div class="user-page-lower">
-            <% for(let i=0; i<user.interests.length; i++) {%> 
-              <div class="profile-interests">
-                  Currently you have these interests selected: <%= user.interests[i]%>
-              </div>
-              <%}%>
+        <div class="user-page-lower">
+          <div class="profile-interests-all">
+            <div class="profile-interests-container-title">Your Interests</div>
+            <div class="profile-interests-container">
+              <% for(let i=0; i<user.interests.length; i++) {%>
+                <div class="profile-interests">
+                  <%= user.interests[i]%>
+                </div>
+                <%}%>
+            </div>
+
+            <div class="change-interests">If you want to change your interests, <a class="change-interests-anchor"
+                href="/user/interests">CLICK HERE</a></div>
+          </div>
+          <div class="profile-groups-all">
+            <div class="profile-groups-container-title">Your Groups</div>
+            <div class="profile-groups-container">
+              <% for (let i=0; i<user.groupIds.length; i++) {%>
+                <div class="profile-groups">
+                  <%= user.groupIds[i] %>
+                </div>
+                <%}%>
+            </div>
+          </div>
+          <div class="profile-events-all">
+            <div class="profile-events-container-title">Your Events</div>
+            <div class="profile-events-container">
+              <% for (let i=0; i<user.eventIds.length; i++) {%>
+                <div class="profile-events">
+                  <%= user.eventIds[i] %>
+                </div>
+                <%}%>
+            </div>
           </div>
       </body>
 
