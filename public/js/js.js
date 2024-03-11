@@ -3,9 +3,7 @@ const settingsButton = document.querySelector(".header-settings-icon");
 const dropdown = document.querySelector(".settings-dropdown");
 const pictureProfile = document.querySelector(".profile-picture-picture");
 const pictureModal = document.querySelector(".modal");
-const closeModal = document.querySelector(".close-modal");
-
-
+const closeModal = document.querySelector(".close-mark");
 
 
 settingsButton.addEventListener("click", (e) => {
