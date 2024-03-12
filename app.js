@@ -2,8 +2,13 @@ const express = require("express");
 const expessLayouts = require("express-ejs-layouts");
 const cookieParser = require("cookie-parser");
 const { cookieJwtAuth } = require("./middleware/cookieJwtAuth");
+const socketIO = require("socket.io");
+const http = require("http");
+
 // Init app and middleware
 const app = express();
+let server = http.createServer(app);
+let io = socketIO(server);
 app.set("view engine", "ejs");
 app.set("views", "views");
 app.set("layout", "./layouts/layout");
@@ -28,12 +33,33 @@ app.use("/register", registerRouter);
 
 // Route for errors
 app.use((req, res, next) => {
-  res.status(404).render('404', { req: req }); 
+  res.status(404).render("404", { req: req });
+});
+
+//Socket io
+io.on("connection", (socket) => {
+  socket.on("createMessage", (message, cb) => {
+    io.emit(
+      "displayMessage",
+      generateMessage(message.authorFirstName, message.messageText)
+    );
+    cb(message);
+  });
+
+  socket.on("disconnect", () => {
+    console.log("Disconnected from server.");
+  });
 });
 
 //Port
-app.listen(3000, () => {
+server.listen(3000, () => {
   console.log("Server is running on port 3000");
 });
 
-// Socket io
+function generateMessage(authorFirstName, messageText) {
+  return {
+    authorFirstName: authorFirstName,
+    messageText: messageText,
+    createdAt: new Date().getTime(),
+  };
+}

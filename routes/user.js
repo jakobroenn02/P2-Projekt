@@ -143,10 +143,35 @@ router.get("/groups/:id", async (req, res) => {
         isLoggedIn: true,
         groupUsers,
         group,
+        user: decodedUser,
       });
     } else {
       res.render("group", { hasAccess: false, isLoggedIn: true });
     }
+  }
+});
+
+router.post("/groups/:id", async (req, res) => {
+  let decodedUser;
+
+  if (req.cookies.token != null) {
+    decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
+  }
+
+  if (decodedUser == null) {
+    res.render("group", { isLoggedIn: false });
+  } else {
+    await db.collection("groups").updateOne(
+      { _id: new ObjectId(req.params.id) },
+      {
+        $push: {
+          messages: {
+            messageText: req.body.messageText,
+            authorFirstName: req.body.authorFirstName,
+          },
+        },
+      }
+    );
   }
 });
 

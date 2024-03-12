@@ -7,7 +7,6 @@
   <div class="group-page-left">
     <div class="group-messages">
       <%for (let i = 0; i < group.messages.length; i++) {%>
-
       <div class="group-message">
         <div class="group-message-author">
           <%= group.messages[i].authorFirstName %>
@@ -25,6 +24,12 @@
           class="group-message-input"
           type="text"
           name="message"
+        />
+        <input
+          type="hidden"
+          value="<%= user.name.firstName %>"
+          name="authorFirstName"
+          hidden
         />
         <button type="submit" class="group-message-send-button">
           <i class="fa-solid fa-arrow-right"></i>
@@ -52,3 +57,6 @@
   </div>
 </div>
 <%}%> <%} %>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/socket.js"></script>
