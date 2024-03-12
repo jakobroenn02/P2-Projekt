@@ -211,7 +211,7 @@
 
 .modal {
   display: none;
-  width: 500px;
+  width: 700px;
   height: 500px;
   overflow: auto;
   background-color: rgb(174, 174, 174);
@@ -240,7 +240,7 @@
 .close-container {
   margin-top: 5px;
   display: flex;
-  width: 490px;
+  width: 690px;
   justify-content: space-between;
 }
 .change-picture-button {

@@ -15,19 +15,19 @@ settingsButton.addEventListener("click", (e) => {
 
 
    
-   modalButton.addEventListener("click", () => {
+modalButton.addEventListener("click", () => {
     pictureModal.style.display = "flex";
-   })
+})
 
-  pictureProfile.addEventListener("click", () => {
+pictureProfile.addEventListener("click", () => {
     pictureModal.style.display = "flex";
-  })
+})
 
-  closeModal.addEventListener("click", () => {
+closeModal.addEventListener("click", () => {
     pictureModal.style.display = "none";
-  });
-  window.addEventListener("click", (event) => {
+});
+window.addEventListener("click", (event) => {
     if (event.target == pictureModal) {
       pictureModal.style.display = "none";
     }
-  });
+});
