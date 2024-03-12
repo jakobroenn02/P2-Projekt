@@ -21,6 +21,7 @@
   flex-direction: column;
   gap: 2px;
   align-items: flex-start;
+  margin-bottom: 24px;
 }
 
 .group-message-author {
@@ -34,7 +35,7 @@
   display: inline-block;
   margin: 0 auto 0 0;
   padding: 8px;
-  
+  max-width: 300px;
 }
 
 .group-message-input-container {

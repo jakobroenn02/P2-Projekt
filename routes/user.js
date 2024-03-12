@@ -14,7 +14,6 @@ connectToDb((err) => {
 });
 
 //routes
-
 router.get("/", (req, res) => {
   if (req.cookies.token != null) {
     decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
@@ -112,6 +111,7 @@ router.get("/groups", (req, res) => {
 router.get("/groups/:id", async (req, res) => {
   let decodedUser;
   let groupUsers = [];
+  let userIds = [];
 
   if (req.cookies.token != null) {
     decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
@@ -124,15 +124,29 @@ router.get("/groups/:id", async (req, res) => {
       .collection("groups")
       .findOne({ _id: new ObjectId(req.params.id) });
 
-    const userIds = group.userIds.map((userId) => new ObjectId(userId));
+    if (group.hasOwnProperty("userIds")) {
+      userIds = group.userIds.map((userId) => new ObjectId(userId));
+    }
 
     groupUsers = await db
       .collection("users")
       .find({ _id: { $in: userIds } })
       .toArray();
 
-    console.log(groupUsers);
-    res.render("group", { isLoggedIn: true, groupUsers, group });
+    const loggedInUserInGroup = groupUsers.filter((user) => {
+      return user.username == decodedUser.username;
+    });
+
+    if (loggedInUserInGroup.length >= 1) {
+      res.render("group", {
+        hasAccess: true,
+        isLoggedIn: true,
+        groupUsers,
+        group,
+      });
+    } else {
+      res.render("group", { hasAccess: false, isLoggedIn: true });
+    }
   }
 });
 

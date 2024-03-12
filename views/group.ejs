@@ -1,13 +1,22 @@
 <%- include("./partials/header.ejs") %> <% if (!isLoggedIn) {%>
 <a href="/login">Log in please</a>
+<% } else { %> <% if (!hasAccess) {%>
+<div>You dont have access to this page</div>
 <% } else { %>
 <div class="group-page">
   <div class="group-page-left">
     <div class="group-messages">
-        <div class="group-message">
-            <div class="group-message-author">Søren</div>
-            <div class="group-message-text">Hey gruppen! skal vi spille fodbold på søndag?</div>
+      <%for (let i = 0; i < group.messages.length; i++) {%>
+
+      <div class="group-message">
+        <div class="group-message-author">
+          <%= group.messages[i].authorFirstName %>
         </div>
+        <div class="group-message-text">
+          <%= group.messages[i].messageText %>
+        </div>
+      </div>
+      <% } %>
     </div>
     <div class="group-message-input-container">
       <form class="group-message-input-form">
@@ -42,4 +51,4 @@
     </div>
   </div>
 </div>
-<%} %>
+<%}%> <%} %>
