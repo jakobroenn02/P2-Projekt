@@ -81,6 +81,8 @@ messageSendButton.addEventListener("click", (e) => {
   messageInput.focus();
 });
 
+
+// TODO Man skal kunne differentiere mellem udefrakommende emits, og dine egne - Baseret på de skal klassen være "yours" eller ej.
 // function for generation a message div
 function generateMessageDiv(message) {
   let newMessageDiv = document.createElement("div");
