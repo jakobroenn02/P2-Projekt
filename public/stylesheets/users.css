@@ -31,6 +31,9 @@
   width: 300px;
   height: 250px;
   display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  margin-left: 20px;
 }
 .profile-picture-picture {
   border-radius: 50%;
@@ -239,4 +242,19 @@
   display: flex;
   width: 490px;
   justify-content: space-between;
+}
+.change-picture-button {
+  width: 50%;
+  display: flex;
+  background-color: green;
+  color: white;
+  justify-content: center;
+  align-items: center;
+  padding: 3px;
+  border: none;
+  margin-top: 20px;
+  margin-left: 70px;
+}
+.change-picture-button:hover {
+  opacity: 0.8;
 }
