@@ -2,7 +2,9 @@
   display: flex;
   gap: 16px;
 }
-
+*{
+  box-sizing: border-box;
+}
 .user {
   display: flex;
   border: 1px solid black;
@@ -26,6 +28,10 @@
   width: 100%;
   background-color: red;
 }
+.body-profile-container{
+ background-color: whitesmoke;
+ 
+}
 .profile-welcome-title{
   text-align: center;
   margin-bottom: 10px;
@@ -35,8 +41,15 @@
   width: 350px;
   height: 300px;
   display: flex;
-  margin-right: auto;
   margin-top: 20px;
+}
+.profile-picture-title {
+  display: flex;
+  font-size: x-large;
+}
+.profile-picture-container{
+  margin-right: auto;
+  padding: 5px 5px;
 }
 .profile-picture-picture {
   border-radius: 50%;
@@ -63,6 +76,9 @@
   height: 300px;
   padding: 3px;
 }
+.input-profile-bio::placeholder{
+  color: black;
+}
 .submit-bio-button {
   width: 100%;
   display: flex;
@@ -82,22 +98,36 @@
   font-size: large;
   margin-bottom: 3px;
 }
-.profile-information {
-  width: 350px;
-  display: flex;
-  flex-direction: column;
-  padding: 3px;
+.profile-information-overall {
+  gap: 10px;
+  margin: 0;
   border: 2px solid black;
-  margin-right: 30px;
+  width: fit-content;
+  height: fit-content;
+  border-radius: 10px;
+  padding: 10px 10px;
+  
+}
+.profile-information-column1{
+  display: inline-block;
+  flex-direction: column;
+  border: 2px solid black;
+   padding: 10px 10px;
+}
+.profile-information-column2{
+  display: inline-block;
+  flex-direction: column;
+  border: 2px solid black;
+  padding: 10px 10px;
 }
 .profile-information-title {
   display: flex;
-  margin-bottom: 10px;
-  align-self: center;
+  justify-content: center;
+  margin-bottom: 5px;
   font-size: large;
 }
 .profile-information-content-item-content{
-  width: 100%;
+  width: 300px;
   padding: 12px 20px;
   margin: 8px 0;
   display: inline-block;
@@ -105,6 +135,9 @@
   box-sizing: border-box;
   border-radius: 10px;
   font-size: 14px;
+}
+.profile-information-content-item-content::placeholder{
+  color: black;
 }
 .submit-information-button{
   width: 100%;
@@ -115,13 +148,16 @@
   align-items: center;
   padding: 3px;
   border: none;
+  margin-top: 5px;
+  height: 35px;
+  cursor: pointer;
 }
 .submit-information-button:hover{
   opacity: 0.8;
 }
 .profile-information-content-item-icon-container i{
   position: absolute;
-  margin-left: 300px;
+  margin-left: 250px;
 }
 .icon{
   padding: 20px;

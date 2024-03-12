@@ -17,6 +17,10 @@ const editPassword = document.getElementById("newPassword");
 const toggleEditPassword = document.querySelector(".password-toggle-icon i");
 const editConfirmPassword = document.getElementById("confirmNewPassword");
 const toggleEditConfirmPassword = document.querySelector(".confirm-password-toggle-icon i");
+const editAge = document.getElementById("newAge");
+const toggleEditAge = document.querySelector(".age-toggle-icon i");
+const editLocation = document.getElementById("newLocation");
+const toggleEditLocation = document.querySelector(".location-toggle-icon i");
 
 settingsButton.addEventListener("click", (e) => {
     if (window.getComputedStyle(dropdown).display == "none") {
@@ -105,7 +109,23 @@ toggleEditConfirmPassword.addEventListener("click", function () {
         editPassword.classList.add("fas fa-edit icon");
     }
 });
-/* Ved ikke hvordan jeg skal få dette til at fungerere????? Vil gerne have den til at modtage de nye informationer og overskrive de gamle informationer :D */
+
+toggleEditAge.addEventListener("click", function () {
+    if (editAge.readOnly === true) {
+        editAge.readOnly = false;
+    } else {
+        editAge.readOnly = true;
+    }
+});
+toggleEditLocation.addEventListener("click", function () {
+    if (editLocation.readOnly === true) {
+        editLocation.readOnly = false;
+    } else {
+        editLocation.readOnly = true;
+    }
+});
+// Ved ikke hvordan jeg skal få dette til at fungerere????? Vil gerne have den til at modtage de nye informationer og overskrive de gamle informationer :D 
+// TODO: Få dette til at fungerere :D
 router.post("/", async (req, res) => {
     try {
         const hashedPassword = await bcrypt.hash(req.body.newPassword, 10);
