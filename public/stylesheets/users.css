@@ -212,7 +212,7 @@
 .modal {
   display: none;
   width: 700px;
-  height: 500px;
+  height: 600px;
   overflow: auto;
   background-color: rgb(174, 174, 174);
   position: fixed;
@@ -257,4 +257,56 @@
 }
 .change-picture-button:hover {
   opacity: 0.8;
+}
+.modal-inner{
+  display: flex;
+  justify-content: center;
+ 
+}
+.modal-picture-current{
+  width: 250px;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  margin-left: 20px;
+  border-radius: 50%;
+  border: 5px cyan solid;
+}
+.modal-inner-options{
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  margin-top: 100px;
+}
+
+.picture1{
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  margin: auto;
+}
+.picture1:hover{
+  cursor: pointer;
+  box-shadow: 0 0 4px 4px rgba(106, 136, 147, 0.979);
+}
+.picture2{
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  margin: auto;
+}
+.picture2:hover{
+  cursor: pointer;
+  box-shadow: 0 0 4px 4px rgba(0, 140, 186, 0.5);
+}
+.picture3{
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  margin: auto;
+}
+.picture3:hover{
+  cursor: pointer;
+  box-shadow: 0 0 4px 4px rgba(0, 140, 186, 0.5);
 }
