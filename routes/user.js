@@ -167,7 +167,15 @@ router.post("/groups/:id", async (req, res) => {
         $push: {
           messages: {
             messageText: req.body.messageText,
-            authorFirstName: req.body.authorFirstName,
+            authorName: req.body.authorName,
+            authorId: new ObjectId(req.body.authorId),
+            createdAt: {
+              year: req.body.createdAt.year,
+              month: req.body.createdAt.month,
+              day: req.body.createdAt.day,
+              hour: req.body.createdAt.hour,
+              minute: req.body.createdAt.minute,
+            },
           },
         },
       }

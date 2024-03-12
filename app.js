@@ -38,17 +38,20 @@ app.use((req, res, next) => {
 
 //Socket io
 io.on("connection", (socket) => {
-  socket.on("createMessage", (message, cb) => {
-    io.emit(
+
+  socket.on("join", (groupId, cb) => {
+    socket.join(groupId)
+  })
+
+  socket.on("createMessage", (roomId, message, cb) => {
+    io.to(roomId).emit(
       "displayMessage",
-      generateMessage(message.authorFirstName, message.messageText)
+      generateMessage(message.authorName, message.messageText, message.authorId)
     );
     cb(message);
   });
 
-  socket.on("disconnect", () => {
-    console.log("Disconnected from server.");
-  });
+  socket.on("disconnect", () => {});
 });
 
 //Port
@@ -56,10 +59,18 @@ server.listen(3000, () => {
   console.log("Server is running on port 3000");
 });
 
-function generateMessage(authorFirstName, messageText) {
+// TODO: skal nok ikke være her, måske lave en mappe til utils et sted i serverside.
+function generateMessage(authorName, messageText, authorId) {
   return {
-    authorFirstName: authorFirstName,
+    authorName: authorName,
     messageText: messageText,
-    createdAt: new Date().getTime(),
+    createdAt: {
+      year: new Date().getFullYear(),
+      month: new Date().getMonth(),
+      day: new Date().getDay(),
+      hour: new Date().getHours(),
+      minute: new Date().getMinutes(),
+    },
+    authorId: authorId,
   };
 }
