@@ -5,8 +5,9 @@
       <h1 class="profile-welcome-title">Welcome <%= user.username %>
       </h1>
         <div class="user-page-upper">
-            <div class="profile-picture">
-              <img class="profile-picture-picture" src="/img/70WoJVY.jpeg" />
+          <div class="profile-picture">
+            <img class="profile-picture-picture" src="/img/70WoJVY.jpeg" />
+            <input type="submit" class="change-picture-button" value="Change Profile Picture">
 
           </div>
           <div class="profile-bio">
@@ -94,11 +95,28 @@
           </div>
         </div>
 
-        <div id="picture-modal" class="modal">
-          <div class="modal-content">
-            <div class="close-container">
-              <h2>Change Profile Picture</h2>
-              <i class="fa-solid fa-xmark close-mark"></i>
+          <div class="pictures-modal">
+            <div class="modal-header">
+              <div class="modal-header-title">Change Profile Picture</div>
+              <div class="modal-header-close"><i class="fa-solid fa-xmark close-mark"></i></div>
+            </div>
+            <div class="modal-pictures">
+              <div class="modal-pictures-main">
+                <div class="modal-main-picture-container">
+                  <img src="/img/profileImg/profileImg<%= user.profileImageId %>.jpeg" alt="">
+                </div>
+              </div>
+              <div class="modal-pictures-options">
+                <div class="modal-pictures-options-container">
+                  <img class="picture1" src="/img/Amerikansk Fodbold.jpeg" />
+                </div>
+                <div class="modal-pictures-options-container">
+                  <img class="picture3" src="/img/skøjtning.jpeg" />
+                </div>
+                <div class="modal-pictures-options-container">
+                  <img class="picture2" src="/img/Fodbold.jpeg" />
+                </div>
+              </div>
             </div>
           </div>
         </div>

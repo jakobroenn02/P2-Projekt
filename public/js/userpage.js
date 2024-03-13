@@ -1,9 +1,13 @@
+const { response } = require("express");
 
 const settingsButton = document.querySelector(".header-settings-icon");
 const dropdown = document.querySelector(".settings-dropdown");
 const pictureProfile = document.querySelector(".profile-picture-picture");
-const pictureModal = document.querySelector(".modal");
+const pictureModal = document.querySelector(".pictures-modal");
 const closeModal = document.querySelector(".close-mark");
+
+const modalButton = document.querySelector(".change-picture-button");
+const selectNewPicture = document.querySelectorAll("modal-pictures-options-container"); 
 
 const editFirstName = document.getElementById("newFirstName");
 const toggleEditFirstName = document.querySelector(".firstname-toggle-icon i");
@@ -23,24 +27,23 @@ const editLocation = document.getElementById("newLocation");
 const toggleEditLocation = document.querySelector(".location-toggle-icon i");
 
 settingsButton.addEventListener("click", (e) => {
-    if (window.getComputedStyle(dropdown).display == "none") {
-        dropdown.style.display = "flex";
-    } else {
-        dropdown.style.display = "none";
-    }
-})
+  if (window.getComputedStyle(dropdown).display == "none") {
+    dropdown.style.display = "flex";
+  } else {
+    dropdown.style.display = "none";
+  }
+});
 
+modalButton.addEventListener("click", () => {
+  pictureModal.style.display = "flex";
+});
 
 pictureProfile.addEventListener("click", () => {
-    pictureModal.style.display = "flex";
+  pictureModal.style.display = "flex";
 });
+
 closeModal.addEventListener("click", () => {
-    pictureModal.style.display = "none";
-});
-window.addEventListener("click", (event) => {
-    if (event.target == pictureModal) {
-        pictureModal.style.display = "none";
-    }
+  pictureModal.style.display = "none";
 });
 
 toggleEditPassword.addEventListener("mouseover", function () {
@@ -63,7 +66,6 @@ toggleEditFirstName.addEventListener("click", function () {
     } else {
         editFirstName.readOnly = true;
     }
-
 });
 
 toggleEditLastName.addEventListener("click", function () {
@@ -124,28 +126,3 @@ toggleEditLocation.addEventListener("click", function () {
         editLocation.readOnly = true;
     }
 });
-// Ved ikke hvordan jeg skal få dette til at fungerere????? Vil gerne have den til at modtage de nye informationer og overskrive de gamle informationer :D 
-// TODO: Få dette til at fungerere :D
-router.post("/", async (req, res) => {
-    try {
-        const hashedPassword = await bcrypt.hash(req.body.newPassword, 10);
-        const user = {
-            name: { firstName: req.body.newFirstName, lastName: req.body.newLastName },
-            password: hashedPassword,
-            bio: "",
-            age: 0,
-            location: "",
-            groupIds: [],
-            interests: [],
-            eventIds: [],
-            username: req.body.newUsername,
-            email: req.body.newEmail,
-        };
-        db.collection("users")
-            .insertOne(user)
-    } catch {
-        res.status(500).send();
-    }
-});
-
-
