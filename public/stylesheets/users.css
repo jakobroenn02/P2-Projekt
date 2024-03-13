@@ -41,7 +41,6 @@
   box-sizing: border-box;
   border: 2px solid black;
   border-radius: 10px;
-  height: 300px;
   background-color: rgb(233, 233, 233);
   padding: 3px;
 }
@@ -61,6 +60,14 @@
 .profile-bio-title {
   font-size: large;
   margin-bottom: 3px;
+}
+
+.profile-interests-all{
+  display: flex;
+  flex-direction: column;
+  padding: 5px 5px;
+  flex: 1;
+
 }
 
 .profile-information-form {
