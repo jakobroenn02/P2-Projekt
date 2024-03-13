@@ -1,14 +1,3 @@
-const { response } = require("express");
-
-const settingsButton = document.querySelector(".header-settings-icon");
-const dropdown = document.querySelector(".settings-dropdown");
-const pictureProfile = document.querySelector(".profile-picture-picture");
-const pictureModal = document.querySelector(".pictures-modal");
-const closeModal = document.querySelector(".close-mark");
-
-const modalButton = document.querySelector(".change-picture-button");
-const selectNewPicture = document.querySelectorAll("modal-pictures-options-container"); 
-
 const editFirstName = document.getElementById("newFirstName");
 const toggleEditFirstName = document.querySelector(".firstname-toggle-icon i");
 const editLastName = document.getElementById("newLastName");
@@ -20,13 +9,19 @@ const toggleEditEmail = document.querySelector(".email-toggle-icon i");
 const editPassword = document.getElementById("newPassword");
 const toggleEditPassword = document.querySelector(".password-toggle-icon i");
 const editConfirmPassword = document.getElementById("confirmNewPassword");
-const toggleEditConfirmPassword = document.querySelector(".confirm-password-toggle-icon i");
+const toggleEditConfirmPassword = document.querySelector(
+  ".confirm-password-toggle-icon i"
+);
 const editAge = document.getElementById("newAge");
 const toggleEditAge = document.querySelector(".age-toggle-icon i");
 const editLocation = document.getElementById("newLocation");
 const toggleEditLocation = document.querySelector(".location-toggle-icon i");
 
+// JS for header settings dropdown
+const settingsButton = document.querySelector(".header-settings-icon");
+
 settingsButton.addEventListener("click", (e) => {
+  const dropdown = document.querySelector(".settings-dropdown");
   if (window.getComputedStyle(dropdown).display == "none") {
     dropdown.style.display = "flex";
   } else {
@@ -34,95 +29,97 @@ settingsButton.addEventListener("click", (e) => {
   }
 });
 
-modalButton.addEventListener("click", () => {
-  pictureModal.style.display = "flex";
-});
+// Js for modal on userpage
+const profilePicture = document.querySelector(".profile-picture");
+const modalCloseButton = document.querySelector(".modal-header-close");
 
-pictureProfile.addEventListener("click", () => {
-  pictureModal.style.display = "flex";
-});
-
-closeModal.addEventListener("click", () => {
+modalCloseButton.addEventListener("click", () => {
+  const pictureModal = document.querySelector(".pictures-modal");
   pictureModal.style.display = "none";
 });
 
+profilePicture.addEventListener("click", () => {
+  const pictureModal = document.querySelector(".pictures-modal");
+  pictureModal.style.display = "flex";
+});
+
 toggleEditPassword.addEventListener("mouseover", function () {
-    editPassword.type = "text";  
+  editPassword.type = "text";
 });
 toggleEditPassword.addEventListener("mouseout", function () {
-    editPassword.type = "password";
+  editPassword.type = "password";
 });
 
 toggleEditConfirmPassword.addEventListener("mouseover", function () {
-    editConfirmPassword.type = "text";
+  editConfirmPassword.type = "text";
 });
 toggleEditConfirmPassword.addEventListener("mouseout", function () {
-    editConfirmPassword.type = "password";
+  editConfirmPassword.type = "password";
 });
 
 toggleEditFirstName.addEventListener("click", function () {
-    if (editFirstName.readOnly === true) {
-        editFirstName.readOnly = false;
-    } else {
-        editFirstName.readOnly = true;
-    }
+  if (editFirstName.readOnly === true) {
+    editFirstName.readOnly = false;
+  } else {
+    editFirstName.readOnly = true;
+  }
 });
 
 toggleEditLastName.addEventListener("click", function () {
-    if (editLastName.readOnly === true) {
-        editLastName.readOnly = false;
-    } else {
-        editLastName.readOnly = true;
-    }
+  if (editLastName.readOnly === true) {
+    editLastName.readOnly = false;
+  } else {
+    editLastName.readOnly = true;
+  }
 });
 
 toggleEditUsername.addEventListener("click", function () {
-    if (editUsername.readOnly === true) {
-        editUsername.readOnly = false;
-    } else {
-        editUsername.readOnly = true;
-    }
+  if (editUsername.readOnly === true) {
+    editUsername.readOnly = false;
+  } else {
+    editUsername.readOnly = true;
+  }
 });
 
 toggleEditEmail.addEventListener("click", function () {
-    if (editEmail.readOnly === true) {
-        editEmail.readOnly = false;
-    }else {
-        editEmail.readOnly = true;
-    }
+  if (editEmail.readOnly === true) {
+    editEmail.readOnly = false;
+  } else {
+    editEmail.readOnly = true;
+  }
 });
 
 toggleEditPassword.addEventListener("click", function () {
-    if (editPassword.readOnly === true) {
-        editPassword.readOnly = false;
-        editPassword.classList.remove("fas fa-edit icon");
-    } else {
-        editPassword.readOnly = true;
-        editPassword.classList.add("fas fa-edit icon");
-    }
+  if (editPassword.readOnly === true) {
+    editPassword.readOnly = false;
+    editPassword.classList.remove("fas fa-edit icon");
+  } else {
+    editPassword.readOnly = true;
+    editPassword.classList.add("fas fa-edit icon");
+  }
 });
 
 toggleEditConfirmPassword.addEventListener("click", function () {
-    if (editConfirmPassword.readOnly === true) {
-        editConfirmPassword.readOnly = false;
-        editPassword.classList.remove("fas fa-edit icon");
-    } else {
-        editConfirmPassword.readOnly = true;
-        editPassword.classList.add("fas fa-edit icon");
-    }
+  if (editConfirmPassword.readOnly === true) {
+    editConfirmPassword.readOnly = false;
+    editPassword.classList.remove("fas fa-edit icon");
+  } else {
+    editConfirmPassword.readOnly = true;
+    editPassword.classList.add("fas fa-edit icon");
+  }
 });
 
 toggleEditAge.addEventListener("click", function () {
-    if (editAge.readOnly === true) {
-        editAge.readOnly = false;
-    } else {
-        editAge.readOnly = true;
-    }
+  if (editAge.readOnly === true) {
+    editAge.readOnly = false;
+  } else {
+    editAge.readOnly = true;
+  }
 });
 toggleEditLocation.addEventListener("click", function () {
-    if (editLocation.readOnly === true) {
-        editLocation.readOnly = false;
-    } else {
-        editLocation.readOnly = true;
-    }
+  if (editLocation.readOnly === true) {
+    editLocation.readOnly = false;
+  } else {
+    editLocation.readOnly = true;
+  }
 });

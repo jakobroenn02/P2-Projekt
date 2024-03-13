@@ -14,6 +14,12 @@
   margin-top: 20px;
   overflow: hidden;
   border-radius: 100%;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.profile-picture:hover {
+  opacity: 0.85;
 }
 
 .profile-picture-picture {
@@ -147,8 +153,13 @@
   opacity: 0.8;
 }
 
+.close-mark {
+  transition: all 0.15s;
+}
+
 .close-mark:hover {
   cursor: pointer;
+  color: rgb(201, 22, 22);
 }
 
 .pictures-modal {
