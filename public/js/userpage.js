@@ -1,7 +1,7 @@
 const settingsButton = document.querySelector(".header-settings-icon");
 const dropdown = document.querySelector(".settings-dropdown");
 const pictureProfile = document.querySelector(".profile-picture-picture");
-const pictureModal = document.querySelector(".modal");
+const pictureModal = document.querySelector(".pictures-modal");
 const closeModal = document.querySelector(".close-mark");
 const modalButton = document.querySelector(".change-picture-button");
 
@@ -13,21 +13,15 @@ settingsButton.addEventListener("click", (e) => {
   }
 });
 
-
-   
 modalButton.addEventListener("click", () => {
-    pictureModal.style.display = "flex";
-})
+  pictureModal.style.display = "flex";
+});
 
 pictureProfile.addEventListener("click", () => {
-    pictureModal.style.display = "flex";
-})
+  pictureModal.style.display = "flex";
+});
 
 closeModal.addEventListener("click", () => {
-    pictureModal.style.display = "none";
+  pictureModal.style.display = "none";
 });
-window.addEventListener("click", (event) => {
-    if (event.target == pictureModal) {
-      pictureModal.style.display = "none";
-    }
-});
+

@@ -21,6 +21,7 @@ router.get("/", (req, res) => {
   if (req.cookies.token != null) {
     decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
   }
+  console.log(decodedUser)
   
   if (decodedUser == null) {
     res.render("user", { isLoggedIn: false });

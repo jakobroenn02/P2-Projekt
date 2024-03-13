@@ -75,19 +75,27 @@
             </div>
           </div>
 
-          <div id="picture-modal" class="modal">
-            <div class="modal-content" >
-              <div class="close-container">
-                <h2>Change Profile Picture</h2>
-                <i class="fa-solid fa-xmark close-mark"></i>
+          <div class="pictures-modal">
+            <div class="modal-header">
+              <div class="modal-header-title">Change Profile Picture</div>
+              <div class="modal-header-close"><i class="fa-solid fa-xmark close-mark"></i></div>
+            </div>
+            <div class="modal-pictures">
+              <div class="modal-pictures-main">
+                <div class="modal-main-picture-container">
+                  <img src="/img/profileImg/profileImg<%= user.profileImageId %>.jpeg" alt="">
+                </div>
               </div>
-              <div class="modal-inner">
-                <img class="modal-picture-current" src="/img/70WoJVY.jpeg" />
-              </div>
-              <div class="modal-inner-options">
-                <img class="picture1" src="/img/Amerikansk Fodbold.jpeg" />
-                <img class="picture2" src="/img/Fodbold.jpeg" />
-                <img class="picture3" src="/img/skøjtning.jpeg" />
+              <div class="modal-pictures-options">
+                <div class="modal-pictures-options-container">
+                  <img class="picture1" src="/img/Amerikansk Fodbold.jpeg" />
+                </div>
+                <div class="modal-pictures-options-container">
+                  <img class="picture3" src="/img/skøjtning.jpeg" />
+                </div>
+                <div class="modal-pictures-options-container">
+                  <img class="picture2" src="/img/Fodbold.jpeg" />
+                </div>
               </div>
             </div>
           </div>
