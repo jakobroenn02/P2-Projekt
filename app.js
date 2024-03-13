@@ -44,7 +44,7 @@ io.on("connection", (socket) => {
   })
 
   socket.on("createMessage", (roomId, message, cb) => {
-    io.to(roomId).emit(
+    socket.broadcast.to(roomId).emit(
       "displayMessage",
       generateMessage(message.authorName, message.messageText, message.authorId)
     );

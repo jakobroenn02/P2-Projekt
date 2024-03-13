@@ -16,7 +16,7 @@ socket.on("disconnect", () => {
 // listener for displaying messages on the screen.
 socket.on("displayMessage", (message) => {
   const messagesDiv = document.querySelector(".group-messages");
-  messagesDiv.appendChild(generateMessageDiv(message));
+  messagesDiv.appendChild(generateMessageDiv(message, false));
   scrollToBottom();
 });
 
@@ -26,17 +26,28 @@ messageSendButton.addEventListener("click", (e) => {
   // Prevent default so browser doesn't refresh
   e.preventDefault();
   const groupId = window.location.pathname.split("/")[3];
-
   const messageInput = document.querySelector(
     '.group-message-input-form [name="message"]'
   );
   const messageAuthorNameInput = document.querySelector(
     '.group-message-input-form [name="authorName"]'
   );
-
   const messageUserIdInput = document.querySelector(
     '.group-message-input-form [name="userId"]'
   );
+
+  const message = {
+    messageText: messageInput.value,
+    authorName: messageAuthorNameInput.value,
+    createdAt: {
+      year: new Date().getFullYear(),
+      month: new Date().getMonth(),
+      day: new Date().getDay(),
+      hour: new Date().getHours(),
+      minute: new Date().getMinutes(),
+    },
+    authorId: messageUserIdInput.value,
+  }
 
   // Creates post reqruest here instead of from form, beacuase we dont want browser to refresh
   fetch(`/user/groups/${groupId}`, {
@@ -44,49 +55,33 @@ messageSendButton.addEventListener("click", (e) => {
     headers: {
       "Content-type": "application/json",
     },
-    body: JSON.stringify({
-      messageText: messageInput.value,
-      authorName: messageAuthorNameInput.value,
-      createdAt: {
-        year: new Date().getFullYear(),
-        month: new Date().getMonth(),
-        day: new Date().getDay(),
-        hour: new Date().getHours(),
-        minute: new Date().getMinutes(),
-      },
-      authorId: messageUserIdInput.value,
-    }),
+    body: JSON.stringify(message),
   });
 
   // We emit a socket "createMessage" event, which emits a "displayMessage" to all connection of the socket
   socket.emit(
     "createMessage",
     groupId,
-    {
-      messageText: messageInput.value,
-      authorName: messageAuthorNameInput.value,
-      createdAt: {
-        year: new Date().getFullYear(),
-        month: new Date().getMonth(),
-        day: new Date().getDay(),
-        hour: new Date().getHours(),
-        minute: new Date().getMinutes(),
-      },
-      authorId: messageUserIdInput.value,
-    },
+    message,
     (message) => {}
   );
 
-  messageInput.value = "";
-  messageInput.focus();
+  const messagesDiv = document.querySelector(".group-messages");
+  messagesDiv.appendChild(
+    generateMessageDiv(
+      message,
+      true
+    )
+  );
+  resetMessageInput();
+  scrollToBottom();
 });
-
 
 // TODO Man skal kunne differentiere mellem udefrakommende emits, og dine egne - Baseret på de skal klassen være "yours" eller ej.
 // function for generation a message div
-function generateMessageDiv(message) {
+function generateMessageDiv(message, isOwn) {
   let newMessageDiv = document.createElement("div");
-  newMessageDiv.classList = "group-message-yours";
+  newMessageDiv.classList = isOwn ? "group-message-yours" : "group-message";
 
   let newMessageInfoDiv = document.createElement("div");
   newMessageInfoDiv.classList = "group-message-info";
@@ -117,4 +112,12 @@ function scrollToBottom() {
   const lastMessage =
     document.querySelector(".group-messages").lastElementChild;
   lastMessage.scrollIntoView();
+}
+
+function resetMessageInput() {
+  const messageInput = document.querySelector(
+    '.group-message-input-form [name="message"]'
+  );
+  messageInput.value = "";
+  messageInput.focus();
 }
