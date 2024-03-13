@@ -271,7 +271,7 @@
   margin-top: 20px;
   margin-left: 20px;
   border-radius: 50%;
-  border: 5px cyan solid;
+  box-shadow: 0 0 4px 4px rgba(0, 140, 186, 0.5);
 }
 .modal-inner-options{
   display: flex;
