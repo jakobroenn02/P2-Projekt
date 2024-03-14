@@ -99,7 +99,8 @@ router.get("/interests", (req, res) => {
 router.get("/discover", async (req, res) => {
   let decodedUser;
   let allgroups = [];
-  let allhobby = []
+  let allhobby = [];
+  let hobby = [];
 
   if (req.cookies.token != null) {
     decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
@@ -114,6 +115,14 @@ router.get("/discover", async (req, res) => {
       .forEach((group) => {
         allgroups.push(group);
       });
+    //{await db
+      //.collection("interests")
+      //.find()
+      //.forEach((hobby) =>{
+      //  allhobby.push(hobby)
+      //})
+      //console.log(allhobby);}
+      // tror ikke det her virker :(
       res.render("discover", { isLoggedIn: true, user: decodedUser, allgroups});
   }
 })
