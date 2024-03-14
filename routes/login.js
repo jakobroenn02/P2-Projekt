@@ -21,9 +21,9 @@ router.get("/", (req, res) => {
   }
 
   if (decodedUser == null) {
-    return res.render("login", { isLoggedIn: false });
+    return res.render("login", { isLoggedIn: false, hasTypeWrong: false });
   } else {
-    res.render("login", { isLoggedIn: true });
+    res.render("login", { isLoggedIn: true, hasTypeWrong: false  });
   }
 });
 
@@ -33,7 +33,7 @@ router.post("/", async (req, res) => {
     .findOne({ username: req.body.username });
 
   if (!logedInUser) {
-    return res.status(400).send("cannot find user");
+    return res.render("login", { isLoggedIn: false, hasTypeWrong: true })
   }
 
   try {
@@ -55,7 +55,7 @@ router.post("/", async (req, res) => {
 
       res.redirect("/");
     } else {
-      res.send("Wrong password");
+      return res.render("login", { isLoggedIn: false, hasTypeWrong: true })
     }
   } catch {
     res.status(500).send();
