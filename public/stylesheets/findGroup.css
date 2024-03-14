@@ -1,0 +1,86 @@
+.find-group-page {
+  display: flex;
+  height: calc(100vh - 88px);
+  width: 100vw;
+}
+
+.find-group-left {
+  flex: 2;
+  padding: 8px;
+  border-right: 2px solid black;
+}
+
+.find-group-title {
+  font-size: 26px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.find-group-members {
+  color: rgb(78, 78, 78);
+  border-bottom: 2px solid black;
+  font-size: 14px;
+  padding-bottom: 6px;
+}
+
+.find-group-description {
+  margin-top: 6px;
+  color: rgb(78, 78, 78);
+  margin-bottom: 4px;
+}
+
+.find-group-join-form {
+  margin-top: 24px;
+  display: flex;
+  justify-content: center;
+}
+
+.find-group-join-button {
+  height: 32px;
+  width: 160px;
+  background-color: rgb(0, 96, 0);
+  border: none;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.12s;
+}
+
+.find-group-join-button:hover {
+  background-color: rgb(0, 110, 0);
+}
+
+.find-group-right {
+  flex: 4;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+    gap: 48px;
+}
+
+.find-group-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.find-group-info-title {
+  font-weight: 600;
+  text-decoration: underline;
+  margin-bottom: 12px;
+}
+
+.find-group-info-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.find-group-info-list-item {
+    display: flex;
+    justify-content: space-between;
+    margin-right: 32px;
+    padding: 3px;
+    border-bottom: 2px solid black;
+}
+
+
