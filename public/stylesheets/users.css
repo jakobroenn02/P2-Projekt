@@ -1,4 +1,4 @@
-.profile-welcome-title{
+.profile-welcome-title {
   font-size: xx-large;
   text-align: center;
   font-style: oblique;
@@ -50,7 +50,6 @@
   padding: 3px;
 }
 
-
 .profile-bio-title {
   font-size: large;
   margin-bottom: 3px;
@@ -71,10 +70,64 @@
 
 .profile-information-row {
   display: inline-block;
-  flex-direction: column; 
+  flex-direction: column;
   border: 2px solid black;
   padding: 10px 10px;
+  position: relative;
 }
+.profile-information-edit-button {
+  position: absolute;
+  right: 4px;
+  top: 4px;
+  border: none;
+  background-color: rgb(56, 65, 67);
+  padding: 4px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  color: white;
+  z-index: 2;
+}
+
+.profile-information-edit-button:hover {
+  background-color: rgb(77, 85, 86);
+}
+
+.profile-information-cancel-button {
+  position: absolute;
+  right: 4px;
+  top: 4px;
+  border: none;
+  background-color: rgb(197, 0, 0);
+  padding: 4px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  color: white;
+  z-index: 2;
+  transition: all 0.14s;
+}
+
+.profile-information-cancel-button:hover {
+  background-color: rgb(170, 0, 0);
+}
+
+.profile-information-confirm-button {
+  position: absolute;
+  right: 74px;
+  top: 4px;
+  border: none;
+  background-color: rgb(0, 92, 0);
+  padding: 4px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  color: white;
+  z-index: 2;
+  transition: all 0.15s;
+}
+.profile-information-confirm-button:hover { 
+  background-color: rgb(0, 109, 0);
+}
+
+
 
 .profile-information-title {
   display: flex;
@@ -83,7 +136,7 @@
   margin-bottom: 5px;
   font-size: large;
 }
-.profile-information-password-title{
+.profile-information-password-title {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -91,7 +144,7 @@
   margin-bottom: 5px;
   margin-top: 5px;
 }
-.profile-information-input{
+.profile-information-container {
   width: 100%;
   padding: 12px 15px;
   margin: 3px 0;
@@ -99,11 +152,14 @@
   box-sizing: border-box;
   border-radius: 10px;
   font-size: 14px;
-  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.profile-information-input::placeholder {
- color: black;
+.profile-information-input {
+  height: 100%;
+  width: 100%;
 }
 
 .profile-information-content-item-icon-container {
@@ -114,17 +170,8 @@
   position: absolute;
   right: 0px;
 }
-.profile-information-input-attachment{
-  width: 100%;
-  padding: 12px 15px;
-  margin: 3px 0;
-  border: 1px solid #ccc;
-  box-sizing: border-box;
-  border-radius: 10px;
-  font-size: 14px;
-  position: absolute;
-}
-.profile-interests-all{
+
+.profile-interests-all {
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
@@ -136,7 +183,7 @@
   position: relative;
 }
 
-.profile-interests-container-title{
+.profile-interests-container-title {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -144,15 +191,13 @@
   font-size: large;
 }
 
-
-
-.profile-interests-container{
+.profile-interests-container {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
 }
 
-.profile-interests{
+.profile-interests {
   display: flex;
   gap: 5px;
   padding: 5px 5px;
@@ -160,7 +205,6 @@
   border-radius: 10px;
   background-color: rgb(233, 233, 233);
   width: fit-content;
-
 }
 
 .profile-change-interests-button {
@@ -179,7 +223,7 @@
 .profile-change-interests-button:hover {
   opacity: 0.8;
 }
-.profile-change-interests-button a{
+.profile-change-interests-button a {
   text-decoration: none;
   color: white;
 }
@@ -280,7 +324,7 @@
 }
 
 .modal-pictures-options-container:hover {
-  opacity: 0.90;
+  opacity: 0.9;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 

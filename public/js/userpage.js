@@ -43,21 +43,46 @@ profilePicture.addEventListener("click", () => {
   pictureModal.style.display = "flex";
 });
 
-toggleEditPassword.addEventListener("mouseover", function () {
-  editPassword.type = "text";
-});
-toggleEditPassword.addEventListener("mouseout", function () {
-  editPassword.type = "password";
+//User edit information JS
+const userConfirmButton = document.querySelector(
+  ".profile-information-confirm-button"
+);
+const userCancelButton = document.querySelector(
+  ".profile-information-cancel-button"
+);
+const userEditButton = document.querySelector(
+  ".profile-information-edit-button"
+);
+
+
+userEditButton.addEventListener("click", () => {
+  const infoBoxes = document.querySelectorAll(".profile-information-container");
+  infoBoxes.forEach((box) => {
+    const initValue = box.firstElementChild.innerText;
+    box.firstElementChild.hidden = true;
+    inputElement = document.createElement("input");
+    inputElement.type = "text";
+    inputElement.classList = "profile-information-input";
+    inputElement.value = initValue;
+    inputElement.name = box.firstElementChild.id
+    box.appendChild(inputElement);
+  });
+
+  userEditButton.hidden = true;
+  userCancelButton.hidden = false;
+  userConfirmButton.hidden = false;
 });
 
-toggleEditConfirmPassword.addEventListener("mouseover", function () {
-  editConfirmPassword.type = "text";
-});
-toggleEditConfirmPassword.addEventListener("mouseout", function () {
-  editConfirmPassword.type = "password";
-});
+userCancelButton.addEventListener("click", () => {
+  
+  userEditButton.hidden = false;
+  userCancelButton.hidden = true;
+  userConfirmButton.hidden = true;
+})
 
-toggleEditFirstName.addEventListener("click", function () {
-    toggleEditFirstName.document.createElement("input");
-    
-});
+userConfirmButton.addEventListener("click", () => {
+  
+  userEditButton.hidden = false;
+  userCancelButton.hidden = true;
+  userConfirmButton.hidden = true;
+})

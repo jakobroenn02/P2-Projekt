@@ -21,12 +21,39 @@ router.get("/", (req, res) => {
   if (req.cookies.token != null) {
     decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
   }
-  console.log(decodedUser)
-  
+
   if (decodedUser == null) {
     res.render("user", { isLoggedIn: false });
   } else {
     res.render("user", { isLoggedIn: true, user: decodedUser });
+  }
+});
+
+router.post("/", async (req, res) => {
+  let decodedUser;
+
+  if (req.cookies.token != null) {
+    decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
+  }
+
+  if (decodedUser == null) {
+    res.render("user", { isLoggedIn: false });
+  } else {
+    await db.collection("users").updateMany(
+      { _id: new ObjectId(req.body.userId) },
+      {
+        $set: {
+          username: req.body.userUsername,
+          age: req.body.userAge,
+          location: req.body.userLocation,
+          "name.firstName": req.body.userFirstName,
+          "name.lastName": req.body.userLastName,
+        },
+      }
+    );
+    decodedUser.username = req.body.userUsername;
+    res.clearCookie("token");
+    return res.redirect("/login");
   }
 });
 
