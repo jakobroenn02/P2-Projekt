@@ -173,7 +173,8 @@ router.post("/interests", async (req, res) => {
 router.delete("/interests", (req, res) => {});
 
 router.get("/events/:eventId", (req, res) => {
-  let eventId = req.params.eventId;
+  let eventId = new ObjectId(req.params.eventId);
+  console.log(`eventId: ${eventId}`);
   let decodedUser;
 
   if (req.cookies.token != null) {

@@ -1,4 +1,45 @@
-<%- include("./partials/header.ejs") %>
-<% if (!isLoggedIn) {%>
-    <a href="/login">Log in please</a>
+<%- include("./partials/header.ejs") %> <% if (!isLoggedIn) {%>
+<a href="/login">Log in please</a>
 <% } else { %>
+<div class="eventInfo-page">
+  <div class="eventInfo-container">
+    <div class="eventInfo-div">
+      <div class="eventInfo-left">
+        <div class="event2-title">
+          <h1><%= event.eventName %></h1>
+        </div>
+        <div class="eventInfo-date">
+          <%= event.date.day < 10 ? "0": ""%><%=event.date.day%>/<%=
+          event.date.month < 10 ? "0": ""%><%=event.date.month%>/<%=
+          event.date.year%> <%= event.date.hour < 10 ? "0":
+          ""%><%=event.date.hour%>:<%= event.date.minute < 10 ? "0":
+          ""%><%=event.date.minute%>
+        </div>
+        <div class="eventInfo-description">
+          <p id="event-text"><%=event.description%></p>
+        </div>
+      
+
+      <div class="eventInfo-address">
+        <%= event.location.name%> | <%= event.location.address %>
+      </div>
+      <div class="event-leave-button">
+        <button class="leave-event-button" id="<%=event._id%>">Leave event</button>
+      </div>
+    </div>
+    <div class="eventInfo-right">
+      <div class="eventInfo-attendees">
+        <h2>Attendees</h2>
+        <div class="attendees-list">
+          <% event.participantsIds.forEach((participant) => { %>
+          <p> test</p>
+          <% }) %>
+        </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
+
+<% }%>

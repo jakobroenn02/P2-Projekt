@@ -56,3 +56,38 @@
     font-size: 12px;
     color: rgb(98, 98, 98);
 }
+
+.eventInfo-left{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 50%;
+  padding: 20px;
+  margin: 20px;
+  font-size: 20px;
+  color: black;
+  border-style: small #000;
+  border-width: 2px;
+}
+
+.event2-title {
+  
+  margin: 0px;
+  font-size: 20px;
+  color: black;
+}
+.eventInfo-description{
+  margin-bottom: 6px;  
+  outline: medium;
+  outline-color: rgb(0, 0, 0);
+  outline-width: 2px;
+}
+#event-text{
+  margin-bottom: 6px;
+  color: black;
+  font-size: 20px;
+  font-weight: bold;
+}
+.event-leave-button{
+  margin-top: 20px;
+}
