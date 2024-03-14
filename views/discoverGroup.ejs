@@ -8,7 +8,7 @@
       <%= group.groupMemberAmount %> / <%= group.maxMembers%> Members
     </div>
     <div class="find-group-description"><%= group.description %></div>
-    <form class="find-group-join-form">
+    <form method="post" action="/discover/<%= group._id %>/join" class="find-group-join-form" >
       <button class="find-group-join-button" type="submit">Join group</button>
     </form>
   </div>
@@ -58,7 +58,6 @@
           <div class="find-group-info-list-item-name">Female</div>
           <div class="find-group-info-list-item-amount">2</div>
         </div>
-       
       </div>
     </div>
   </div>
