@@ -98,8 +98,8 @@ router.get("/interests", (req, res) => {
 
 router.get("/discover", async (req, res) => {
   let decodedUser;
-  let groups = []
   let allgroups = [];
+  let allhobby = []
 
   if (req.cookies.token != null) {
     decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
@@ -114,7 +114,6 @@ router.get("/discover", async (req, res) => {
       .forEach((group) => {
         allgroups.push(group);
       });
-
       res.render("discover", { isLoggedIn: true, user: decodedUser, allgroups});
   }
 })
