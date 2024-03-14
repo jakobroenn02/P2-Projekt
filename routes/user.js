@@ -14,7 +14,6 @@ connectToDb((err) => {
 });
 
 //routes
-
 router.get("/", (req, res) => {
   if (req.cookies.token != null) {
     decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
@@ -35,14 +34,17 @@ router.delete("/delete-profile", (req, res) => {
 
   if (decodedUser == null) {
     res.status(401).send("Not authorized");
-  }
-  else {
-    db.collection("users").deleteOne({ username: decodedUser.username })
-    .then(() => {
-      res.clearCookie("token");
-      res.status(200).send("Profile deleted");
-    })
-  .catch((err) => { console.error(err); res.status(500).send("Error deleting profile"); });
+  } else {
+    db.collection("users")
+      .deleteOne({ username: decodedUser.username })
+      .then(() => {
+        res.clearCookie("token");
+        res.status(200).send("Profile deleted");
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send("Error deleting profile");
+      });
   }
 });
 
@@ -105,6 +107,82 @@ router.get("/groups", (req, res) => {
       });
   }
 });
+
+router.get("/groups/:id", async (req, res) => {
+  let decodedUser;
+  let groupUsers = [];
+  let userIds = [];
+
+  if (req.cookies.token != null) {
+    decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
+  }
+
+  if (decodedUser == null) {
+    res.render("group", { isLoggedIn: false });
+  } else {
+    const group = await db
+      .collection("groups")
+      .findOne({ _id: new ObjectId(req.params.id) });
+
+    if (group.hasOwnProperty("userIds")) {
+      userIds = group.userIds.map((userId) => new ObjectId(userId));
+    }
+
+    groupUsers = await db
+      .collection("users")
+      .find({ _id: { $in: userIds } })
+      .toArray();
+
+    const loggedInUserInGroup = groupUsers.filter((user) => {
+      return user.username == decodedUser.username;
+    });
+
+    if (loggedInUserInGroup.length >= 1) {
+      res.render("group", {
+        hasAccess: true,
+        isLoggedIn: true,
+        groupUsers,
+        group,
+        user: decodedUser,
+      });
+    } else {
+      res.render("group", { hasAccess: false, isLoggedIn: true });
+    }
+  }
+});
+
+router.post("/groups/:id", async (req, res) => {
+  let decodedUser;
+
+  if (req.cookies.token != null) {
+    decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
+  }
+
+  if (decodedUser == null) {
+    res.render("group", { isLoggedIn: false });
+  } else {
+    await db.collection("groups").updateOne(
+      { _id: new ObjectId(req.params.id) },
+      {
+        $push: {
+          messages: {
+            messageText: req.body.messageText,
+            authorName: req.body.authorName,
+            authorId: new ObjectId(req.body.authorId),
+            createdAt: {
+              year: req.body.createdAt.year,
+              month: req.body.createdAt.month,
+              day: req.body.createdAt.day,
+              hour: req.body.createdAt.hour,
+              minute: req.body.createdAt.minute,
+            },
+          },
+        },
+      }
+    );
+  }
+});
+
 router.get("/interests", async (req, res) => {
   let decodedUser;
   let allInterests = [];
