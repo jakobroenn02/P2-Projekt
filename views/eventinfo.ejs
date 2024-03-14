@@ -24,16 +24,25 @@
         <%= event.location.name%> | <%= event.location.address %>
       </div>
       <div class="event-leave-button">
-        <button class="leave-event-button" id="<%=event._id%>">Leave event</button>
+       <form id="leave-event-id">
+        <button class="button-leave" type="submit">Leave event</button>
+       </form>
+
       </div>
     </div>
     <div class="eventInfo-right">
       <div class="eventInfo-attendees">
         <h2>Attendees</h2>
         <div class="attendees-list">
+          <%console.log(participantsIds);%>
+          <% if (event.participantsIds) { %>
           <% event.participantsIds.forEach((participant) => { %>
-          <p> test</p>
+           <p> test</p>
           <% }) %>
+          <% } else { %>
+          <p>No attendees yet</p>
+          <% } %>
+
         </div>
         </div>
       </div>
@@ -41,5 +50,5 @@
     </div>
   </div>
 </div>
-
+<script src="/js/eventinfo.js"></script>
 <% }%>

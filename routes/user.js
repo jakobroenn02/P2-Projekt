@@ -198,4 +198,25 @@ router.get("/events/:eventId", (req, res) => {
       });
   }
 });
+
+router.delete("/delete-event", (req, res) => {
+  let decodedUser;
+  if (req.cookies.token != null) {
+    decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
+  }
+
+  if (decodedUser == null) {
+    res.status(401).send("Not authorized");
+  } else {
+    db.collection("users")
+      .deleteOne({ participantIds: decodedUser.participantIds.$ })
+      .then(() => {
+        res.status(200).send("Event left");
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send("Error while leaving event!");
+      });
+  }
+});
 module.exports = router;
