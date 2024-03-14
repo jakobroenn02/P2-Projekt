@@ -74,6 +74,7 @@ router.get("/groups", (req, res) => {
       });
   }
 });
+
 router.get("/interests", (req, res) => {
   let decodedUser;
 
@@ -95,8 +96,10 @@ router.get("/interests", (req, res) => {
 
 
 
-router.get("/discover", (req, res) => {
+router.get("/discover", async (req, res) => {
   let decodedUser;
+  let groups = []
+  let allgroups = [];
 
   if (req.cookies.token != null) {
     decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
@@ -105,11 +108,14 @@ router.get("/discover", (req, res) => {
   if (decodedUser == null) {
     res.render("discover", { isLoggedIn: false });
   } else {
-    db.collection("users")
-  .findOne({ username: decodedUser.username })
-  .then((user) => {
-    res.render("discover", { isLoggedIn: true, user });
-  });
+    await db
+      .collection("groups")
+      .find()
+      .forEach((group) => {
+        allgroups.push(group);
+      });
+
+      res.render("discover", { isLoggedIn: true, user: decodedUser, allgroups});
   }
 })
 
