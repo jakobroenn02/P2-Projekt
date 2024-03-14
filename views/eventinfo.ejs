@@ -9,11 +9,13 @@
           <h1><%= event.eventName %></h1>
         </div>
         <div class="eventInfo-date">
-          <%= event.date.day < 10 ? "0": ""%><%=event.date.day%>/<%=
-          event.date.month < 10 ? "0": ""%><%=event.date.month%>/<%=
-          event.date.year%> <%= event.date.hour < 10 ? "0":
+          This event takes place at: 
+          <%= event.date.hour < 10 ? "0":
           ""%><%=event.date.hour%>:<%= event.date.minute < 10 ? "0":
           ""%><%=event.date.minute%>
+          <%= event.date.day < 10 ? "0": ""%><%=event.date.day%>/<%=
+          event.date.month < 10 ? "0": ""%><%=event.date.month%>/<%=
+          event.date.year%> 
         </div>
         <div class="eventInfo-description">
           <p id="event-text"><%=event.description%></p>
@@ -34,10 +36,10 @@
       <div class="eventInfo-attendees">
         <h2>Attendees</h2>
         <div class="attendees-list">
-          <%console.log(participantsIds);%>
-          <% if (event.participantsIds) { %>
-          <% event.participantsIds.forEach((participant) => { %>
-           <p> test</p>
+          <%console.log(event.participantIds);%>
+          <% if (event.participantIds && event.participantIds.length > 0) { %>
+          <% event.participantIds.forEach((participant) => { %>
+           <p><%= participant %></p> 
           <% }) %>
           <% } else { %>
           <p>No attendees yet</p>

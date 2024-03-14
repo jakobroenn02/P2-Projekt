@@ -185,15 +185,21 @@ router.get("/events/:eventId", (req, res) => {
     res.render("eventinfo", { isLoggedIn: false });
   } else {
     db.collection("events")
-      .findOne({ _id: eventId })
+      .findOne({ _id: new ObjectId(req.params.eventId) })
       .then((event) => {
-        db.collection("events")
-          .find({
-            participantIds: decodedUser._id,
-          })
+        db.collection("users")
+          .find({ _id: { $in: event.participantIds.map(id => new ObjectId(id)) } })
           .toArray()
-          .then((events) => {
-            res.render("eventinfo", { isLoggedIn: true, event, events });
+          .then((users) => {
+            event.participantIds = users.map(user => user.username);
+            db.collection("events")
+              .find({
+                participantIds: decodedUser._id,
+              })
+              .toArray()
+              .then((events) => {
+                res.render("eventinfo", { isLoggedIn: true, event, events });
+              });
           });
       });
   }
