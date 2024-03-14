@@ -1,0 +1,4 @@
+<%- include("./partials/header.ejs") %>
+<% if (!isLoggedIn) {%>
+    <a href="/login">Log in please</a>
+<% } else { %>

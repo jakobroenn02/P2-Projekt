@@ -35,14 +35,17 @@ router.delete("/delete-profile", (req, res) => {
 
   if (decodedUser == null) {
     res.status(401).send("Not authorized");
-  }
-  else {
-    db.collection("users").deleteOne({ username: decodedUser.username })
-    .then(() => {
-      res.clearCookie("token");
-      res.status(200).send("Profile deleted");
-    })
-  .catch((err) => { console.error(err); res.status(500).send("Error deleting profile"); });
+  } else {
+    db.collection("users")
+      .deleteOne({ username: decodedUser.username })
+      .then(() => {
+        res.clearCookie("token");
+        res.status(200).send("Profile deleted");
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send("Error deleting profile");
+      });
   }
 });
 
@@ -169,4 +172,29 @@ router.post("/interests", async (req, res) => {
 
 router.delete("/interests", (req, res) => {});
 
+router.get("/events/:eventId", (req, res) => {
+  let eventId = req.params.eventId;
+  let decodedUser;
+
+  if (req.cookies.token != null) {
+    decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
+  }
+
+  if (decodedUser == null) {
+    res.render("eventinfo", { isLoggedIn: false });
+  } else {
+    db.collection("events")
+      .findOne({ _id: eventId })
+      .then((event) => {
+        db.collection("events")
+          .find({
+            participantIds: decodedUser._id,
+          })
+          .toArray()
+          .then((events) => {
+            res.render("eventinfo", { isLoggedIn: true, event, events });
+          });
+      });
+  }
+});
 module.exports = router;
