@@ -26,7 +26,8 @@
         <%= event.location.name%> | <%= event.location.address %>
       </div>
       <div class="event-leave-button">
-       <form id="leave-event-id">
+       <form id="leave-event-id" action="/user/leave-event" method="post">
+        <input type="hidden" name="eventId" value="<%= event._id %>">
         <button class="button-leave" type="submit">Leave event</button>
        </form>
 
@@ -52,5 +53,5 @@
     </div>
   </div>
 </div>
-<script src="/js/eventinfo.js"></script>
+<script src="/js/eventsinfo.js"></script>
 <% }%>

@@ -205,7 +205,7 @@ router.get("/events/:eventId", (req, res) => {
   }
 });
 
-router.delete("/delete-event", (req, res) => {
+router.delete("/leave-event", (req, res) => {
   let decodedUser;
   if (req.cookies.token != null) {
     decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
@@ -214,10 +214,25 @@ router.delete("/delete-event", (req, res) => {
   if (decodedUser == null) {
     res.status(401).send("Not authorized");
   } else {
-    db.collection("users")
-      .deleteOne({ participantIds: decodedUser.participantIds.$ })
+    const eventID = new ObjectId(req.body.eventId);
+    const userId = new ObjectId(decodedUser._id);
+    db.collection("events")
+      .updateOne(
+        { _id: eventID },
+        {
+          $pull: { participantIds: userId },
+        }
+      )
       .then(() => {
-        res.status(200).send("Event left");
+        db.collection("users")
+        .updateOne({ _id: userId }, {
+          $pull: { eventIds: eventID }})
+        .then(() => {
+          res.status(200).send("Event left");
+        })
+        .then(() => {
+          res.status(200).send("Event left");
+        })
       })
       .catch((err) => {
         console.error(err);
