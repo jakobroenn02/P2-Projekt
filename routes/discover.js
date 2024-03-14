@@ -14,6 +14,11 @@ connectToDb((err) => {
 
 router.get("/:id", async (req, res) => {
   let decodedUser;
+  let groupUsers = [];
+
+  let participantsLocations = [];
+  let participantsAges = [];
+  let participantsGenders = [];
 
   if (req.cookies.token != null) {
     decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
@@ -28,7 +33,20 @@ router.get("/:id", async (req, res) => {
 
     const groupMemberAmount = group.userIds.length;
     group.groupMemberAmount = groupMemberAmount;
-    res.render("discoverGroup", { isLoggedIn: true, group });
+
+    
+    await db.collection("users")
+      .find({ _id: { $in: group.userIds } })
+      .forEach((user) => {
+        groupUsers.push(user);
+      });
+    console.log(groupUsers);
+
+    res.render("discoverGroup", {
+      isLoggedIn: true,
+      group,
+      participantsLocations,
+    });
   }
 });
 
