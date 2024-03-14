@@ -20,7 +20,7 @@ router.get("/:id", async (req, res) => {
   }
 
   if (decodedUser == null) {
-    return res.render("findGroup", { isLoggedIn: false });
+    return res.render("discoverGroup", { isLoggedIn: false });
   } else {
     const group = await db
       .collection("groups")
@@ -28,7 +28,7 @@ router.get("/:id", async (req, res) => {
 
     const groupMemberAmount = group.userIds.length
     group.groupMemberAmount = groupMemberAmount
-    res.render("findGroup", { isLoggedIn: true, group});
+    res.render("discoverGroup", { isLoggedIn: true, group});
   }
 });
 

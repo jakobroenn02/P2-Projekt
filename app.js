@@ -26,8 +26,8 @@ app.use("/login", loginRouter);
 const registerRouter = require("./routes/register");
 app.use("/register", registerRouter);
 
-const findGroupsRouter = require("./routes/findGroups");
-app.use("/findGroups", findGroupsRouter);
+const discoverRouter = require("./routes/discover");
+app.use("/discover", discoverRouter);
 
 
 // Route for errors
