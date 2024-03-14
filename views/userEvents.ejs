@@ -1,6 +1,6 @@
 <%- include("./partials/header.ejs") %>
 <% if (!isLoggedIn) {%>
-    <a href="/login">Log in please</a>
+  <%- include("./partials/signinRedirect.ejs")%>
 <% } else { %>
 <div class="userEvents">
   <h1 class="events-title">Your events</h1>

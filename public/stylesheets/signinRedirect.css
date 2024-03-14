@@ -1,0 +1,54 @@
+.redirect-container {
+    width: 100%;
+    height: calc(100vh - 88px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.redirect-popup {
+    background-color: rgb(210, 210, 210);
+    text-align: center;
+    width: 450px;
+    flex-direction: column;
+    height: 300px;
+    position: relative;
+    border-radius: 15px;
+    box-shadow: 10px 10px rgba(0, 0, 0, 0.3)
+}
+
+.redirect-icon-container {
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    height: 100px;
+    font-size: 75px;
+    color: rgb(100, 100, 100);
+}
+
+.redirect-title-container {
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    height: 80px;
+    font-size: 20px;
+    color: rgb(100, 100, 100);
+}
+
+.redirect-anchor-container {
+    height: 80px;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: end;
+    font-size: 18px;
+}
+
+.redirect-anchor:hover {
+    text-decoration: underline;
+    color:blueviolet;
+}
+
+.redirect-access-text {
+    font-weight: bold;
+}
