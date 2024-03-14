@@ -1,6 +1,6 @@
 <!--TODO Tilføj endpoints til leave ikon-->
 <%- include("./partials/header.ejs") %> <% if (!isLoggedIn) {%>
-<a href="/login">Log in please</a>
+  <%- include("./partials/signinRedirect.ejs")%>
 <% } else { %>
 <h1 class="groups-title">Your groups</h1>
 
