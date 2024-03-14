@@ -1,9 +1,14 @@
+.profile-welcome-title{
+  font-size: xx-large;
+  text-align: center;
+  font-style: oblique;
+  margin: 5px 0 10px 0;
+}
 .user-page-upper {
   display: flex;
   gap: 24px;
   padding: 0 8px 0 8px;
 }
-
 
 .profile-picture {
   width: 350px;
@@ -45,50 +50,30 @@
   padding: 3px;
 }
 
-.submit-bio-button {
-  width: 100%;
-  background-color: green;
-  color: white;
-  padding: 3px;
-  border: none;
-}
-
-.submit-bio-button:hover {
-  opacity: 0.8;
-}
 
 .profile-bio-title {
   font-size: large;
   margin-bottom: 3px;
 }
 
-.profile-interests-all{
-  display: flex;
-  flex-direction: column;
-  padding: 5px 5px;
-  flex: 1;
-
-}
-
 .profile-information-form {
   border-radius: 10px;
-  flex: 2;
+  flex: 1;
   border: 2px solid black;
   padding: 10px 10px;
   background-color: rgb(233, 233, 233);
 }
 
-.profile-information-columns {
+.profile-information-rows {
   display: flex;
-  gap: 12px;
+  flex-direction: column;
 }
 
-.profile-information-column {
+.profile-information-row {
   display: inline-block;
-  flex-direction: column;
+  flex-direction: column; 
   border: 2px solid black;
   padding: 10px 10px;
-  flex: 1;
 }
 
 .profile-information-title {
@@ -98,35 +83,27 @@
   margin-bottom: 5px;
   font-size: large;
 }
-
+.profile-information-password-title{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: large;
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
 .profile-information-input{
   width: 100%;
-  padding: 12px 20px;
-  margin: 8px 0;
+  padding: 12px 15px;
+  margin: 3px 0;
   border: 1px solid #ccc;
   box-sizing: border-box;
   border-radius: 10px;
   font-size: 14px;
+  position: relative;
 }
-
 
 .profile-information-input::placeholder {
  color: black;
-}
-
-.submit-information-button {
-  width: 100%;
-  background-color: green;
-  color: white;
-  padding: 3px;
-  border: none;
-  margin-top: 5px;
-  height: 35px;
-  cursor: pointer;
-}
-
-.submit-information-button:hover {
-  opacity: 0.8;
 }
 
 .profile-information-content-item-icon-container {
@@ -137,27 +114,79 @@
   position: absolute;
   right: 0px;
 }
+.profile-information-input-attachment{
+  width: 100%;
+  padding: 12px 15px;
+  margin: 3px 0;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  border-radius: 10px;
+  font-size: 14px;
+  position: absolute;
+}
+.profile-interests-all{
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  padding: 5px 5px;
+  flex: 1;
+  border: 2px solid black;
+  border-radius: 10px;
+  background-color: rgb(233, 233, 233);
+  position: relative;
+}
 
+.profile-interests-container-title{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 5px;
+  font-size: large;
+}
+
+
+
+.profile-interests-container{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.profile-interests{
+  display: flex;
+  gap: 5px;
+  padding: 5px 5px;
+  border: 2px solid black;
+  border-radius: 10px;
+  background-color: rgb(233, 233, 233);
+  width: fit-content;
+
+}
+
+.profile-change-interests-button {
+  width: 100%;
+  background-color: green;
+  color: white;
+  border: none;
+  height: 35px;
+  cursor: pointer;
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  border-radius: 0 0 7px 7px;
+}
+
+.profile-change-interests-button:hover {
+  opacity: 0.8;
+}
+.profile-change-interests-button a{
+  text-decoration: none;
+  color: white;
+}
 .profile-edit-icon {
   padding: 20px;
   color: black;
   text-align: center;
-}
-
-.change-picture-button {
-  width: 50%;
-  display: flex;
-  background-color: green;
-  color: white;
-  justify-content: center;
-  align-items: center;
-  padding: 3px;
-  border: none;
-  margin-top: 20px;
-  margin-left: 70px;
-}
-.change-picture-button:hover {
-  opacity: 0.8;
 }
 
 .close-mark {

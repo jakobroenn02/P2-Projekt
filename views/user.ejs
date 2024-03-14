@@ -17,42 +17,45 @@
         </div>
         <form class="profile-information-form" action="/user" method="patch">
           <div class="profile-information-title">Your Information</div>
-          <div class="profile-information-columns">
-            <div class="profile-information-column">
+          <div class="profile-information-rows">
+            <div class="profile-information-row">
               <div class="profile-information-content-item-icon-container">
-                <div class="profile-information-content-item-title">Change First Name</div>
+                <div class="profile-information-content-item-title"> First Name</div>
                 <span class="firstname-toggle-icon"><i class="fas fa-edit profile-edit-icon"></i></span>
-                <div class="profile-information-input" id="newFirstName"><%= user.name.firstName  %></div>
+                <div class="profile-information-input" id="newFirstName"><%= user.name.firstName %>
+                </div>
+                
               </div>
               <div class="profile-information-content-item-icon-container">
-                <div class="profile-information-content-item-title">Change Last Name</div>
+                <div class="profile-information-content-item-title"> Last Name</div>
                 <span class="lastname-toggle-icon"><i class="fas fa-edit profile-edit-icon"></i></span>
-                <div class="profile-information-input" id="newLastName"><%= user.name.lastName  %></div>
+                <div class="profile-information-input" id="newLastName"> <%= user.name.lastName %></div>
               </div>
               <div class="profile-information-content-item-icon-container">
-                <div class="profile-information-content-item-title">Change Username</div>
+                <div class="profile-information-content-item-title"> Username</div>
                 <span class="username-toggle-icon"><i class="fas fa-edit profile-edit-icon"></i></span>
                 <div class="profile-information-input" id="newUsername"><%= user.username  %></div>
               </div>
               <div class="profile-information-content-item-icon-container">
-                <div class="profile-information-content-item-title">Change Email</div>
+                <div class="profile-information-content-item-title"> Email</div>
                 <span class="email-toggle-icon"><i class="fas fa-edit profile-edit-icon"></i></span>
                 <div class="profile-information-input" id="newEmail"><%= user.email  %></div>
               </div>
               <div class="profile-information-content-item-icon-container">
-                <div class="profile-information-content-item-title">Change Age</div>
+                <div class="profile-information-content-item-title"> Age</div>
                 <span class="age-toggle-icon"><i class="fas fa-edit profile-edit-icon"></i></span>
                 <div class="profile-information-input" id="newAge"><%= user.age  %></div>
               </div>
               <div class="profile-information-content-item-icon-container">
-                <div class="profile-information-content-item-title">Change Location</div>
+                <div class="profile-information-content-item-title"> Location</div>
                 <span class="location-toggle-icon"><i class="fas fa-edit profile-edit-icon"></i></span>
                 <div class="profile-information-input" id="newLocation"><%= user.location  %></div>
               </div>
             </div>
-            <div class="profile-information-column">
+            <div class="profile-information-password-title">Change Your Password</div>
+            <div class="profile-information-row">
               <div class="profile-information-content-item-icon-container">
-                <div class="profile-information-content-item-title">Change Password</div>
+                <div class="profile-information-content-item-title">New Password</div>
                 <span class="password-toggle-icon"><i class="fas fa-edit profile-edit-icon"></i></span>
                 <div class="profile-information-input" id="newPassword"></div>
               </div>
@@ -63,12 +66,9 @@
               </div>
             </div>
           </div>
-
-          <button type="submit" value="submit" class="submit-information-button">Submit</button>
         </form>
         <div class="profile-interests-all">
-          <div class="profile-interests-container-title"><a class="change-interests-anchor" href="/user/interests">Your
-              Interests</a></div>
+          <div class="profile-interests-container-title">Your Interests</div>
           <div class="profile-interests-container">
             <% for(let i=0; i<user.interests.length; i++) {%>
               <div class="profile-interests">
@@ -76,6 +76,9 @@
               </div>
               <%}%>
           </div>
+          <a href="/user/interests">
+          <button class="profile-change-interests-button">Change Interests</button>
+        </a>
         </div>
       </div>
 
