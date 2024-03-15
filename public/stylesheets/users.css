@@ -249,12 +249,11 @@
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
-  padding: 5px 5px;
   flex: 1;
   border: 2px solid black;
   border-radius: 10px;
   background-color: rgb(233, 233, 233);
-  position: relative;
+  height: fit-content;
 }
 
 .profile-interests-container-title {
@@ -269,6 +268,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+  padding: 5px 5px;
 }
 
 .profile-interests {
@@ -288,10 +288,11 @@
   border: none;
   height: 35px;
   cursor: pointer;
-  position: absolute;
-  bottom: 0px;
-  left: 0px;
+  display: flex;
+  justify-content: center;
   border-radius: 0 0 7px 7px;
+  align-items: center;
+  transition: all 0.15s;
 }
 
 .profile-change-interests-button:hover {
