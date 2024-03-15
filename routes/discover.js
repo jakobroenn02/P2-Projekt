@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { ObjectId, ReturnDocument } = require("mongodb");
+const { ObjectId, ReturnDocument, Decimal128 } = require("mongodb");
 const { connectToDb, getDb } = require("../db");
 const jwt = require("jsonwebtoken");
 
@@ -11,6 +11,40 @@ connectToDb((err) => {
     db = getDb();
   }
 });
+
+router.get("/", async (req, res) => {
+  let decodedUser;
+  let groupSeparationList = [];
+
+  if (req.cookies.token != null) {
+    decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
+  }
+
+  if (decodedUser == null) {
+    return res.render("index", { isLoggedIn: false });
+  } else {
+    const user = await db.collection("users").findOne({ username: decodedUser.username });
+
+    for await (interest of user.interests) {
+      let groupSeparation = { interest: interest, groups: [] }
+      await db.collection("groups").find({ interest: interest }).forEach(group => {
+        groupSeparation.groups.push(group)
+      }).then(() => {
+        console.log(1)
+        groupSeparationList.push(groupSeparation)
+      })
+    }
+
+    console.log(groupSeparationList)
+
+
+
+
+
+    res.render("discover", { isLoggedIn: true, groupSeparationList })
+  }
+})
+
 
 router.get("/:id", async (req, res) => {
   let decodedUser;
@@ -34,7 +68,7 @@ router.get("/:id", async (req, res) => {
     const groupMemberAmount = group.userIds.length;
     group.groupMemberAmount = groupMemberAmount;
 
-    
+
     await db.collection("users")
       .find({ _id: { $in: group.userIds } })
       .forEach((user) => {

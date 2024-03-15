@@ -13,24 +13,6 @@ connectToDb((err) => {
 });
 
 //routes
-router.get("/", async (req, res) => {
-  let decodedUser
-
-  if (req.cookies.token != null) {
-    decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
-  }
-
-  if (decodedUser == null) {
-    return res.render("index", { isLoggedIn: false });
-  } else {
-    await db
-    .collection("groups")
-    .find({})
-    forEach(group => {
-      allgroups.push(group);
-    });
-  }
-})
 
 
 module.exports = router;
