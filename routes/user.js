@@ -220,7 +220,7 @@ router.delete("/leave-event", (req, res) => {
       .updateOne(
         { _id: eventID },
         {
-          $pull: { participantIds: userId },
+          $pull: { participantIds: userId.toString() },
         }
       )
       .then(() => {
@@ -230,14 +230,12 @@ router.delete("/leave-event", (req, res) => {
         .then(() => {
           res.status(200).send("Event left");
         })
-        .then(() => {
-          res.status(200).send("Event left");
-        })
-      })
       .catch((err) => {
         console.error(err);
         res.status(500).send("Error while leaving event!");
       });
-  }
+    });
+  };
 });
+
 module.exports = router;

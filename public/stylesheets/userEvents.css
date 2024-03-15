@@ -109,3 +109,20 @@
   border-style: small #000;
   border-width: 2px;
 }
+.list-of-attendees{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+  margin: 20px;
+  font-size: 20px;
+  color: black;
+  outline: #000 medium dashed;
+  list-style-type: circle;
+}
+.attendee{
+  margin-bottom: 20px;
+  color: black;
+  font-size: 25px;
+  font-weight: lighter;
+}

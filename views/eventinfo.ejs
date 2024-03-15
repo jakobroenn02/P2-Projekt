@@ -37,11 +37,13 @@
       <div class="eventInfo-attendees">
         <h2>Attendees</h2>
         <div class="attendees-list">
+          <li class="list-of-attendees">s
           <%console.log(event.participantIds);%>
           <% if (event.participantIds && event.participantIds.length > 0) { %>
           <% event.participantIds.forEach((participant) => { %>
-           <p><%= participant %></p> 
+          <ul class="attendee"> <%= participant %> </ul>
           <% }) %>
+        </li>
           <% } else { %>
           <p>No attendees yet</p>
           <% } %>
