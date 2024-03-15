@@ -1,48 +1,72 @@
 .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 64px;   
-    padding: 12px;
-    background-color: rgb(56, 54, 54);
-    position: fixed;
-    top: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 88px;
+  background-color: rgb(56, 54, 54);
+  position: fixed;
+  top: 0;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   right: 0;
-    left: 0;
+  left: 0;
 }
 
 .header-left {
-    display: flex;
-    gap: 12px;
-    margin-left: 16px;
-    display: flex;
-    color: white;
-    align-items: center;
+  display: flex;
+  gap: 12px;
+  margin-left: 16px;
+  display: flex;
+  color: white;
+  align-items: center;
 }
 
 .header-left a {
-    color: white;
-    text-decoration: none;
+  color: white;
+  text-decoration: none;
 }
 
 .header-logo {
-    margin-right: 16px;
-    font-size: 20px;
-    font-weight: 600;
+  margin-right: 16px;
+  font-size: 20px;
+  font-weight: 600;
 }
 
 .header-right {
-    margin-right: 16px;
-    color: white;
-    font-size: 20px;
-    display: flex;
-    gap: 32px;
-    align-items: center;
+  margin-right: 16px;
+  color: white;
+  font-size: 20px;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  position: relative;
 }
 
 .header-profile {
-    height: 48px;
-    width: 48px;
-    background-color: black;
+  height: 48px;
+  width: 48px;
+  background-color: black;
 }
+
+.header-settings-dropdown {
+  padding: 16px;
+  background-color: white;
+  position: absolute;
+  top: -20px;
+  z-index: 500;
+  right: 30px;
+  border-radius: 6px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.header-settings-icon {
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.header-settings-icon:hover {
+  background-color: rgb(85, 85, 85);
+}
+

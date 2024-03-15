@@ -15,6 +15,37 @@ connectToDb((err) => {
 
 //routes
 
+router.get("/", (req, res) => {
+  if (req.cookies.token != null) {
+    decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
+  }
+
+  if (decodedUser == null) {
+    res.render("user", { isLoggedIn: false });
+  } else {
+    res.render("user", { isLoggedIn: true });
+  }
+});
+
+router.delete("/delete-profile", (req, res) => {
+  let decodedUser;
+  if (req.cookies.token != null) {
+    decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
+  }
+
+  if (decodedUser == null) {
+    res.status(401).send("Not authorized");
+  }
+  else {
+    db.collection("users").deleteOne({ username: decodedUser.username })
+    .then(() => {
+      res.clearCookie("token");
+      res.status(200).send("Profile deleted");
+    })
+  .catch((err) => { console.error(err); res.status(500).send("Error deleting profile"); });
+  }
+});
+
 router.get("/events", (req, res) => {
   let decodedUser;
   let events = [];
@@ -75,56 +106,67 @@ router.get("/groups", (req, res) => {
   }
 });
 
-router.get("/interests", (req, res) => {
-  let decodedUser;
 
+router.get("/interests", async (req, res) => {
+  let decodedUser;
+  let allInterests = [];
   if (req.cookies.token != null) {
     decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
   }
 
   if (decodedUser == null) {
-    res.render("groups", { isLoggedIn: false });
+    res.render("interests", { isLoggedIn: false });
   } else {
-    db.collection("users")
-      .findOne({ username: decodedUser.username })
-      .then((user) => {
-        res.render("interests", { isLoggedIn: true, user });
+    await db
+      .collection("interests")
+      .find()
+      .forEach((interest) => {
+        allInterests.push(interest);
       });
+
+    let user = await db
+      .collection("users")
+      .findOne({ username: decodedUser.username });
+
+    res.render("interests", { isLoggedIn: true, allInterests, user });
   }
 });
 
-
-
-
-router.get("/discover", async (req, res) => {
+router.post("/interests", async (req, res) => {
   let decodedUser;
-  let allgroups = [];
-  let allhobby = [];
-  let hobby = [];
+  const selectedInterests = Object.values(req.body);
+  let allInterests = [];
 
   if (req.cookies.token != null) {
     decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
   }
-
-  if (decodedUser == null) {
-    res.render("discover", { isLoggedIn: false });
-  } else {
+  if (decodedUser != null) {
     await db
-      .collection("groups")
+      .collection("interests")
       .find()
-      .forEach((group) => {
-        allgroups.push(group);
+      .forEach((interest) => {
+        allInterests.push(interest);
       });
-    //{await db
-      //.collection("interests")
-      //.find()
-      //.forEach((hobby) =>{
-      //  allhobby.push(hobby)
-      //})
-      //console.log(allhobby);}
-      // tror ikke det her virker :(
-      res.render("discover", { isLoggedIn: true, user: decodedUser, allgroups});
+
+    let user = await db
+      .collection("users")
+      .findOne({ username: decodedUser.username });
+
+    db.collection("users").updateOne(
+      { username: decodedUser.username },
+      {
+        $set: {
+          interests: selectedInterests,
+        },
+      }
+    );
+
+    user = await db
+      .collection("users")
+      .findOne({ username: decodedUser.username });
+
+    res.redirect("/user/interests");
   }
-})
+});
 
 module.exports = router;

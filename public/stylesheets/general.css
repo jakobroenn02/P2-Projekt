@@ -1,6 +1,7 @@
 body{
     font-family: sans-serif;
     margin: 88px 0 0 0;
+    position: relative;
 }
 
 a {
