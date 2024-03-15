@@ -105,6 +105,8 @@ router.get("/groups", (req, res) => {
       });
   }
 });
+
+
 router.get("/interests", async (req, res) => {
   let decodedUser;
   let allInterests = [];
@@ -166,7 +168,5 @@ router.post("/interests", async (req, res) => {
     res.redirect("/user/interests");
   }
 });
-
-router.delete("/interests", (req, res) => {});
 
 module.exports = router;
