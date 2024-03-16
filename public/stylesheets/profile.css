@@ -1,0 +1,136 @@
+/* General stuff */
+
+.profile-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr; 
+    border-top: 5px solid black
+}
+
+.profileSides-container {
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    margin: 5%;
+}
+
+.profileLeftContent {
+    display: flex; 
+    flex-direction: column; 
+    padding: 10px; 
+    margin-top; 100px;
+    width: 100%;
+
+}
+.profileRightContent {
+    display: flex; 
+    flex-direction: column; 
+    padding: 10px; 
+    margin-top; 100px;
+    border: 1px solid black;
+}
+
+.profileName {
+    margin: 0; 
+    padding: 10px; 
+    padding-left: 2%;
+    padding-top: 1%;
+    font-size: xxx-large;
+    background-color: #ccc;
+}
+
+.inner-div {
+    margin: 5px; 
+    margin-top: auto;
+    border: 1px solid black;
+    padding-left: 5%;
+    padding-bottom: 4%;
+}
+
+.profileAvatar {
+    margin: 5px;
+    margin-top: auto;
+    padding-left: 5%;
+    padding-bottom: 4%;
+}
+
+.profileAvatar img {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    border: 4px solid black;
+}
+
+
+/* interests */
+
+.profileInterest-container {
+    display: flex;
+    border: 2px solid black;
+    border-radius: 5px;
+}
+
+.profileInterestsTitle {
+    width: 100px; 
+    padding: 10px;
+    font-size: x-large;
+}
+
+.profileInterestsList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 1%;
+  }
+
+.profileInterestBox-container {
+    flex: 1;
+    margin: 200px;
+    border-radius: 5px;
+}
+
+.ProfileInterestBox {
+    margin: ; 
+    margin-top: auto;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: #ccc;
+    padding: 0.4%;
+}
+
+/* Bio */
+
+.profileBioDescription {
+    height: 150px;
+    padding: 10px;
+    background-color: #ccc;
+    border: 2px solid black;
+    border-radius: 10px;
+
+}
+
+.bioTitle {
+    margin-top: auto;
+    margin-left: 1%;
+    padding-top: 2%;
+    font-size: x-large;
+}
+
+/* information  */
+
+.profileInfo-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border: 1px solid black
+}
+
+.profileInfoTitle {
+    width: 100px; 
+    background-color: lightblue;
+}
+
+.profileInfoList {
+    flex-grow: 1;
+    min-width: 100px;
+    background-color: lightgreen;
+}
