@@ -183,6 +183,50 @@ router.post("/groups/:id", async (req, res) => {
   }
 });
 
+router.get("/groups/:id/events", async (req, res) => {
+  let decodedUser;
+  let currentGroup;
+  let groupEventsIds = [];
+  let groupEvents = [];
+
+  if (req.cookies.token != null) {
+    decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
+  }
+
+  if (decodedUser == null) {
+    res.render("groupEvents", { isLoggedIn: false });
+  } else {
+
+    currentGroup = await db 
+    .collection("groups")
+    .findOne({ _id: new ObjectId(req.params.id) }); //TODO Lasse hjælp
+
+    await db
+      .collection("groups")
+      .findOne({ _id: new ObjectId(req.params.id) })
+      .then((group) => {
+        group.eventIds.forEach((eventId) => {
+          groupEventsIds.push(eventId);
+        });
+      });
+
+    await db
+      .collection("events")
+      .find({})
+      .forEach((event) => {
+        // TODO Er for doven lige nu, men gør det her mere effektivt
+        for (let i = 0; i < groupEventsIds.length; i++) {
+          if (event._id == groupEventsIds[i]) {
+            groupEvents.push(event);
+          }
+        }
+      })
+      .then(() => {
+        res.render("groupEvents", { isLoggedIn: true, currentGroup, groupEvents });
+      });
+  }
+});
+
 router.get("/interests", async (req, res) => {
   let decodedUser;
   let allInterests = [];
