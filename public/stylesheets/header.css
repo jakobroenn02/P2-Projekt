@@ -38,8 +38,9 @@
   color: white;
   font-size: 20px;
   display: flex;
-  gap: 32px;
+  gap: 16px;
   align-items: center;
+  position: relative;
 }
 
 .header-profile {
@@ -47,3 +48,27 @@
   width: 48px;
   background-color: black;
 }
+
+.header-settings-dropdown {
+  padding: 16px;
+  background-color: white;
+  position: absolute;
+  top: -20px;
+  z-index: 500;
+  right: 30px;
+  border-radius: 6px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.header-settings-icon {
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.header-settings-icon:hover {
+  background-color: rgb(85, 85, 85);
+}
+

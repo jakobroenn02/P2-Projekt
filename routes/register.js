@@ -42,8 +42,8 @@ router.post("/", async (req, res) => {
       username: req.body.username,
       profileImageId: 1,
       email: req.body.email,
+      gender: req.body.gender,
     };
-
     db.collection("users")
       .insertOne(user)
       .then(() => {

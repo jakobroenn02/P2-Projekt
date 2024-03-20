@@ -1,0 +1,71 @@
+<%- include("./partials/header.ejs") %> <% if (!isLoggedIn) {%>
+<a href="/login">Log in please</a>
+<% } else { %> <% if (!hasAccess) {%>
+<div>You dont have access to this page</div>
+<% } else { %>
+<div class="group-page">
+  <div class="group-page-left">
+    <div class="group-messages">
+      <%for (let i = 0; i < group.messages.length; i++) {%>
+      <div
+        class="<% if(group.messages[i].authorId == user._id) { %> <%= "group-message-yours" %><% } else {%> <%= "group-message" %> <% } %>">
+        <div class="group-message-info">
+          <div class="group-message-author">
+            <%= group.messages[i].authorName %>
+          </div>
+          <div class="group-message-date">
+            <%if (group.messages[i].createdAt.hour<=9) {%>
+              <%="0"%><%}%><%= group.messages[i].createdAt.hour %>:<%if(group.messages[i].createdAt.minute<=9){%><%="0"%><%}%><%= group.messages[i].createdAt.minute %>
+          </div>
+        </div>
+        <div class="group-message-text">
+          <%= group.messages[i].messageText %>
+        </div>
+      </div>
+      <% } %>
+    </div>
+    <div class="group-message-input-container">
+      <form class="group-message-input-form">
+        <input
+          placeholder="Type message..."
+          class="group-message-input"
+          type="text"
+          name="message"
+          autofocus
+        />
+        <input
+          type="hidden"
+          value="<%= user.name.firstName %> <%= user.name.lastName %>"
+          name="authorName"
+          hidden
+        />
+        <input type="hidden" value="<%= user._id %>" name="userId" hidden />
+        <button type="submit" class="group-message-send-button">
+          <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </form>
+    </div>
+  </div>
+  <div class="group-page-right">
+    <div class="group-title">
+      <div class="group-title-name"><%= group.groupName%></div>
+      <i class="fa-solid fa-ellipsis-vertical"></i>
+    </div>
+    <div class="group-users">
+      <% groupUsers.forEach(user => {%>
+      <a href="/users/<%= user._id %>" class="group-user">
+        <div class="group-user-image-container">
+          <img class="group-user-image" src="/img/70WoJVY.jpeg" alt="" />
+        </div>
+        <div class="group-user-name">
+          <%= user.name.firstName %> <%= user.name.lastName %>
+        </div>
+      </a>
+      <% }); %>
+    </div>
+  </div>
+</div>
+<%}%> <%} %>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/socket.js"></script>

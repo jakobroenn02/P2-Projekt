@@ -15,6 +15,7 @@ connectToDb((err) => {
 router.get("/", async (req, res) => {
   let decodedUser;
   let groups = [];
+  let groupsNames = [];
   let allgroups = [];
   let events = [];
 
@@ -44,6 +45,7 @@ router.get("/", async (req, res) => {
           })
           .forEach((group) => {
             groups.push(group);
+            groupsNames.push(group.groupName);
           })
           .then(() => {
             db.collection("events")
@@ -61,6 +63,7 @@ router.get("/", async (req, res) => {
                   groups,
                   events,
                   allgroups,
+                  groupsNames,
                 });
               });
           });
