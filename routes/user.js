@@ -267,4 +267,70 @@ router.get("/profile/:id", async (req, res) => {
 });
 router.delete("/interests", (req, res) => {});
 
+router.get("/events/:eventId", (req, res) => {
+  let eventId = new ObjectId(req.params.eventId);
+  console.log(`eventId: ${eventId}`);
+  let decodedUser;
+
+  if (req.cookies.token != null) {
+    decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
+  }
+
+  if (decodedUser == null) {
+    res.render("eventinfo", { isLoggedIn: false });
+  } else {
+    db.collection("events")
+      .findOne({ _id: new ObjectId(req.params.eventId) })
+      .then((event) => {
+        db.collection("users")
+          .find({ _id: { $in: event.participantIds.map(id => new ObjectId(id)) } })
+          .toArray()
+          .then((users) => {
+            event.participantIds = users.map(user => user.username);
+            db.collection("events")
+              .find({
+                participantIds: decodedUser._id,
+              })
+              .toArray()
+              .then((events) => {
+                res.render("eventinfo", { isLoggedIn: true, event, events });
+              });
+          });
+      });
+  }
+});
+
+router.delete("/leave-event", (req, res) => {
+  let decodedUser;
+  if (req.cookies.token != null) {
+    decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
+  }
+
+  if (decodedUser == null) {
+    res.status(401).send("Not authorized");
+  } else {
+    const eventID = new ObjectId(req.body.eventId);
+    const userId = new ObjectId(decodedUser._id);
+    db.collection("events")
+      .updateOne(
+        { _id: eventID },
+        {
+          $pull: { participantIds: userId.toString() },
+        }
+      )
+      .then(() => {
+        db.collection("users")
+        .updateOne({ _id: userId }, {
+          $pull: { eventIds: eventID }})
+        .then(() => {
+          res.status(200).send("Event left");
+        })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send("Error while leaving event!");
+      });
+    });
+  };
+});
+
 module.exports = router;
