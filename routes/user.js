@@ -14,7 +14,6 @@ connectToDb((err) => {
 });
 
 //routes
-
 router.get("/", (req, res) => {
   if (req.cookies.token != null) {
     decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
@@ -35,14 +34,17 @@ router.delete("/delete-profile", (req, res) => {
 
   if (decodedUser == null) {
     res.status(401).send("Not authorized");
-  }
-  else {
-    db.collection("users").deleteOne({ username: decodedUser.username })
-    .then(() => {
-      res.clearCookie("token");
-      res.status(200).send("Profile deleted");
-    })
-  .catch((err) => { console.error(err); res.status(500).send("Error deleting profile"); });
+  } else {
+    db.collection("users")
+      .deleteOne({ username: decodedUser.username })
+      .then(() => {
+        res.clearCookie("token");
+        res.status(200).send("Profile deleted");
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send("Error deleting profile");
+      });
   }
 });
 
@@ -102,6 +104,126 @@ router.get("/groups", (req, res) => {
           .then(() => {
             res.render("groups", { isLoggedIn: true, groups });
           });
+      });
+  }
+});
+
+
+router.get("/groups/:id", async (req, res) => {
+  let decodedUser;
+  let groupUsers = [];
+  let userIds = [];
+
+  if (req.cookies.token != null) {
+    decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
+  }
+
+  if (decodedUser == null) {
+    res.render("group", { isLoggedIn: false });
+  } else {
+    const group = await db
+      .collection("groups")
+      .findOne({ _id: new ObjectId(req.params.id) });
+
+    if (group.hasOwnProperty("userIds")) {
+      userIds = group.userIds.map((userId) => new ObjectId(userId));
+    }
+
+    groupUsers = await db
+      .collection("users")
+      .find({ _id: { $in: userIds } })
+      .toArray();
+
+    const loggedInUserInGroup = groupUsers.filter((user) => {
+      return user.username == decodedUser.username;
+    });
+
+    if (loggedInUserInGroup.length >= 1) {
+      res.render("group", {
+        hasAccess: true,
+        isLoggedIn: true,
+        groupUsers,
+        group,
+        user: decodedUser,
+      });
+    } else {
+      res.render("group", { hasAccess: false, isLoggedIn: true });
+    }
+  }
+});
+
+router.post("/groups/:id", async (req, res) => {
+  let decodedUser;
+
+  if (req.cookies.token != null) {
+    decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
+  }
+
+  if (decodedUser == null) {
+    res.render("group", { isLoggedIn: false });
+  } else {
+    await db.collection("groups").updateOne(
+      { _id: new ObjectId(req.params.id) },
+      {
+        $push: {
+          messages: {
+            messageText: req.body.messageText,
+            authorName: req.body.authorName,
+            authorId: new ObjectId(req.body.authorId),
+            createdAt: {
+              year: req.body.createdAt.year,
+              month: req.body.createdAt.month,
+              day: req.body.createdAt.day,
+              hour: req.body.createdAt.hour,
+              minute: req.body.createdAt.minute,
+            },
+          },
+        },
+      }
+    );
+  }
+});
+
+router.get("/groups/:id/events", async (req, res) => {
+  let decodedUser;
+  let currentGroup;
+  let groupEventsIds = [];
+  let groupEvents = [];
+
+  if (req.cookies.token != null) {
+    decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
+  }
+
+  if (decodedUser == null) {
+    res.render("groupEvents", { isLoggedIn: false });
+  } else {
+
+    currentGroup = await db 
+    .collection("groups")
+    .findOne({ _id: new ObjectId(req.params.id) }); //TODO Lasse hjælp
+
+    await db
+      .collection("groups")
+      .findOne({ _id: new ObjectId(req.params.id) })
+      .then((group) => {
+        group.eventIds.forEach((eventId) => {
+          groupEventsIds.push(eventId);
+        });
+      });
+
+    await db
+      .collection("events")
+      .find({})
+      .forEach((event) => {
+        // TODO Er for doven lige nu, men gør det her mere effektivt
+        for (let i = 0; i < groupEventsIds.length; i++) {
+          if (event._id == groupEventsIds[i]) {
+            groupEvents.push(event);
+          }
+        }
+      })
+      .then(() => {
+        res.render("groupEvents", { isLoggedIn: true, currentGroup, groupEvents });
       });
   }
 });
@@ -168,5 +290,95 @@ router.post("/interests", async (req, res) => {
     res.redirect("/user/interests");
   }
 });
+
+
+
+router.get("/profile/:id", async (req, res) => {
+  let decodedUser;
+  if (req.cookies.token != null) {
+    decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
+  }
+
+  if (decodedUser == null) {
+    res.render("profile", { isLoggedIn: false });
+  } else {
+    const userId = req.params.id; 
+    const user = await db.collection("users").findOne({ _id: new ObjectId(userId) });
+
+    if (user) {
+      res.render("profile", { isLoggedIn: true, user });
+    } else {
+      res.status(404).send("User not found");
+    }
+  }
+});
+router.delete("/interests", (req, res) => {});
+
+router.get("/events/:eventId", (req, res) => {
+  let eventId = new ObjectId(req.params.eventId);
+  console.log(`eventId: ${eventId}`);
+  let decodedUser;
+
+  if (req.cookies.token != null) {
+    decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
+  }
+
+  if (decodedUser == null) {
+    res.render("eventinfo", { isLoggedIn: false });
+  } else {
+    db.collection("events")
+      .findOne({ _id: new ObjectId(req.params.eventId) })
+      .then((event) => {
+        db.collection("users")
+          .find({ _id: { $in: event.participantIds.map(id => new ObjectId(id)) } })
+          .toArray()
+          .then((users) => {
+            event.participantIds = users.map(user => user.username);
+            db.collection("events")
+              .find({
+                participantIds: decodedUser._id,
+              })
+              .toArray()
+              .then((events) => {
+                res.render("eventinfo", { isLoggedIn: true, event, events });
+              });
+          });
+      });
+  }
+});
+
+router.delete("/leave-event", (req, res) => {
+  let decodedUser;
+  if (req.cookies.token != null) {
+    decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
+  }
+
+  if (decodedUser == null) {
+    res.status(401).send("Not authorized");
+  } else {
+    const eventID = new ObjectId(req.body.eventId);
+    const userId = new ObjectId(decodedUser._id);
+    db.collection("events")
+      .updateOne(
+        { _id: eventID },
+        {
+          $pull: { participantIds: userId.toString() },
+        }
+      )
+      .then(() => {
+        db.collection("users")
+        .updateOne({ _id: userId }, {
+          $pull: { eventIds: eventID }})
+        .then(() => {
+          res.status(200).send("Event left");
+        })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send("Error while leaving event!");
+      });
+    });
+  };
+});
+
 
 module.exports = router;

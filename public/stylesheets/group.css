@@ -1,0 +1,176 @@
+.group-page {
+  display: flex;
+  height: calc(100vh - 88px);
+}
+
+.group-page-left {
+  flex: 1;
+  border-right: 2px solid rgb(86, 86, 86);
+  display: flex;
+  flex-direction: column;
+}
+
+.group-messages {
+  flex: 1;
+  margin: 4px 0;
+  height: 600px;
+  overflow-y: auto;
+}
+
+.group-message {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  align-items: flex-start;
+  margin-bottom: 24px;
+  margin-left: 8px;
+}
+
+.group-message-yours {
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 24px;
+  margin-right: 8px;
+
+}
+
+.group-message-info {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.group-message-author {
+  font-size: 12px;
+  color: rgb(19, 19, 19);
+  font-weight: 600;
+}
+
+.group-message-date {
+  font-size: 10px;
+  color: rgb(85, 85, 85);
+}
+
+.group-message-text {
+  background-color: rgb(242, 242, 242);
+  border-radius: 12px;
+  display: inline-block;
+  padding: 8px;
+  word-wrap: break-word;
+  max-width: 300px;
+}
+
+.group-message-input-container {
+  height: 64px;
+}
+
+.group-message-input-form {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  display: flex;
+}
+
+.group-message-input {
+  flex: 1;
+  margin: 0 16px 0 16px;
+  padding: 8px 16px;
+  border-radius: 100px;
+  border: 1px solid grey;
+  outline: none;
+}
+
+.group-message-send-button {
+  width: 48px;
+  height: 32px;
+  margin: 0 16px 0 0;
+  background-color: white;
+  border-radius: 10%;
+  border: 1px solid grey;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.group-message-send-button:hover {
+  background-color: rgb(245, 245, 245);
+}
+
+.group-page-right {
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+}
+
+.group-title {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  font-size: 18px;
+  font-weight: 600;
+  height: 48px;
+  border-bottom: 2px solid rgb(86, 86, 86);
+}
+
+.group-title-name {
+  flex: 1;
+  margin-left: 16px;
+  color: rgb(86, 86, 86);
+}
+
+.group-title i {
+  width: 32px;
+  height: 32px;
+  margin-right: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100px;
+  cursor: pointer;
+}
+
+.group-title i:hover {
+  background: rgb(235, 235, 235);
+}
+
+.group-users {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.group-user {
+  height: 46px;
+  display: flex;
+  padding: 8px 0px 8px 8px;
+  align-items: center;
+  border-bottom: 1px solid rgb(86, 86, 86);
+  cursor: pointer;
+}
+
+.group-user:hover {
+  background-color: rgb(246, 246, 246);
+}
+
+.group-user-image-container {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin-right: 16px;
+  border-radius: 50%;
+}
+
+.group-user-image {
+  object-fit: cover;
+  min-width: 100%;
+  min-height: 100%;
+}
+
+.group-user-name {
+  color: rgb(65, 65, 65);
+  font-size: 14px;
+}

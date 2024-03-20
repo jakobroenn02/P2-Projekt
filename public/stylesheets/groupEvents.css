@@ -1,0 +1,67 @@
+.groupEvents-title{
+    margin-top: 100px;
+    text-align: center;
+    font-size: 25px;
+}
+
+.groupEvents-emphasized-group {
+    font-weight: 600;
+}
+
+.groupEvents-events-container {
+    display: flex;
+    margin: 20px;
+    gap: 20px;
+}
+
+.groupEvents-event-anchor {
+    text-decoration: none;
+    color: black;
+}
+
+.groupEvents-event {
+    background-color: lightgray;
+    width: 300px;
+    height: 150px;
+    padding: 15px;
+    border-radius: 15px;
+    box-shadow: 4px 4px rgba(0, 0, 0, 0.3);
+    position: relative;
+    transition: 0.5s;
+}
+
+.groupEvents-event:hover {
+    background-color: rgb(200, 200, 200);
+    top: -5px;
+    box-shadow: 8px 6px rgba(0, 0, 0, 0.35);
+}
+
+.groupEvents-event-title {
+    font-weight: 600;
+    font-size: 20px;
+}
+
+.groupEvents-event-description {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-top: 12px;
+}
+
+.groupEvents-event-date {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    font-size: 12px;
+    color: rgb(100, 100, 100);
+}
+
+.groupEvents-event-location {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    font-size: 12px;
+    color: rgb(100, 100, 100);
+}

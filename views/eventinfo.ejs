@@ -1,0 +1,58 @@
+<%- include("./partials/header.ejs") %> <% if (!isLoggedIn) {%>
+<a href="/login">Log in please</a>
+<% } else { %>
+<div class="eventInfo-page">
+  <div class="eventInfo-container">
+    <div class="eventInfo-div">
+      <div class="eventInfo-left">
+        <div class="event2-title">
+          <h1><%= event.eventName %></h1>
+        </div>
+        <div class="eventInfo-date">
+          This event takes place at: 
+          <%= event.date.hour < 10 ? "0":
+          ""%><%=event.date.hour%>:<%= event.date.minute < 10 ? "0":
+          ""%><%=event.date.minute%>
+          <%= event.date.day < 10 ? "0": ""%><%=event.date.day%>/<%=
+          event.date.month < 10 ? "0": ""%><%=event.date.month%>/<%=
+          event.date.year%> 
+        </div>
+        <div class="eventInfo-description">
+          <p id="event-text"><%=event.description%></p>
+        </div>
+      
+
+      <div class="eventInfo-address">
+        <%= event.location.name%> | <%= event.location.address %>
+      </div>
+      <div class="event-leave-button">
+       <form id="leave-event-id" action="/user/leave-event" method="post">
+        <input type="hidden" name="eventId" value="<%= event._id %>">
+        <button class="button-leave" type="submit">Leave event</button>
+       </form>
+
+      </div>
+    </div>
+    <div class="eventInfo-right">
+      <div class="eventInfo-attendees">
+        <h2>Attendees</h2>
+        <div class="attendees-list">
+          <ul class="list-of-attendees">
+          <% if (event.participantIds && event.participantIds.length > 0) { %>
+          <% event.participantIds.forEach((participant) => { %>
+          <li class="attendee"> <%= participant %> </li>
+          <% }) %>
+          </ul>
+          <% } else { %>
+          <p>No attendees yet</p>
+          <% } %>
+
+        </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
+<script src="/js/eventsinfo.js"></script>
+<% }%>
