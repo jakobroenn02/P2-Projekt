@@ -108,6 +108,7 @@ router.get("/groups", (req, res) => {
   }
 });
 
+
 router.get("/groups/:id", async (req, res) => {
   let decodedUser;
   let groupUsers = [];
@@ -227,6 +228,7 @@ router.get("/groups/:id/events", async (req, res) => {
   }
 });
 
+
 router.get("/interests", async (req, res) => {
   let decodedUser;
   let allInterests = [];
@@ -288,6 +290,7 @@ router.post("/interests", async (req, res) => {
     res.redirect("/user/interests");
   }
 });
+
 
 
 router.get("/profile/:id", async (req, res) => {
@@ -376,5 +379,6 @@ router.delete("/leave-event", (req, res) => {
     });
   };
 });
+
 
 module.exports = router;

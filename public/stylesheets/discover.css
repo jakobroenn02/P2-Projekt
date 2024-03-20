@@ -1,0 +1,79 @@
+.groups-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+  }
+  
+  .group-div {
+    width: 300px;
+    padding: 0 0 12px 0;
+    background-color: lightgray;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    border-radius: 15px;
+    margin: 10px;
+  }
+  
+  .group-div-top {
+    display: flex;
+    margin-bottom: 6px;
+  }
+  
+  .group-buttons {
+    display: flex;
+    align-items: center;
+    margin-right: 12px;
+  }
+
+  .group-anchor-view {
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+    background-color: gray;
+    padding: 8px;
+    margin: 0 12px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  }
+  
+  .group-anchor-view:hover {
+    cursor: pointer;
+    background-color: rgb(110, 110, 110);
+  }
+  
+  .group-name {
+    font-weight: bold;
+    color: black;
+    margin-left: 10px;
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .group-image-div {
+    margin-left: 10px;
+    margin-top: 10px;
+    background-color: black;
+    width: 90px;
+    height: 90px;
+    border-radius: 4px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .group-image {
+    object-fit: cover;
+    min-width: 100%;
+    min-height: 100%;
+  }
+  
+  .groups-title {
+    padding: 10px;
+    margin: 0px;
+  }

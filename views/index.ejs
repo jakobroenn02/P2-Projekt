@@ -63,7 +63,7 @@
     <!-- TODO: Check user is not already in group before rendering -->
     <% for(let i = 0; i < allgroups.length && i < 10; i++){%>
     <%if(!(groupsNames.includes(allgroups[i].groupName))){%>
-    <a href="/groups/<%=allgroups[i]._id%>" class="homepage-discover">
+    <a href="/discover/<%=allgroups[i]._id%>" class="homepage-discover">
       <div class="homepage-discover-image-container">
         <img
           src="/img/<%=allgroups[i].interest%>.jpeg"

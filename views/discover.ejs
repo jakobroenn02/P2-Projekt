@@ -1,0 +1,42 @@
+<%- include("./partials/header.ejs") %>
+    <% if (!isLoggedIn) {%>
+        <a href="/login">Log in please</a>
+        <% } else { %>
+            <!-- TODO make thing so that every group has a hoppe heder and so that it shows the ones wtih interrest first -->
+            <h1>Foldbold</h1>
+            <div class="groups-container">
+                <% for(let i=0; i < allgroups.length; i++){%>
+                    <div class="group-div">
+                        <div class="group-div-top">
+                            <div class="group-image-div">
+                                <img class="group-image" src="/img/<%=allgroups[i].interest%>.jpeg">
+                            </div>
+                            <p class="group-name">
+                                <%= allgroups[i].groupName%>
+                            </p>
+                        </div>
+                        <div class="group-buttons">
+                            <a href="./groups/<%=allgroups[i]._id%>" class="group-anchor-view">Show Group</a>
+                        </div>
+                    </div>
+                    <%}%>
+            </div>
+            <h1>Skøjting</h1>
+            <div class="groups-container">
+                <% for(let i=0; i < allgroups.length; i++){%>
+                    <div class="group-div">
+                        <div class="group-div-top">
+                            <div class="group-image-div">
+                                <img class="group-image" src="/img/<%=allgroups[i].interest%>.jpeg">
+                            </div>
+                            <p class="group-name">
+                                <%= allgroups[i].groupName%>
+                            </p>
+                        </div>
+                        <div class="group-buttons">
+                            <a href="./groups/<%=allgroups[i]._id%>" class="group-anchor-view">Show Group</a>
+                        </div>
+                    </div>
+                    <%}%>
+            </div>
+            <%}%>
