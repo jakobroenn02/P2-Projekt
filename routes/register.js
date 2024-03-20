@@ -40,7 +40,8 @@ router.post("/", async (req, res) => {
       interests: [],
       eventIds: [],
       username: req.body.username,
-      profileImageId: 0,
+      profileImageId: 1,
+      email: req.body.email,
       gender: req.body.gender,
     };
     db.collection("users")

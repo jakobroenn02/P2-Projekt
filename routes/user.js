@@ -15,6 +15,8 @@ connectToDb((err) => {
 
 //routes
 router.get("/", (req, res) => {
+  let decodedUser;
+
   if (req.cookies.token != null) {
     decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
   }
@@ -22,29 +24,59 @@ router.get("/", (req, res) => {
   if (decodedUser == null) {
     res.render("user", { isLoggedIn: false });
   } else {
-    res.render("user", { isLoggedIn: true });
+    res.render("user", { isLoggedIn: true, user: decodedUser });
   }
 });
 
-router.delete("/delete-profile", (req, res) => {
+
+router.post("/bio/update", async (req, res) => {
   let decodedUser;
   if (req.cookies.token != null) {
     decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
   }
 
   if (decodedUser == null) {
-    res.status(401).send("Not authorized");
+    res.render("user", { isLoggedIn: false });
   } else {
-    db.collection("users")
-      .deleteOne({ username: decodedUser.username })
-      .then(() => {
-        res.clearCookie("token");
-        res.status(200).send("Profile deleted");
-      })
-      .catch((err) => {
-        console.error(err);
-        res.status(500).send("Error deleting profile");
-      });
+    await db.collection("users").updateMany(
+      { _id: new ObjectId(req.body.userId) },
+      {
+        $set: {
+          bio: req.body.userBio,
+        },
+      }
+    );
+    decodedUser.username = req.body.userUsername;
+    res.clearCookie("token");
+    return res.redirect("/login");
+  }
+});
+
+router.post("/info/update", async (req, res) => {
+  let decodedUser;
+
+  if (req.cookies.token != null) {
+    decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
+  }
+
+  if (decodedUser == null) {
+    res.render("user", { isLoggedIn: false });
+  } else {
+    await db.collection("users").updateMany(
+      { _id: new ObjectId(req.body.userId) },
+      {
+        $set: {
+          username: req.body.userUsername,
+          age: req.body.userAge,
+          location: req.body.userLocation,
+          "name.firstName": req.body.userFirstName,
+          "name.lastName": req.body.userLastName,
+        },
+      }
+    );
+    decodedUser.username = req.body.userUsername;
+    res.clearCookie("token");
+    return res.redirect("/login");
   }
 });
 
