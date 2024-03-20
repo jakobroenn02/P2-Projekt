@@ -245,6 +245,26 @@ router.post("/interests", async (req, res) => {
   }
 });
 
+
+router.get("/profile/:id", async (req, res) => {
+  let decodedUser;
+  if (req.cookies.token != null) {
+    decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
+  }
+
+  if (decodedUser == null) {
+    res.render("profile", { isLoggedIn: false });
+  } else {
+    const userId = req.params.id; 
+    const user = await db.collection("users").findOne({ _id: new ObjectId(userId) });
+
+    if (user) {
+      res.render("profile", { isLoggedIn: true, user });
+    } else {
+      res.status(404).send("User not found");
+    }
+  }
+});
 router.delete("/interests", (req, res) => {});
 
 module.exports = router;

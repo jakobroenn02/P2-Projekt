@@ -1,0 +1,72 @@
+<%- include("./partials/header.ejs") %> <% if (!isLoggedIn) {%>
+    <a href="/login">Log in please</a>
+    <% } else { %>
+        
+        <div class="profileName"><%= user.name.firstName %> <%= user.name.lastName %></div>
+        <div class="profile-container">
+
+            <div class="profileSides-container">
+                <div class="profileLeftContent">
+                    <div class="profileAvatar">
+                        <img src="/img/70WoJVY.jpeg" alt="Profile Picture">
+                    </div>
+                    <div class="profileInterestsTitle">Interests:</div>
+                    <div class="profileInterest-container">
+                        <div class="profileInterestsList">
+                            <% for(let i=0; i<user.interests.length; i++) {%>
+                                <div class="ProfileInterestBox">
+                                    <%= user.interests[i]%>
+                                </div>
+                                <%}%>
+                        </div>
+                    </div>
+                    <div class="bioTitle">Bio:</div>
+                    <div class="inner-div profileBioDescription">
+                        <%= user.bio %>
+                      </div>
+                </div>
+            </div>
+            <div class="profileSides-container ">
+                <div class="profileRightContent">
+                    <div class="inner-div">Info</div>
+                    <div class="inner-div">
+                        <div class="inner-div">
+                            <div class="profileInfo-container">
+                                <div class="profileInfoTitle">Age</div>
+                                <div class="profileInfoList"><%= user.age %></div>
+                            </div>
+                        </div>
+                        <div class="inner-div">
+                            <div class="profileInfo-container">
+                                <div class="profileInfoTitle">Gender</div>
+                                <div class="profileInfoList"><%= user.gender %>paceholder</div>
+                            </div>
+                        </div>
+                        <div class="inner-div">
+                            <div class="profileInfo-container">
+                                <div class="profileInfoTitle">City</div>
+                                <div class="profileInfoList"><%= user.city %>placeholder</div>
+                            </div>
+                        </div>
+                        <div class="inner-div">
+                            <div class="profileInfo-container">
+                                <div class="profileInfoTitle">Contact</div>
+                                <div class="profileInfoList"><%= user.contact %>placeholder</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="inner-div">Shared Groups</div>
+                    <div class="inner-div">Missing Content</div>
+                    <div class="inner-div">Shared Events</div>
+                    <div class="inner-div">Missing content</div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+  <%} %>
