@@ -33,8 +33,6 @@
   border-radius: 0;
 }
 
-.interestsSearch input::placeholder {}
-
 .interestsSearch input:focus {
   outline: none;
 }
@@ -120,21 +118,28 @@
 
 .interestsPageRight {
   position: relative;
-  align-items: flex-start;
-  height: 300px;
   display: flex;
-  width: 200px;
+  align-items: flex-start;
+
+
+  height: 300px;
+  width: 300px;
+
   margin-top: 91.6px;
   border: 2px solid black;
   padding: 8px;
+  
   overflow-y: auto;
 }
 
 .interestsPageTitleRight {
   position: absolute;
+  width: 303.5px;
+  padding: 0 8px 0 8px;
+  
+
   height: 48px;
-  left: 540px;
-  right: -240px;
+  left: 539.5px;
   top: 44px;
   background-color: rgb(42, 42, 42);
   color: white;

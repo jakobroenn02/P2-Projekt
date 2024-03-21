@@ -1,6 +1,6 @@
 <%- include("./partials/header.ejs") %>
   <% if (!isLoggedIn) {%>
-    <a href="/login">Log in please</a>
+    <%- include("./partials/signinRedirect.ejs")%>
     <% } else { %>
       <h1 class="profile-welcome-title">Welcome <%= user.username %>
       </h1>
@@ -51,8 +51,8 @@
               <div class="profile-information-content-item-title"> Age</div>
               <div class="profile-information-container">
                 <div class="profile-information-text" id="userAge">
-                  <%= user.age %>
-                </div>
+                  <%= user.age %> 
+                </div>  <!--TODO tilføj gender-->
               </div>
               <div class="profile-information-content-item-title"> Location</div>
               <div class="profile-information-container">
@@ -74,9 +74,8 @@
           <div class="profile-information-content-item-icon-container">
             <div class="profile-information-content-item-title">Confirm New Password</div>
             <i class="fas fa-eye password-eye-icon" id="confirmChangePasswordEye"></i>
-            <input class="profile-information-input-password" id="newConfirmPassword" type="password"
-              placeholder="Confirm New Password">
-          </div>
+            <input class="profile-information-input-password" id="newConfirmPassword" type="password" placeholder="Confirm New Password">
+          </div> <!--TODO FIX-->
         </div>
       </div>
       <div class="profile-interests-all">
@@ -95,7 +94,7 @@
       <div class="pictures-modal">
         <div class="modal-header">
           <div class="modal-header-title">Change Profile Picture</div>
-          <div class="modal-header-close"><i class="fa-solid fa-xmark close-mark"></i></div>
+          <div class="modal-header-close"><i class="fa-solid fa-xmark close-mark"></i></div> <!--TODO fix profilbillede-->
         </div>
         <div class="modal-pictures">
           <div class="modal-pictures-main">

@@ -1,5 +1,5 @@
 <%- include("./partials/header.ejs") %> <% if (!isLoggedIn) {%>
-<a href="/login">Log in please</a>
+  <%- include("./partials/signinRedirect.ejs")%>
 <% } else { %>
 <div class="find-group-page">
   <div class="find-group-left">

@@ -36,6 +36,12 @@ messageSendButton.addEventListener("click", (e) => {
     '.group-message-input-form [name="userId"]'
   );
 
+
+  if(messageInput.value.length === 0){
+    return;
+  }
+
+
   const message = {
     messageText: messageInput.value,
     authorName: messageAuthorNameInput.value,
@@ -77,7 +83,6 @@ messageSendButton.addEventListener("click", (e) => {
   scrollToBottom();
 });
 
-// TODO Man skal kunne differentiere mellem udefrakommende emits, og dine egne - Baseret på de skal klassen være "yours" eller ej.
 // function for generation a message div
 function generateMessageDiv(message, isOwn) {
   let newMessageDiv = document.createElement("div");

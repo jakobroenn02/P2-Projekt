@@ -1,8 +1,6 @@
 <%- include("./partials/header.ejs") %> <% if (!isLoggedIn) {%>
-<a href="/login">Log in please</a>
-<% } else { %> <% if (!hasAccess) {%>
-<div>You dont have access to this page</div>
-<% } else { %>
+  <%- include("./partials/signinRedirect.ejs")%>
+<%} else { %>
 <div class="group-page">
   <div class="group-page-left">
     <div class="group-messages">
@@ -56,16 +54,16 @@
       <a href="/users/<%= user._id %>" class="group-user">
         <div class="group-user-image-container">
           <img class="group-user-image" src="/img/70WoJVY.jpeg" alt="" />
-        </div>
+        </div>  
         <div class="group-user-name">
           <%= user.name.firstName %> <%= user.name.lastName %>
-        </div>
+        </div> <!--TODO Anchor til group events page + overflow hvis for mange users-->
       </a>
       <% }); %>
     </div>
   </div>
 </div>
-<%}%> <%} %>
+<%}%>
 
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/socket.js"></script>

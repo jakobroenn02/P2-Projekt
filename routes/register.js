@@ -4,6 +4,7 @@ const { ObjectId, ReturnDocument } = require("mongodb");
 const { connectToDb, getDb } = require("../db");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { verifyToken } = require("../utils/cookiesUtils");
 
 //connect to db
 let db;
@@ -14,16 +15,16 @@ connectToDb((err) => {
 });
 
 router.get("/", (req, res) => {
-  let decodedUser;
-
-  if (req.cookies.token != null) {
-    decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
-  }
+  const decodedUser = verifyToken(res, req);
 
   if (decodedUser == null) {
     return res.render("register", { isLoggedIn: false });
   } else {
+  }
+  try {
     res.render("register", { isLoggedIn: true });
+  } catch (error) {
+    res.render("errorPage", { errorMessage: "Error" });
   }
 });
 
@@ -55,10 +56,10 @@ router.post("/", async (req, res) => {
         res.cookie("token", token, {
           httpOnly: true,
         });
-        res.redirect("/");
+        res.redirect("/user/interests");
       });
   } catch {
-    res.status(500).send();
+    res.render("errorPage", { errorMessage: "Error" });
   }
 });
 

@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const { ObjectId, ReturnDocument } = require("mongodb");
+const { ObjectId } = require("mongodb");
 const { connectToDb, getDb } = require("../db");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { verifyToken } = require("../utils/cookiesUtils");
 
 //connect to db
 let db;
@@ -15,25 +16,21 @@ connectToDb((err) => {
 
 //routes
 router.get("/", (req, res) => {
-  let decodedUser;
-
-  if (req.cookies.token != null) {
-    decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
-  }
+  const decodedUser = verifyToken(res, req);
 
   if (decodedUser == null) {
     res.render("user", { isLoggedIn: false });
   } else {
-    res.render("user", { isLoggedIn: true, user: decodedUser });
+    try {
+      res.render("user", { isLoggedIn: true, user: decodedUser });
+    } catch (error) {
+      res.render("errorPage", { errorMessage: "Error" });
+    }
   }
 });
 
-
 router.post("/bio/update", async (req, res) => {
-  let decodedUser;
-  if (req.cookies.token != null) {
-    decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
-  }
+  const decodedUser = verifyToken(res, req);
 
   if (decodedUser == null) {
     res.render("user", { isLoggedIn: false });
@@ -53,11 +50,7 @@ router.post("/bio/update", async (req, res) => {
 });
 
 router.post("/info/update", async (req, res) => {
-  let decodedUser;
-
-  if (req.cookies.token != null) {
-    decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
-  }
+  const decodedUser = verifyToken(res, req);
 
   if (decodedUser == null) {
     res.render("user", { isLoggedIn: false });
@@ -81,115 +74,114 @@ router.post("/info/update", async (req, res) => {
 });
 
 router.get("/events", (req, res) => {
-  let decodedUser;
+  const decodedUser = verifyToken(res, req);
   let events = [];
-
-  if (req.cookies.token != null) {
-    decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
-  }
 
   if (decodedUser == null) {
     res.render("userEvents", { isLoggedIn: false });
   } else {
-    db.collection("users")
-      .findOne({ username: decodedUser.username })
-      .then((user) => {
-        db.collection("events")
-          .find({
-            _id: {
-              $in: user.eventIds,
-            },
-          })
-          .forEach((event) => {
-            events.push(event);
-          })
-          .then(() => {
-            res.render("userEvents", { isLoggedIn: true, events });
-          });
-      });
+    try {
+      db.collection("users")
+        .findOne({ username: decodedUser.username })
+        .then((user) => {
+          db.collection("events")
+            .find({
+              _id: {
+                $in: user.eventIds,
+              },
+            })
+            .forEach((event) => {
+              events.push(event);
+            })
+            .then(() => {
+              res.render("userEvents", { isLoggedIn: true, events });
+            });
+        });
+    } catch (error) {
+      res.render("errorPage", { errorMessage: "Error" });
+    }
   }
 });
 
 router.get("/groups", (req, res) => {
   let groups = [];
-  let decodedUser;
-
-  if (req.cookies.token != null) {
-    decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
-  }
+  const decodedUser = verifyToken(res, req);
 
   if (decodedUser == null) {
     res.render("groups", { isLoggedIn: false });
   } else {
-    db.collection("users")
-      .findOne({ username: decodedUser.username })
-      .then((user) => {
-        db.collection("groups")
-          .find({
-            _id: {
-              $in: user.groupIds,
-            },
-          })
-          .forEach((group) => {
-            groups.push(group);
-          })
-          .then(() => {
-            res.render("groups", { isLoggedIn: true, groups });
-          });
-      });
+    try {
+      db.collection("users")
+        .findOne({ username: decodedUser.username })
+        .then((user) => {
+          db.collection("groups")
+            .find({
+              _id: {
+                $in: user.groupIds,
+              },
+            })
+            .forEach((group) => {
+              groups.push(group);
+            })
+            .then(() => {
+              res.render("groups", { isLoggedIn: true, groups });
+            });
+        });
+    } catch (error) {
+      res.render("errorPage", { errorMessage: "Error" });
+    }
   }
 });
 
-
 router.get("/groups/:id", async (req, res) => {
-  let decodedUser;
+  const decodedUser = verifyToken(res, req);
   let groupUsers = [];
   let userIds = [];
-
-  if (req.cookies.token != null) {
-    decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
-  }
 
   if (decodedUser == null) {
     res.render("group", { isLoggedIn: false });
   } else {
-    const group = await db
-      .collection("groups")
-      .findOne({ _id: new ObjectId(req.params.id) });
+    try {
+      const group = await db
+        .collection("groups")
+        .findOne({ _id: new ObjectId(req.params.id) });
 
-    if (group.hasOwnProperty("userIds")) {
-      userIds = group.userIds.map((userId) => new ObjectId(userId));
-    }
+      if (group.hasOwnProperty("userIds")) {
+        userIds = group.userIds.map((userId) => new ObjectId(userId));
+      }
 
-    groupUsers = await db
-      .collection("users")
-      .find({ _id: { $in: userIds } })
-      .toArray();
+      groupUsers = await db
+        .collection("users")
+        .find({ _id: { $in: userIds } })
+        .toArray();
 
-    const loggedInUserInGroup = groupUsers.filter((user) => {
-      return user.username == decodedUser.username;
-    });
-
-    if (loggedInUserInGroup.length >= 1) {
-      res.render("group", {
-        hasAccess: true,
-        isLoggedIn: true,
-        groupUsers,
-        group,
-        user: decodedUser,
+      const loggedInUserInGroup = groupUsers.filter((user) => {
+        return user.username == decodedUser.username;
       });
-    } else {
-      res.render("group", { hasAccess: false, isLoggedIn: true });
+
+      if (loggedInUserInGroup.length >= 1) {
+        res.render("group", {
+          isLoggedIn: true,
+          groupUsers,
+          group,
+          user: decodedUser,
+        });
+      } else {
+        res.render("errorPage", {
+          errorMessage: "Access denied",
+          isLoggedIn: true,
+        });
+      }
+    } catch (error) {
+      res.render("errorPage", {
+        errorMessage: "Group not found",
+      });
     }
   }
 });
 
 router.post("/groups/:id", async (req, res) => {
-  let decodedUser;
-
-  if (req.cookies.token != null) {
-    decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
-  }
+  const decodedUser = verifyToken(res, req);
 
   if (decodedUser == null) {
     res.render("group", { isLoggedIn: false });
@@ -217,83 +209,75 @@ router.post("/groups/:id", async (req, res) => {
 });
 
 router.get("/groups/:id/events", async (req, res) => {
-  let decodedUser;
+  const decodedUser = verifyToken(res, req);
   let currentGroup;
   let groupEventsIds = [];
   let groupEvents = [];
 
-  if (req.cookies.token != null) {
-    decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
-  }
-
   if (decodedUser == null) {
     res.render("groupEvents", { isLoggedIn: false });
   } else {
+    try {
+      currentGroup = await db
+        .collection("groups")
+        .findOne({ _id: new ObjectId(req.params.id) });
 
-    currentGroup = await db 
-    .collection("groups")
-    .findOne({ _id: new ObjectId(req.params.id) }); //TODO Lasse hjælp
+      groupEventsIds = currentGroup.eventIds;
 
-    await db
-      .collection("groups")
-      .findOne({ _id: new ObjectId(req.params.id) })
-      .then((group) => {
-        group.eventIds.forEach((eventId) => {
-          groupEventsIds.push(eventId);
-        });
-      });
-
-    await db
-      .collection("events")
-      .find({})
-      .forEach((event) => {
-        // TODO Er for doven lige nu, men gør det her mere effektivt
-        for (let i = 0; i < groupEventsIds.length; i++) {
-          if (event._id == groupEventsIds[i]) {
-            groupEvents.push(event);
+      await db
+        .collection("events")
+        .find({})
+        .forEach((event) => {
+          for (let i = 0; i < groupEventsIds.length; i++) {
+            if (event._id == groupEventsIds[i]) {
+              groupEvents.push(event);
+            }
           }
-        }
-      })
-      .then(() => {
-        res.render("groupEvents", { isLoggedIn: true, currentGroup, groupEvents });
-      });
+        })
+        .then(() => {
+          res.render("groupEvents", {
+            isLoggedIn: true,
+            currentGroup,
+            groupEvents,
+          });
+        });
+    } catch (error) {
+      res.render("errorPage", { errorMessage: "Error" });
+    }
   }
 });
 
-
 router.get("/interests", async (req, res) => {
-  let decodedUser;
+  const decodedUser = verifyToken(res, req);
   let allInterests = [];
-  if (req.cookies.token != null) {
-    decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
-  }
 
   if (decodedUser == null) {
     res.render("interests", { isLoggedIn: false });
   } else {
-    await db
-      .collection("interests")
-      .find()
-      .forEach((interest) => {
-        allInterests.push(interest);
-      });
+    try {
+      await db
+        .collection("interests")
+        .find()
+        .forEach((interest) => {
+          allInterests.push(interest);
+        });
 
-    let user = await db
-      .collection("users")
-      .findOne({ username: decodedUser.username });
+      let user = await db
+        .collection("users")
+        .findOne({ username: decodedUser.username });
 
-    res.render("interests", { isLoggedIn: true, allInterests, user });
+      res.render("interests", { isLoggedIn: true, allInterests, user });
+    } catch (error) {
+      res.render("errorPage", { errorMessage: "Error" });
+    }
   }
 });
 
 router.post("/interests", async (req, res) => {
-  let decodedUser;
+  const decodedUser = verifyToken(res, req);
   const selectedInterests = Object.values(req.body);
   let allInterests = [];
 
-  if (req.cookies.token != null) {
-    decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
-  }
   if (decodedUser != null) {
     await db
       .collection("interests")
@@ -323,70 +307,44 @@ router.post("/interests", async (req, res) => {
   }
 });
 
-
-
-router.get("/profile/:id", async (req, res) => {
-  let decodedUser;
-  if (req.cookies.token != null) {
-    decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
-  }
-
-  if (decodedUser == null) {
-    res.render("profile", { isLoggedIn: false });
-  } else {
-    const userId = req.params.id; 
-    const user = await db.collection("users").findOne({ _id: new ObjectId(userId) });
-
-    if (user) {
-      res.render("profile", { isLoggedIn: true, user });
-    } else {
-      res.status(404).send("User not found");
-    }
-  }
-});
-router.delete("/interests", (req, res) => {});
-
 router.get("/events/:eventId", (req, res) => {
-  let eventId = new ObjectId(req.params.eventId);
-  console.log(`eventId: ${eventId}`);
-  let decodedUser;
-
-  if (req.cookies.token != null) {
-    decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
-  }
+  const decodedUser = verifyToken(res, req);
 
   if (decodedUser == null) {
     res.render("eventinfo", { isLoggedIn: false });
   } else {
-    db.collection("events")
-      .findOne({ _id: new ObjectId(req.params.eventId) })
-      .then((event) => {
-        db.collection("users")
-          .find({ _id: { $in: event.participantIds.map(id => new ObjectId(id)) } })
-          .toArray()
-          .then((users) => {
-            event.participantIds = users.map(user => user.username);
-            db.collection("events")
-              .find({
-                participantIds: decodedUser._id,
-              })
-              .toArray()
-              .then((events) => {
-                res.render("eventinfo", { isLoggedIn: true, event, events });
-              });
-          });
-      });
+    try {
+      db.collection("events")
+        .findOne({ _id: new ObjectId(req.params.eventId) })
+        .then((event) => {
+          db.collection("users")
+            .find({
+              _id: { $in: event.participantIds.map((id) => new ObjectId(id)) },
+            })
+            .toArray()
+            .then((users) => {
+              event.participantIds = users.map((user) => user.username);
+              db.collection("events")
+                .find({
+                  participantIds: decodedUser._id,
+                })
+                .toArray()
+                .then((events) => {
+                  res.render("eventinfo", { isLoggedIn: true, event, events });
+                });
+            });
+        });
+    } catch (error) {
+      res.render("errorPage", { errorMessage: "Error" });
+    }
   }
 });
 
 router.delete("/leave-event", (req, res) => {
-  let decodedUser;
-  if (req.cookies.token != null) {
-    decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
-  }
+  const decodedUser = verifyToken(res, req);
 
   if (decodedUser == null) {
-    res.status(401).send("Not authorized");
+    res.render("eventinfo", { isLoggedIn: false });
   } else {
     const eventID = new ObjectId(req.body.eventId);
     const userId = new ObjectId(decodedUser._id);
@@ -399,18 +357,20 @@ router.delete("/leave-event", (req, res) => {
       )
       .then(() => {
         db.collection("users")
-        .updateOne({ _id: userId }, {
-          $pull: { eventIds: eventID }})
-        .then(() => {
-          res.status(200).send("Event left");
-        })
-      .catch((err) => {
-        console.error(err);
-        res.status(500).send("Error while leaving event!");
+          .updateOne(
+            { _id: userId },
+            {
+              $pull: { eventIds: eventID },
+            }
+          )
+          .then(() => {
+            res.status(200).send("Event left");
+          })
+          .catch((err) => {
+            res.status(500).send("Error while leaving event!");
+          });
       });
-    });
-  };
+  }
 });
-
 
 module.exports = router;

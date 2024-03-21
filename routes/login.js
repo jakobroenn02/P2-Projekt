@@ -4,6 +4,7 @@ const { ObjectId, ReturnDocument } = require("mongodb");
 const { connectToDb, getDb } = require("../db");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { verifyToken } = require("../utils/cookiesUtils");
 
 //connect to db
 let db;
@@ -14,16 +15,16 @@ connectToDb((err) => {
 });
 
 router.get("/", (req, res) => {
-  let decodedUser;
-
-  if (req.cookies.token != null) {
-    decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
-  }
+  const decodedUser = verifyToken(res, req);
 
   if (decodedUser == null) {
     return res.render("login", { isLoggedIn: false, hasTypeWrong: false });
   } else {
-    res.render("login", { isLoggedIn: true, hasTypeWrong: false  });
+    try {
+      res.render("login", { isLoggedIn: true, hasTypeWrong: false });
+    } catch (error) {
+      res.render("register", { isLoggedIn: true });
+    }
   }
 });
 
@@ -33,7 +34,7 @@ router.post("/", async (req, res) => {
     .findOne({ username: req.body.username });
 
   if (!logedInUser) {
-    return res.render("login", { isLoggedIn: false, hasTypeWrong: true })
+    return res.render("login", { isLoggedIn: false, hasTypeWrong: true });
   }
 
   try {
@@ -45,7 +46,7 @@ router.post("/", async (req, res) => {
     if (passMatch) {
       //Creates jwt token
       const token = jwt.sign(logedInUser, process.env.JWTSECRET, {
-        expiresIn: "24h",
+        expiresIn: "30m",
       });
 
       //sets cookie in browser
@@ -55,7 +56,7 @@ router.post("/", async (req, res) => {
 
       res.redirect("/");
     } else {
-      return res.render("login", { isLoggedIn: false, hasTypeWrong: true })
+      return res.render("login", { isLoggedIn: false, hasTypeWrong: true });
     }
   } catch {
     res.status(500).send();

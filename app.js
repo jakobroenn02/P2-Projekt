@@ -4,6 +4,7 @@ const cookieParser = require("cookie-parser");
 const { cookieJwtAuth } = require("./middleware/cookieJwtAuth");
 const socketIO = require("socket.io");
 const http = require("http");
+const { generateMessage } = require("./utils/socketUtils");
 
 // Init app and middleware
 const app = express();
@@ -33,6 +34,9 @@ app.use("/register", registerRouter);
 
 const discoverRouter = require("./routes/discover");
 app.use("/discover", discoverRouter);
+
+const usersRouter = require("./routes/users");
+app.use("/users", usersRouter);
 
 
 // Route for errors
@@ -64,17 +68,4 @@ server.listen(3000, () => {
 });
 
 // TODO: skal nok ikke være her, måske lave en mappe til utils et sted i serverside.
-function generateMessage(authorName, messageText, authorId) {
-  return {
-    authorName: authorName,
-    messageText: messageText,
-    createdAt: {
-      year: new Date().getFullYear(),
-      month: new Date().getMonth(),
-      day: new Date().getDay(),
-      hour: new Date().getHours(),
-      minute: new Date().getMinutes(),
-    },
-    authorId: authorId,
-  };
-}
+

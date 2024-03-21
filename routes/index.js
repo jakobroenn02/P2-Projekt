@@ -3,6 +3,7 @@ const router = express.Router();
 const { ObjectId } = require("mongodb");
 const { connectToDb, getDb } = require("../db");
 const jwt = require("jsonwebtoken");
+const { verifyToken } = require("../utils/cookiesUtils");
 
 let db;
 connectToDb((err) => {
@@ -13,61 +14,63 @@ connectToDb((err) => {
 
 //routes
 router.get("/", async (req, res) => {
-  let decodedUser;
+  const decodedUser = verifyToken(res, req);
   let groups = [];
   let groupsNames = [];
   let allgroups = [];
   let events = [];
 
-  if (req.cookies.token != null) {
-    decodedUser = jwt.verify(req.cookies.token, process.env.JWTSECRET);
-  }
+ 
 
   if (decodedUser == null) {
-    return res.render("index", { isLoggedIn: false });
+    return res.redirect("/login");
   } else {
-    await db
-      .collection("groups")
-      .find({})
-      .forEach((group) => {
-        allgroups.push(group);
-      });
+    try {
+      await db
+        .collection("groups")
+        .find({})
+        .forEach((group) => {
+          allgroups.push(group);
+        });
 
-    await db
-      .collection("users")
-      .findOne({ username: decodedUser.username })
-      .then((user) => {
-        db.collection("groups")
-          .find({
-            _id: {
-              $in: user.groupIds,
-            },
-          })
-          .forEach((group) => {
-            groups.push(group);
-            groupsNames.push(group.groupName);
-          })
-          .then(() => {
-            db.collection("events")
-              .find({
-                _id: {
-                  $in: user.eventIds,
-                },
-              })
-              .forEach((event) => {
-                events.push(event);
-              })
-              .then(() => {
-                res.render("index", {
-                  isLoggedIn: true,
-                  groups,
-                  events,
-                  allgroups,
-                  groupsNames,
+      await db
+        .collection("users")
+        .findOne({ username: decodedUser.username })
+        .then((user) => {
+          db.collection("groups")
+            .find({
+              _id: {
+                $in: user.groupIds,
+              },
+            })
+            .forEach((group) => {
+              groups.push(group);
+              groupsNames.push(group.groupName);
+            })
+            .then(() => {
+              db.collection("events")
+                .find({
+                  _id: {
+                    $in: user.eventIds,
+                  },
+                })
+                .forEach((event) => {
+                  events.push(event);
+                })
+                .then(() => {
+                  res.render("index", {
+                    isLoggedIn: true,
+                    groups,
+                    events,
+                    allgroups,
+                    groupsNames,
+                  });
                 });
-              });
-          });
-      });
+            });
+        });
+    } catch (error) {
+      res.render("errorPage", { errorMessage: "Error" });
+    }
   }
 });
 

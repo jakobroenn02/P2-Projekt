@@ -13,7 +13,7 @@ include("./partials/signinRedirect.ejs")%> <% } else { %>
       <div class="groupEvents-event-description"><%= event.description%></div>
       <div class="groupEvents-event-date">
         <%= event.date.day < 10 ? "0": ""%><%=event.date.day%>/<%=
-        event.date.month < 10 ? "0": ""%><%=event.date.month%>/<%=  // TODO gør det til en partial
+        event.date.month < 10 ? "0": ""%><%=event.date.month%>/<%= 
         event.date.year%> <%= event.date.hour < 10 ? "0":
         ""%><%=event.date.hour%>:<%= event.date.minute < 10 ? "0":
         ""%><%=event.date.minute%>

@@ -1,5 +1,5 @@
 <%- include("./partials/header.ejs") %> <% if (!isLoggedIn) {%>
-<a href="/login">Log in please</a>
+  <%- include("./partials/signinRedirect.ejs")%>
 <% } else { %>
 <div class="eventInfo-page">
   <div class="eventInfo-container">
@@ -29,6 +29,7 @@
        <form id="leave-event-id" action="/user/leave-event" method="post">
         <input type="hidden" name="eventId" value="<%= event._id %>">
         <button class="button-leave" type="submit">Leave event</button>
+        <!--TODO Forlad side når man leaver event + Hvis du ikke er antendee skal du kunne joine event istedet + CSS hover til leave knap-->
        </form>
 
       </div>
