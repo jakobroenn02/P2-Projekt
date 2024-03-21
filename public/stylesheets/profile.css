@@ -1,137 +1,205 @@
-/* General stuff */
+/*  Left Container   */
+.pubUsrProf-container {
+  width: calc(100% - 100px);
+  height: calc(100vh - 88px - 100px);
 
-.profile-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr; 
-    border-top: 5px solid black
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 30px;
+
+  background-color: rgb(236, 236, 236);
+  padding: 50px;
 }
 
-.profileSides-container {
-    display: flex;
-    justify-content: center; 
-    align-items: center; 
-    margin: 5%;
+.pubUsrProf-left-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+
+  position: relative;
+
+  height: 100%;
+  padding: 10px;
+
+  background-color: white;
+  border-radius: 40px;
+  box-shadow: 2px 2px 6px 2px rgb(0, 0, 0, 0.2);
 }
 
-.profileLeftContent {
-    display: flex; 
-    flex-direction: column; 
-    padding: 10px; 
-    margin-top: 100px;
-    width: 100%;
-
-}
-.profileRightContent {
-    display: flex; 
-    flex-direction: column; 
-    padding: 10px; 
-    margin-top: 100px;
-    border: 1px solid black;
+.pubUsrProf-image-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  min-height: fit-content;
+  max-height: 300px;
+  margin-bottom: 10px;
 }
 
-.profileName {
-    margin: 0; 
-    padding: 10px; 
-    padding-left: 2%;
-    padding-top: 1%;
-    font-size: xxx-large;
-    background-color: #ccc;
+.pubUsrProf-image {
+  max-width: 640px;
+  max-height: 360px;
+  background-color: #000000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  border-radius: 100%;
 }
 
-.inner-div {
-    margin: 5px; 
-    margin-top: auto;
-    border: 1px solid black;
-    padding-left: 5%;
-    padding-bottom: 4%;
+.pubUsrProf-name {
+  display: flex;
+  justify-content: center;
+  font-size: 30px;
+  font-weight: bold;
+  color: #000;
+  width: 90%;
+  padding-bottom: 10px;
 }
 
-.profileAvatar {
-    margin: 5px;
-    margin-top: auto;
-    padding-left: 5%;
-    padding-bottom: 4%;
+.pubUsrProf-bio-container {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  height: fit-content;
+
+  padding-top: 20px;
+  border-top: 1px solid darkgray;
 }
 
-.profileAvatar img {
-    width: 250px;
-    height: 250px;
-    border-radius: 50%;
-    border: 4px solid black;
+.pubUsrProf-bio {
+  border: 1px solid darkgray;
+  border-radius: 15px;
+  box-shadow: 2px 2px rgb(0, 0, 0, 0.2);
+
+  padding: 10px;
 }
 
+/*  Right Container   */
+.pubUsrProf-right-container {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  position: relative;
 
-/* interests */
-
-.profileInterest-container {
-    display: flex;
-    border: 2px solid black;
-    border-radius: 5px;
+  width: 100%;
+  gap: 30px;
 }
 
-.profileInterestsTitle {
-    width: 100px; 
-    padding: 10px;
-    font-size: x-large;
+.pubUsrProf-interests-container {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+
+  height: 40%;
+
+  padding: 10px;
+
+  background-color: white;
+  border-radius: 40px;
+  box-shadow: 2px 2px 6px 2px rgb(0, 0, 0, 0.2);
 }
 
-.profileInterestsList {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin: 1%;
-  }
-
-.profileInterestBox-container {
-    flex: 1;
-    margin: 200px;
-    border-radius: 5px;
+.pubUsrProf-interests-title {
+  display: flex;
+  justify-content: center;
+  font-size: 25px;
+  font-weight: bold;
+  color: #000;
+  width: 90%;
+  padding-bottom: 10px;
+  border-bottom: 1px solid darkgray;
 }
 
-.ProfileInterestBox {
-    margin: 0; 
-    margin-top: auto;
-    border: 1px solid black;
-    border-radius: 5px;
-    background-color: #ccc;
-    padding: 0.4%;
+.pubUsrProf-interests-box {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+
+  padding: 10px 0 10px 0;
+  margin: 20px;
+
+  width: 90%;
+
+  border: 1px solid darkgray;
+  border-radius: 15px;
+  box-shadow: 2px 2px rgb(0, 0, 0, 0.2);
+
+  height: fit-content;
 }
 
-/* Bio */
+.pubUsrProf-interest {
+  margin: 4px;
+  padding: 4px 8px;
+  border: 1px solid black;
+  color: black;
+  border-radius: 10px;
+  font-size: 20px;
+}
 
-.profileBioDescription {
-    height: 150px;
-    padding: 10px;
-    background-color: #ccc;
-    border: 2px solid black;
-    border-radius: 10px;
+.pubUsrProf-info-container {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  height: 60%;
+  gap: 30px;
+}
+
+.pubUsrProf-info-sharedContent-container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+  flex: 1;
+  padding: 10px 10px 10px 10px;
+  background-color: white;
+  border-radius: 40px;
+  box-shadow: 2px 2px 6px 2px rgb(0, 0, 0, 0.2);
+  height: 100%;
 
 }
 
-.bioTitle {
-    margin-top: auto;
-    margin-left: 1%;
-    padding-top: 2%;
-    font-size: x-large;
+.pubUsrProf-info-sharedContent-title {
+  display: flex;
+  justify-content: center;
+  font-size: 25px;
+  font-weight: bold;
+  color: #000;
+  width: 60%;
+  padding-bottom: 10px;
+  border-bottom: 1px solid darkgray;
 }
 
-/* information  */
+.pubUsrProf-info-sharedContent-box {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
 
-.profileInfo-container {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    border: 1px solid black
+  padding: 10px 0 10px 0;
+  margin: 20px;
+
+  width: 60%;
+  font-size: 20px;
+
+  border: 1px solid darkgray;
+  border-radius: 15px;
+  box-shadow: 2px 2px rgb(0, 0, 0, 0.2);
+
+  height: fit-content;
 }
 
-.profileInfoTitle {
-    width: 100px; 
-    background-color: lightblue;
+.pubUsrProf-info-sharedContent {
+  margin: 4px;
+  padding: 4px 8px;
+  border: 1px solid black;
+  color: black;
+  border-radius: 10px;
+  font-size: 20px;
 }
-
-.profileInfoList {
-    flex-grow: 1;
-    min-width: 100px;
-    background-color: lightgreen;
-}
-
