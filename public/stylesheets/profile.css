@@ -179,20 +179,27 @@
 .pubUsrProf-info-sharedContent-box {
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   align-items: center;
 
-  padding: 10px 0 10px 0;
+  padding: 10px 10px 10px 10px;
   margin: 20px;
 
   width: 60%;
   font-size: 20px;
+  max-height: 200px;
 
   border: 1px solid darkgray;
   border-radius: 15px;
   box-shadow: 2px 2px rgb(0, 0, 0, 0.2);
 
   height: fit-content;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  scrollbar-width: thin;
+  scrollbar-color: lightgray transparent;
 }
 
 .pubUsrProf-info-sharedContent {
