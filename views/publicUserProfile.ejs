@@ -1,74 +1,50 @@
 <%- include("./partials/header.ejs") %> <% if (!isLoggedIn) {%>
     <%- include("./partials/signinRedirect.ejs")%>
     <% } else { %>
-        <!--TODO PISSE GRIM GØR PÆN-->
-        <div class="profileName"><%= publicUser.name.firstName %> <%= publicUser.name.lastName %></div>
-        <div class="profile-container">
-
-            <div class="profileSides-container">
-                <div class="profileLeftContent">
-                    <div class="profileAvatar">
-                        <img src="/img/70WoJVY.jpeg" alt="Profile Picture"> <!-- Hardcoded billed-->
-                    </div>
-                    <div class="profileInterestsTitle">Interests:</div>
-                    <div class="profileInterest-container">
-                        <div class="profileInterestsList">
-                            <% for(let i=0; i<publicUser.interests.length; i++) {%>
-                                <div class="ProfileInterestBox">
-                                    <%= publicUser.interests[i]%>
-                                </div>
-                                <%}%>
-                        </div>
-                    </div>
-                    <div class="bioTitle">Bio:</div>
-                    <div class="inner-div profileBioDescription">
+        <div class="pubUsrProf-container">
+            <div class="pubUsrProf-left-container">
+                <div class="pubUsrProf-image-container">
+                    <img src="/img/70WoJVY.jpeg" alt="Profile Picture" class="pubUsrProf-image">
+                </div>
+                <div class="pubUsrProf-name"><%= publicUser.name.firstName %> <%= publicUser.name.lastName %></div>
+                <div class="pubUsrProf-bio-container">
+                    <div class="pubUsrProf-bio">
                         <%= publicUser.bio %>
-                      </div>
+                    </div>
+                </div>
+
+                <div class="pubUsrProf-about-container">
+                    
                 </div>
             </div>
-            <div class="profileSides-container ">
-                <div class="profileRightContent">
-                    <div class="inner-div">Info</div>
-                    <div class="inner-div">
-                        <div class="inner-div">
-                            <div class="profileInfo-container">
-                                <div class="profileInfoTitle">Age</div>
-                                <div class="profileInfoList"><%= publicUser.age %></div>
-                            </div>
-                        </div>
-                        <div class="inner-div">
-                            <div class="profileInfo-container">
-                                <div class="profileInfoTitle">Gender</div>
-                                <div class="profileInfoList"><%= publicUser.gender %></div>
-                            </div>
-                        </div>
-                        <div class="inner-div">
-                            <div class="profileInfo-container">
-                                <div class="profileInfoTitle">City</div>
-                                <div class="profileInfoList"><%= publicUser.location %></div>
-                            </div>
-                        </div>
+            <div class="pubUsrProf-right-container">
+                <div class="pubUsrProf-interests-container">
+                    <div class="pubUsrProf-interests-title"><%=publicUser.name.firstName%>s' Interests</div>
+                    <div class="pubUsrProf-interests-box">
+                     <% for(let i=0; i<publicUser.interests.length; i++) {%>
+                        <div class="pubUsrProf-interest"><%= publicUser.interests[i]%></div>
+                    <%}%>
                     </div>
-                    <div class="inner-div">Shared Groups</div>
-                    <div class="inner-div">
-                       <% commonGroups.forEach(group => {%>
-                        <div class="publicUserProfile-sharedGroup"><%= group.groupName%></div>
-                       <%})%>
+                </div>
+                <div class="pubUsrProf-info-container">
+                    <div class="pubUsrProf-info-sharedContent-container">
+                        <div class="pubUsrProf-info-sharedContent-title">Shared Groups</div>
+                        <div class="pubUsrProf-info-sharedContent-box">
+                            <% commonGroups.forEach(group => {%>
+                                <div class="pubUsrProf-info-sharedContent"><%= group.groupName%></div>
+                               <%})%>
+                        </div>
+
                     </div>
-                    <div class="inner-div">Shared Events</div>
-                    <div class="inner-div">
-                        <% commonEvents.forEach(event => {%>
-                            <div class="publicUserProfile-sharedEvents"><%= event.eventName%></div>
-                           <%})%>
+                    <div class="pubUsrProf-info-sharedContent-container">
+                        <div class="pubUsrProf-info-sharedContent-title">Shared Events</div>
+                        <div class="pubUsrProf-info-sharedContent-box">
+                            <% commonEvents.forEach(event => {%>
+                                <div class="pubUsrProf-info-sharedContent"><%= event.eventName%></div>
+                               <%})%>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-
-
-
-
-
-
-
   <%} %>
