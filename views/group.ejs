@@ -47,13 +47,18 @@
   <div class="group-page-right">
     <div class="group-title">
       <div class="group-title-name"><%= group.groupName%></div>
-      <i class="fa-solid fa-ellipsis-vertical"></i>
+      <i class="fa-solid fa-ellipsis-vertical groupSettingsDropdownButton"></i>
+      <div hidden class="group-dropdown">
+        <form action="/user/groups/<%=group._id%>/leave" method="post">
+          <button type="submit" class="group-leave-button">Leave group</button>
+        </form>
+      </div>
     </div>
     <div class="group-users">
       <% groupUsers.forEach(user => {%>
       <a href="/users/<%= user._id %>" class="group-user">
         <div class="group-user-image-container">
-          <img class="group-user-image" src="/img/70WoJVY.jpeg" alt="" />
+          <img class="group-user-image" src="/img/profileImg/profileImg<%=user.profileImageId%>.jpeg" alt="" />
         </div>  
         <div class="group-user-name">
           <%= user.name.firstName %> <%= user.name.lastName %>
@@ -67,3 +72,4 @@
 
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/socket.js"></script>
+<script src="/js/groupPage.js"></script>

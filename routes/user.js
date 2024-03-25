@@ -15,14 +15,18 @@ connectToDb((err) => {
 });
 
 //routes
-router.get("/", (req, res) => {
+router.get("/", async (req, res) => {
   const decodedUser = verifyToken(res, req);
 
   if (decodedUser == null) {
     res.render("user", { isLoggedIn: false });
   } else {
     try {
-      res.render("user", { isLoggedIn: true, user: decodedUser });
+      const user = await db
+        .collection("users")
+        .findOne({ username: decodedUser.username });
+
+      res.render("user", { isLoggedIn: true, user });
     } catch (error) {
       res.render("errorPage", { errorMessage: "Error" });
     }
@@ -205,6 +209,45 @@ router.post("/groups/:id", async (req, res) => {
         },
       }
     );
+  }
+});
+
+router.post("/groups/:id/leave", async (req, res) => {
+  const decodedUser = verifyToken(res, req);
+
+  if (decodedUser == null) {
+    res.render("groupEvents", { isLoggedIn: false });
+  } else {
+    try {
+      console.log("iuiuah");
+      // removes groupId from user.
+      await db.collection("users").updateOne(
+        { username: decodedUser.username },
+        {
+          $pull: {
+            groupIds: {
+              $in: [new ObjectId(req.params.id)],
+            },
+          },
+        }
+      );
+
+      //removes userId from group
+      await db.collection("groups").updateOne(
+        { _id: new ObjectId(req.params.id) },
+        {
+          $pull: {
+            userIds: {
+              $in: [new ObjectId(decodedUser._id)],
+            },
+          },
+        }
+      );
+
+      res.redirect("/");
+    } catch (error) {
+      res.render("errorPage", { errorMessage: "Error, could not leave group" });
+    }
   }
 });
 

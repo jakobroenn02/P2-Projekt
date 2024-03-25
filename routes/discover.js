@@ -4,6 +4,7 @@ const { ObjectId, ReturnDocument, Decimal128 } = require("mongodb");
 const { connectToDb, getDb } = require("../db");
 const jwt = require("jsonwebtoken");
 const { verifyToken } = require("../utils/cookiesUtils");
+const { getGroupsBasedOnInterests } = require("../utils/discoverUtils");
 
 //connect to db
 let db;
@@ -15,34 +16,41 @@ connectToDb((err) => {
 
 router.get("/", async (req, res) => {
   const decodedUser = verifyToken(res, req);
-  let groupSeparationList = [];
-
+  let groupsNotAttendedByUser = [];
+  let sortedGroups = [];
 
   if (decodedUser == null) {
-    return res.render("index", { isLoggedIn: false });
+    return res.render("discover", { isLoggedIn: false });
   } else {
     try {
       const user = await db
         .collection("users")
         .findOne({ username: decodedUser.username });
 
-      for await (interest of user.interests) {
-        let groupSeparation = { interest: interest, groups: [] };
-        await db
-          .collection("groups")
-          .find({ interest: interest })
-          .forEach((group) => {
-            groupSeparation.groups.push(group);
-          })
-          .then(() => {
-            groupSeparationList.push(groupSeparation);
-          });
+      // Finds all groups
+      await db
+        .collection("groups")
+        .find({
+          _id: {
+            $nin: user.groupIds,
+          },
+        })
+        .forEach((group) => {
+          groupsNotAttendedByUser.push(group);
+        });
+
+      for (let i = 0; i < user.interests.length; i++) {
+        sortedGroups.push({ interest: user.interests[i], groups: [] });
+        sortedGroups[i].groups = getGroupsBasedOnInterests(
+          [user.interests[i]],
+          user.interests.length*10,
+          groupsNotAttendedByUser
+        );
       }
 
-
-      res.render("discover", { isLoggedIn: true, groupSeparationList });
+      res.render("discover", { isLoggedIn: true, sortedGroups });
     } catch (error) {
-      res.render("register", { isLoggedIn: true });
+      res.render("errorPage", { errorMessage: "Error" });
     }
   }
 });

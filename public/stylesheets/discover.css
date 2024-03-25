@@ -1,79 +1,93 @@
-.groups-container {
-    display: flex;
-    flex-wrap: wrap;
-    align-content: flex-start;
-  }
-  
-  .group-div {
-    width: 300px;
-    padding: 0 0 12px 0;
-    background-color: lightgray;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-    border-radius: 15px;
-    margin: 10px;
-  }
-  
-  .group-div-top {
-    display: flex;
-    margin-bottom: 6px;
-  }
-  
-  .group-buttons {
-    display: flex;
-    align-items: center;
-    margin-right: 12px;
-  }
+.discover-groups-container {
+  flex-direction: column;
+  display: flex;
+  padding: 0 12px;
+}
+.discover-group-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  border-bottom: 2px solid rgb(235, 235, 235);
+  padding-bottom: 16px;
+}
 
-  .group-anchor-view {
-    text-decoration: none;
-    color: black;
-    font-weight: bold;
-    background-color: gray;
-    padding: 8px;
-    margin: 0 12px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex: 1;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-  }
-  
-  .group-anchor-view:hover {
-    cursor: pointer;
-    background-color: rgb(110, 110, 110);
-  }
-  
-  .group-name {
-    font-weight: bold;
-    color: black;
-    margin-left: 10px;
-    display: flex;
-    flex: 1;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .group-image-div {
-    margin-left: 10px;
-    margin-top: 10px;
-    background-color: black;
-    width: 90px;
-    height: 90px;
-    border-radius: 4px;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .group-image {
-    object-fit: cover;
-    min-width: 100%;
-    min-height: 100%;
-  }
-  
-  .groups-title {
-    padding: 10px;
-    margin: 0px;
-  }
+.discover-group-container-groups {
+  width: 100%;
+  display: flex;
+  overflow-y: auto;
+
+}
+
+.discover-group-div {
+  margin-right: 16px;
+  min-width: 300px;
+  max-width: 300px;
+  background-color: lightgray;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  border-radius: 15px;
+}
+
+.discover-group-div-top {
+  display: flex;
+}
+
+.discover-group-button {
+  display: flex;
+  padding: 12px;
+
+  align-items: center;
+}
+
+.discover-group-anchor-view {
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+  background-color: gray;
+  padding: 8px;
+  margin: 0 12px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.discover-group-anchor-view:hover {
+  cursor: pointer;
+  background-color: rgb(110, 110, 110);
+}
+
+.discover-group-name {
+  font-weight: bold;
+  color: black;
+  margin-left: 10px;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+}
+
+.discover-group-image-div {
+  margin-left: 10px;
+  margin-top: 10px;
+  background-color: black;
+  width: 90px;
+  height: 90px;
+  border-radius: 4px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.discover-group-image {
+  object-fit: cover;
+  min-width: 100%;
+  min-height: 100%;
+}
+
+.discover-groups-title {
+  padding: 10px;
+  margin: 0px;
+}

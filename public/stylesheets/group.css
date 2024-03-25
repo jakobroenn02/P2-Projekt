@@ -33,7 +33,6 @@
   gap: 2px;
   margin-bottom: 24px;
   margin-right: 8px;
-
 }
 
 .group-message-info {
@@ -105,6 +104,7 @@
 
 .group-title {
   display: flex;
+  position: relative;
   width: 100%;
   align-items: center;
   font-size: 18px;
@@ -132,6 +132,28 @@
 
 .group-title i:hover {
   background: rgb(235, 235, 235);
+}
+
+.group-dropdown {
+  position: absolute;
+  top: 40px;
+  right: 30px;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.group-dropdown .group-leave-button {
+  color: white;
+  background-color: rgb(178, 0, 0);
+  padding: 4px 10px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.1s;
+}
+
+.group-dropdown .group-leave-button:hover {
+  background-color: rgb(142, 1, 1);
 }
 
 .group-users {

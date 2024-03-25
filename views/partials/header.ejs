@@ -5,20 +5,18 @@
     <div class="header-logo"><a href="/">Community Finder</a></div>
     <% if (isLoggedIn) {%>
 
-      <div class="header-groups"><a href="/user/groups">Groups</a></div>
-      <div class="header-events"><a href="/user/events">Events</a></div>
-      <div class="header-find_groups"><a href="/discover">Find Groups</a></div>
-      <%}%>
-
+    <div class="header-groups"><a href="/user/groups">Groups</a></div>
+    <div class="header-events"><a href="/user/events">Events</a></div>
+    <div class="header-find_groups"><a href="/discover">Find Groups</a></div>
+    <%}%>
   </div>
   <div class="header-right">
     <% if (isLoggedIn) {%>
-    <a href="/user"><div class="header-profile"></div></a>
+    <a href="/user"><div class="header-profile">
+    </div></a>
     <div class="header-settings-icon"><i class="fa-solid fa-gear"></i></div>
-    
   </div>
-  <%} else {%>
-  <%} %>
+  <%} else {%> <%} %>
 </nav>
 <div class="header-settings-dropdown" hidden>
   <a href="/login/logout">Logout</a>

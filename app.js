@@ -64,7 +64,7 @@ io.on("connection", (socket) => {
 
 //Port
 server.listen(3000, () => {
-  console.log("Server is running on port 3000");
+  console.log("Server is running on port http://localhost:3000");
 });
 
 // TODO: skal nok ikke være her, måske lave en mappe til utils et sted i serverside.
