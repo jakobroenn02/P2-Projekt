@@ -34,7 +34,7 @@ include("./partials/signinRedirect.ejs")%>
     <div class="homepage-title">Upcoming Events</div>
     <!--Hardcoded max entries to 2 to avoid overflow-->
     <% for(let i = 0; i < events.length && i < 2; i++) {%>
-    <a href="/user/events/<%=events[i]._id%>" class="homepage-event">
+    <a href="/user/groups/<%=events[i].groupId%>/events/<%=events[i]._id%>" class="homepage-event">
       <div class="homepage-event-title"><%= events[i].eventName%></div>
       <div class="homepage-event-info">
         <div class="homepage-event-description"><%=events[i].description%></div>
@@ -77,7 +77,7 @@ include("./partials/signinRedirect.ejs")%>
     <%}%>
 
     <div class="homepage-showMore">
-      <a href="/groups/find" class="homepage-showMore-anchor"
+      <a href="/discover" class="homepage-showMore-anchor"
         ><i class="homepage-linkIcon fa-solid fa-link"></i>Show More...</a
       >
     </div>

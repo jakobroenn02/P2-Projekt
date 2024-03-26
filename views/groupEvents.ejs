@@ -7,7 +7,7 @@ include("./partials/signinRedirect.ejs")%> <% } else { %>
 
 <div class="groupEvents-events-container">
   <% groupEvents.forEach(event => { %>
-  <a href="/user/events/<%-event._id%>" class="groupEvents-event-anchor">
+  <a href="/user/groups/<%=event.groupId%>/events/<%=event._id%>" class="groupEvents-event-anchor">
     <div class="groupEvents-event">
       <div class="groupEvents-event-title"><%= event.eventName%></div>
       <div class="groupEvents-event-description"><%= event.description%></div>
