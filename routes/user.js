@@ -252,42 +252,35 @@ router.post("/groups/:id/leave", async (req, res) => {
 
 router.get("/groups/:id/events", async (req, res) => {
   const decodedUser = verifyToken(res, req);
-  let currentGroup;
-  let groupEventsIds = [];
+
   let groupEvents = [];
 
   if (decodedUser == null) {
     res.render("groupEvents", { isLoggedIn: false });
   } else {
     try {
-      currentGroup = await db
+      const currentGroup = await db
         .collection("groups")
         .findOne({ _id: new ObjectId(req.params.id) });
 
-      groupEventsIds = currentGroup.eventIds;
-
       await db
         .collection("events")
-        .find({})
+        .find({ _id: { $in: currentGroup.eventIds } })
         .forEach((event) => {
-          for (let i = 0; i < groupEventsIds.length; i++) {
-            if (event._id == groupEventsIds[i]) {
-              groupEvents.push(event);
-            }
-          }
-        })
-        .then(() => {
-          res.render("groupEvents", {
-            isLoggedIn: true,
-            currentGroup,
-            groupEvents,
-          });
+          groupEvents.push(event);
         });
+
+      res.render("groupEvents", {
+        isLoggedIn: true,
+        currentGroup,
+        groupEvents,
+      });
     } catch (error) {
       res.render("errorPage", { errorMessage: "Error" });
     }
   }
 });
+
 
 router.get("/interests", async (req, res) => {
   const decodedUser = verifyToken(res, req);

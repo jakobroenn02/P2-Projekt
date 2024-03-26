@@ -42,14 +42,13 @@ router.post("/", async (req, res) => {
       eventIds: [],
       username: req.body.username,
       profileImageId: 1,
-      email: req.body.email,
       gender: req.body.gender,
     };
     db.collection("users")
       .insertOne(user)
       .then(() => {
         const token = jwt.sign(user, process.env.JWTSECRET, {
-          expiresIn: "30m",
+          expiresIn: "60m",
         });
 
         //sets cookie in browser

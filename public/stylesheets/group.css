@@ -156,19 +156,93 @@
   background-color: rgb(142, 1, 1);
 }
 
-.group-users {
+.group-users,
+.group-events {
   width: 100%;
   display: flex;
   flex-direction: column;
 }
 
+.group-users-toggle,
+.group-events-toggle {
+  display: flex;
+  justify-content: space-between;
+  margin: 8px 24px;
+  padding: 12px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.group-users-toggle:hover,
+.group-events-toggle:hover {
+  background-color: rgb(246, 246, 246);
+}
+
+.group-users-toggle-title,
+.group-events-toggle-title {
+  font-weight: 600;
+  font-size: 12px;
+  color: rgb(59, 59, 59);
+}
+
+.group-users-toggle-icon,
+.group-events-toggle-icon {
+  font-weight: 600;
+  font-size: 12px;
+  color: rgb(59, 59, 59);
+}
+
+.group-users-list,
+.group-events-list {
+  width: 100%;
+}
+
+.group-events-calendar-button,
+.group-events-create-button {
+  display: flex;
+  height: 38px;
+  padding: 8px 0px 8px 8px;
+  align-items: center;
+  border-radius: 4px;
+  padding: 4px 12px;
+  cursor: pointer;
+  margin: 0px 24px;
+  gap: 16px;
+}
+
+.group-events-calendar-button-title,
+.group-events-create-button-title {
+  color: rgb(65, 65, 65);
+  font-size: 14px;
+}
+
+.group-events-calendar-button:hover,
+.group-events-create-button:hover {
+  background-color: rgb(246, 246, 246);
+  
+}
+
+.group-events-calendar-button-icon,
+.group-events-create-button-icon { 
+  background-color: rgb(238, 238, 238);
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  border-radius: 100%;
+  color: black;
+}
+
+
 .group-user {
   height: 46px;
   display: flex;
-  padding: 8px 0px 8px 8px;
   align-items: center;
-  border-bottom: 1px solid rgb(86, 86, 86);
   cursor: pointer;
+  margin: 0px 24px;
+  padding: 4px 12px;
+  border-radius: 4px;
 }
 
 .group-user:hover {
