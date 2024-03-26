@@ -250,7 +250,7 @@ router.post("/groups/:id/leave", async (req, res) => {
   }
 });
 
-router.get("/groups/:id/events", async (req, res) => {
+router.get("/groups/:groupId/events", async (req, res) => {
   const decodedUser = verifyToken(res, req);
 
   let groupEvents = [];
@@ -259,9 +259,26 @@ router.get("/groups/:id/events", async (req, res) => {
     res.render("groupEvents", { isLoggedIn: false });
   } else {
     try {
+      const loggedInUser = await db
+        .collection("users")
+        .findOne({ username: decodedUser.username });
+
+      // Checks if user is member of group related to events.
+      if (
+        !loggedInUser.groupIds
+          .toString()
+          .split(",")
+          .includes(req.params.groupId)
+      ) {
+        res.render("errorPage", {
+          errorMessage: "You are not a member of this group",
+        });
+        return;
+      }
+
       const currentGroup = await db
         .collection("groups")
-        .findOne({ _id: new ObjectId(req.params.id) });
+        .findOne({ _id: new ObjectId(req.params.groupId) });
 
       await db
         .collection("events")
@@ -280,7 +297,6 @@ router.get("/groups/:id/events", async (req, res) => {
     }
   }
 });
-
 
 router.get("/interests", async (req, res) => {
   const decodedUser = verifyToken(res, req);
@@ -342,33 +358,47 @@ router.post("/interests", async (req, res) => {
   }
 });
 
-router.get("/events/:eventId", (req, res) => {
+router.get("/groups/:groupId/events/:eventId", async (req, res) => {
   const decodedUser = verifyToken(res, req);
 
   if (decodedUser == null) {
-    res.render("eventinfo", { isLoggedIn: false });
+    res.render("eventPage", { isLoggedIn: false });
   } else {
     try {
-      db.collection("events")
-        .findOne({ _id: new ObjectId(req.params.eventId) })
-        .then((event) => {
-          db.collection("users")
-            .find({
-              _id: { $in: event.participantIds.map((id) => new ObjectId(id)) },
-            })
-            .toArray()
-            .then((users) => {
-              event.participantIds = users.map((user) => user.username);
-              db.collection("events")
-                .find({
-                  participantIds: decodedUser._id,
-                })
-                .toArray()
-                .then((events) => {
-                  res.render("eventinfo", { isLoggedIn: true, event, events });
-                });
-            });
+      const loggedInUser = await db
+        .collection("users")
+        .findOne({ username: decodedUser.username });
+
+      // Checks if user is member of group related to event.
+
+      if (
+        !loggedInUser.groupIds
+          .toString()
+          .split(",")
+          .includes(req.params.groupId)
+      ) {
+        res.render("errorPage", {
+          errorMessage: "You are not a member of this group",
         });
+        return;
+      }
+
+      const event = await db
+        .collection("events")
+        .findOne({ _id: new ObjectId(req.params.eventId) });
+
+      const eventParticipants = await db
+        .collection("users")
+        .find({
+          _id: { $in: event.participantIds },
+        })
+        .toArray();
+
+      res.render("eventPage", {
+        isLoggedIn: true,
+        event,
+        eventParticipants,
+      });
     } catch (error) {
       res.render("errorPage", { errorMessage: "Error" });
     }

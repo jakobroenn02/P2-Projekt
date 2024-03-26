@@ -39,15 +39,14 @@
         <h2>Attendees</h2>
         <div class="attendees-list">
           <ul class="list-of-attendees">
-          <% if (event.participantIds && event.participantIds.length > 0) { %>
-          <% event.participantIds.forEach((participant) => { %>
-          <li class="attendee"> <%= participant %> </li>
+          <% if (eventParticipants.length > 0) { %>
+          <% eventParticipants.forEach((participant) => { %>
+          <li class="attendee"> <%= participant.name.firstName %> </li>
           <% }) %>
           </ul>
           <% } else { %>
           <p>No attendees yet</p>
           <% } %>
-
         </div>
         </div>
       </div>

@@ -7,7 +7,7 @@
   <div class="events-container">
     <% events.forEach(event => { %>
     <div class="event-div">
-      <a href="/user/events/<%=event._id%>"
+      <a href="/user/groups/<%=event.groupId%>/events/<%=event._id%>"
         ><div class="event-name"><%= event.eventName %></div>
         <div class="event-description">
           <%=event.description%>
