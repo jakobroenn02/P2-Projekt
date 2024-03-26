@@ -219,7 +219,6 @@ router.post("/groups/:id/leave", async (req, res) => {
     res.render("groupEvents", { isLoggedIn: false });
   } else {
     try {
-      console.log("iuiuah");
       // removes groupId from user.
       await db.collection("users").updateOne(
         { username: decodedUser.username },
