@@ -4,9 +4,10 @@
         <div class="pubUsrProf-container">
             <div class="pubUsrProf-left-container">
                 <div class="pubUsrProf-image-container">
-                    <img src="/img/70WoJVY.jpeg" alt="Profile Picture" class="pubUsrProf-image">
+                    <img src="/img/profileImg/profileImg1.jpeg" alt="Profile Picture" class="pubUsrProf-image">
                 </div>
                 <div class="pubUsrProf-name"><%= publicUser.name.firstName %> <%= publicUser.name.lastName %></div>
+                <!-- Gender/age here?-->
                 <div class="pubUsrProf-bio-container">
                     <div class="pubUsrProf-bio">
                         <%= publicUser.bio %>
@@ -19,7 +20,7 @@
             </div>
             <div class="pubUsrProf-right-container">
                 <div class="pubUsrProf-interests-container">
-                    <div class="pubUsrProf-interests-title"><%=publicUser.name.firstName%>s' Interests</div>
+                    <div class="pubUsrProf-interests-title"><%=publicUser.name.firstName%>'s Interests</div>
                     <div class="pubUsrProf-interests-box">
                      <% for(let i=0; i<publicUser.interests.length; i++) {%>
                         <div class="pubUsrProf-interest"><%= publicUser.interests[i]%></div>
