@@ -1,64 +1,34 @@
 <%- include("./partials/header.ejs") %> <% if (!isLoggedIn) {%>
   <%- include("./partials/signinRedirect.ejs")%>
 <% } else { %>
-<div class="find-group-page">
-  <div class="find-group-left">
-    <div class="find-group-title"><%= group.groupName %></div>
-    <div class="find-group-members">
+<div class="discover-group-page">
+  <div class="discover-group-left">
+    <div class="discover-group-title"><%= group.groupName %></div>
+    <div class="discover-group-members">
       <%= group.groupMemberAmount %> / <%= group.maxMembers%> Members
     </div>
-    <div class="find-group-description"><%= group.description %></div>
-    <form method="post" action="/discover/<%= group._id %>/join" class="find-group-join-form" >
-      <button class="find-group-join-button" type="submit">Join group</button>
+    <div class="discover-group-description"><%= group.description %></div>
+    <form method="post" action="/discover/<%= group._id %>/join" class="discover-group-join-form" >
+      <button class="discover-group-join-button" type="submit">Join group</button>
     </form>
   </div>
-  <div class="find-group-right">
-    <div class="find-group-info">
-      <div class="find-group-info-title">Participants' Locations</div>
-      <div class="find-group-info-list">
-        <div class="find-group-info-list-item">
-          <div class="find-group-info-list-item-name">Aalborg Ø</div>
-          <div class="find-group-info-list-item-amount">1</div>
-        </div>
-        <div class="find-group-info-list-item">
-          <div class="find-group-info-list-item-name">Aalborg V</div>
-          <div class="find-group-info-list-item-amount">3</div>
-        </div>
-        <div class="find-group-info-list-item">
-          <div class="find-group-info-list-item-name">Aalborg S</div>
-          <div class="find-group-info-list-item-amount">3</div>
-        </div>
-      </div>
+  <div class="discover-group-right">
+    <div class="discover-group-right-title">Group Information</div>
+    <div class="discover-group-right-container">
+      <div class="discover-group-right-container-title">Age Range:</div>
+      <div class="discover-group-right-container-item"><%=group.ageRange %></div>
     </div>
-    <div class="find-group-info">
-      <div class="find-group-info-title">Participants' Ages</div>
-      <div class="find-group-info-list">
-        <div class="find-group-info-list-item">
-          <div class="find-group-info-list-item-name">20 Years</div>
-          <div class="find-group-info-list-item-amount">1</div>
-        </div>
-        <div class="find-group-info-list-item">
-          <div class="find-group-info-list-item-name">21 Years</div>
-          <div class="find-group-info-list-item-amount">2</div>
-        </div>
-        <div class="find-group-info-list-item">
-          <div class="find-group-info-list-item-name">23 Years</div>
-          <div class="find-group-info-list-item-amount">4</div>
-        </div>
-      </div>
+    <div class="discover-group-right-container">
+      <div class="discover-group-right-container-title">Location:</div>
+      <div class="discover-group-right-container-item"><%=group.location %></div>
     </div>
-    <div class="find-group-info">
-      <div class="find-group-info-title">Participants' Genders</div>
-      <div class="find-group-info-list">
-        <div class="find-group-info-list-item">
-          <div class="find-group-info-list-item-name">Male</div>
-          <div class="find-group-info-list-item-amount">5</div>
-        </div>
-        <div class="find-group-info-list-item">
-          <div class="find-group-info-list-item-name">Female</div>
-          <div class="find-group-info-list-item-amount">2</div>
-        </div>
-      </div>
+    <div class="discover-group-right-container">
+      <div class="discover-group-right-container-title">Gender:</div>
+      <div class="discover-group-right-container-item"><%=group.gender %></div>
+    </div>
+    <div class="discover-group-right-container">
+      <div class="discover-group-right-container-title">Upcoming Events:</div>
+      <div class="discover-group-right-container-events"><%= group.eventIds.length  %></div>
     </div>
   </div>
 </div>

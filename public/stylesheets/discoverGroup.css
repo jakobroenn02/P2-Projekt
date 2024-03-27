@@ -1,0 +1,93 @@
+.discover-group-page {
+  display: flex;
+  height: calc(100vh - 88px);
+  width: 100vw;
+}
+
+.discover-group-left {
+  flex: 2;
+  padding: 8px;
+  border-right: 2px solid black;
+}
+
+.discover-group-title {
+  font-size: 26px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.discover-group-members {
+  color: rgb(78, 78, 78);
+  border-bottom: 2px solid black;
+  font-size: 14px;
+  padding-bottom: 6px;
+}
+
+.discover-group-description {
+  margin-top: 6px;
+  color: rgb(78, 78, 78);
+  margin-bottom: 4px;
+}
+
+.discover-group-join-form {
+  margin-top: 24px;
+  display: flex;
+  justify-content: center;
+}
+
+.discover-group-join-button {
+  height: 32px;
+  width: 160px;
+  background-color: rgb(0, 96, 0);
+  border: none;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.12s;
+}
+
+.discover-group-join-button:hover {
+  background-color: rgb(0, 110, 0);
+}
+
+.discover-group-right {
+  flex: 4;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.discover-group-right-title{
+  display: flex;
+  font-size: 40px;
+  font-weight: 600;
+  margin-bottom: 4px;
+  justify-content: center; 
+}
+
+.discover-group-right-container-title{
+  display: flex;
+  font-size: 20px;
+  text-decoration-line: underline;
+}
+
+.discover-group-right-container{
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  padding: 5px;
+  border-bottom: 2px solid black;
+}
+
+.discover-group-right-container-item{
+  display: flex;
+  font-size: 20px;
+
+}
+.discover-group-right-container-events{
+  display: flex;
+  font-size: 20px;
+
+}

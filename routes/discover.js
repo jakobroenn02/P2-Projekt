@@ -58,6 +58,7 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   const decodedUser = verifyToken(res, req);
   let groupUsers = [];
+  let groupEvents = [];
 
   let participantsLocations = [];
   let participantsAges = [];
@@ -81,6 +82,14 @@ router.get("/:id", async (req, res) => {
           groupUsers.push(user);
         });
 
+        await db
+        .collection("events")
+        .find({ _id: { $in: group.eventIds } })
+        .forEach((event) => {
+          groupEvents.push(event);
+        });
+      
+      
       res.render("discoverGroup", {
         isLoggedIn: true,
         group,
