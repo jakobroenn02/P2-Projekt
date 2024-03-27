@@ -36,7 +36,7 @@ router.post("/", async (req, res) => {
       password: hashedPassword,
       bio: "",
       age: 0,
-      location: "",
+      location: req.body.location,
       groupIds: [],
       interests: [],
       eventIds: [],
