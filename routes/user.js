@@ -77,30 +77,37 @@ router.post("/info/update", async (req, res) => {
   }
 });
 
-router.get("/events", (req, res) => {
+router.get("/events", async (req, res) => {
   const decodedUser = verifyToken(res, req);
-  let events = [];
 
   if (decodedUser == null) {
     res.render("userEvents", { isLoggedIn: false });
   } else {
     try {
-      db.collection("users")
-        .findOne({ username: decodedUser.username })
-        .then((user) => {
-          db.collection("events")
-            .find({
-              _id: {
-                $in: user.eventIds,
-              },
-            })
-            .forEach((event) => {
-              events.push(event);
-            })
-            .then(() => {
-              res.render("userEvents", { isLoggedIn: true, events });
-            });
-        });
+      let user = await db
+        .collection("users")
+        .findOne({ username: decodedUser.username });
+
+      let events = await db
+        .collection("events")
+        .find({
+          _id: {
+            $in: user.eventIds,
+          },
+        })
+        .toArray();
+
+      let userGroups = await db
+        .collection("groups")
+        .find({ _id: { $in: user.groupIds } })
+        .toArray();
+
+      res.render("userEvents", {
+        isLoggedIn: true,
+        events,
+        user,
+        userGroups,
+      });
     } catch (error) {
       res.render("errorPage", { errorMessage: "Error" });
     }
@@ -259,38 +266,34 @@ router.get("/groups/:groupId/events", async (req, res) => {
     res.render("groupEvents", { isLoggedIn: false });
   } else {
     try {
-      const loggedInUser = await db
+      const user = await db
         .collection("users")
         .findOne({ username: decodedUser.username });
 
       // Checks if user is member of group related to events.
-      if (
-        !loggedInUser.groupIds
-          .toString()
-          .split(",")
-          .includes(req.params.groupId)
-      ) {
+      if (!user.groupIds.toString().split(",").includes(req.params.groupId)) {
         res.render("errorPage", {
           errorMessage: "You are not a member of this group",
         });
         return;
       }
 
-      const currentGroup = await db
+      const group = await db
         .collection("groups")
         .findOne({ _id: new ObjectId(req.params.groupId) });
 
       await db
         .collection("events")
-        .find({ _id: { $in: currentGroup.eventIds } })
+        .find({ _id: { $in: group.eventIds } })
         .forEach((event) => {
           groupEvents.push(event);
         });
 
       res.render("groupEvents", {
         isLoggedIn: true,
-        currentGroup,
+        group,
         groupEvents,
+        user,
       });
     } catch (error) {
       res.render("errorPage", { errorMessage: "Error" });
@@ -355,6 +358,61 @@ router.post("/interests", async (req, res) => {
       .findOne({ username: decodedUser.username });
 
     res.redirect("/user/interests");
+  }
+});
+
+router.post("/groups/:groupId/events/create", async (req, res) => {
+  const decodedUser = verifyToken(res, req);
+
+  let groupId;
+  try {
+    const dateListed = req.body.startDate.split("-");
+    const timeListed = req.body.startTime.split(":");
+    if (decodedUser != null) {
+      if (req.params.groupId !== "undefined") {
+        groupId = new ObjectId(req.params.groupId);
+      } else {
+        groupId = new ObjectId(req.body.groupId);
+      }
+      let createdEvent = {
+        eventName: req.body.eventName,
+        date: {
+          year: parseInt(dateListed[0]),
+          month: parseInt(dateListed[1]),
+          day: parseInt(dateListed[2]),
+          hour: parseInt(timeListed[0]),
+          minute: parseInt(timeListed[1]),
+        },
+        description: req.body.description,
+        location: { name: req.body.cityName, address: req.body.adressName },
+        groupId: groupId,
+        participantIds: [],
+      };
+
+      let insertedEventRes = await db
+        .collection("events")
+        .insertOne(createdEvent);
+
+      //Add event to group
+
+      await db
+        .collection("groups")
+        .updateOne(
+          { _id: groupId },
+          { $push: { eventIds: insertedEventRes.insertedId } }
+        );
+      if (req.params.groupId !== "undefined") {
+        res.redirect(
+          `/user/groups/${req.params.groupId}/events/${insertedEventRes.insertedId}`
+        );
+      } else {
+        res.redirect(
+          `/user/groups/${req.body.groupId}/events/${insertedEventRes.insertedId}`
+        );
+      }
+    }
+  } catch (error) {
+    res.render("errorPage", { errorMessage: "Error, could not create event" });
   }
 });
 

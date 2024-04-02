@@ -1,7 +1,5 @@
-<%- include("./partials/header.ejs") %>
-<% if (!isLoggedIn) {%>
-  <%- include("./partials/signinRedirect.ejs")%>
-<% } else { %>
+<%- include("./partials/header.ejs") %> <% if (!isLoggedIn) {%> <%-
+include("./partials/signinRedirect.ejs")%> <% } else { %>
 <div class="userEvents">
   <h1 class="events-title">Your events</h1>
   <div class="events-container">
@@ -9,9 +7,7 @@
     <div class="event-div">
       <a href="/user/groups/<%=event.groupId%>/events/<%=event._id%>"
         ><div class="event-name"><%= event.eventName %></div>
-        <div class="event-description">
-          <%=event.description%>
-        </div>
+        <div class="event-description"><%=event.description%></div>
         <div class="event-address">
           <%= event.location.name%> | <%= event.location.address %>
         </div>
@@ -25,6 +21,12 @@
       </a>
     </div>
     <%})%>
-    <%}%>
+    <div class="user-events-create-event-button">
+      <i class="fa-solid fa-plus add-event-icon"></i>
+    </div>
   </div>
 </div>
+
+<%- include("./partials/createEventModal.ejs") %>
+<script src="/js/userEvents.js"></script>
+<%}%>

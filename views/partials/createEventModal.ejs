@@ -1,0 +1,124 @@
+<div hidden class="create-event-modal">
+  <div class="create-event-modal-container">
+    <div class="create-event-modal-header">
+      <div class="create-event-modal-header-title">Create Event <% if(typeof group !== "undefined"){%>for&nbsp;<strong><%= group.groupName%></strong><% } %></div>
+      <div class="create-event-modal-header-close">
+        <i class="fa-solid fa-xmark"></i>
+      </div>
+    </div>
+    <div class="create-event-modal-body">
+      <!--TODO Hvis vi laver så man kan lave events fra events siden, skal dette ikke med, og man 
+        skal der kunne vælge hvilken gruppen man laver eventet til.
+      -->
+      <form method="post" <%if(typeof group !== "undefined") {%>
+        action="/user/groups/<%=group._id%>/events/create" <%} else {%>
+          action="/user/groups/undefined/events/create" <%} %>
+        class="create-event-form" >
+        <div class="create-event-form-body">
+          <div class="create-event-modal-organiser">
+            <div class="create-event-modal-organiser-image-container">
+              <img
+                src="/img/profileImg/profileImg<%=user.profileImageId %>.jpeg"
+                alt=""
+              />
+            </div>
+            <div class="create-event-modal-organiser-info">
+              <div class="create-event-modal-organiser-text">Organiser:</div>
+              <div class="create-event-modal-organiser-name">
+                <%=user.name.firstName%> <%=user.name.lastName%>
+                <strong>(You)</strong>
+              </div>
+            </div>
+          </div>
+          <label class="create-event-form-label" for="eventName"
+            >Event Name:</label
+          >
+          <input
+            class="create-event-form-input"
+            type="text"
+            name="eventName"
+            placeholder="Name of the event"
+            required
+          />
+          <div class="create-event-date-container">
+            <div class="create-event-start-date-container">
+              <label class="create-event-form-label" for="startDate"
+                >Start Date:</label
+              >
+              <input
+                name="startDate"
+                required
+                class="create-event-form-input"
+                type="date"
+              />
+            </div>
+            <div class="create-event-end-date-container">
+              <label class="create-event-form-label" for="endDate"
+                >Start Time:</label
+              >
+              <input
+                name="startTime"
+                required
+                class="create-event-form-input"
+                type="time"
+              />
+            </div>
+          </div>
+
+          <label class="create-event-form-label" for="description"
+            >Description:</label
+          >
+          <textarea
+            placeholder="Description of the event"
+            class="create-event-form-textarea"
+            name="description"
+            rows="3"
+            required
+          ></textarea>
+
+          <div class="create-event-form-location-container">
+            <div class="create-form-location-city-container">
+              <label class="create-event-form-label" for="cityName"
+                >City: </label
+              ><input
+                placeholder="Name of the city"
+                type="text"
+                class="create-event-form-input"
+                name="cityName"
+              />
+            </div>
+            <div class="create-form-location-adress-container">
+              <label class="create-event-form-label" for="cityName"
+                >Adress: </label
+              ><input
+                placeholder="Adress of the event"
+                type="text"
+                name="adressName"
+                class="create-event-form-input"
+              />
+            </div>
+          </div>
+          <%if(typeof group === "undefined") {%>
+          <label class="create-event-form-label" for="groupId">Group: </label>
+          <select class="create-event-form-select" name="groupId">
+            <%userGroups.forEach(group => {%>
+              <option value="<%=group._id %>"><%= group.groupName %></option>
+            <%})%>;
+          </select>
+        <%}%>
+        </div>
+
+        
+
+
+        <div class="create-event-submit-button-container">
+          <button class="create-event-submit-button" type="submit">
+            Create Event
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script src="/js/createEventModal.js"></script>

@@ -1,0 +1,242 @@
+.create-event-modal {
+  top: -88px;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 10;
+  position: absolute;
+  background-color: rgb(255, 255, 255, 0.4);
+}
+
+.create-event-modal-container {
+  background-color: white;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  border-radius: 6px;
+  position: absolute;
+  top: 35%;
+  left: 50%;
+  margin-top: -200px;
+  margin-left: -270px;
+  width: 540px;
+  height: 70vh;
+  min-height: 420px;
+  max-height: 550px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.create-event-modal-header {
+  position: relative;
+  display: flex;
+  width: 100%;
+  border-bottom: 1.5px solid rgb(199, 199, 199);
+  height: 48px;
+  align-items: center;
+  box-shadow: 0px 11px 20px -20px rgba(0, 0, 0, 0.45);
+}
+
+.create-event-modal-header-title {
+  margin-left: 48px;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.create-event-modal-header-close {
+  background-color: rgb(240, 240, 240);
+  height: 32px;
+  width: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 8px;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: all 0.1s;
+}
+
+.create-event-modal-header-close:hover {
+  background-color: rgb(221, 221, 221);
+}
+
+.create-event-modal-body {
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: rgb(240, 240, 240);
+  padding: 0 0 0 8px;
+  position: relative;
+}
+
+.create-event-modal-organiser {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.create-event-modal-organiser-image-container {
+  width: 48px;
+  height: 48px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}
+
+.create-event-modal-organiser-image-container img {
+  min-width: 100%;
+  min-height: 100%;
+  object-fit: cover;
+}
+
+.create-event-modal-organiser-info {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.create-event-modal-organiser-text {
+  font-size: 12px;
+  color: grey;
+}
+.create-event-modal-organiser-name {
+  color: rgb(64, 64, 64);
+  font-size: 14px;
+}
+
+.create-event-form {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+}
+
+.create-event-form-body {
+  overflow-y: auto;
+  padding-top: 12px;
+  height: calc(100% - 65.133px - 12px);
+  padding-right: 8px;
+}
+
+.create-event-form-input {
+  width: 100%;
+  padding: 16px;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  border-radius: 6px;
+  font-family: sans-serif;
+  border: 1px solid rgb(187, 187, 187);
+}
+
+.create-event-form-input:focus {
+  outline: none;
+}
+
+.create-event-submit-button-container {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  min-height: 64px;
+  border-top: 1.5px solid rgb(199, 199, 199);
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.create-event-submit-button {
+  position: absolute;
+  border: none;
+  width: 164px;
+  height: 32px;
+  color: white;
+  background-color: rgb(107, 94, 255);
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.1s;
+}
+
+.create-event-submit-button:hover {
+  background-color: rgb(90, 77, 240);
+}
+.create-event-form-label {
+  color: rgba(99, 99, 99);
+  padding-left: 4px;
+  font-size: 12px;
+}
+
+.create-event-date-container {
+  display: flex;
+  gap: 16px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.create-event-date-container input {
+}
+
+.create-event-end-date-container,
+.create-event-start-date-container {
+  flex: 1;
+}
+
+.create-event-form-textarea {
+  resize: none;
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  border-radius: 6px;
+  border: 1px solid rgb(187, 187, 187);
+  font-family: sans-serif;
+}
+
+.create-event-form-textarea:focus {
+  outline: none;
+}
+.create-event-form-select {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  border-radius: 6px;
+  font-family: sans-serif;
+  border: 1px solid rgb(187, 187, 187);
+  margin-bottom: 12px;
+}
+
+.create-event-form-location-container {
+  display: flex;
+  gap: 16px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.create-form-location-adress-container,
+.create-form-location-city-container {
+  flex: 1;
+}
+
+.create-event-form-select {
+  width: 100%;
+  padding: 16px;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  border-radius: 6px;
+  font-family: sans-serif;
+  border: 1px solid rgb(187, 187, 187);
+}
+
+
+.create-event-form-select:focus {
+  outline: none;
+}
+
