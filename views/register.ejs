@@ -3,6 +3,9 @@
 <div>You are already logged in</div>
 <% } else { %>
 <div class="register-container">
+  <% if(hasTypeWrong){%>
+    <div class="register-input-error">Username is already taken. Try a different one.</div>
+  <%}%>
   <form action="/register" method="post">
     <label for="firstName"><b>First Name</b></label>
     <input class="register-input" type="text" placeholder="Enter First Name" name="firstName" required />
@@ -14,7 +17,7 @@
     <label for="username"><b>Username</b></label>
     <input class="register-input" type="text" placeholder="Enter Username" name="username" required />
 
-    <label for="email"><b>Gender</b></label>
+    <label for="gender"><b>Gender</b></label>
     <select name="gender" class="register-input" required>
       <option value="male">Male</option>
       <option value="female">Female</option>
