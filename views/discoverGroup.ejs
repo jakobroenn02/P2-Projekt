@@ -1,35 +1,64 @@
-<%- include("./partials/header.ejs") %> <% if (!isLoggedIn) {%>
-  <%- include("./partials/signinRedirect.ejs")%>
-<% } else { %>
-<div class="discover-group-page">
-  <div class="discover-group-left">
-    <div class="discover-group-title"><%= group.groupName %></div>
-    <div class="discover-group-members">
-      <%= group.groupMemberAmount %> / <%= group.maxMembers%> Members
-    </div>
-    <div class="discover-group-description"><%= group.description %></div>
-    <form method="post" action="/discover/<%= group._id %>/join" class="discover-group-join-form" >
-      <button class="discover-group-join-button" type="submit">Join group</button>
-    </form>
-  </div>
-  <div class="discover-group-right">
-    <div class="discover-group-right-title">Group Information</div>
-    <div class="discover-group-right-container">
-      <div class="discover-group-right-container-title">Age Range:</div>
-      <div class="discover-group-right-container-item"><%=group.ageRange %></div>
-    </div>
-    <div class="discover-group-right-container">
-      <div class="discover-group-right-container-title">Location:</div>
-      <div class="discover-group-right-container-item"><%=group.location %></div>
-    </div>
-    <div class="discover-group-right-container">
-      <div class="discover-group-right-container-title">Gender:</div>
-      <div class="discover-group-right-container-item"><%=group.gender %></div>
-    </div>
-    <div class="discover-group-right-container">
-      <div class="discover-group-right-container-title">Upcoming Events:</div>
-      <div class="discover-group-right-container-events"><%= group.eventIds.length  %></div>
-    </div>
-  </div>
-</div>
-<%} %>
+<%- include("./partials/header.ejs") %>
+  <% if (!isLoggedIn) {%>
+    <%- include("./partials/signinRedirect.ejs")%>
+      <% } else { %>
+        <div class="discover-group-page">
+          <div class="discover-group-left">
+            <div class="discover-group-title">
+              <%= group.groupName %>
+            </div>
+            <div class="discover-group-members">
+              <%= group.groupMemberAmount %> / <%= group.maxMembers%> Members
+            </div>
+            <div class="discover-group-description">
+              <%= group.description %>
+            </div>
+            <form method="post" action="/discover/<%= group._id %>/join" class="discover-group-join-form">
+              <button class="discover-group-join-button" type="submit">Join group</button>
+            </form>
+          </div>
+          <div class="discover-group-right">
+            <div class="discover-group-right-title">Group Information</div>
+            <div class="discover-group-right-container">
+              <div class="discover-group-right-container-title">Age Range:</div>
+              <div class="discover-group-right-container-item">
+                <%=group.requirements.ageRange %>
+              </div>
+            </div>
+            <div class="discover-group-right-container">
+              <div class="discover-group-right-container-title">Location:</div>
+              <div class="discover-group-right-container-item">
+                <%=group.location %>
+              </div>
+            </div>
+            <div class="discover-group-right-container">
+              <div class="discover-group-right-container-title">Gender:</div>
+              <div class="discover-group-right-container-item">
+                <%=group.requirements.gender %>
+              </div>
+            </div>
+            <div class="discover-group-right-container">
+              <div class="discover-group-right-container-title">Upcoming Events:</div>
+              <div class="discover-group-right-container-events">
+                <% for (let i=0; i < group.eventIds.length; i++) { %>
+                  <div class="discover-group-right-container-events-container">
+                    <div class="discover-group-right-container-events-container-title">
+                      <%= groupEvents[i].eventName %>
+                    </div>
+                    <div class="discover-group-right-container-events-container-text">
+                      <div class="discover-group-right-container-events-container-text-participants">
+                      Participants: <%= groupEvents[i].participantIds.length %>
+                      </div>
+                      <div class="discover-group-right-container-events-container-text-date">
+                        
+                      Date: <%= groupEvents[i].date.year %>/<%= groupEvents[i].date.month %>/<%= groupEvents[i].date.day %>  
+                      </div>
+                    </div>
+                  </div>
+                  <% } %>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <%} %>

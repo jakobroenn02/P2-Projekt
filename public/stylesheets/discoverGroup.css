@@ -89,5 +89,33 @@
 .discover-group-right-container-events{
   display: flex;
   font-size: 20px;
+  gap: 15px;
+}
+
+.discover-group-right-container-events-container{
+  display: flex;
+  flex-direction: column;
+  border: 2px solid black;
+  padding: 8px;
+  border-radius: 8px;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.discover-group-right-container-events-container-title{
+  display: flex;
+  font-size: 24px;
+  font-weight: 600;
+  justify-content: center;
+  border-bottom: 1px solid rgb(208, 208, 208);
+}
+
+.discover-group-right-container-events-container-text{
+  display: flex;
+  font-size: 20px;
+  flex-direction: column;
+  flex-wrap: wrap;
 
 }
+
+

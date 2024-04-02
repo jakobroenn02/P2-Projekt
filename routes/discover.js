@@ -5,6 +5,7 @@ const { connectToDb, getDb } = require("../db");
 const jwt = require("jsonwebtoken");
 const { verifyToken } = require("../utils/cookiesUtils");
 const { getGroupsBasedOnInterests } = require("../utils/discoverUtils");
+const { render } = require("ejs");
 
 //connect to db
 let db;
@@ -88,15 +89,22 @@ router.get("/:id", async (req, res) => {
         .forEach((event) => {
           groupEvents.push(event);
         });
-      
-      
+        group.userIds.forEach( (userId) => {
+        if(group.userIds == decodedUser._id){
+          res.redirect(`/user/groups/${req.params.id}`);
+        }
+        return group;
+      });
       res.render("discoverGroup", {
         isLoggedIn: true,
         group,
-        participantsLocations,
+        participantsLocations, 
+        groupEvents,
       });
+      
     } catch (error) {
-      res.render("register", { isLoggedIn: true });
+      res.render("errorpage", { errorMessage: "Error" });
+      
     }
   }
 });
