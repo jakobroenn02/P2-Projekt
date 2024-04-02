@@ -9,8 +9,10 @@
   align-items: center;
   gap: 30px;
 
-  background-color: rgb(236, 236, 236);
+  background-color: rgb(240, 240, 240);
   padding: 30px;
+
+  
 }
 
 .pubUsrProf-left-container {
@@ -59,15 +61,21 @@
   padding-bottom: 10px;
 }
 
+.pubUsrProf-about {
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+  padding-top: 20px;
+  border-top: 1px solid darkgray;
+}
+
 .pubUsrProf-bio-container {
   width: 90%;
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  height: fit-content;
-
   padding-top: 20px;
-  border-top: 1px solid darkgray;
+
 }
 
 .pubUsrProf-bio {
@@ -134,8 +142,7 @@
   border-radius: 15px;
   box-shadow: 2px 2px rgb(0, 0, 0, 0.2);
 
-  min-height: 100px;
-  max-height: relative;
+  height: fit-content;
   overflow-y: auto;
 }
 
