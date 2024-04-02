@@ -145,7 +145,7 @@
   border: 1px solid black;
   color: black;
   border-radius: 10px;
-  font-size: 20px;
+  font-size: 15px;
   height: fit-content;
 }
 
@@ -182,9 +182,6 @@
 
 .pubUsrProf-info-sharedContent-box {
   display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  align-items: center;
 
   padding: 10px;
   margin: 20px;
@@ -210,5 +207,5 @@
   border: 1px solid black;
   color: black;
   border-radius: 10px;
-  font-size: 20px;
+  font-size: 15px;
 }
