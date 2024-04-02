@@ -9,5 +9,8 @@ document.getElementById("leave-event-id").addEventListener("click", function(e) 
         body: JSON.stringify({eventId}),
     })
     .then((response) => response.text())
-    .then((data) => {console.log(data); location.reload();})})
+    .then((data) => {console.log(data); 
+        window.location.href = '/user/events';
+    })
+})
     
