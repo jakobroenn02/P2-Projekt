@@ -29,6 +29,7 @@ router.get("/", (req, res) => {
 });
 
 router.post("/", async (req, res) => {
+  let allLocations = [];
   try {
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     const user = {
@@ -57,6 +58,14 @@ router.post("/", async (req, res) => {
         });
         res.redirect("/user/interests");
       });
+
+       await db.collection("Location")
+        .find()
+        .forEach((location) => {
+          allLocations.push(location);
+        });
+        console.log(allLocations);
+
   } catch {
     res.render("errorPage", { errorMessage: "Error" });
   }

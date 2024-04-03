@@ -36,6 +36,13 @@
       <option value="Skalborg">Skalborg</option>
     </select>
 
+    <div class="location"><b>Aalborg location</b>
+      <div class="hiddenDiv">
+        <% for (let i = 0; i < allLocations.length; i++) {
+          %> <div class="locationName"><% allLocations.location %></div>
+        } %>
+      </div>
+    </div>
     <label for="password"><b>Password</b></label>
     <input class="register-input" type="password" placeholder="Enter Password" name="password" required />
 
