@@ -5,6 +5,7 @@ const { connectToDb, getDb } = require("../db");
 const jwt = require("jsonwebtoken");
 const { verifyToken } = require("../utils/cookiesUtils");
 const { getGroupsBasedOnInterests } = require("../utils/discoverUtils");
+const { render } = require("ejs");
 
 //connect to db
 let db;
@@ -58,6 +59,7 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   const decodedUser = verifyToken(res, req);
   let groupUsers = [];
+  let groupEvents = [];
 
   let participantsLocations = [];
   let participantsAges = [];
@@ -81,13 +83,28 @@ router.get("/:id", async (req, res) => {
           groupUsers.push(user);
         });
 
+        await db
+        .collection("events")
+        .find({ _id: { $in: group.eventIds } })
+        .forEach((event) => {
+          groupEvents.push(event);
+        });
+        group.userIds.forEach( (userId) => {
+        if(userId == decodedUser._id){
+          res.redirect(`/user/groups/${req.params.id}`);
+        }
+        return group;
+      });
       res.render("discoverGroup", {
         isLoggedIn: true,
         group,
-        participantsLocations,
+        participantsLocations, 
+        groupEvents,
       });
+      
     } catch (error) {
-      res.render("register", { isLoggedIn: true });
+      res.render("errorpage", { errorMessage: "Error" });
+      
     }
   }
 });

@@ -1,26 +1,39 @@
 <%- include("./partials/header.ejs") %> <% if (!isLoggedIn) {%> <%-
 include("./partials/signinRedirect.ejs")%> <% } else { %>
-<div class="groupEvents-title">
-  Events in
-  <span class="groupEvents-emphasized-group">"<%=currentGroup.groupName%>"</span>
-</div>
+<div class="group-events-page">
+  <div class="groupEvents-title">
+    Events in
+    <span class="groupEvents-emphasized-group">"<%=group.groupName%>"</span>
+  </div>
 
-<div class="groupEvents-events-container">
-  <% groupEvents.forEach(event => { %>
-  <a href="/user/groups/<%=event.groupId%>/events/<%=event._id%>" class="groupEvents-event-anchor">
-    <div class="groupEvents-event">
-      <div class="groupEvents-event-title"><%= event.eventName%></div>
-      <div class="groupEvents-event-description"><%= event.description%></div>
-      <div class="groupEvents-event-date">
-        <%= event.date.day < 10 ? "0": ""%><%=event.date.day%>/<%=
-        event.date.month < 10 ? "0": ""%><%=event.date.month%>/<%= 
-        event.date.year%> <%= event.date.hour < 10 ? "0":
-        ""%><%=event.date.hour%>:<%= event.date.minute < 10 ? "0":
-        ""%><%=event.date.minute%>
+  <div class="groupEvents-events-container">
+    <% groupEvents.forEach(event => { %>
+    <a
+      href="/user/groups/<%=event.groupId%>/events/<%=event._id%>"
+      class="groupEvents-event-anchor"
+    >
+      <div class="groupEvents-event">
+        <div class="groupEvents-event-title"><%= event.eventName%></div>
+        <div class="groupEvents-event-description"><%= event.description%></div>
+        <div class="groupEvents-event-date">
+          <%= event.date.day < 10 ? "0": ""%><%=event.date.day%>/<%=
+          event.date.month < 10 ? "0": ""%><%=event.date.month%>/<%=
+          event.date.year%> <%= event.date.hour < 10 ? "0":
+          ""%><%=event.date.hour%>:<%= event.date.minute < 10 ? "0":
+          ""%><%=event.date.minute%>
+        </div>
+        <div class="groupEvents-event-location">
+          <%=event.location.name%> | <%= event.location.address%>
+        </div>
       </div>
-      <div class="groupEvents-event-location"><%=event.location.name%> | <%= event.location.address%></div>
+    </a>
+    <%});%>
+    <div class="group-events-create-event-button">
+      <i class="fa-solid fa-plus add-event-icon"></i>
     </div>
-  </a>
-  <%});%>
+    <%- include("./partials/createEventModal.ejs") %>
+  </div>
 </div>
+<script src="/js/groupEvents.js"></script>
+
 <% } %>

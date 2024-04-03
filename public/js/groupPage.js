@@ -1,13 +1,23 @@
 //Js for ellipse-vertical dropdown
-const settingsDropdownButton = document.querySelector(
-  ".groupSettingsDropdownButton"
-);
+const settingsDropdownButton = document.querySelector(".groupSettingsDropdownButton");
 const dropdown = document.querySelector(".group-dropdown");
 const groupLeaveButton = document.querySelector(".group-leave-button");
 
 settingsDropdownButton.addEventListener("click", (e) => {
-  console.log(dropdown.hidden);
-  dropdown.hidden ? (dropdown.hidden = false) : (dropdown.hidden = true);
+  e.stopPropagation(); 
+  dropdown.hidden = !dropdown.hidden; 
+});
+groupLeaveButton.addEventListener("click", (e) => {
+  const userConfirmed = window.confirm("Are you sure you want to leave the group?");
+  if (!userConfirmed) {
+    e.preventDefault(); 
+  }
+});
+
+document.addEventListener("click", (e) => {
+  if (!settingsDropdownButton.contains(e.target) && !dropdown.contains(e.target)) {
+    dropdown.hidden = true;
+  }
 });
 
 //Js for right navbar, toggle users & event options.
@@ -20,12 +30,12 @@ eventsToggleButton.addEventListener("click", () => {
 
   if (eventsOptionsList.hidden) {
     eventsOptionsList.hidden = false;
-    chevron.classList.add("fa-chevron-down")
-    chevron.classList.remove("fa-chevron-right")
+    chevron.classList.add("fa-chevron-down");
+    chevron.classList.remove("fa-chevron-right");
   } else {
     eventsOptionsList.hidden = true;
-    chevron.classList.remove("fa-chevron-down")
-    chevron.classList.add("fa-chevron-right")
+    chevron.classList.remove("fa-chevron-down");
+    chevron.classList.add("fa-chevron-right");
   }
 });
 
@@ -35,11 +45,23 @@ usersToggleButton.addEventListener("click", () => {
 
   if (usersOptionsList.hidden) {
     usersOptionsList.hidden = false;
-    chevron.classList.add("fa-chevron-down")
-    chevron.classList.remove("fa-chevron-right")
+    chevron.classList.add("fa-chevron-down");
+    chevron.classList.remove("fa-chevron-right");
   } else {
     usersOptionsList.hidden = true;
-    chevron.classList.remove("fa-chevron-down")
-    chevron.classList.add("fa-chevron-right")
+    chevron.classList.remove("fa-chevron-down");
+    chevron.classList.add("fa-chevron-right");
   }
 });
+
+//JS for modal regaring creating events
+const createEventButton = document.querySelector(".group-events-create-button");
+const creatEventModal = document.querySelector(".create-event-modal");
+createEventButton.addEventListener("click", (e) => {
+  if (creatEventModal.hidden) {
+    creatEventModal.hidden = false;
+  } else {
+    creatEventModal.hidden = true;
+  }
+});
+
