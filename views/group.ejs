@@ -2,6 +2,7 @@
   <%- include("./partials/signinRedirect.ejs")%>
 <%} else { %>
 <div class="group-page">
+  <%- include("./partials/createEventModal.ejs") %>
   <div class="group-page-left">
     <div class="group-messages">
       <%for (let i = 0; i < group.messages.length; i++) {%>
@@ -69,12 +70,12 @@
           </div>
           <div class="group-events-calendar-button-title">View Events</div>
         </a>
-        <a href="/user/groups/<%=group._id%>/events/create" class="group-events-create-button">
+        <div class="group-events-create-button">
           <div class="group-events-create-button-icon">
             <i class="fa-solid fa-plus"></i>
           </div>
           <div class="group-events-create-button-title">Create Event</div>
-        </a>
+        </div>
       </div>
     </div>
 
@@ -100,6 +101,7 @@
       
     </div>
   </div>
+
 </div>
 <%}%>
 

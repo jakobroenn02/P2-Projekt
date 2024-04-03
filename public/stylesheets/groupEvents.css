@@ -1,5 +1,8 @@
+.group-events-page {
+    min-height: calc(100vh - 88px);
+}
+
 .groupEvents-title{
-    margin-top: 100px;
     text-align: center;
     font-size: 25px;
 }
@@ -12,6 +15,7 @@
     display: flex;
     margin: 20px;
     gap: 20px;
+    align-items: center;
 }
 
 .groupEvents-event-anchor {
@@ -27,12 +31,13 @@
     border-radius: 15px;
     box-shadow: 4px 4px rgba(0, 0, 0, 0.3);
     position: relative;
-    transition: 0.5s;
+    transition: top 0.15s ease 0s;
+    top: 0;
 }
 
 .groupEvents-event:hover {
     background-color: rgb(200, 200, 200);
-    top: -5px;
+    top: -3px;
     box-shadow: 8px 6px rgba(0, 0, 0, 0.35);
 }
 
@@ -65,3 +70,21 @@
     font-size: 12px;
     color: rgb(100, 100, 100);
 }
+
+
+.group-events-create-event-button {
+    font-size: 20px;
+    background-color: lightgray;
+    height: 48px;
+    width: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.1s;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  }
+  .group-events-create-event-button:hover {
+    background-color: rgb(178, 178, 178);
+  }

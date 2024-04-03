@@ -20,12 +20,12 @@ eventsToggleButton.addEventListener("click", () => {
 
   if (eventsOptionsList.hidden) {
     eventsOptionsList.hidden = false;
-    chevron.classList.add("fa-chevron-down")
-    chevron.classList.remove("fa-chevron-right")
+    chevron.classList.add("fa-chevron-down");
+    chevron.classList.remove("fa-chevron-right");
   } else {
     eventsOptionsList.hidden = true;
-    chevron.classList.remove("fa-chevron-down")
-    chevron.classList.add("fa-chevron-right")
+    chevron.classList.remove("fa-chevron-down");
+    chevron.classList.add("fa-chevron-right");
   }
 });
 
@@ -35,11 +35,23 @@ usersToggleButton.addEventListener("click", () => {
 
   if (usersOptionsList.hidden) {
     usersOptionsList.hidden = false;
-    chevron.classList.add("fa-chevron-down")
-    chevron.classList.remove("fa-chevron-right")
+    chevron.classList.add("fa-chevron-down");
+    chevron.classList.remove("fa-chevron-right");
   } else {
     usersOptionsList.hidden = true;
-    chevron.classList.remove("fa-chevron-down")
-    chevron.classList.add("fa-chevron-right")
+    chevron.classList.remove("fa-chevron-down");
+    chevron.classList.add("fa-chevron-right");
   }
 });
+
+//JS for modal regaring creating events
+const createEventButton = document.querySelector(".group-events-create-button");
+const creatEventModal = document.querySelector(".create-event-modal");
+createEventButton.addEventListener("click", (e) => {
+  if (creatEventModal.hidden) {
+    creatEventModal.hidden = false;
+  } else {
+    creatEventModal.hidden = true;
+  }
+});
+
