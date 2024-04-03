@@ -12,16 +12,29 @@ settingsButton.addEventListener("click", (e) => {
 
 // Js for modal on userpage
 const profilePicture = document.querySelector(".profile-picture");
+let modalProfilePicture = document.querySelector(".modalProfPic");
+const modalConfirmButton = document.querySelector(".profilePictureChangeConfirm");
+let profileImageIdNumber = document.querySelector(".profileImageIdNumber");
 const modalCloseButton = document.querySelector(".modal-header-close");
+const profilePictureOptions = document.querySelectorAll(".pictureOption");
+
 
 modalCloseButton.addEventListener("click", () => {
   const pictureModal = document.querySelector(".pictures-modal");
   pictureModal.style.display = "none";
 });
 
-profilePicture.addEventListener("click", () => {
+profilePicture.addEventListener("click", () => {  // Opens modal
   const pictureModal = document.querySelector(".pictures-modal");
   pictureModal.style.display = "flex";
+});
+
+profilePictureOptions.forEach((option) => { 
+  option.addEventListener("click", () => {  // Each image choice in modal can be clicked and will change the id of profile picture in DB. Is updated on button post.
+    modalProfilePicture.src = option.src;
+    profileImageIdNumber.value = option.id;
+    modalConfirmButton.hidden = false;
+  });
 });
 
 //User edit information JS

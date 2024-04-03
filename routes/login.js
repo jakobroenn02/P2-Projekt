@@ -46,7 +46,7 @@ router.post("/", async (req, res) => {
     if (passMatch) {
       //Creates jwt token
 
-      const token = jwt.sign(logedInUser, process.env.JWTSECRET, {
+      const token = jwt.sign(loggedInUser, process.env.JWTSECRET, {
         expiresIn: "3h",
       });
 
