@@ -1,13 +1,23 @@
 //Js for ellipse-vertical dropdown
-const settingsDropdownButton = document.querySelector(
-  ".groupSettingsDropdownButton"
-);
+const settingsDropdownButton = document.querySelector(".groupSettingsDropdownButton");
 const dropdown = document.querySelector(".group-dropdown");
 const groupLeaveButton = document.querySelector(".group-leave-button");
 
 settingsDropdownButton.addEventListener("click", (e) => {
-  console.log(dropdown.hidden);
-  dropdown.hidden ? (dropdown.hidden = false) : (dropdown.hidden = true);
+  e.stopPropagation(); 
+  dropdown.hidden = !dropdown.hidden; 
+});
+groupLeaveButton.addEventListener("click", (e) => {
+  const userConfirmed = window.confirm("Are you sure you want to leave the group?");
+  if (!userConfirmed) {
+    e.preventDefault(); 
+  }
+});
+
+document.addEventListener("click", (e) => {
+  if (!settingsDropdownButton.contains(e.target) && !dropdown.contains(e.target)) {
+    dropdown.hidden = true;
+  }
 });
 
 //Js for right navbar, toggle users & event options.
