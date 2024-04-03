@@ -62,13 +62,29 @@
 }
 
 .homepage-group-message {
+  position: relative;
+}
+
+.homepage-group-message-author {
+  font-size: 12px;
+  color: rgb(99, 99, 99);
+  margin-bottom: 4px;
+}
+.homepage-group-message-text {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   overflow: hidden;
   text-overflow: ellipsis;
   color: rgb(99, 99, 99);
-  font-size: 14px;
+  font-size: 12px;
+}
+.homepage-group-message-time {
+  font-size: 12px;
+  color: rgb(92, 92, 92);
+  top: 0;
+  position: absolute;
+  right: 10px;
 }
 
 .homepage-events-container {
@@ -221,7 +237,6 @@
   position: absolute;
   right: 30px;
 }
-
 
 /* General classes */
 

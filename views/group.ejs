@@ -5,6 +5,10 @@
   <%- include("./partials/createEventModal.ejs") %>
   <div class="group-page-left">
     <div class="group-messages">
+      <%if(group.messages.length == 0) {%>
+        <div class="group-messages-first-message">Be the first one to initialise a conversation!</div>  
+        <div class="group-messages-first-message-example">Try:&nbsp; "<i>Does anyone wanna go ... on friday?</i>"</div>  
+      <%}%>
       <%for (let i = 0; i < group.messages.length; i++) {%>
       <div
         class="<% if(group.messages[i].authorId == user._id) { %> <%= "group-message-yours" %><% } else {%> <%= "group-message" %> <% } %>">
