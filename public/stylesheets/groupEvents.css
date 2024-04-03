@@ -31,12 +31,13 @@
     border-radius: 15px;
     box-shadow: 4px 4px rgba(0, 0, 0, 0.3);
     position: relative;
-    transition: 0.5s;
+    transition: top 0.15s ease 0s;
+    top: 0;
 }
 
 .groupEvents-event:hover {
     background-color: rgb(200, 200, 200);
-    top: -5px;
+    top: -3px;
     box-shadow: 8px 6px rgba(0, 0, 0, 0.35);
 }
 
