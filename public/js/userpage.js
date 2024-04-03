@@ -36,8 +36,12 @@ const userEditButton = document.querySelector(
 );
 
 const infoBoxes = document.querySelectorAll(".profile-information-container");
-userEditButton.addEventListener("click", () => {
-  infoBoxes.forEach((box) => {
+const selectInfoBoxes = document.querySelectorAll(".user-information-text-container");
+const numberInfoBoxes = document.querySelectorAll(".user-information-number-container");
+const textInfoBoxes = document.querySelectorAll(".user-information-text-container");
+
+userEditButton.addEventListener("click", () => { 
+  textInfoBoxes.forEach((box) => {
     const initValue = box.firstElementChild.innerText;
     box.firstElementChild.hidden = true;
     inputElement = document.createElement("input");
@@ -48,13 +52,48 @@ userEditButton.addEventListener("click", () => {
     box.appendChild(inputElement);
   });
 
+
+
   userEditButton.hidden = true;
   userCancelButton.hidden = false;
   userConfirmButton.hidden = false;
 });
 
+userEditButton.addEventListener("click", () => {
+  numberInfoBoxes.forEach((box) => {
+    const initValue = box.firstElementChild.innerText;
+    box.firstElementChild.hidden = true;
+    inputElement = document.createElement("input");
+    inputElement.type = "number";
+    inputElement.classList = "profile-information-input";
+    inputElement.value = initValue;
+    inputElement.name = box.firstElementChild.id
+    box.appendChild(inputElement);
+  });
+});
+
+userEditButton.addEventListener("click", () => {
+  selectInfoBoxes.forEach((box) => {
+    const initValue = box.firstElementChild.innerText;
+    box.firstElementChild.hidden = true;
+    selectElement = document.createElement("select");
+    selectElement.classList = "profile-information-select";
+    selectElement.value = initValue;
+    selectElement.name = box.firstElementChild.id
+    box.appendChild(selectElement);
+  });
+});
+
 userCancelButton.addEventListener("click", () => {
-  infoBoxes.forEach((box) => {
+  selectInfoBoxes.forEach((box) => {
+    box.firstElementChild.hidden = false;
+    box.removeChild(box.lastElementChild);
+  });
+  textInfoBoxes.forEach((box) => {
+    box.firstElementChild.hidden = false;
+    box.removeChild(box.lastElementChild);
+  });
+  numberInfoBoxes.forEach((box) => {
     box.firstElementChild.hidden = false;
     box.removeChild(box.lastElementChild);
   });

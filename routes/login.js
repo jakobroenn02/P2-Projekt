@@ -32,7 +32,6 @@ router.post("/", async (req, res) => {
   let loggedInUser = await db
     .collection("users")
     .findOne({ username: req.body.username });
-
   if (!loggedInUser) {
     return res.render("login", { isLoggedIn: false, hasTypeWrong: true });
   }
@@ -42,14 +41,12 @@ router.post("/", async (req, res) => {
       req.body.password,
       loggedInUser.password
     );
-
     if (passMatch) {
       //Creates jwt token
 
-      const token = jwt.sign(logedInUser, process.env.JWTSECRET, {
+      const token = jwt.sign(loggedInUser, process.env.JWTSECRET, {
         expiresIn: "3h",
       });
-
       //sets cookie in browser
       res.cookie("token", token, {
         httpOnly: true,

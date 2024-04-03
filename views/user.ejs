@@ -31,33 +31,39 @@
               <button type="submit" class="profile-information-confirm-button" hidden>Confirm</button>
               <button type="button" class="profile-information-cancel-button" hidden>Cancel</button>
               <div class="profile-information-content-item-title"> First Name</div>
-              <div class="profile-information-container">
+              <div class="profile-information-container user-information-text-container">
                 <div class="profile-information-text" id="userFirstName">
                   <%= user.name.firstName %>
                 </div>
               </div>
               <div class="profile-information-content-item-title"> Last Name</div>
-              <div class="profile-information-container">
+              <div class="profile-information-container user-information-text-container">
                 <div class="profile-information-text" id="userLastName">
                   <%= user.name.lastName %>
                 </div>
               </div>
               <div class="profile-information-content-item-title"> Username</div>
-              <div class="profile-information-container">
+              <div class="profile-information-container user-information-text-container">
                 <div class="profile-information-text" id="userUsername">
                   <%= user.username %>
                 </div>
               </div>
               <div class="profile-information-content-item-title"> Age</div>
-              <div class="profile-information-container">
+              <div class="profile-information-container user-information-number-container">
                 <div class="profile-information-text" id="userAge">
                   <%= user.age %> 
-                </div>  <!--TODO tilføj gender-->
+                </div>  
               </div>
               <div class="profile-information-content-item-title"> Location</div>
-              <div class="profile-information-container">
+              <div class="profile-information-container user-information-select-container">
                 <div class="profile-information-text" id="userLocation">
                   <%= user.location %>
+                </div>
+              </div>
+              <div class="profile-information-content-item-title"> Gender</div>
+              <div class="profile-information-container user-information-select-container">
+                <div class="profile-information-text" id="userGender">
+                  <%= user.gender %>
                 </div>
               </div>
             </div>
