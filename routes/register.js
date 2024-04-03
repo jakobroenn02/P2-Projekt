@@ -18,17 +18,18 @@ router.get("/", (req, res) => {
   const decodedUser = verifyToken(res, req);
 
   if (decodedUser == null) {
-    return res.render("register", { isLoggedIn: false });
+    return res.render("register", { isLoggedIn: false, hasTypeWrong: false });
   } else {
   }
   try {
-    res.render("register", { isLoggedIn: true });
+    res.render("register", { isLoggedIn: true, hasTypeWrong: false});
   } catch (error) {
     res.render("errorPage", { errorMessage: "Error" });
   }
 });
 
 router.post("/", async (req, res) => {
+  let existingUser = [];
   try {
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     const user = {
@@ -44,19 +45,27 @@ router.post("/", async (req, res) => {
       profileImageId: 1,
       gender: req.body.gender,
     };
+    existingUser = await db
+        .collection("users")
+        .find({ username: req.body.username})
+        .toArray();
+    if (existingUser.length == 0) { 
     db.collection("users")
       .insertOne(user)
       .then(() => {
         const token = jwt.sign(user, process.env.JWTSECRET, {
           expiresIn: "60m",
         });
-
+      
         //sets cookie in browser
         res.cookie("token", token, {
           httpOnly: true,
         });
         res.redirect("/user/interests");
       });
+    }else if(existingUser.length > 0){
+      return res.render("register", { isLoggedIn: false, hasTypeWrong: true });
+    }
   } catch {
     res.render("errorPage", { errorMessage: "Error" });
   }
