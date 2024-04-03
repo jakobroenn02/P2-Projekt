@@ -90,7 +90,7 @@ router.get("/:id", async (req, res) => {
           groupEvents.push(event);
         });
         group.userIds.forEach( (userId) => {
-        if(group.userIds == decodedUser._id){
+        if(userId == decodedUser._id){
           res.redirect(`/user/groups/${req.params.id}`);
         }
         return group;
