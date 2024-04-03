@@ -17,6 +17,26 @@
   overflow-y: auto;
 }
 
+.group-messages-first-message {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+  font-size: 16px;
+  font-weight: 600;
+  align-items: center;
+}
+
+.group-messages-first-message-example {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+  font-size: 14px;
+  align-items: center;
+  font-weight: 500;
+}
+
 .group-message {
   display: flex;
   flex-direction: column;
