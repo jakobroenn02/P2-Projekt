@@ -35,8 +35,8 @@ const userEditButton = document.querySelector(
   ".profile-information-edit-button"
 );
 
-const infoBoxes = document.querySelectorAll(".profile-information-container");
-const selectInfoBoxes = document.querySelectorAll(".user-information-text-container");
+const select1InfoBoxes = document.querySelectorAll(".user-information-select1-container");
+const select2InfoBoxes = document.querySelectorAll(".user-information-select2-container");
 const numberInfoBoxes = document.querySelectorAll(".user-information-number-container");
 const textInfoBoxes = document.querySelectorAll(".user-information-text-container");
 
@@ -52,50 +52,77 @@ userEditButton.addEventListener("click", () => {
     box.appendChild(inputElement);
   });
 
-
-
   userEditButton.hidden = true;
   userCancelButton.hidden = false;
   userConfirmButton.hidden = false;
 });
 
 userEditButton.addEventListener("click", () => {
-  numberInfoBoxes.forEach((box) => {
-    const initValue = box.firstElementChild.innerText;
-    box.firstElementChild.hidden = true;
+  numberInfoBoxes.forEach((box2) => {
+    const initialValue2 = box2.firstElementChild.innerText;
+    box2.firstElementChild.hidden = true;
     inputElement = document.createElement("input");
     inputElement.type = "number";
     inputElement.classList = "profile-information-input";
-    inputElement.value = initValue;
-    inputElement.name = box.firstElementChild.id
-    box.appendChild(inputElement);
+    inputElement.value = initialValue2;
+    inputElement.name = box2.firstElementChild.id
+    box2.appendChild(inputElement);
   });
 });
-
+let locationList = ["Aalborg"]
 userEditButton.addEventListener("click", () => {
-  selectInfoBoxes.forEach((box) => {
-    const initValue = box.firstElementChild.innerText;
-    box.firstElementChild.hidden = true;
-    selectElement = document.createElement("select");
-    selectElement.classList = "profile-information-select";
-    selectElement.value = initValue;
-    selectElement.name = box.firstElementChild.id
-    box.appendChild(selectElement);
+  select1InfoBoxes.forEach((box3) => {
+    box3.firstElementChild.hidden = true;
+    locationSelectElement = document.createElement("select");
+    locationSelectElement.classList = "profile-information-select";
+    locationSelectElement.name = box3.firstElementChild.id;
+    box3.appendChild(locationSelectElement);
+
+    for (let i = 0; i < locationList[i].length; i++) {
+      let locationOption = document.createElement("option");
+      locationOption.value = locationList[i];
+      locationOption.text = locationList[i];
+      locationSelectElement.appendChild(locationOption);
+    }
+  });
+});
+let genderList = ["Female","Male","Other"]
+userEditButton.addEventListener("click", () => {
+  select2InfoBoxes.forEach((box4) => {
+    box4.firstElementChild.hidden = true;
+    genderSelectElement = document.createElement("select");
+    genderSelectElement.classList = "profile-information-select";
+    genderSelectElement.name = box4.firstElementChild.id;
+    box4.appendChild(genderSelectElement);
+
+    
+    for (let j = 0; j < genderList[j].length; j++) {
+      let genderOption = document.createElement("option");
+      genderOption.value = genderList[j];
+      genderOption.text = genderList[j];
+      genderSelectElement.appendChild(genderOption);
+      console.log(genderOption.text)
+      console.log(box4.firstElementChild.innerText)
+    }
   });
 });
 
 userCancelButton.addEventListener("click", () => {
-  selectInfoBoxes.forEach((box) => {
-    box.firstElementChild.hidden = false;
-    box.removeChild(box.lastElementChild);
+  select1InfoBoxes.forEach((box5) => {
+    box5.firstElementChild.hidden = false;
+    box5.removeChild(box5.lastElementChild);
   });
-  textInfoBoxes.forEach((box) => {
-    box.firstElementChild.hidden = false;
-    box.removeChild(box.lastElementChild);
+  select2InfoBoxes.forEach((box6) => {
+    box6.firstElementChild.hidden = false;
+    box6.removeChild(box6.lastElementChild);
   });
-  numberInfoBoxes.forEach((box) => {
-    box.firstElementChild.hidden = false;
-    box.removeChild(box.lastElementChild);
+  textInfoBoxes.forEach((box7) => {
+    box7.firstElementChild.hidden = false;
+    box7.removeChild(box7.lastElementChild);
+  });
+  numberInfoBoxes.forEach((box8) => {
+    box8.firstElementChild.hidden = false;
+    box8.removeChild(box8.lastElementChild);
   });
   userEditButton.hidden = false;
   userCancelButton.hidden = true;

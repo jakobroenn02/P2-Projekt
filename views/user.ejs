@@ -30,6 +30,9 @@
               <button type="button" class="profile-information-edit-button">Edit</button>
               <button type="submit" class="profile-information-confirm-button" hidden>Confirm</button>
               <button type="button" class="profile-information-cancel-button" hidden>Cancel</button>
+              <% if(hasTypeWrong){%>
+                <div class="userpage-change-input-error">Username is already taken. Try a different one.</div>
+              <%}%>
               <div class="profile-information-content-item-title"> First Name</div>
               <div class="profile-information-container user-information-text-container">
                 <div class="profile-information-text" id="userFirstName">
@@ -55,13 +58,13 @@
                 </div>  
               </div>
               <div class="profile-information-content-item-title"> Location</div>
-              <div class="profile-information-container user-information-select-container">
+              <div class="profile-information-container user-information-select1-container">
                 <div class="profile-information-text" id="userLocation">
                   <%= user.location %>
                 </div>
               </div>
               <div class="profile-information-content-item-title"> Gender</div>
-              <div class="profile-information-container user-information-select-container">
+              <div class="profile-information-container user-information-select2-container">
                 <div class="profile-information-text" id="userGender">
                   <%= user.gender %>
                 </div>
