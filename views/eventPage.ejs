@@ -25,14 +25,25 @@
       <div class="eventInfo-address">
         <%= event.location.name%> | <%= event.location.address %>
       </div>
+      <% if(userIsParticipant){%>
       <div class="event-leave-button">
        <form id="leave-event-id" action="/user/leave-event" method="post">
         <input type="hidden" name="eventId" value="<%= event._id %>">
+        <input type="hidden" name="groupId" value="<%= event.groupId %>">
         <button class="button-leave" type="submit">Leave event</button>
-        <!--TODO Forlad side når man leaver event + Hvis du ikke er antendee skal du kunne joine event istedet + CSS hover til leave knap-->
        </form>
-
       </div>
+       <%} else{ %>
+        <div class="event-join-button">
+          <form id="join-event-id" action="/user/join-event" method="post">
+           <input type="hidden" name="eventId" value="<%= event._id %>">
+           <input type="hidden" name="groupId" value="<%= event.groupId %>">
+           <button class="button-join" type="submit">Join event</button>
+          </form>
+         </div>
+        <%}%>
+       
+
     </div>
     <div class="eventInfo-right">
       <div class="eventInfo-attendees">
@@ -54,5 +65,4 @@
     </div>
   </div>
 </div>
-<script src="/js/eventsinfo.js"></script>
 <% }%>

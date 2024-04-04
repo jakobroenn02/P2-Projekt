@@ -418,6 +418,7 @@ router.post("/groups/:groupId/events/create", async (req, res) => {
 
 router.get("/groups/:groupId/events/:eventId", async (req, res) => {
   const decodedUser = verifyToken(res, req);
+  let userIsParticipant = false;
 
   if (decodedUser == null) {
     res.render("eventPage", { isLoggedIn: false });
@@ -440,7 +441,7 @@ router.get("/groups/:groupId/events/:eventId", async (req, res) => {
         });
         return;
       }
-
+      
       const event = await db
         .collection("events")
         .findOne({ _id: new ObjectId(req.params.eventId) });
@@ -452,10 +453,19 @@ router.get("/groups/:groupId/events/:eventId", async (req, res) => {
         })
         .toArray();
 
+        for(let i = 0; i < loggedInUser.eventIds.length; i++) { //Check to see if user is participant
+          if(loggedInUser.eventIds[i] == req.params.eventId) {  //TODO FUCKING OBJECTID FUCKER HVOR DE PRÆCIS SAMME IDER ER IKKE LIGE HINANDEN... Derfor looper jeg gennem istedet
+            userIsParticipant = true;
+            break;
+          }
+        }
+      
       res.render("eventPage", {
         isLoggedIn: true,
         event,
         eventParticipants,
+        loggedInUser,
+        userIsParticipant,
       });
     } catch (error) {
       res.render("errorPage", { errorMessage: "Error" });
@@ -463,37 +473,70 @@ router.get("/groups/:groupId/events/:eventId", async (req, res) => {
   }
 });
 
-router.delete("/leave-event", (req, res) => {
+router.post("/leave-event", async (req, res) => {
   const decodedUser = verifyToken(res, req);
-
+  
   if (decodedUser == null) {
-    res.render("eventinfo", { isLoggedIn: false });
+    res.render("groupEvents", { isLoggedIn: false });
   } else {
-    const eventID = new ObjectId(req.body.eventId);
-    const userId = new ObjectId(decodedUser._id);
-    db.collection("events")
-      .updateOne(
-        { _id: eventID },
+    try {
+
+      await db.collection("events").updateOne(
+        { _id: new ObjectId(req.body.eventId) },
         {
-          $pull: { participantIds: userId.toString() },
+          $pull: {
+           participantIds : new ObjectId(decodedUser._id),
+          },
         }
-      )
-      .then(() => {
-        db.collection("users")
-          .updateOne(
-            { _id: userId },
-            {
-              $pull: { eventIds: eventID },
-            }
-          )
-          .then(() => {
-            res.status(200).send("Event left");
-          })
-          .catch((err) => {
-            res.status(500).send("Error while leaving event!");
-          });
-      });
+      );
+
+      await db.collection("users").updateOne(
+        { username: decodedUser.username },
+        {
+          $pull: {
+            eventIds: new ObjectId(req.body.eventId),
+          },
+        }
+        );
+        return res.redirect(`/user/groups/${req.body.groupId}/events/${req.body.eventId}`);
+    } catch (error) {
+      res.render("errorPage", { errorMessage: "Error, could not leave group" });
+    }
   }
 });
+
+
+router.post("/join-event", async (req, res) => {
+  const decodedUser = verifyToken(res, req);
+  
+  if (decodedUser == null) {
+    res.render("groupEvents", { isLoggedIn: false });
+  } else {
+    try {
+
+      await db.collection("events").updateOne(
+        { _id: new ObjectId(req.body.eventId) },
+        {
+          $push: {
+           participantIds : new ObjectId(decodedUser._id),
+          },
+        }
+      );
+
+      await db.collection("users").updateOne(
+        { username: decodedUser.username },
+        {
+          $push: {
+            eventIds: new ObjectId(req.body.eventId),
+          },
+        }
+        );
+        return res.redirect(`/user/groups/${req.body.groupId}/events/${req.body.eventId}`);
+    } catch (error) {
+      res.render("errorPage", { errorMessage: "Error, could not join group" });
+    }
+  }
+});
+
 
 module.exports = router;
