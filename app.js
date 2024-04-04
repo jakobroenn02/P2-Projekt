@@ -50,7 +50,6 @@ io.on("connection", (socket) => {
   });
 
   socket.on("createMessage", (roomId, message, cb) => {
-    console.log(roomId);
     socket.broadcast
       .to(roomId)
       .emit(
