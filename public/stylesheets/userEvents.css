@@ -95,54 +95,6 @@
 .event-leave-button {
   margin-top: 20px;
 }
-.eventInfo-right {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 50%;
-  padding: 20px;
-  margin: 20px;
-  font-size: 20px;
-  color: black;
-  outline: #000 medium solid;
-}
-.eventInfo-div {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  color: black;
-  border-style: small #000;
-  border-width: 2px;
-}
-.list-of-attendees {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 20px;
-  margin: 20px;
-  font-size: 20px;
-  color: black;
-  outline: #000 medium dashed;
-  list-style-type: circle;
-}
-.attendee {
-  font-size: 125%;
-  list-style-image: linear-gradient(to left bottom, red, blue);
-  margin-left: 20px;
-  margin-bottom: 20px;
-
-  font-weight: lighter;
-}
-.button-leave {
-  margin-top: 20px;
-  color: black;
-  font-size: 20px;
-  font-weight: bold;
-  background-color: red;
-  border-radius: 10px;
-  padding: 10px;
-  transition: all 0.05s;
-}
 .user-events-create-event-button {
   margin-left: 12px;
   font-size: 20px;
