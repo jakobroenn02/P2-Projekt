@@ -64,7 +64,6 @@ router.post("/", async (req, res) => {
         .forEach((location) => {
           allLocations.push(location);
         });
-        console.log(allLocations);
 
   } catch {
     res.render("errorPage", { errorMessage: "Error" });
