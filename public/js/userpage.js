@@ -113,17 +113,28 @@ userBioConfirmButton.addEventListener("click", () => {
 });
 
 // User show password JS
-const userPasswordInput = document.getElementById("newPassword")
-const userPasswordShow = document.querySelector(".password-eye-icon")
-const userConfirmPasswordInput = document.getElementById("newConfirmPassword")
-const userConfirmPasswordShow = document.querySelector(".confirm-password-eye-icon")
+const userOldPasswordInput = document.getElementById("oldPassword")
+const userOldPasswordShow = userOldPasswordInput.nextElementSibling;
 
-userPasswordShow.addEventListener("mouseover", function () {
-  userPasswordInput.type = "text";
+userOldPasswordShow.addEventListener("mouseover", function () {
+  userOldPasswordInput.type = "text";
 });
-userPasswordShow.addEventListener("mouseout", function () {
-  userPasswordInput.type = "password";
+userOldPasswordShow.addEventListener("mouseout", function () {
+  userOldPasswordInput.type = "password";
 });
+
+const userNewPasswordInput = document.getElementById("newPassword")
+const userNewPasswordShow = userNewPasswordInput.nextElementSibling;
+
+userNewPasswordShow.addEventListener("mouseover", function () {
+  userNewPasswordInput.type = "text";
+});
+userNewPasswordShow.addEventListener("mouseout", function () {
+  userNewPasswordInput.type = "password";
+});
+
+const userConfirmPasswordInput = document.getElementById("newConfirmPassword")
+const userConfirmPasswordShow = userConfirmPasswordInput.nextElementSibling;
 
 userConfirmPasswordShow.addEventListener("mouseover", function () {
   userConfirmPasswordInput.type = "text";
