@@ -38,9 +38,12 @@
 
     <div class="location"><b>Aalborg location</b>
       <div class="hiddenDiv">
+        <label for="location"><b>Aalborg Location</b></label>
+    <select name="location" class="register-input" required> 
         <% for (let i = 0; i < allLocations.length; i++) {
-          %> <div class="locationName"><% allLocations.location %></div>
+        <option value="allLocations"><% allLocations.location %></option>
         } %>
+    </select>
       </div>
     </div>
     
