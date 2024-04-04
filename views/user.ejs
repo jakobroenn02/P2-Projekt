@@ -63,18 +63,29 @@
             </div>
             <input type="text" name="userId" value="<%= user._id %>" hidden>
         </form>
+        <!--PASSWORD FORM-->
         <div class="profile-information-password-title">Change Your Password</div>
         <div class="profile-information-row">
           <div class="profile-information-content-item-icon-container">
-            <div class="profile-information-content-item-title">New Password</div>
-            <i class="fas fa-eye password-eye-icon" id="changePasswordEye"></i>
-            <input class="profile-information-input-password" id="newPassword" type="password"
-              placeholder="New Password">
           </div>
           <div class="profile-information-content-item-icon-container">
-            <div class="profile-information-content-item-title">Confirm New Password</div>
-            <i class="fas fa-eye password-eye-icon" id="confirmChangePasswordEye"></i>
-            <input class="profile-information-input-password" id="newConfirmPassword" type="password" placeholder="Confirm New Password">
+            <form action="/user/password/update" method="post">
+              <input type="text" name="userId" value="<%= user._id %>" hidden>
+              <div class="password-input-container">
+                <label for="oldPassword">Old Password</label>
+                <input type="password" name="oldPassword" id="oldPassword" required>
+              </div>
+              <div class="password-input-container">
+                <label for="newPassword">New Password</label>
+                <input type="password" name="newPassword" id="newPassword" required>
+              </div>
+              <div class="password-input-container">
+                <label for="newConfirmPassword">Confirm New Password</label>
+                <input type="password" name="newConfirmPassword" id="newConfirmPassword" required>
+              </div>
+              <button type="submit" class="profile-information-confirm-button">Confirm</button>
+              <button type="button" class="profile-information-cancel-button">Cancel</button>
+            </form>
           </div> <!--TODO FIX-->
         </div>
       </div>

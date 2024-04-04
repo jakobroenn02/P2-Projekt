@@ -76,6 +76,34 @@ router.post("/info/update", async (req, res) => {
     return res.redirect("/login");
   }
 });
+router.post("/password/update", async (req, res) => {
+  const decodedUser = verifyToken(res, req);
+
+  if (decodedUser == null) {
+    res.render("user", { isLoggedIn: false });
+  } else {
+    const user = await db
+      .collection("users")
+      .findOne({ username: decodedUser.username });
+
+    if (await bcrypt.compare(req.body.oldPassword, user.password)) {
+      const hashedPassword = await bcrypt.hash(req.body.newPassword, 10);
+
+      await db.collection("users").updateOne(
+        { username: decodedUser.username },
+        {
+          $set: {
+            password: hashedPassword,
+          },
+        }
+      );
+      res.clearCookie("token");
+      return res.redirect("/login");
+    } else {
+      res.render("errorPage", { errorMessage: "Old password is incorrect" });
+    }
+  }
+});
 
 router.get("/events", async (req, res) => {
   const decodedUser = verifyToken(res, req);
