@@ -55,6 +55,19 @@ include("./partials/signinRedirect.ejs")%> <% } else { %>
           type="submit">
           <i class="fa-regular fa-circle-check"></i>Participating
         </button>
+        <input
+          type="text"
+          name="name"
+          hidden
+          value="<%=user.name.firstName%> <%=user.name.lastName%>"
+        />
+        <input
+          type="text"
+          name="eventName"
+          hidden
+          value="<%=event.eventName%>"
+        />
+        <input type="text" name="groupId" hidden value="<%=group._id%>" />
       </form>
       <form
         method="post"
@@ -66,6 +79,19 @@ include("./partials/signinRedirect.ejs")%> <% } else { %>
           class="event-page-top-button-leave-event">
           <i class="fa-regular fa-circle-xmark"></i>Not Participating
         </button>
+        <input
+          type="text"
+          name="name"
+          hidden
+          value="<%=user.name.firstName%> <%=user.name.lastName%>"
+        />
+        <input type="text" name="groupId" hidden value="<%=group._id%>" />
+        <input
+          type="text"
+          name="eventName"
+          hidden
+          value="<%=event.eventName%>"
+        />
       </form>
 
       <button class="event-page-top-button-options">
@@ -121,4 +147,8 @@ include("./partials/signinRedirect.ejs")%> <% } else { %>
     </div>
   </div>
 </div>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/socket.js"></script>
+<script src="/js/eventPage.js"></script>
+
 <% }%>

@@ -200,7 +200,10 @@ router.post("/groups/:id", async (req, res) => {
           messages: {
             messageText: req.body.messageText,
             authorName: req.body.authorName,
-            authorId: new ObjectId(req.body.authorId),
+            authorId:
+              req.body.authorId !== null
+                ? new ObjectId(req.body.authorId)
+                : null,
             createdAt: {
               year: req.body.createdAt.year,
               month: req.body.createdAt.month,
@@ -208,6 +211,7 @@ router.post("/groups/:id", async (req, res) => {
               hour: req.body.createdAt.hour,
               minute: req.body.createdAt.minute,
             },
+            isCustom: req.body.isCustom,
           },
         },
       }
@@ -424,17 +428,12 @@ router.get("/groups/:groupId/events/:eventId", async (req, res) => {
     res.render("eventPage", { isLoggedIn: false });
   } else {
     try {
-      const loggedInUser = await db
+      const user = await db
         .collection("users")
         .findOne({ username: decodedUser.username });
 
       // Checks if user is member of group related to event.
-      if (
-        !loggedInUser.groupIds
-          .toString()
-          .split(",")
-          .includes(req.params.groupId)
-      ) {
+      if (!user.groupIds.toString().split(",").includes(req.params.groupId)) {
         res.render("errorPage", {
           errorMessage: "You are not a member of this group",
         });
@@ -459,7 +458,7 @@ router.get("/groups/:groupId/events/:eventId", async (req, res) => {
       // checks if logged in user is partitioning in the event.
       const isUserParticipating =
         eventParticipants.filter(
-          (participant) => participant.username == loggedInUser.username
+          (participant) => participant.username == user.username
         ).length > 0
           ? true
           : false;
@@ -470,6 +469,7 @@ router.get("/groups/:groupId/events/:eventId", async (req, res) => {
         eventParticipants,
         group,
         isUserParticipating,
+        user,
       });
     } catch (error) {
       res.render("errorPage", { errorMessage: "Error" });

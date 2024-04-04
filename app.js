@@ -50,6 +50,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("createMessage", (roomId, message, cb) => {
+    console.log(roomId);
     socket.broadcast
       .to(roomId)
       .emit(
@@ -57,7 +58,8 @@ io.on("connection", (socket) => {
         generateMessage(
           message.authorName,
           message.messageText,
-          message.authorId
+          message.authorId,
+          message.isCustom
         )
       );
     cb(message);

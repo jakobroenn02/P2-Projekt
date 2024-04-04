@@ -1,5 +1,5 @@
 // Creates a message object with relevant properties.
-function generateMessage(authorName, messageText, authorId) {
+function generateMessage(authorName, messageText, authorId, isCustom) {
   return {
     authorName: authorName,
     messageText: messageText,
@@ -11,6 +11,7 @@ function generateMessage(authorName, messageText, authorId) {
       minute: new Date().getMinutes(),
     },
     authorId: authorId,
+    isCustom: isCustom,
   };
 }
 
