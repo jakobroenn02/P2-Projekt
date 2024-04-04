@@ -1,5 +1,5 @@
 const { ObjectId } = require("mongodb");
-
+// Takes 2 users, and returns the group ids they have in common
 function commonGroupsIds(user1, user2) {
   let user1Ids = user1.groupIds.map((id) => `${id}`);
   let user2Ids = user2.groupIds.map((id) => `${id}`);
@@ -8,6 +8,7 @@ function commonGroupsIds(user1, user2) {
   return commonGroupIds;
 }
 
+// Takes 2 users, and returns the event ids they have in common
 function commonEventsIds(user1, user2){
     let user1Ids = user1.eventIds.map((id) => `${id}`);
     let user2Ids = user2.eventIds.map((id) => `${id}`);

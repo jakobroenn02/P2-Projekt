@@ -1,3 +1,4 @@
+// Creates a message object with relevant properties.
 function generateMessage(authorName, messageText, authorId) {
   return {
     authorName: authorName,
