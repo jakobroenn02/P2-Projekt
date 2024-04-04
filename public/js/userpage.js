@@ -112,6 +112,46 @@ userBioConfirmButton.addEventListener("click", () => {
   userBioConfirmButton.hidden = true;
 });
 
+// User edit password JS
+
+const userPasswordConfirmButton = document.querySelector(".password-confirm-button");
+const userPasswordCancelButton = document.querySelector(".password-cancel-button");
+const userPasswordEditButton = document.querySelector(".password-edit-button");
+
+userPasswordConfirmButton.hidden = true;
+userPasswordCancelButton.hidden = true;
+
+const passwordBoxes = document.querySelectorAll(".password-input-container");
+
+userPasswordEditButton.addEventListener("click", () => {
+  passwordBoxes.forEach((box) => {
+    passwordBoxes.forEach((box) => {
+      box.firstElementChild.disabled = false
+  });
+  userPasswordConfirmButton.hidden = false;
+  userPasswordCancelButton.hidden = false;
+  userPasswordEditButton.hidden = true;
+});
+
+userPasswordCancelButton.addEventListener("click", () => {
+  passwordBoxes.forEach((box) => {
+    box.firstElementChild.disabled = true
+  });
+  userPasswordConfirmButton.hidden = true;
+  userPasswordCancelButton.hidden = true;
+  userPasswordEditButton.hidden = false;
+})
+
+userPasswordConfirmButton.addEventListener("click", () => {
+  passwordBoxes.forEach((box) => {
+    box.firstElementChild.disabled = true
+  });
+  userPasswordConfirmButton.hidden = true;
+  userPasswordCancelButton.hidden = true;
+  userPasswordEditButton.hidden = false;
+});
+
+
 // User show password JS
 const userOldPasswordInput = document.getElementById("oldPassword")
 const userOldPasswordShow = userOldPasswordInput.nextElementSibling;
@@ -141,4 +181,5 @@ userConfirmPasswordShow.addEventListener("mouseover", function () {
 });
 userConfirmPasswordShow.addEventListener("mouseout", function () {
   userConfirmPasswordInput.type = "password";
+});
 });

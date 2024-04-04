@@ -69,7 +69,8 @@
           <div class="profile-information-content-item-icon-container">
           </div>
           <div class="profile-information-content-item-icon-container">
-            <form action="/user/password/update" method="post">
+            <form class="password-form" action="/user/password/update" method="post">
+              <button type="button" class="password-edit-button">Edit</button>
               <input type="text" name="userId" value="<%= user._id %>" hidden>
               <div class="password-input-container">
                 <label for="oldPassword">Old Password</label>
@@ -86,8 +87,6 @@
                 <input type="password" name="newConfirmPassword" id="newConfirmPassword" required>
                 <i class="confirm-password-eye-icon">👁️</i>
               </div>
-              <button type="submit" class="profile-information-confirm-button">Confirm</button>
-              <button type="button" class="profile-information-cancel-button">Cancel</button>
             </form>
           </div> <!--TODO FIX-->
         </div>
