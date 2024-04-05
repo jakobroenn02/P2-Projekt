@@ -1,0 +1,60 @@
+
+.Profile-page{
+  margin-top: 100px;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+
+input[type="text"],
+input[type="number"],
+input[type="password"],
+textarea,
+input[type="file"] {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+button {
+  background-color: #007bff;
+  color: #ffffff;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+.profile-container {
+  display: flex;
+  align-items: start;
+  justify-content: center;
+  padding: 20px;
+}
+.profile-picture-userpage {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile-picture-userpage img {
+  margin: 0 auto;
+  width: 350px;
+  height: auto;
+  border-radius: 50%;
+}
+
+.user-info {
+  width: 60%; /* Adjust based on preference */
+}

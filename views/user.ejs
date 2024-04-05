@@ -2,46 +2,31 @@
   <% if (!isLoggedIn) {%>
     <%- include("./partials/signinRedirect.ejs")%>
     <% } else { %>
-      <nav class="container-fluid">
-        <ul>
-            <li><strong>User Settings</strong></li>
-        </ul>
-        <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Profile</a></li>
-            <li><a href="#" role="button">Logout</a></li>
-        </ul>
-    </nav>
-    <main class="container">
-        <div class="grid">
-            <section>
-                <hgroup>
-                    <h2>Manage Your Information</h2>
-                    <h3>Update your profile details below</h3>
-                </hgroup>
-                <p>Here you can update your personal information to keep your profile up to date.</p>
-                <figure>
-                    <img src="https://files.oaiusercontent.com/file-N8D8sq0D2JR94ecpQJdUhObE?se=2024-04-05T11%3A11%3A49Z&sp=r&sv=2021-08-06&sr=b&rscc=max-age%3D31536000%2C%20immutable&rscd=attachment%3B%20filename%3Da885a0d1-11b5-41b4-b2bd-719b49a7ef55.webp&sig=kC3ELgY8BZM%2BLfQNMpyg9LWGur5oj2IBBXYSiAnntPY%3D" alt="User Profile Picture" style="max-width: 200px; border-radius: 50%;">
-                    <figcaption>Current Profile Picture</figcaption>
-                </figure>
-                <form class="grid" style="gap: 1rem;">
-                    <input type="text" id="name" name="name" placeholder="Full Name" aria-label="Full Name" required>
-                    <input type="number" id="age" name="age" placeholder="Age" aria-label="Age" required>
-                    <input type="password" id="password" name="password" placeholder="New Password" aria-label="New Password" required>
-                    <textarea id="bio" name="bio" placeholder="Bio" aria-label="Bio" rows="4" required></textarea>
-                    <label for="profilePicture">Profile Picture</label>
-                    <input type="file" id="profilePicture" name="profilePicture" aria-label="Profile Picture" required>
-                    <button type="submit" onclick="event.preventDefault()">Update Information</button>
-                </form>
-            </section>
+      <div class="Profile-page">
+        <section>
+            <h2>Manage Your Information</h2>
+            <h3>Update your profile details below</h3>
+            <p>Here you can update your personal information to keep your profile up to date.</p>
+            <div class="profile-container">
+            <figure class="profile-picture-userpage">
+                <img src="https://files.oaiusercontent.com/file-N8D8sq0D2JR94ecpQJdUhObE?se=2024-04-05T11%3A11%3A49Z&sp=r&sv=2021-08-06&sr=b&rscc=max-age%3D31536000%2C%20immutable&rscd=attachment%3B%20filename%3Da885a0d1-11b5-41b4-b2bd-719b49a7ef55.webp&sig=kC3ELgY8BZM%2BLfQNMpyg9LWGur5oj2IBBXYSiAnntPY%3D" alt="User Profile Picture">
+                <figcaption>Current Profile Picture</figcaption>
+            </figure>
+            <div class="user-info">
+            <form>
+                <input type="text" id="name" name="name" placeholder="Full Name" required>
+                <input type="number" id="age" name="age" placeholder="Age" required>
+                <input type="password" id="password" name="password" placeholder="New Password" required>
+                <textarea id="bio" name="bio" placeholder="Bio" required></textarea>
+                <label for="profilePicture">Profile Picture</label>
+                <input type="file" id="profilePicture" name="profilePicture" required>
+                <button type="submit" onclick="event.preventDefault()">Update Information</button>
+            </form>
+          </div>
         </div>
-    </main>
-    <footer class="container">
-        <small>
-            <a href="#">Privacy Policy</a> • <a href="#">Terms of Use</a>
-        </small>
-    </footer>
-    </body>
-    </html>
+        </section>
+      </div>
+   
+</body>
+</html>
     <% } %>
-    
