@@ -62,13 +62,15 @@ router.post("/bio/update", async (req, res) => {
 router.post("/info/update", async (req, res) => {
   const decodedUser = verifyToken(res, req);
   let existingUser = [];
-  if (decodedUser == null) {
+  if (decodedUser == null) { 
     res.render("user", { isLoggedIn: false, hasTypeWrong: false});
   } else {
-    existingUser = await db
-      .collection("users")
-      .find({ username: req.body.userUsername  })
-      .toArray();
+    if (req.body.userUsername !== decodedUser.username) {
+      existingUser = await db
+        .collection("users")
+        .find({ username: req.body.userUsername, _id: { $ne: decodedUser._id }})
+        .toArray();
+    }
     if (existingUser.length == 0) {
       await db.collection("users").updateMany(
         { _id: new ObjectId(req.body.userId) },
