@@ -67,10 +67,20 @@ userEditButton.addEventListener("click", () => {
     inputElement.classList = "profile-information-input";
     inputElement.value = initialValue2;
     inputElement.name = box2.firstElementChild.id
+    inputElement.min = 18;
+    inputElement.max = 130;
+     /* TODO Ved ikke om der er en bedre måde at gøre dette på, da hvis jeg tillader at man selv kan skrive i feltet
+     / TODO kan man bare skrive noget under eller over min/max grænserne, men hvis man gør dette kan man ikke bryde de grænser */
+
+     // Prevents keyboard input in the number input field
+     inputElement.addEventListener("keydown", (e) => {
+      e.preventDefault();
+    });
+
     box2.appendChild(inputElement);
   });
 });
-// TODO Get this list from the database somehow, instead of hardcoding that shit, you retard!! :DD
+// TODO Get this list from the database somehow, instead of hardcoding that shit, you retard!! (snakker om mig selv) :DD
 let locationList = ["Aalborg Øst", "Aalborg Centrum", "Aalborg Havnefront", "Aalborg Vestby", "Aalborg SØ", 
 "Øgadekvarteret i Aalborg", "Østre-havnepark i Aalborg", "Hasseris","Nørresundby", "Eternitten", "Vejgård", "Skalborg"];
 userEditButton.addEventListener("click", () => {
