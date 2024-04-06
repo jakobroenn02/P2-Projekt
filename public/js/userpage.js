@@ -39,7 +39,8 @@ const select1InfoBoxes = document.querySelectorAll(".user-information-select1-co
 const select2InfoBoxes = document.querySelectorAll(".user-information-select2-container");
 const numberInfoBoxes = document.querySelectorAll(".user-information-number-container");
 const textInfoBoxes = document.querySelectorAll(".user-information-text-container");
-
+// All the input fields that are created when the user clicks the edit button
+// Which includes the text input fields, number input fields and select fields
 userEditButton.addEventListener("click", () => { 
   textInfoBoxes.forEach((box) => {
     const initValue = box.firstElementChild.innerText;
@@ -69,7 +70,9 @@ userEditButton.addEventListener("click", () => {
     box2.appendChild(inputElement);
   });
 });
-let locationList = ["Aalborg"]
+// TODO Get this list from the database somehow, instead of hardcoding that shit, you retard!! :DD
+let locationList = ["Aalborg Øst", "Aalborg Centrum", "Aalborg Havnefront", "Aalborg Vestby", "Aalborg SØ", 
+"Øgadekvarteret i Aalborg", "Østre-havnepark i Aalborg", "Hasseris","Nørresundby", "Eternitten", "Vejgård", "Skalborg"];
 userEditButton.addEventListener("click", () => {
   select1InfoBoxes.forEach((box3) => {
     box3.firstElementChild.hidden = true;
@@ -78,15 +81,24 @@ userEditButton.addEventListener("click", () => {
     locationSelectElement.name = box3.firstElementChild.id;
     box3.appendChild(locationSelectElement);
 
+    let currentUserLocation = box3.firstElementChild.innerText.trim();
+
     for (let i = 0; i < locationList[i].length; i++) {
       let locationOption = document.createElement("option");
       locationOption.value = locationList[i];
       locationOption.text = locationList[i];
+       
+      // Check if the current option matches the user's location
+      if (locationList[i] === currentUserLocation) {
+        locationOption.selected = true;
+      }
+
       locationSelectElement.appendChild(locationOption);
     }
   });
 });
-let genderList = ["Female","Male","Other"]
+// TODO Same shit here, you ape!! :DD
+let genderList = ["Female","Male","Other"];
 userEditButton.addEventListener("click", () => {
   select2InfoBoxes.forEach((box4) => {
     box4.firstElementChild.hidden = true;
@@ -95,18 +107,24 @@ userEditButton.addEventListener("click", () => {
     genderSelectElement.name = box4.firstElementChild.id;
     box4.appendChild(genderSelectElement);
 
-    
-    for (let j = 0; j < genderList[j].length; j++) {
+    let currentUserGender = box4.firstElementChild.innerText.trim();
+
+    for (let j = 0; j < genderList.length; j++) {
       let genderOption = document.createElement("option");
       genderOption.value = genderList[j];
       genderOption.text = genderList[j];
+
+      // Check if the current option matches the user's gender
+      if (genderList[j] === currentUserGender) {
+        genderOption.selected = true;
+      }
+
       genderSelectElement.appendChild(genderOption);
-      console.log(genderOption.text)
-      console.log(box4.firstElementChild.innerText)
     }
   });
 });
 
+// User cancel button JS, that hides the input and select fields and shows the original text
 userCancelButton.addEventListener("click", () => {
   select1InfoBoxes.forEach((box5) => {
     box5.firstElementChild.hidden = false;

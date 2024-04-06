@@ -87,7 +87,6 @@ router.post("/info/update", async (req, res) => {
       );
 
       decodedUser.username = req.body.userUsername;
-      console.log(existingUser);
       res.clearCookie("token");
       return res.redirect("/login");
     } else if (existingUser.length > 0) {
