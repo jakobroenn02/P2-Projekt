@@ -226,13 +226,23 @@ router.post("/groups/:id/leave", async (req, res) => {
     res.render("groupEvents", { isLoggedIn: false });
   } else {
     try {
-      // removes groupId from user.
+      // Find all events in the group that the user is participating in
+      const events = await db.collection("events").find({ 
+        groupId: new ObjectId(req.params.id),
+        userIds: { $elemMatch: { $eq: new ObjectId(decodedUser._id) } }
+      }).toArray();
+      const eventIds = events.map(event => event._id);
+
+      // removes groupId and eventIds from user.
       await db.collection("users").updateOne(
-        { username: decodedUser.username },
+        { _id: new ObjectId(decodedUser._id) },
         {
           $pull: {
             groupIds: {
               $in: [new ObjectId(req.params.id)],
+            },
+            eventIds: {
+              $in: eventIds,
             },
           },
         }
@@ -250,6 +260,17 @@ router.post("/groups/:id/leave", async (req, res) => {
         }
       );
 
+      // removes userId from events in the group
+      await db.collection("events").updateMany(
+        { _id: { $in: eventIds } },
+        {
+          $pull: {
+            userIds: {
+              $in: [new ObjectId(decodedUser._id)],
+            },
+          },
+        }
+      );
       res.redirect("/");
     } catch (error) {
       res.render("errorPage", { errorMessage: "Error, could not leave group" });
