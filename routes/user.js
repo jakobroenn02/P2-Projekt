@@ -17,16 +17,22 @@ connectToDb((err) => {
 //routes
 router.get("/", async (req, res) => {
   const decodedUser = verifyToken(res, req);
-
+  let location = [];
   if (decodedUser == null) {
-    res.render("user", { isLoggedIn: false });
+    res.render("user", { isLoggedIn: false, hasTypeWrong: false });
   } else {
     try {
       const user = await db
         .collection("users")
         .findOne({ username: decodedUser.username });
 
-      res.render("user", { isLoggedIn: true, user });
+      location = await db.
+        collection("Location")
+        .find()
+        .toArray();
+
+
+      res.render("user", { isLoggedIn: true, hasTypeWrong: false, user, location });
     } catch (error) {
       res.render("errorPage", { errorMessage: "Error" });
     }
@@ -55,7 +61,7 @@ router.post("/bio/update", async (req, res) => {
   const decodedUser = verifyToken(res, req);
 
   if (decodedUser == null) {
-    res.render("user", { isLoggedIn: false });
+    res.render("user", { isLoggedIn: false, hasTypeWrong: false});
   } else {
     await db.collection("users").updateMany(
       { _id: new ObjectId(req.body.userId) },
@@ -73,25 +79,41 @@ router.post("/bio/update", async (req, res) => {
 
 router.post("/info/update", async (req, res) => {
   const decodedUser = verifyToken(res, req);
-
-  if (decodedUser == null) {
-    res.render("user", { isLoggedIn: false });
+  let existingUser = [];
+  if (decodedUser == null) { 
+    res.render("user", { isLoggedIn: false, hasTypeWrong: false});
   } else {
-    await db.collection("users").updateMany(
-      { _id: new ObjectId(req.body.userId) },
-      {
-        $set: {
-          username: req.body.userUsername,
-          age: req.body.userAge,
-          location: req.body.userLocation,
-          "name.firstName": req.body.userFirstName,
-          "name.lastName": req.body.userLastName,
-        },
-      }
-    );
-    decodedUser.username = req.body.userUsername;
-    res.clearCookie("token");
-    return res.redirect("/login");
+    if (req.body.userUsername !== decodedUser.username) {
+      existingUser = await db
+        .collection("users")
+        .find({ username: req.body.userUsername, _id: { $ne: decodedUser._id }})
+        .toArray();
+    }
+    if (existingUser.length == 0) {
+      await db.collection("users").updateMany(
+        { _id: new ObjectId(req.body.userId) },
+        {
+          $set: {
+            username: req.body.userUsername,
+            age: req.body.userAge,
+            location: req.body.userLocation,
+            gender: req.body.userGender,
+            "name.firstName": req.body.userFirstName,
+            "name.lastName": req.body.userLastName,
+          },
+        }
+      );
+
+      decodedUser.username = req.body.userUsername;
+      res.clearCookie("token");
+      return res.redirect("/login");
+    } else if (existingUser.length > 0) {
+      const user = await db
+      .collection("users")
+      .findOne({ username: decodedUser.username });
+      res.render("user", { isLoggedIn: true, hasTypeWrong: true, user });
+      
+    }
   }
 });
 
