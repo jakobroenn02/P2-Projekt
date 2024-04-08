@@ -531,7 +531,7 @@ router.get("/groups/:groupId/events/:eventId", async (req, res) => {
         isLoggedIn: true,
         event,
         eventParticipants,
-        user: loggedInUser,
+        user,
         group,
         isUserParticipating,
       });
