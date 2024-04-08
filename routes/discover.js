@@ -44,7 +44,7 @@ router.get("/", async (req, res) => {
         sortedGroups.push({ interest: user.interests[i], groups: [] });
         sortedGroups[i].groups = getGroupsBasedOnInterests(
           [user.interests[i]],
-          user.interests.length*10,
+          user.interests.length * 10,
           groupsNotAttendedByUser
         );
       }
@@ -73,6 +73,10 @@ router.get("/:id", async (req, res) => {
         .collection("groups")
         .findOne({ _id: new ObjectId(req.params.id) });
 
+      // checks if user is already part of the group
+      if (group.userIds.includes(decodedUser._id)) {
+        res.redirect(`/user/groups/${req.params.id}`);
+      }
       const groupMemberAmount = group.userIds.length;
       group.groupMemberAmount = groupMemberAmount;
 
@@ -83,29 +87,22 @@ router.get("/:id", async (req, res) => {
           groupUsers.push(user);
         });
 
-        await db
+      await db
         .collection("events")
         .find({ _id: { $in: group.eventIds } })
         .forEach((event) => {
           groupEvents.push(event);
         });
-        group.userIds.forEach( (userId) => {
-        if(userId == decodedUser._id){
-          res.redirect(`/user/groups/${req.params.id}`);
-        }
-        return group;
-      });
+
       res.render("discoverGroup", {
         isLoggedIn: true,
         group,
-        participantsLocations, 
+        participantsLocations,
         groupEvents,
         user: decodedUser,
       });
-      
     } catch (error) {
       res.render("errorpage", { errorMessage: "Error" });
-      
     }
   }
 });

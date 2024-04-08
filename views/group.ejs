@@ -10,6 +10,13 @@
         <div class="group-messages-first-message-example">Try:&nbsp; "<i>Does anyone wanna go ... on friday?</i>"</div>  
       <%}%>
       <%for (let i = 0; i < group.messages.length; i++) {%>
+        <%if(group.messages[i].isCustom) {%>
+        <div class="group-message-custom">
+          <div class="group-message-custom-text">
+            <%=group.messages[i].messageText%>
+          </div>
+        </div>  
+        <%} else {%>
       <div
         class="<% if(group.messages[i].authorId == user._id) { %> <%= "group-message-yours" %><% } else {%> <%= "group-message" %> <% } %>">
         <div class="group-message-info">
@@ -25,7 +32,7 @@
           <%= group.messages[i].messageText %>
         </div>
       </div>
-      <% } %>
+      <% }} %>
     </div>
     <div class="group-message-input-container">
       <form class="group-message-input-form">
@@ -109,6 +116,4 @@
 </div>
 <%}%>
 
-<script src="/socket.io/socket.io.js"></script>
-<script src="/js/socket.js"></script>
 <script src="/js/groupPage.js"></script>
