@@ -54,23 +54,23 @@ include("./partials/signinRedirect.ejs")%>
   <div class="homepage-events-container">
     <div class="homepage-title">Upcoming Events</div>
     <!--Hardcoded max entries to 2 to avoid overflow-->
-    <% for(let i = 0; i < events.length && i < 2; i++) {%>
+    <% for(let i = 0; i < userEvents.length && i < 2; i++) {%>
     <a
-      href="/user/groups/<%=events[i].groupId%>/events/<%=events[i]._id%>"
+      href="/user/groups/<%=userEvents[i].groupId%>/events/<%=userEvents[i]._id%>"
       class="homepage-event"
     >
-      <div class="homepage-event-title"><%= events[i].eventName%></div>
+      <div class="homepage-event-title"><%= userEvents[i].eventName%></div>
       <div class="homepage-event-info">
-        <div class="homepage-event-description"><%=events[i].description%></div>
+        <div class="homepage-event-description"><%=userEvents[i].description%></div>
         <div class="homepage-event-date">
-          <%= events[i].date.day < 10 ? "0": ""%><%=events[i].date.day%>/<%=
-          events[i].date.month < 10 ? "0": ""%><%=events[i].date.month%>/<%=
-          events[i].date.year%> <%= events[i].date.hour < 10 ? "0":
-          ""%><%=events[i].date.hour%>:<%= events[i].date.minute < 10 ? "0":
-          ""%><%=events[i].date.minute%>
+          <%= userEvents[i].date.day < 10 ? "0": ""%><%=userEvents[i].date.day%>/<%=
+          userEvents[i].date.month < 10 ? "0": ""%><%=userEvents[i].date.month%>/<%=
+          userEvents[i].date.year%> <%= userEvents[i].date.hour < 10 ? "0":
+          ""%><%=userEvents[i].date.hour%>:<%= userEvents[i].date.minute < 10 ? "0":
+          ""%><%=userEvents[i].date.minute%>
         </div>
         <div class="homepage-event-location">
-          <%=events[i].location.name%> | <%=events[i].location.address%>
+          <%=userEvents[i].location.name%> | <%=userEvents[i].location.address%>
         </div>
       </div>
     </a>

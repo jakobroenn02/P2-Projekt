@@ -5,7 +5,14 @@ const { connectToDb, getDb } = require("../db");
 const jwt = require("jsonwebtoken");
 const { verifyToken } = require("../utils/cookiesUtils");
 const { getGroupsBasedOnInterests } = require("../utils/discoverUtils");
+const {
+  getLoggedInUser,
+  getUserEvents,
+  getUserGroups,
+  getUserUnattendedGroups,
+} = require("../utils/dbUtils");
 
+// Connecting to database
 let db;
 connectToDb((err) => {
   if (!err) {
@@ -15,55 +22,20 @@ connectToDb((err) => {
 
 //routes
 router.get("/", async (req, res) => {
-  const decodedUser = verifyToken(res, req);
-  let userGroups = [];
-  let groupsNotAttendedByUser = [];
-  let events = [];
+  try {
+    const token = verifyToken(res, req);
 
-  if (decodedUser == null) {
-    return res.redirect("/login");
-  } else {
-    try {
-      // Finds logged in user
-      const user = await db
-        .collection("users")
-        .findOne({ username: decodedUser.username });
+    if (token == null) {
+      return res.redirect("/login");
+    } else {
+      const user = await getLoggedInUser(token);
+      const userEvents = await getUserEvents(token._id);
+      const userGroups = await getUserGroups(token._id);
 
-      //Finds all events user is signed up for.
-      await db
-        .collection("events")
-        .find({
-          _id: {
-            $in: user.eventIds,
-          },
-        })
-        .forEach((event) => {
-          events.push(event);
-        });
+      // Used to find discover groups
+      let groupsNotAttendedByUser = await getUserUnattendedGroups(token._id);
 
-      await db
-        .collection("groups")
-        .find({
-          _id: {
-            $in: user.groupIds,
-          },
-        })
-        .forEach((group) => {
-          userGroups.push(group);
-        });
-
-      // Finds all groups
-      await db
-        .collection("groups")
-        .find({
-          _id: {
-            $nin: user.groupIds,
-          },
-        })
-        .forEach((group) => {
-          groupsNotAttendedByUser.push(group);
-        });
-
+      // Gets 10 groups, equally many from each interest you have
       const discoverGroups = getGroupsBasedOnInterests(
         user.interests,
         10,
@@ -71,16 +43,16 @@ router.get("/", async (req, res) => {
       );
 
       res.render("index", {
-        groupsNotAttendedByUser,
         isLoggedIn: true,
-        events,
+        userEvents,
         userGroups,
         discoverGroups,
         user,
       });
-    } catch (error) {
-      res.render("errorPage", { errorMessage: "Error" });
     }
+  } catch (error) {
+    console.log(error);
+    res.render("errorPage", { errorMessage: error });
   }
 });
 
