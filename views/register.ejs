@@ -22,6 +22,17 @@
       <option value="male">Male</option>
       <option value="female">Female</option>
     </select>
+    
+    <label for="location"><b>Location</b></label>
+           <div class="register-locations-box">
+            <input type="text" name="location" class="register-location-input">
+            <div hidden class="register-locations">
+              <% for (let i=0; i < locations.length; i++) { %>
+                <div class="register-location" hidden><%= locations[i].location %></div>
+                <% } %>
+           </div>
+            <div hidden class="register-locations-validity">Location not valid</div>
+          </div>
 
     <label for="password"><b>Password</b></label>
     <input class="register-input" type="password" placeholder="Enter Password" name="password" required />
@@ -33,4 +44,6 @@
     <caption><br>Already have an account?: <a href="/login">Sign In Here</a></caption>
   </form>
 </div>
+
+<script src="/js/register.js"></script>
 <%} %>

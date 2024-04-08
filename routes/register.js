@@ -14,11 +14,14 @@ connectToDb((err) => {
   }
 });
 
-router.get("/", (req, res) => {
+router.get("/", async (req, res) => {
   const decodedUser = verifyToken(res, req);
 
   if (decodedUser == null) {
-    return res.render("register", { isLoggedIn: false, hasTypeWrong: false });
+    const locations = await db.collection("locations")
+      .find()
+      .toArray();
+    return res.render("register", { isLoggedIn: false, hasTypeWrong: false, locations });
   } else {
   }
   try {
@@ -37,7 +40,7 @@ router.post("/", async (req, res) => {
       password: hashedPassword,
       bio: "",
       age: 0,
-      location: "",
+      location: req.body.location,
       groupIds: [],
       interests: [],
       eventIds: [],
