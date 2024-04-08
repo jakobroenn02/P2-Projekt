@@ -226,13 +226,14 @@ router.post("/groups/:id/leave", async (req, res) => {
     res.render("groupEvents", { isLoggedIn: false });
   } else {
     try {
+
       // Find all events in the group that the user is participating in
       const events = await db.collection("events").find({ 
         groupId: new ObjectId(req.params.id),
-        userIds: { $elemMatch: { $eq: new ObjectId(decodedUser._id) } }
+        participantIds: new ObjectId(decodedUser._id),
       }).toArray();
-      const eventIds = events.map(event => event._id);
-
+      const eventIds = events.map((event) => event._id);
+      console.log(eventIds);    
       // removes groupId and eventIds from user.
       await db.collection("users").updateOne(
         { _id: new ObjectId(decodedUser._id) },
@@ -262,10 +263,10 @@ router.post("/groups/:id/leave", async (req, res) => {
 
       // removes userId from events in the group
       await db.collection("events").updateMany(
-        { _id: { $in: eventIds } },
+        { _id: { $in: eventIds} },
         {
           $pull: {
-            userIds: {
+            participantIds: {
               $in: [new ObjectId(decodedUser._id)],
             },
           },
