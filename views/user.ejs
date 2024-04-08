@@ -7,7 +7,7 @@
       <div class="user-page-upper">
         <div class="profile-bio">
           <div class="profile-picture">
-            <img class="profile-picture-picture" src="/img/70WoJVY.jpeg" />
+            <img class="profile-picture-picture" src="/img/profileImg/profileImg<%= user.profileImageId %>.jpeg" />
           </div>
           <form class="bio-form" action="/user/bio/update" method="post">
             <label for="Bio" class="profile-bio-title">Bio</label>
@@ -30,34 +30,43 @@
               <button type="button" class="profile-information-edit-button">Edit</button>
               <button type="submit" class="profile-information-confirm-button" hidden>Confirm</button>
               <button type="button" class="profile-information-cancel-button" hidden>Cancel</button>
+              <% if(hasTypeWrong){%>
+                <div class="userpage-change-input-error">Username is already taken. Try a different one.</div>
+              <%}%>
               <div class="profile-information-content-item-title"> First Name</div>
-              <div class="profile-information-container">
+              <div class="profile-information-container user-information-text-container">
                 <div class="profile-information-text" id="userFirstName">
                   <%= user.name.firstName %>
                 </div>
               </div>
               <div class="profile-information-content-item-title"> Last Name</div>
-              <div class="profile-information-container">
+              <div class="profile-information-container user-information-text-container">
                 <div class="profile-information-text" id="userLastName">
                   <%= user.name.lastName %>
                 </div>
               </div>
               <div class="profile-information-content-item-title"> Username</div>
-              <div class="profile-information-container">
+              <div class="profile-information-container user-information-text-container">
                 <div class="profile-information-text" id="userUsername">
                   <%= user.username %>
                 </div>
               </div>
               <div class="profile-information-content-item-title"> Age</div>
-              <div class="profile-information-container">
+              <div class="profile-information-container user-information-number-container">
                 <div class="profile-information-text" id="userAge">
                   <%= user.age %> 
-                </div>  <!--TODO tilføj gender-->
+                </div>  
               </div>
               <div class="profile-information-content-item-title"> Location</div>
-              <div class="profile-information-container">
+              <div class="profile-information-container user-information-select1-container">
                 <div class="profile-information-text" id="userLocation">
                   <%= user.location %>
+                </div>
+              </div>
+              <div class="profile-information-content-item-title"> Gender</div>
+              <div class="profile-information-container user-information-select2-container">
+                <div class="profile-information-text" id="userGender">
+                  <%= user.gender %>
                 </div>
               </div>
             </div>
@@ -99,22 +108,25 @@
         <div class="modal-pictures">
           <div class="modal-pictures-main">
             <div class="modal-main-picture-container">
-              <img src="/img/profileImg/profileImg<%= user.profileImageId %>.jpeg" alt="">
+              <img class="modalProfPic" src="/img/profileImg/profileImg<%= user.profileImageId %>.jpeg" alt="">
             </div>
           </div>
           <div class="modal-pictures-options">
             <div class="modal-pictures-options-container">
-              <img class="picture1" src="/img/Amerikansk Fodbold.jpeg" />
+              <img class="pictureOption" id="1" src="/img/profileImg/profileImg1.jpeg" />
             </div>
             <div class="modal-pictures-options-container">
-              <img class="picture3" src="/img/skøjtning.jpeg" />
+              <img class="pictureOption" id="2" src="/img/profileImg/profileImg2.jpeg" />
             </div>
             <div class="modal-pictures-options-container">
-              <img class="picture2" src="/img/Fodbold.jpeg" />
+              <img class="pictureOption" id="3" src="/img/profileImg/profileImg3.jpeg" />
             </div>
           </div>
+          <form method="post" action="/user/profile-picture/update">
+            <input type="number" name="profileImageId" id="profileImageId" value="<%=user.profileImageId%>" class="profileImageIdNumber" hidden>  <!-- Prevents bad imageId by defaulting to id from db-->
+          <button class="profilePictureChangeConfirm" type="submit" hidden>Confirm</button>
+        </form>
         </div>
-      </div>
       </div>
       <script src="/js/userpage.js"></script>
 

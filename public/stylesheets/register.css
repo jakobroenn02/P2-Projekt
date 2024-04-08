@@ -49,6 +49,7 @@ form {
     position: relative;
 }
 
+
 .register-location-input {
     width: 100%;
     padding: 12px 20px;
@@ -91,3 +92,24 @@ form {
     padding-left: 6px;
     margin-bottom: 8px;
 }
+
+  .register-input-error {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 16px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    color: rgb(255, 50, 50);
+    animation: vertical-shaking .5s .5s;
+  }
+
+  @keyframes vertical-shaking {
+    25% { transform: translateY(2px) }
+    50% { transform: translateY(-2px) }
+    75% { transform: translateY(2px) }
+    100% { transform: translateY(0) }
+  }
+  
+

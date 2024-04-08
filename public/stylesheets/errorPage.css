@@ -1,0 +1,40 @@
+.errorPage-main{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 2*88px);   /*Body element is changes globally to allow for header to be 88px. This page does not have a header thus 2*88px*/
+}
+
+.errorPage-container{
+    color: grey;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+    height: 70%;
+}
+
+.errorPage-sadge{
+    font-size: 150px;
+    color: white;
+    background-color: lightgray;
+    border-radius: 100%;
+    box-shadow: 0px 0px 0px 10px lightgray;    
+}
+
+.errorPage-return-anchor{
+    font-weight: bold   ;
+    margin-top: 20px;
+    background-color: rgb(43, 101, 182);
+    text-decoration: none;
+    color: white;
+    padding: 20px;
+    border-radius: 40px;
+    transition: 0.1s;
+}
+
+.errorPage-return-anchor:hover{
+    background-color: rgb(43, 101, 182, 0.9);
+    box-shadow: 2px 2px 5px 5px rgb(43, 101, 182, 0.2);    
+}

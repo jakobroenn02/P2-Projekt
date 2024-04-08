@@ -1,47 +1,49 @@
-<%- include("./partials/header.ejs") %>
-  <% if (isLoggedIn) {%>
-    <div>You are already logged in</div>
-    <% } else { %>
-      <div class="register-container">
-        <form action="/register" method="post">
-          <label for="firstName"><b>First Name</b></label>
-          <input class="register-input" type="text" placeholder="Enter First Name" name="firstName" required />
+<%- include("./partials/header.ejs") %> 
+<% if (isLoggedIn) {%>
+<div>You are already logged in</div>
+<% } else { %>
+<div class="register-container">
+  <% if(hasTypeWrong){%>
+    <div class="register-input-error">Username is already taken. Try a different one.</div>
+  <%}%>
+  <form action="/register" method="post">
+    <label for="firstName"><b>First Name</b></label>
+    <input class="register-input" type="text" placeholder="Enter First Name" name="firstName" required />
 
 
-          <label for="lastName"><b>Last Name</b></label>
-          <input class="register-input" type="text" placeholder="Enter Last Name" name="lastName" required />
+    <label for="lastName"><b>Last Name</b></label>
+    <input class="register-input" type="text" placeholder="Enter Last Name" name="lastName" required />
 
-          <label for="username"><b>Username</b></label>
-          <input class="register-input" type="text" placeholder="Enter Username" name="username" required />
+    <label for="username"><b>Username</b></label>
+    <input class="register-input" type="text" placeholder="Enter Username" name="username" required />
 
-          <label for="email"><b>Gender</b></label>
-          <select name="gender" class="register-input" required>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-          </select>
-
-          <label for="location"><b>Location</b></label>
-          <div class="register-locations-box">
+    <label for="gender"><b>Gender</b></label>
+    <select name="gender" class="register-input" required>
+      <option value="male">Male</option>
+      <option value="female">Female</option>
+    </select>
+    
+    <label for="location"><b>Location</b></label>
+           <div class="register-locations-box">
             <input type="text" name="location" class="register-location-input">
             <div hidden class="register-locations">
               <% for (let i=0; i < locations.length; i++) { %>
                 <div class="register-location" hidden><%= locations[i].location %></div>
                 <% } %>
-            </div>
+           </div>
             <div hidden class="register-locations-validity">Location not valid</div>
           </div>
 
-          <label for="password"><b>Password</b></label>
-          <input class="register-input" type="password" placeholder="Enter Password" name="password" required />
+    <label for="password"><b>Password</b></label>
+    <input class="register-input" type="password" placeholder="Enter Password" name="password" required />
 
-          <label for="confirmedPassword"><b>Confirm Password</b></label>
-          <input class="register-input" type="password" placeholder="Confirm Password" name="confirmedPassword"
-            required />
+    <label for="confirmedPassword"><b>Confirm Password</b></label>
+    <input class="register-input" type="password" placeholder="Confirm Password" name="confirmedPassword" required />
 
-          <button class="register-button register-button-disabled" type="submit">Register</button>
-          <caption><br>Already have an account?: <a href="/login">Sign In Here</a></caption>
-        </form>
-      </div>
+  <button class="register-button" type="submit">Register</button>
+    <caption><br>Already have an account?: <a href="/login">Sign In Here</a></caption>
+  </form>
+</div>
 
-      <script src="/js/register.js"></script>
-      <%} %>
+<script src="/js/register.js"></script>
+<%} %>

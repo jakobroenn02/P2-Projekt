@@ -5,6 +5,7 @@ const { connectToDb, getDb } = require("../db");
 const jwt = require("jsonwebtoken");
 const { verifyToken } = require("../utils/cookiesUtils");
 const { getGroupsBasedOnInterests } = require("../utils/discoverUtils");
+const { render } = require("ejs");
 
 //connect to db
 let db;
@@ -43,12 +44,12 @@ router.get("/", async (req, res) => {
         sortedGroups.push({ interest: user.interests[i], groups: [] });
         sortedGroups[i].groups = getGroupsBasedOnInterests(
           [user.interests[i]],
-          user.interests.length*10,
+          user.interests.length * 10,
           groupsNotAttendedByUser
         );
       }
 
-      res.render("discover", { isLoggedIn: true, sortedGroups });
+      res.render("discover", { isLoggedIn: true, sortedGroups, user: decodedUser });
     } catch (error) {
       res.render("errorPage", { errorMessage: "Error" });
     }
@@ -58,6 +59,7 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   const decodedUser = verifyToken(res, req);
   let groupUsers = [];
+  let groupEvents = [];
 
   let participantsLocations = [];
   let participantsAges = [];
@@ -71,6 +73,10 @@ router.get("/:id", async (req, res) => {
         .collection("groups")
         .findOne({ _id: new ObjectId(req.params.id) });
 
+      // checks if user is already part of the group
+      if (group.userIds.includes(decodedUser._id)) {
+        res.redirect(`/user/groups/${req.params.id}`);
+      }
       const groupMemberAmount = group.userIds.length;
       group.groupMemberAmount = groupMemberAmount;
 
@@ -81,13 +87,22 @@ router.get("/:id", async (req, res) => {
           groupUsers.push(user);
         });
 
+      await db
+        .collection("events")
+        .find({ _id: { $in: group.eventIds } })
+        .forEach((event) => {
+          groupEvents.push(event);
+        });
+
       res.render("discoverGroup", {
         isLoggedIn: true,
         group,
         participantsLocations,
+        groupEvents,
+        user: decodedUser,
       });
     } catch (error) {
-      res.render("register", { isLoggedIn: true });
+      res.render("errorpage", { errorMessage: "Error" });
     }
   }
 });

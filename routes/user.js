@@ -17,19 +17,43 @@ connectToDb((err) => {
 //routes
 router.get("/", async (req, res) => {
   const decodedUser = verifyToken(res, req);
-
+  let location = [];
   if (decodedUser == null) {
-    res.render("user", { isLoggedIn: false });
+    res.render("user", { isLoggedIn: false, hasTypeWrong: false });
   } else {
     try {
       const user = await db
         .collection("users")
         .findOne({ username: decodedUser.username });
 
-      res.render("user", { isLoggedIn: true, user });
+      location = await db.
+        collection("Location")
+        .find()
+        .toArray();
+
+
+      res.render("user", { isLoggedIn: true, hasTypeWrong: false, user, location });
     } catch (error) {
       res.render("errorPage", { errorMessage: "Error" });
     }
+  }
+});
+
+router.post("/profile-picture/update", async (req, res) => {
+  const decodedUser = verifyToken(res, req);
+
+  if (decodedUser == null) {
+    res.render("user", { isLoggedIn: false });
+  } else {
+    await db.collection("users").updateOne(
+      { _id: new ObjectId(decodedUser._id) },
+      {
+        $set: {
+          profileImageId: parseInt(req.body.profileImageId),
+        },
+      }
+    );
+    return res.redirect("/user");
   }
 });
 
@@ -37,7 +61,7 @@ router.post("/bio/update", async (req, res) => {
   const decodedUser = verifyToken(res, req);
 
   if (decodedUser == null) {
-    res.render("user", { isLoggedIn: false });
+    res.render("user", { isLoggedIn: false, hasTypeWrong: false});
   } else {
     await db.collection("users").updateMany(
       { _id: new ObjectId(req.body.userId) },
@@ -55,52 +79,76 @@ router.post("/bio/update", async (req, res) => {
 
 router.post("/info/update", async (req, res) => {
   const decodedUser = verifyToken(res, req);
-
-  if (decodedUser == null) {
-    res.render("user", { isLoggedIn: false });
+  let existingUser = [];
+  if (decodedUser == null) { 
+    res.render("user", { isLoggedIn: false, hasTypeWrong: false});
   } else {
-    await db.collection("users").updateMany(
-      { _id: new ObjectId(req.body.userId) },
-      {
-        $set: {
-          username: req.body.userUsername,
-          age: req.body.userAge,
-          location: req.body.userLocation,
-          "name.firstName": req.body.userFirstName,
-          "name.lastName": req.body.userLastName,
-        },
-      }
-    );
-    decodedUser.username = req.body.userUsername;
-    res.clearCookie("token");
-    return res.redirect("/login");
+    if (req.body.userUsername !== decodedUser.username) {
+      existingUser = await db
+        .collection("users")
+        .find({ username: req.body.userUsername, _id: { $ne: decodedUser._id }})
+        .toArray();
+    }
+    if (existingUser.length == 0) {
+      await db.collection("users").updateMany(
+        { _id: new ObjectId(req.body.userId) },
+        {
+          $set: {
+            username: req.body.userUsername,
+            age: req.body.userAge,
+            location: req.body.userLocation,
+            gender: req.body.userGender,
+            "name.firstName": req.body.userFirstName,
+            "name.lastName": req.body.userLastName,
+          },
+        }
+      );
+
+      decodedUser.username = req.body.userUsername;
+      res.clearCookie("token");
+      return res.redirect("/login");
+    } else if (existingUser.length > 0) {
+      const user = await db
+      .collection("users")
+      .findOne({ username: decodedUser.username });
+      res.render("user", { isLoggedIn: true, hasTypeWrong: true, user });
+      
+    }
   }
 });
 
-router.get("/events", (req, res) => {
+router.get("/events", async (req, res) => {
   const decodedUser = verifyToken(res, req);
-  let events = [];
+  const user = decodedUser;
 
   if (decodedUser == null) {
     res.render("userEvents", { isLoggedIn: false });
   } else {
     try {
-      db.collection("users")
-        .findOne({ username: decodedUser.username })
-        .then((user) => {
-          db.collection("events")
-            .find({
-              _id: {
-                $in: user.eventIds,
-              },
-            })
-            .forEach((event) => {
-              events.push(event);
-            })
-            .then(() => {
-              res.render("userEvents", { isLoggedIn: true, events });
-            });
-        });
+      let user = await db
+        .collection("users")
+        .findOne({ username: decodedUser.username });
+
+      let events = await db
+        .collection("events")
+        .find({
+          _id: {
+            $in: user.eventIds,
+          },
+        })
+        .toArray();
+
+      let userGroups = await db
+        .collection("groups")
+        .find({ _id: { $in: user.groupIds } })
+        .toArray();
+
+      res.render("userEvents", {
+        isLoggedIn: true,
+        events,
+        user,
+        userGroups,
+      });
     } catch (error) {
       res.render("errorPage", { errorMessage: "Error" });
     }
@@ -110,6 +158,7 @@ router.get("/events", (req, res) => {
 router.get("/groups", (req, res) => {
   let groups = [];
   const decodedUser = verifyToken(res, req);
+  const user = decodedUser;
 
   if (decodedUser == null) {
     res.render("groups", { isLoggedIn: false });
@@ -128,7 +177,7 @@ router.get("/groups", (req, res) => {
               groups.push(group);
             })
             .then(() => {
-              res.render("groups", { isLoggedIn: true, groups });
+              res.render("groups", { isLoggedIn: true, groups, user });
             });
         });
     } catch (error) {
@@ -143,20 +192,16 @@ router.get("/groups/:id", async (req, res) => {
   let userIds = [];
 
   if (decodedUser == null) {
-    res.render("group", { isLoggedIn: false });
+    res.render("group", { isLoggedIn: false, });
   } else {
     try {
       const group = await db
         .collection("groups")
         .findOne({ _id: new ObjectId(req.params.id) });
 
-      if (group.hasOwnProperty("userIds")) {
-        userIds = group.userIds.map((userId) => new ObjectId(userId));
-      }
-
       groupUsers = await db
         .collection("users")
-        .find({ _id: { $in: userIds } })
+        .find({ _id: { $in: group.userIds } })
         .toArray();
 
       const loggedInUserInGroup = groupUsers.filter((user) => {
@@ -197,7 +242,10 @@ router.post("/groups/:id", async (req, res) => {
           messages: {
             messageText: req.body.messageText,
             authorName: req.body.authorName,
-            authorId: new ObjectId(req.body.authorId),
+            authorId:
+              req.body.authorId !== null
+                ? new ObjectId(req.body.authorId)
+                : null,
             createdAt: {
               year: req.body.createdAt.year,
               month: req.body.createdAt.month,
@@ -205,6 +253,7 @@ router.post("/groups/:id", async (req, res) => {
               hour: req.body.createdAt.hour,
               minute: req.body.createdAt.minute,
             },
+            isCustom: req.body.isCustom,
           },
         },
       }
@@ -219,13 +268,24 @@ router.post("/groups/:id/leave", async (req, res) => {
     res.render("groupEvents", { isLoggedIn: false });
   } else {
     try {
-      // removes groupId from user.
+
+      // Find all events in the group that the user is participating in
+      const events = await db.collection("events").find({ 
+        groupId: new ObjectId(req.params.id),
+        participantIds: new ObjectId(decodedUser._id),
+      }).toArray();
+      const eventIds = events.map((event) => event._id);
+      console.log(eventIds);    
+      // removes groupId and eventIds from user.
       await db.collection("users").updateOne(
-        { username: decodedUser.username },
+        { _id: new ObjectId(decodedUser._id) },
         {
           $pull: {
             groupIds: {
               $in: [new ObjectId(req.params.id)],
+            },
+            eventIds: {
+              $in: eventIds,
             },
           },
         }
@@ -243,6 +303,17 @@ router.post("/groups/:id/leave", async (req, res) => {
         }
       );
 
+      // removes userId from events in the group
+      await db.collection("events").updateMany(
+        { _id: { $in: eventIds} },
+        {
+          $pull: {
+            participantIds: {
+              $in: [new ObjectId(decodedUser._id)],
+            },
+          },
+        }
+      );
       res.redirect("/");
     } catch (error) {
       res.render("errorPage", { errorMessage: "Error, could not leave group" });
@@ -253,44 +324,42 @@ router.post("/groups/:id/leave", async (req, res) => {
 router.get("/groups/:groupId/events", async (req, res) => {
   const decodedUser = verifyToken(res, req);
 
-  let groupEvents = [];
-
   if (decodedUser == null) {
     res.render("groupEvents", { isLoggedIn: false });
   } else {
     try {
-      const loggedInUser = await db
+      const user = await db
         .collection("users")
         .findOne({ username: decodedUser.username });
 
       // Checks if user is member of group related to events.
-      if (
-        !loggedInUser.groupIds
-          .toString()
-          .split(",")
-          .includes(req.params.groupId)
-      ) {
+      if (!user.groupIds.toString().split(",").includes(req.params.groupId)) {
         res.render("errorPage", {
           errorMessage: "You are not a member of this group",
         });
         return;
       }
 
-      const currentGroup = await db
+      const group = await db
         .collection("groups")
         .findOne({ _id: new ObjectId(req.params.groupId) });
 
-      await db
+      const groupEvents = await db
         .collection("events")
-        .find({ _id: { $in: currentGroup.eventIds } })
-        .forEach((event) => {
-          groupEvents.push(event);
-        });
+        .find({ _id: { $in: group.eventIds } })
+        .toArray();
+
+      const groupSuggestedEvents = await db
+        .collection("events")
+        .find({ _id: { $in: group.suggestedEventIds } })
+        .toArray();
 
       res.render("groupEvents", {
         isLoggedIn: true,
-        currentGroup,
+        group,
         groupEvents,
+        groupSuggestedEvents,
+        user,
       });
     } catch (error) {
       res.render("errorPage", { errorMessage: "Error" });
@@ -358,6 +427,64 @@ router.post("/interests", async (req, res) => {
   }
 });
 
+router.post("/groups/:groupId/events/create", async (req, res) => {
+  const decodedUser = verifyToken(res, req);
+  let groupId;
+
+  try {
+    const dateListed = req.body.startDate.split("-");
+    const timeListed = req.body.startTime.split(":");
+
+    if (decodedUser != null) {
+      //Checks if event is created from inside group, or from user event page.
+      if (req.params.groupId !== "undefined") {
+        groupId = new ObjectId(req.params.groupId);
+      } else {
+        groupId = new ObjectId(req.body.groupId);
+      }
+      let createdEvent = {
+        eventName: req.body.eventName,
+        date: {
+          year: parseInt(dateListed[0]),
+          month: parseInt(dateListed[1]),
+          day: parseInt(dateListed[2]),
+          hour: parseInt(timeListed[0]),
+          minute: parseInt(timeListed[1]),
+        },
+        description: req.body.description,
+        location: { name: req.body.cityName, address: req.body.adressName },
+        groupId: groupId,
+        participantIds: [],
+        isSuggested: false,
+      };
+
+      let insertedEventRes = await db
+        .collection("events")
+        .insertOne(createdEvent);
+
+      //Add event to group
+
+      await db
+        .collection("groups")
+        .updateOne(
+          { _id: groupId },
+          { $push: { eventIds: insertedEventRes.insertedId } }
+        );
+      if (req.params.groupId !== "undefined") {
+        res.redirect(
+          `/user/groups/${req.params.groupId}/events/${insertedEventRes.insertedId}`
+        );
+      } else {
+        res.redirect(
+          `/user/groups/${req.body.groupId}/events/${insertedEventRes.insertedId}`
+        );
+      }
+    }
+  } catch (error) {
+    res.render("errorPage", { errorMessage: "Error, could not create event" });
+  }
+});
+
 router.get("/groups/:groupId/events/:eventId", async (req, res) => {
   const decodedUser = verifyToken(res, req);
 
@@ -365,23 +492,21 @@ router.get("/groups/:groupId/events/:eventId", async (req, res) => {
     res.render("eventPage", { isLoggedIn: false });
   } else {
     try {
-      const loggedInUser = await db
+      const user = await db
         .collection("users")
         .findOne({ username: decodedUser.username });
 
       // Checks if user is member of group related to event.
-
-      if (
-        !loggedInUser.groupIds
-          .toString()
-          .split(",")
-          .includes(req.params.groupId)
-      ) {
+      if (!user.groupIds.toString().split(",").includes(req.params.groupId)) {
         res.render("errorPage", {
           errorMessage: "You are not a member of this group",
         });
         return;
       }
+
+      const group = await db
+        .collection("groups")
+        .findOne({ _id: new ObjectId(req.params.groupId) });
 
       const event = await db
         .collection("events")
@@ -394,10 +519,21 @@ router.get("/groups/:groupId/events/:eventId", async (req, res) => {
         })
         .toArray();
 
+      // checks if logged in user is partitioning in the event.
+      const isUserParticipating =
+        eventParticipants.filter(
+          (participant) => participant.username == user.username
+        ).length > 0
+          ? true
+          : false;
+
       res.render("eventPage", {
         isLoggedIn: true,
         event,
         eventParticipants,
+        user: loggedInUser,
+        group,
+        isUserParticipating,
       });
     } catch (error) {
       res.render("errorPage", { errorMessage: "Error" });
@@ -405,36 +541,62 @@ router.get("/groups/:groupId/events/:eventId", async (req, res) => {
   }
 });
 
-router.delete("/leave-event", (req, res) => {
+router.post("/groups/:groupId/events/:eventId/join", async (req, res) => {
   const decodedUser = verifyToken(res, req);
-
-  if (decodedUser == null) {
-    res.render("eventinfo", { isLoggedIn: false });
-  } else {
-    const eventID = new ObjectId(req.body.eventId);
-    const userId = new ObjectId(decodedUser._id);
-    db.collection("events")
-      .updateOne(
-        { _id: eventID },
+  try {
+    if (decodedUser != null) {
+      await db.collection("events").updateOne(
+        { _id: new ObjectId(req.params.eventId) },
         {
-          $pull: { participantIds: userId.toString() },
+          $push: {
+            participantIds: new ObjectId(decodedUser._id),
+          },
         }
-      )
-      .then(() => {
-        db.collection("users")
-          .updateOne(
-            { _id: userId },
-            {
-              $pull: { eventIds: eventID },
-            }
-          )
-          .then(() => {
-            res.status(200).send("Event left");
-          })
-          .catch((err) => {
-            res.status(500).send("Error while leaving event!");
-          });
-      });
+      );
+      await db.collection("users").updateOne(
+        { _id: new ObjectId(decodedUser._id) },
+        {
+          $push: {
+            eventIds: new ObjectId(req.params.eventId),
+          },
+        }
+      );
+
+      res.redirect(
+        `/user/groups/${req.params.groupId}/events/${req.params.eventId}`
+      );
+    }
+  } catch (error) {
+    res.render("errorPage", { errorMessage: "Error, could not create event" });
+  }
+});
+
+router.post("/groups/:groupId/events/:eventId/leave", async (req, res) => {
+  const decodedUser = verifyToken(res, req);
+  try {
+    if (decodedUser != null) {
+      await db.collection("events").updateOne(
+        { _id: new ObjectId(req.params.eventId) },
+        {
+          $pull: {
+            participantIds: new ObjectId(decodedUser._id),
+          },
+        }
+      );
+      await db.collection("users").updateOne(
+        { _id: new ObjectId(decodedUser._id) },
+        {
+          $pull: {
+            eventIds: new ObjectId(req.params.eventId),
+          },
+        }
+      );
+      res.redirect(
+        `/user/groups/${req.params.groupId}/events/${req.params.eventId}`
+      );
+    }
+  } catch (error) {
+    res.render("errorPage", { errorMessage: "Error, could not create event" });
   }
 });
 

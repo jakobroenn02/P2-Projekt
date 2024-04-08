@@ -1,6 +1,11 @@
+.userEvents {
+  min-height: calc(100vh - 88px);
+}
+
 .events-container {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
 }
 
 .event-div {
@@ -11,18 +16,28 @@
   border-radius: 15px;
   margin: 10px;
   padding: 12px;
-  transition: all 0.05s; 
+  transition: all 0.1s;
+  box-shadow: 4px 4px rgba(0, 0, 0, 0.3);
+  
 }
 
-.event-div:hover{
-    cursor: pointer;
-    background-color:  rgb(178, 178, 178);
+.event-div:hover {
+  background-color: rgb(200, 200, 200);
+    top: -3px;
+    box-shadow: 8px 6px rgba(0, 0, 0, 0.35);
 }
 
 .event-name {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+
   font-weight: bold;
   color: black;
-  font-size: 20px;
+  max-width: 200px;
+  height: 1.1em;
+  font-size: 16px;
   margin-bottom: 6px;
 }
 
@@ -49,15 +64,18 @@
   color: rgb(98, 98, 98);
 }
 
-.event-address{
-    position: absolute;
-    bottom: 12px;
-    left: 12px;
-    font-size: 12px;
-    color: rgb(98, 98, 98);
+.event-address {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  font-size: 12px;
+  color: rgb(98, 98, 98);
 }
 
-.eventInfo-left{
+
+/* TODO Hvad er det her?? Det hører ikke til /user/events!??!*/
+
+.eventInfo-left {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -70,72 +88,39 @@
 }
 
 .event2-title {
-  
   margin: 0px;
   font-size: 20px;
   color: black;
 }
-.eventInfo-description{
-  margin-bottom: 6px;  
+.eventInfo-description {
+  margin-bottom: 6px;
   outline: medium;
   outline-color: rgb(0, 0, 0);
   outline-width: 2px;
 }
-#event-text{
+#event-text {
   margin-bottom: 6px;
   color: black;
   font-size: 20px;
   font-weight: bold;
 }
-.event-leave-button{
+.event-leave-button {
   margin-top: 20px;
 }
-.eventInfo-right{
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 50%;
-  padding: 20px;
-  margin: 20px;
+.user-events-create-event-button {
+  margin-left: 12px;
   font-size: 20px;
-  color: black;
-  outline: #000 medium solid;
-}
-.eventInfo-div{
+  background-color: lightgray;
+  height: 48px;
+  width: 48px;
   display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  color: black;
-  border-style: small #000;
-  border-width: 2px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.1s;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
-.list-of-attendees{
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 20px;
-  margin: 20px;
-  font-size: 20px;
-  color: black;
-  outline: #000 medium dashed;
-  list-style-type: circle;
-}
-.attendee{
-  font-size: 125%;
-  list-style-image: linear-gradient(to left bottom, red, blue);
-  margin-left : 20px;
-  margin-bottom: 20px;
-  
-  
-  font-weight: lighter;
-}
-.button-leave{
-  margin-top: 20px;
-  color: black;
-  font-size: 20px;
-  font-weight: bold;
-  background-color: red;
-  border-radius: 10px;
-  padding: 10px;
-  transition: all 0.05s;
+.user-events-create-event-button:hover {
+  background-color: rgb(178, 178, 178);
 }

@@ -17,7 +17,28 @@ include("./partials/signinRedirect.ejs")%>
       <div class="homepage-group-info">
         <div class="homepage-group-name"><%= userGroups[i].groupName%></div>
         <div class="homepage-group-message">
-          Hej hvordan går det med jer her på sådan her en god skøn dag?
+          <% if(userGroups[i].messages.length > 0) {%>
+          <div class="homepage-group-message-author">
+            <%=
+            userGroups[i].messages[userGroups[i].messages.length-1].authorName
+            %>:
+          </div>
+          <div class="homepage-group-message-text">
+            <%=
+            userGroups[i].messages[userGroups[i].messages.length-1].messageText
+            %>
+          </div>
+          <div class="homepage-group-message-time">
+            <%if
+            (userGroups[i].messages[userGroups[i].messages.length-1].createdAt.hour<=9)
+            {%> <%="0"%><%}%><%=
+            userGroups[i].messages[userGroups[i].messages.length-1].createdAt.hour
+            %>:<%if(userGroups[i].messages[userGroups[i].messages.length-1].createdAt.minute<=9){%><%="0"%><%}%><%=
+            userGroups[i].messages[userGroups[i].messages.length-1].createdAt.minute
+            %>
+          </div>
+
+          <%}%>
         </div>
       </div>
     </a>
@@ -34,7 +55,10 @@ include("./partials/signinRedirect.ejs")%>
     <div class="homepage-title">Upcoming Events</div>
     <!--Hardcoded max entries to 2 to avoid overflow-->
     <% for(let i = 0; i < events.length && i < 2; i++) {%>
-    <a href="/user/groups/<%=events[i].groupId%>/events/<%=events[i]._id%>" class="homepage-event">
+    <a
+      href="/user/groups/<%=events[i].groupId%>/events/<%=events[i]._id%>"
+      class="homepage-event"
+    >
       <div class="homepage-event-title"><%= events[i].eventName%></div>
       <div class="homepage-event-info">
         <div class="homepage-event-description"><%=events[i].description%></div>
@@ -70,7 +94,9 @@ include("./partials/signinRedirect.ejs")%>
         />
       </div>
       <div class="homepage-discover-info">
-        <div class="homepage-discover-title"><%=discoverGroups[i].groupName%></div>
+        <div class="homepage-discover-title">
+          <%=discoverGroups[i].groupName%>
+        </div>
         <i id="homepage-discover-icon" class="fa-solid fa-arrow-right"></i>
       </div>
     </a>

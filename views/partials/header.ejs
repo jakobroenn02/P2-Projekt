@@ -12,10 +12,12 @@
   </div>
   <div class="header-right">
     <% if (isLoggedIn) {%>
-    <a href="/user"><div class="header-profile">
-    </div></a>
+      <a href="/user">
+        <div class="header-profile">
+         <img class="header-profile-picture" src="/img/profileImg/profileImg<%= user.profileImageId %>.jpeg">
+        </div>
+      </a>
     <div class="header-settings-icon"><i class="fa-solid fa-gear"></i></div>
-  </div>
   <%} else {%> <%} %>
 </nav>
 <div class="header-settings-dropdown" hidden>

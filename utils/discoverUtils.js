@@ -12,6 +12,7 @@ function countLocations(users) {
   let locations = [];
 }
 
+// Takes a list of interests, an amount of groups you want, and returns an equal amount of random groups from each interest. (If there are enough groups) - 
 function getGroupsBasedOnInterests(interests, amount, allGroups) {
   let outputGroups = [];
 
@@ -19,6 +20,7 @@ function getGroupsBasedOnInterests(interests, amount, allGroups) {
   let sortedGroups = [];
   let i = 0;
 
+  // Sorts all groups by interest
   interests.forEach((interest) => {
     sortedGroups.push({ interest: interest, groups: [] });
     allGroups.forEach((group) => {
@@ -31,6 +33,8 @@ function getGroupsBasedOnInterests(interests, amount, allGroups) {
 
   shuffleSortedGroups(sortedGroups);
 
+  //From each interest, here it chooses an equal amount of groups per interest.
+  // Eg. if we have 2 interests, and we want 10 groups, we get 5 groups from each interest.
   for (let y = 0; y < sortedGroups.length; y++) {
     while (
       !(outputGroups.length > (y + 1) * amountGroupsPerInterest) &&
@@ -44,6 +48,8 @@ function getGroupsBasedOnInterests(interests, amount, allGroups) {
     }
   }
 
+  // Here we check if the amount of groups we wanted, is equal to the amount of groups we got. If this is not the case, we randomly add groups to match the amount.
+  // Eg. if we have 2 interests, and we want 7 groups, then in the code above, we only get 3 groups from each interest, meaning we add one randomly here:
   if (outputGroups.length < amount) {
     const missingAmount = amount - outputGroups.length;
     for (let i = 0; i < missingAmount; i++) {
@@ -62,11 +68,13 @@ function getGroupsBasedOnInterests(interests, amount, allGroups) {
     }
   }
 
+  // Shuffle array to randomize order of groups
   outputGroups = shuffleArray(outputGroups);
 
   return outputGroups;
 }
 
+// Simple function for shuffling arrays - used to shuffle groups for the discover page.
 function shuffleArray(array) {
   let currentIndex = array.length,
     randomIndex;
@@ -86,6 +94,8 @@ function shuffleArray(array) {
 
   return array;
 }
+
+// Function used to shuffle sorted groups, which is just an object with two properties: interest, and groups.
 function shuffleSortedGroups(sortedGroups) {
   sortedGroups.forEach((sortedGroup) => {
     sortedGroup.groups = shuffleArray(sortedGroup.groups);
