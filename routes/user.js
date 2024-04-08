@@ -30,7 +30,7 @@ router.get("/", async (req, res) => {
               .collection("users")
               .findOne({ username: decodedUser.username });
 
-            res.render("user", { isLoggedIn: true, user, profileImageId: user.profileImageId });
+            res.render("user", { isLoggedIn: true, user, profileImageId: user.profileImageId,Age: user.Age, Bio: user.Bio, Location: user.Location, Lastname: user.LastName,Firstname: user.FirstName,Gender: user.Gender });
           } catch (error) {
             res.render("errorPage", { errorMessage: "Error" });
           }
@@ -55,7 +55,7 @@ router.get("/", async (req, res) => {
       return res.redirect("/user");
     }
   });
-  
+
   router.post("/bio/update", async (req, res) => {
     const decodedUser = verifyToken(res, req);
 
@@ -78,31 +78,37 @@ router.get("/", async (req, res) => {
 
 router.post("/info/update", async (req, res) => {
   const decodedUser = verifyToken(res, req);
-  console.log("POST /info/update")
   console.log("Req body:", req.body)
 
   if (decodedUser == null) {
     res.render("user", { isLoggedIn: false });
   } else {
-    console.log(decodedUser);
-    console.log(db);
+   
     const user = await db.collection("users").findOne({username: req.body.userUsername});
     if (user && user._id.toString() !== req.body.userId){
       return res.status(400).json({message: "Username already taken"});
     }
-
+    if (!req.body.userPassword) {
+      return res.status(400).json({message: "Password is required"});
+    }
+    
+     hashedPassword = await bcrypt.hash(req.body.userPassword, 10);
+    console.log(req.body.userGender);
     await db.collection("users").updateMany(
       { _id: new ObjectId(req.body.userId) },
       {
         $set: {
           username: req.body.userUsername,
+          password: hashedPassword,
           age: req.body.userAge,
           location: req.body.userLocation,
           "name.firstName": req.body.userFirstName,
           "name.lastName": req.body.userLastName,
           bio: req.body.userBio,
+          gender: req.body.userGender,
         },
       }
+     
 
     );
     decodedUser.username = req.body.userUsername;
@@ -110,33 +116,12 @@ router.post("/info/update", async (req, res) => {
     return res.redirect("/login");
   }
 });
-router.post("/password/update", async (req, res) => {
-  const decodedUser = verifyToken(res, req);
 
-  if (decodedUser == null) {
-    res.render("user", { isLoggedIn: false });
-  } else {
-    const user = await db
-      .collection("users")
-      .findOne({ username: decodedUser.username });
-
-    if (await bcrypt.compare(req.body.oldPassword, user.password)) {
-      const hashedPassword = await bcrypt.hash(req.body.newPassword, 10);
-
-      await db.collection("users").updateOne(
-        { username: decodedUser.username },
-        {
-          $set: {
-            password: hashedPassword,
-          },
-        }
-      );
-      res.clearCookie("token");
-      return res.redirect("/login");
-    } else {
-      res.render("errorPage", { errorMessage: "Old password is incorrect" });
-    }
-  }
+router.post('/delete', async (req, res) => {
+  const userId = req.body.userId;
+  await db.collection('users').deleteOne({ _id: new ObjectId(userId) });
+  res.clearCookie('token');
+  res.sendStatus(200);
 });
 
 router.get("/events", async (req, res) => {

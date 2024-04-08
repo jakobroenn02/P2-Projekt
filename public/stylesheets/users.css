@@ -38,7 +38,6 @@ button:hover {
 
 .profile-container {
   display: flex;
-  flex-direction: column;
   align-items: flex-start;
   justify-content: center;
   padding: 20px;
@@ -52,16 +51,19 @@ button:hover {
 }
 
 .profile-picture-userpage img {
-  margin: 0 auto;
+  
   width: 350px;
   height: auto;
   border-radius: 50%;
+  
 }
 .profile-picture {
   flex: 1; 
   max-width: 350px; 
   text-align: center;
-  margin-right: 20px; 
+  justify-content: center;
+  align-items: center;
+  margin-right: 100px;
 }
 
 .user-info {
@@ -191,4 +193,19 @@ button:hover {
 .close-mark:hover {
   cursor: pointer;
   color: rgb(201, 22, 22);
+}
+.deleteButton{
+  background-color: red;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 20px;
+}
+.gender{
+  
+  justify-content: space-between;
+  margin-top: 5px;
+  margin-bottom: 15px;
 }

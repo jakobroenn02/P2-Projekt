@@ -47,15 +47,22 @@
             <div class="user-info">
             <form action="/user/info/update" method="post" class="eventform">
                 <input type="hidden" id="userId" name="userId" value="<%= user._id %>">
-                <input type="text" id="userFirstName" name="userFirstName" placeholder="First Name" required>
-                <input type="text" id="userLastName" name="userLastName" placeholder="Last Name" required>
-                <input type="number" id="userAge" name="userAge" placeholder="Age" required>
+                <input type="text" id="userFirstName" name="userFirstName" placeholder="<%= user.FirstName %>" required>
+                <input type="text" id="userLastName" name="userLastName" placeholder="<%= user.LastName %>" required>
+                <input type="number" id="userAge" name="userAge" placeholder="<%= user.Age %>" required>
+                <label for="gender">Gender:</label>
+                <select class="gender" name="userGender" id="userGender" >
+                  <option value="Unspecified">Unspecified</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                </select>
                 <input type="text" id="userLocation" name="userLocation" placeholder="Location" required>
                 <input type="text" id="userUsername" name="userUsername" value="<%= user.username %>" required>
-                <input type="password" id="password" name="password" placeholder="New Password" required>
-                <textarea id="userBio" name="userBio" placeholder="Your bio." required></textarea>
+                <input type="password" id="userPassword" name="userPassword" placeholder="New Password" required>
+                <textarea id="userBio" name="userBio" placeholder="Your bio." ></textarea>
                 <button type="submit" class="updateinformation">Update Information</button>
                 <button type="button" class="InterestButton" onclick="window.location.href='/user/interests';">Go to Interest Page</button>
+                <button type="button" class="deleteButton" onclick="deleteUser()">Delete Account</button>
             </form>
           </div>
         </section>

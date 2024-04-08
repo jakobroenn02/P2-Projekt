@@ -12,8 +12,6 @@ document.addEventListener("DOMContentLoaded", () => {
     pictureModal.style.display = 'none';
   });
 
-  
-
   profilePicture.addEventListener("click", () => {  // Opens modal
     const pictureModal = document.querySelector(".pictures-modal");
     pictureModal.style.display = "flex";
@@ -27,3 +25,24 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
+function deleteUser() {
+  if (confirm("Are you sure you want to delete your account? This action cannot be undone.")) {
+    fetch('/user/delete', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ userId: document.getElementById('userId').value })
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+        
+      }
+      window.location.href = '/'; // Redirect to home page after deletion
+    })
+    .catch(error => {
+      console.error('There has been a problem with your fetch operation:', error);
+    });
+  }
+}
