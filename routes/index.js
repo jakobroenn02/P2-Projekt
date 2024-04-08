@@ -76,6 +76,7 @@ router.get("/", async (req, res) => {
         events,
         userGroups,
         discoverGroups,
+        user,
       });
     } catch (error) {
       res.render("errorPage", { errorMessage: "Error" });

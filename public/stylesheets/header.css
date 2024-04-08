@@ -45,8 +45,13 @@
 
 .header-profile {
   height: 48px;
-  width: 48px;
-  background-color: black;
+  width: 48px;}
+
+.header-profile-picture {
+  height: 100%;
+  width: 100%;
+  border-radius: 48px / 48px;
+  object-fit: cover;
 }
 
 .header-settings-dropdown {

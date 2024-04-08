@@ -119,6 +119,7 @@ router.post("/info/update", async (req, res) => {
 
 router.get("/events", async (req, res) => {
   const decodedUser = verifyToken(res, req);
+  const user = decodedUser;
 
   if (decodedUser == null) {
     res.render("userEvents", { isLoggedIn: false });
@@ -157,6 +158,7 @@ router.get("/events", async (req, res) => {
 router.get("/groups", (req, res) => {
   let groups = [];
   const decodedUser = verifyToken(res, req);
+  const user = decodedUser;
 
   if (decodedUser == null) {
     res.render("groups", { isLoggedIn: false });
@@ -175,7 +177,7 @@ router.get("/groups", (req, res) => {
               groups.push(group);
             })
             .then(() => {
-              res.render("groups", { isLoggedIn: true, groups });
+              res.render("groups", { isLoggedIn: true, groups, user });
             });
         });
     } catch (error) {
@@ -190,7 +192,7 @@ router.get("/groups/:id", async (req, res) => {
   let userIds = [];
 
   if (decodedUser == null) {
-    res.render("group", { isLoggedIn: false });
+    res.render("group", { isLoggedIn: false, });
   } else {
     try {
       const group = await db
@@ -529,9 +531,9 @@ router.get("/groups/:groupId/events/:eventId", async (req, res) => {
         isLoggedIn: true,
         event,
         eventParticipants,
+        user: loggedInUser,
         group,
         isUserParticipating,
-        user,
       });
     } catch (error) {
       res.render("errorPage", { errorMessage: "Error" });
