@@ -18,47 +18,79 @@ connectToDb((err) => {
 router.get("/", async (req, res) => {
   const decodedUser = verifyToken(res, req);
 
-  if (decodedUser == null) {
-    res.render("user", { isLoggedIn: false });
-  } else {
-    try {
-      const user = await db
-        .collection("users")
-        .findOne({ username: decodedUser.username });
+    if (decodedUser == null) {
+      res.render("user", { isLoggedIn: false });
+    } else {
+      const user = await db.collection("users").findOne({username: req.body.userUsername});
+        if(user && user._id.toString() !== req.body.userId){
+          return res.status(400).json({message: "Username already taken"});
+        } else {
+          try {
+            const user = await db
+              .collection("users")
+              .findOne({ username: decodedUser.username });
 
-      res.render("user", { isLoggedIn: true, user });
-    } catch (error) {
-      res.render("errorPage", { errorMessage: "Error" });
+            res.render("user", { isLoggedIn: true, user, profileImageId: user.profileImageId });
+          } catch (error) {
+            res.render("errorPage", { errorMessage: "Error" });
+          }
+        }
     }
-  }
-});
+  });
 
-router.post("/bio/update", async (req, res) => {
-  const decodedUser = verifyToken(res, req);
+  router.post("/profile-picture/update", async (req, res) => {
+    const decodedUser = verifyToken(res, req);
+  
+    if (decodedUser == null) {
+      res.render("user", { isLoggedIn: false });
+    } else {
+      await db.collection("users").updateOne(
+        { _id: new ObjectId(decodedUser._id) },
+        {
+          $set: {
+            profileImageId: parseInt(req.body.profileImageId),
+          },
+        }
+      );
+      return res.redirect("/user");
+    }
+  });
+  
+  router.post("/bio/update", async (req, res) => {
+    const decodedUser = verifyToken(res, req);
 
-  if (decodedUser == null) {
-    res.render("user", { isLoggedIn: false });
-  } else {
-    await db.collection("users").updateMany(
-      { _id: new ObjectId(req.body.userId) },
-      {
-        $set: {
-          bio: req.body.userBio,
-        },
-      }
-    );
-    decodedUser.username = req.body.userUsername;
-    res.clearCookie("token");
-    return res.redirect("/login");
-  }
-});
+    if (decodedUser == null) {
+      res.render("user", { isLoggedIn: false });
+    } else {
+      await db.collection("users").updateMany(
+        { _id: new ObjectId(req.body.userId) },
+        {
+          $set: {
+            bio: req.body.userBio,
+          },
+        }
+      );
+      decodedUser.username = req.body.userUsername;
+      res.clearCookie("token");
+      return res.redirect("/login");
+    }
+  });
 
 router.post("/info/update", async (req, res) => {
   const decodedUser = verifyToken(res, req);
+  console.log("POST /info/update")
+  console.log("Req body:", req.body)
 
   if (decodedUser == null) {
     res.render("user", { isLoggedIn: false });
   } else {
+    console.log(decodedUser);
+    console.log(db);
+    const user = await db.collection("users").findOne({username: req.body.userUsername});
+    if (user && user._id.toString() !== req.body.userId){
+      return res.status(400).json({message: "Username already taken"});
+    }
+
     await db.collection("users").updateMany(
       { _id: new ObjectId(req.body.userId) },
       {
@@ -68,8 +100,10 @@ router.post("/info/update", async (req, res) => {
           location: req.body.userLocation,
           "name.firstName": req.body.userFirstName,
           "name.lastName": req.body.userLastName,
+          bio: req.body.userBio,
         },
       }
+
     );
     decodedUser.username = req.body.userUsername;
     res.clearCookie("token");

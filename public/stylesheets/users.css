@@ -23,12 +23,13 @@ input[type="file"] {
 }
 
 button {
-  background-color: #007bff;
+  background-color: green;
   color: #ffffff;
   padding: 10px 15px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  margin-right: 20px;
 }
 
 button:hover {
@@ -37,9 +38,11 @@ button:hover {
 
 .profile-container {
   display: flex;
-  align-items: start;
+  flex-direction: column;
+  align-items: flex-start;
   justify-content: center;
   padding: 20px;
+  flex-wrap: wrap;
 }
 .profile-picture-userpage {
   text-align: center;
@@ -54,7 +57,138 @@ button:hover {
   height: auto;
   border-radius: 50%;
 }
+.profile-picture {
+  flex: 1; 
+  max-width: 350px; 
+  text-align: center;
+  margin-right: 20px; 
+}
 
 .user-info {
-  width: 60%; /* Adjust based on preference */
+  flex: 2;
+  max-width: 60%;
+
+}
+.pictures-modal {
+  display: none;
+  flex-direction: column;
+  border-radius: 10px;
+  padding: 6px;
+  background-color: rgb(251, 251, 251);
+  position: fixed;
+  top: 50%;
+  height: 500px;
+  width: 700px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 4px 4px 10px 10px rgb(0, 0, 0, 0.2);
+  z-index: 100;
+}
+
+.profilePictureChangeConfirm{
+  position: absolute;
+  right: calc(50% - 50px + 4px);
+  bottom: 0%;
+  border: none;
+  width: 100px;
+  height: fit-content;
+  margin-bottom: 10px;
+  
+  background-color: rgb(0, 92, 0);
+  padding: 4px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  color: white;
+  transition: all 0.15s;
+}
+
+.profilePictureChangeConfirm:hover {
+  background-color: rgb(0, 109, 0);
+}
+
+.modal-header {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.modal-header-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: rgb(71, 71, 71);
+}
+.modal-header-close {
+  color: rgb(71, 71, 71);
+}
+
+.modal-pictures {
+  height: 100%;
+  width: 100%;
+}
+
+.modal-pictures-main {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50%;
+  border-bottom: 2px solid black;
+}
+
+.modal-main-picture-container {
+  background-color: green;
+  width: 200px;
+  height: 200px;
+  overflow: hidden;
+  border-radius: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-main-picture-container img {
+  min-width: 100%;
+  min-height: 100%;
+  object-fit: cover;
+}
+
+.modal-pictures-options {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 50%;
+}
+
+.modal-pictures-options-container {
+  display: flex;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  height: 150px;
+  width: 150px;
+  border-radius: 100%;
+  cursor: pointer;
+  transition: all 0.1s;
+}
+
+.modal-pictures-options-container:hover {
+  opacity: 0.9;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.modal-pictures-options-container img {
+  object-fit: cover;
+  min-width: 100%;
+  min-height: 100%;
+}
+
+.close-mark {
+  transition: all 0.15s;
+}
+
+.close-mark:hover {
+  cursor: pointer;
+  color: rgb(201, 22, 22);
 }
