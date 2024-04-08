@@ -14,11 +14,14 @@ connectToDb((err) => {
   }
 });
 
-router.get("/", (req, res) => {
+router.get("/", async (req, res) => {
   const decodedUser = verifyToken(res, req);
 
   if (decodedUser == null) {
-    return res.render("register", { isLoggedIn: false });
+    const locations = await db.collection("locations")
+      .find()
+      .toArray();
+    return res.render("register", { isLoggedIn: false, locations });
   } else {
   }
   try {
@@ -29,7 +32,6 @@ router.get("/", (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  let allLocations = [];
   try {
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     const user = {
@@ -59,11 +61,7 @@ router.post("/", async (req, res) => {
         res.redirect("/user/interests");
       });
 
-       await db.collection("location")
-        .find()
-        .forEach((location) => {
-          allLocations.push(location);
-        });
+
 
   } catch {
     res.render("errorPage", { errorMessage: "Error" });

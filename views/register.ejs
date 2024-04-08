@@ -1,57 +1,47 @@
-<%- include("./partials/header.ejs") %> 
-<% if (isLoggedIn) {%>
-<div>You are already logged in</div>
-<% } else { %>
-<div class="register-container">
-  <form action="/register" method="post">
-    <label for="firstName"><b>First Name</b></label>
-    <input class="register-input" type="text" placeholder="Enter First Name" name="firstName" required />
+<%- include("./partials/header.ejs") %>
+  <% if (isLoggedIn) {%>
+    <div>You are already logged in</div>
+    <% } else { %>
+      <div class="register-container">
+        <form action="/register" method="post">
+          <label for="firstName"><b>First Name</b></label>
+          <input class="register-input" type="text" placeholder="Enter First Name" name="firstName" required />
 
 
-    <label for="lastName"><b>Last Name</b></label>
-    <input class="register-input" type="text" placeholder="Enter Last Name" name="lastName" required />
+          <label for="lastName"><b>Last Name</b></label>
+          <input class="register-input" type="text" placeholder="Enter Last Name" name="lastName" required />
 
-    <label for="username"><b>Username</b></label>
-    <input class="register-input" type="text" placeholder="Enter Username" name="username" required />
+          <label for="username"><b>Username</b></label>
+          <input class="register-input" type="text" placeholder="Enter Username" name="username" required />
 
-    <label for="email"><b>Gender</b></label>
-    <select name="gender" class="register-input" required>
-      <option value="male">Male</option>
-      <option value="female">Female</option>
-    </select>
+          <label for="email"><b>Gender</b></label>
+          <select name="gender" class="register-input" required>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
 
-    <label for="location"><b>Aalborg Location</b></label>
-    <select name="location" class="register-input" required> 
-      <option value="Aalborg-Øst">Aalborg Øst</option>
-      <option value="Aalborg-Centrum">Aalborg Centrum</option>
-      <option value="Aalborg-Havnefront">Aalborg Havnefront</option>
-      <option value="Aalborg-Vestby">Aalborg Vestby</option>
-      <option value="Aalborg-SØ">Aalborg SØ</option>
-      <option value="Øgadekvarteret-i-Aalborg">Øgadekvarteret i Aalborg</option>
-      <option value="Østre-Havnepark-i-Aalborg">Østre-Havnepark i Aalborg</option>
-      <option value="Hassris">Hassris</option>
-      <option value="Nørresundby">Nørresundby</option>
-      <option value="Eternitten">Eternitten</option>
-      <option value="Vejgård">Vejgård</option>
-      <option value="Skalborg">Skalborg</option>
-    </select>
+          <label for="location"><b>Location</b></label>
+          <div class="register-locations-box">
+            <input type="text" name="location" class="register-location-input">
+            <div hidden class="register-locations">
+              <% for (let i=0; i < locations.length; i++) { %>
+                <div class="register-location" hidden><%= locations[i].location %></div>
+                <% } %>
+            </div>
+            <div hidden class="register-locations-validity">Location not valid</div>
+          </div>
 
-    <label for="location"><b>Aalborg Location</b></label>
-    <select name="location" class="register-input" required>
-      <% for (let i = 0; i < allLocations.length; i++) { %>
-        <option value="<%= allLocations[i].location %>"><%= allLocations[i].location %></option>
-      <% } %>
-    </select>
+          <label for="password"><b>Password</b></label>
+          <input class="register-input" type="password" placeholder="Enter Password" name="password" required />
 
-    
-    <label for="password"><b>Password</b></label>
-    <input class="register-input" type="password" placeholder="Enter Password" name="password" required />
+          <label for="confirmedPassword"><b>Confirm Password</b></label>
+          <input class="register-input" type="password" placeholder="Confirm Password" name="confirmedPassword"
+            required />
 
-    <label for="confirmedPassword"><b>Confirm Password</b></label>
-    <input class="register-input" type="password" placeholder="Confirm Password" name="confirmedPassword" required />
+          <button class="register-button register-button-disabled" type="submit">Register</button>
+          <caption><br>Already have an account?: <a href="/login">Sign In Here</a></caption>
+        </form>
+      </div>
 
-  <button class="register-button" type="submit">Register</button>
-    <caption><br>Already have an account?: <a href="/login">Sign In Here</a></caption>
-  </form>
-</div>
-<%} %>
+      <script src="/js/register.js"></script>
+      <%} %>

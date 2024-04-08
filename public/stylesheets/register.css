@@ -1,15 +1,17 @@
-form{
+form {
     border: 4px red
 }
-.register-input{
-width: 100%;
-padding: 12px 20px;
-margin:  6px;
-display: inline-block;
-border: 1px solid #ccc;
-box-sizing: border-box;
+
+.register-input {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 6px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
 }
-.register-button{
+
+.register-button {
     background-color: green;
     color: white;
     padding: 14px 20px;
@@ -19,9 +21,21 @@ box-sizing: border-box;
     border-radius: 5px;
     width: 100%;
 }
-.register-button:hover{
+
+.register-button:hover {
     opacity: 0.8;
 }
+
+.register-button-disabled:hover {
+    opacity: 0.4;
+    cursor: default;
+}
+
+.register-button-disabled {
+    opacity: 0.4;
+    cursor: default;
+}
+
 .register-container {
     width: 400px;
     border: 2px solid black;
@@ -29,4 +43,51 @@ box-sizing: border-box;
     margin: 0 auto;
     margin-top: 200px;
     border-radius: 20px;
-  }
+}
+
+.register-locations-box {
+    position: relative;
+}
+
+.register-location-input {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 6px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+.register-locations {
+    position: absolute;
+    left: 6px;
+    top: 44px;
+    right: -6px;
+    max-height: 150px;
+    overflow-y: auto;
+    border-left: 2px solid black;
+    border-right: 2px solid black;
+    border-bottom: 2px solid black;
+
+}
+
+.register-location {
+    background-color: white;
+    width: 100%;
+    font-size: 12px;
+    padding-left: 8px;
+    box-sizing: border-box;
+    cursor: pointer;
+    transition: all 0.1s;
+}
+
+.register-location:hover {
+    background-color: rgb(240, 240, 240);
+}
+
+.register-locations-validity {
+    color: rgb(180, 24, 24);
+    font-size: 12px;
+    padding-left: 6px;
+    margin-bottom: 8px;
+}
