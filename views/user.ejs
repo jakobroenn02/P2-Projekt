@@ -7,7 +7,7 @@
       <div class="user-page-upper">
         <div class="profile-bio">
           <div class="profile-picture">
-            <img class="profile-picture-picture" src="/img/70WoJVY.jpeg" />
+            <img class="profile-picture-picture" src="/img/profileImg/profileImg<%= user.profileImageId %>.jpeg" />
           </div>
           <form class="bio-form" action="/user/bio/update" method="post">
             <label for="Bio" class="profile-bio-title">Bio</label>
@@ -99,22 +99,25 @@
         <div class="modal-pictures">
           <div class="modal-pictures-main">
             <div class="modal-main-picture-container">
-              <img src="/img/profileImg/profileImg<%= user.profileImageId %>.jpeg" alt="">
+              <img class="modalProfPic" src="/img/profileImg/profileImg<%= user.profileImageId %>.jpeg" alt="">
             </div>
           </div>
           <div class="modal-pictures-options">
             <div class="modal-pictures-options-container">
-              <img class="picture1" src="/img/Amerikansk Fodbold.jpeg" />
+              <img class="pictureOption" id="1" src="/img/profileImg/profileImg1.jpeg" />
             </div>
             <div class="modal-pictures-options-container">
-              <img class="picture3" src="/img/skøjtning.jpeg" />
+              <img class="pictureOption" id="2" src="/img/profileImg/profileImg2.jpeg" />
             </div>
             <div class="modal-pictures-options-container">
-              <img class="picture2" src="/img/Fodbold.jpeg" />
+              <img class="pictureOption" id="3" src="/img/profileImg/profileImg3.jpeg" />
             </div>
           </div>
+          <form method="post" action="/user/profile-picture/update">
+            <input type="number" name="profileImageId" id="profileImageId" value="<%=user.profileImageId%>" class="profileImageIdNumber" hidden>  <!-- Prevents bad imageId by defaulting to id from db-->
+          <button class="profilePictureChangeConfirm" type="submit" hidden>Confirm</button>
+        </form>
         </div>
-      </div>
       </div>
       <script src="/js/userpage.js"></script>
 

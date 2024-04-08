@@ -33,6 +33,24 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.post("/profile-picture/update", async (req, res) => {
+  const decodedUser = verifyToken(res, req);
+
+  if (decodedUser == null) {
+    res.render("user", { isLoggedIn: false });
+  } else {
+    await db.collection("users").updateOne(
+      { _id: new ObjectId(decodedUser._id) },
+      {
+        $set: {
+          profileImageId: parseInt(req.body.profileImageId),
+        },
+      }
+    );
+    return res.redirect("/user");
+  }
+});
+
 router.post("/bio/update", async (req, res) => {
   const decodedUser = verifyToken(res, req);
 

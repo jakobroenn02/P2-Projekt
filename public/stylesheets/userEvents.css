@@ -17,18 +17,27 @@
   margin: 10px;
   padding: 12px;
   transition: all 0.1s;
-  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  box-shadow: 4px 4px rgba(0, 0, 0, 0.3);
+  
 }
 
 .event-div:hover {
-  cursor: pointer;
-  background-color: rgb(178, 178, 178);
+  background-color: rgb(200, 200, 200);
+    top: -3px;
+    box-shadow: 8px 6px rgba(0, 0, 0, 0.35);
 }
 
 .event-name {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+
   font-weight: bold;
   color: black;
-  font-size: 20px;
+  max-width: 200px;
+  height: 1.1em;
+  font-size: 16px;
   margin-bottom: 6px;
 }
 
@@ -62,6 +71,9 @@
   font-size: 12px;
   color: rgb(98, 98, 98);
 }
+
+
+/* TODO Hvad er det her?? Det hører ikke til /user/events!??!*/
 
 .eventInfo-left {
   display: flex;
