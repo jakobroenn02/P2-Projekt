@@ -9,6 +9,21 @@
   align-items: center;
 }
 
+.alertTextInterests{
+  color: red;
+  font-size: 20px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  color: rgb(255, 50, 50);
+  animation: vertical-shaking .5s .5s;
+}
+
+@keyframes vertical-shaking {
+  25% { transform: translateY(2px) }
+  50% { transform: translateY(-2px) }
+  75% { transform: translateY(2px) }
+  100% { transform: translateY(0) }
+}
 
 
 .interestsPageContent {
@@ -87,6 +102,12 @@
 
 .specificInterestCheckbox:not(:checked),
 .specificInterestCheckbox:checked {
+  position: absolute;
+  width: 100px;
+  left: -99999%;
+}
+
+.specificInterestCheckbox.disabled {
   position: absolute;
   width: 100px;
   left: -99999%;

@@ -61,7 +61,7 @@ router.post("/bio/update", async (req, res) => {
   const decodedUser = verifyToken(res, req);
 
   if (decodedUser == null) {
-    res.render("user", { isLoggedIn: false, hasTypeWrong: false});
+    res.render("user", { isLoggedIn: false, hasTypeWrong: false });
   } else {
     await db.collection("users").updateMany(
       { _id: new ObjectId(req.body.userId) },
@@ -80,13 +80,13 @@ router.post("/bio/update", async (req, res) => {
 router.post("/info/update", async (req, res) => {
   const decodedUser = verifyToken(res, req);
   let existingUser = [];
-  if (decodedUser == null) { 
-    res.render("user", { isLoggedIn: false, hasTypeWrong: false});
+  if (decodedUser == null) {
+    res.render("user", { isLoggedIn: false, hasTypeWrong: false });
   } else {
     if (req.body.userUsername !== decodedUser.username) {
       existingUser = await db
         .collection("users")
-        .find({ username: req.body.userUsername, _id: { $ne: decodedUser._id }})
+        .find({ username: req.body.userUsername, _id: { $ne: decodedUser._id } })
         .toArray();
     }
     if (existingUser.length == 0) {
@@ -109,10 +109,10 @@ router.post("/info/update", async (req, res) => {
       return res.redirect("/login");
     } else if (existingUser.length > 0) {
       const user = await db
-      .collection("users")
-      .findOne({ username: decodedUser.username });
+        .collection("users")
+        .findOne({ username: decodedUser.username });
       res.render("user", { isLoggedIn: true, hasTypeWrong: true, user });
-      
+
     }
   }
 });
@@ -270,12 +270,12 @@ router.post("/groups/:id/leave", async (req, res) => {
     try {
 
       // Find all events in the group that the user is participating in
-      const events = await db.collection("events").find({ 
+      const events = await db.collection("events").find({
         groupId: new ObjectId(req.params.id),
         participantIds: new ObjectId(decodedUser._id),
       }).toArray();
       const eventIds = events.map((event) => event._id);
-      console.log(eventIds);    
+      console.log(eventIds);
       // removes groupId and eventIds from user.
       await db.collection("users").updateOne(
         { _id: new ObjectId(decodedUser._id) },
@@ -305,7 +305,7 @@ router.post("/groups/:id/leave", async (req, res) => {
 
       // removes userId from events in the group
       await db.collection("events").updateMany(
-        { _id: { $in: eventIds} },
+        { _id: { $in: eventIds } },
         {
           $pull: {
             participantIds: {
@@ -386,7 +386,16 @@ router.get("/interests", async (req, res) => {
         .collection("users")
         .findOne({ username: decodedUser.username });
 
-      res.render("interests", { isLoggedIn: true, allInterests, user });
+      const groupCountPerInterest = {};
+        for (let interest of allInterests) {
+          let count = await db.collection("groups").countDocuments({ 
+            userIds: user._id,
+            interest: interest.hobby,
+          });
+          groupCountPerInterest[interest.hobby] = count;
+        }
+        console.log(groupCountPerInterest);
+      res.render("interests", { isLoggedIn: true, allInterests, user, groupCountPerInterest });
     } catch (error) {
       res.render("errorPage", { errorMessage: "Error" });
     }

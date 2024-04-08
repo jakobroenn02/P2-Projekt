@@ -28,6 +28,11 @@ const interestsPageRightWrapper = document.querySelector(
 // Adds on change eventlistener to all interests
 specificInterestCheckboxes.forEach((box) => {
   box.addEventListener("change", (e) => {
+    // If the checkbox is disabled, don't remove the group
+    if (e.target.disabled) {
+      return;
+    }
+
     if (e.target.checked) {
       // if check - add to right box + make background of interest black
       interestsPageRightWrapper.appendChild(
@@ -39,7 +44,6 @@ specificInterestCheckboxes.forEach((box) => {
       );
     } else {
       // if uncheck - remove from right box + make background of interest white
-
       removeSelectedInterest(e.target.value.replaceAll(" ", "-"));
       updateSpecificInterest(
         e.target.value.replaceAll(" ", "-"),
@@ -70,8 +74,7 @@ function createNewSelectedInterestElement(interest) {
     removeSelectedInterest(interest.replaceAll(" ", "-"));
   });
   return newSelectedElement;
-}
-
+};
 // Function for updating interest based on if checked or unchecked
 function updateSpecificInterest(interestId, check) {
   const idToLook = `specific-${interestId}`;
@@ -94,3 +97,12 @@ function uncheckSpecificInterest(interest) {
   ).checked = false;
 }
 
+document.querySelectorAll('.specificInterest').forEach(interest => {
+  interest.addEventListener('click', function(e) {
+    const checkbox = this.querySelector('.specificInterestCheckbox');
+    if (checkbox.disabled) {
+      alertTextInterests = document.querySelector('.alertTextInterests');
+      alertTextInterests.hidden = false;
+    }
+  });
+});

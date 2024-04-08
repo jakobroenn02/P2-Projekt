@@ -3,7 +3,7 @@
   <% } else { %>
 
   <div class="interestsPage">
-   
+    <div class="alertTextInterests" hidden>You cant unselect an interest while being part of a group belonging to that interest</div>
     <div class="interestsPageContent">
       <div class="interestsPageLeft">
       <div class="interestsSearch">
@@ -18,8 +18,16 @@
             <%="selected"%>
             <% } %>">
               <%= allInterests[i].hobby %>
-              <input id="specific-<%= allInterests[i].hobby.replaceAll(" ", "-") %>-checkbox" class="specificInterestCheckbox" <% if (user.interests.includes(allInterests[i].hobby)) {%><%="checked"%><%} %>
-               type="checkbox" name="<%= allInterests[i].hobby %>" value="<%= allInterests[i].hobby %>">
+              <% if (groupCountPerInterest[allInterests[i].hobby] > 0) { %>
+                <input id="specific-<%= allInterests[i].hobby.replaceAll(" ", "-") %>-checkbox"
+                 class="specificInterestCheckbox disabled" <% if (user.interests.includes(allInterests[i].hobby))
+                  {%><%="checked"%><%} %> type="checkbox" disabled name="<%= allInterests[i].hobby %>" value="<%= allInterests[i].hobby %>">
+              <% } else { %>
+                <input id="specific-<%= allInterests[i].hobby.replaceAll(" ", "-") %>-checkbox"
+                 class="specificInterestCheckbox" <% if (user.interests.includes(allInterests[i].hobby))
+                  {%><%="checked"%><%} %> type="checkbox" name="<%= allInterests[i].hobby %>" value="<%= allInterests[i].hobby %>">
+              <% } %>
+              
           </label>
           <% } %>
           <button class="interestsSaveButton" type="submit">SAVE</button>
