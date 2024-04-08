@@ -1,26 +1,26 @@
 .group-events-page {
-    min-height: calc(100vh - 88px);
+  min-height: calc(100vh - 88px);
 }
 
-.groupEvents-title{
-    text-align: center;
-    font-size: 25px;
+.groupEvents-title {
+  text-align: center;
+  font-size: 25px;
 }
 
 .groupEvents-emphasized-group {
-    font-weight: 600;
+  font-weight: 600;
 }
 
 .groupEvents-events-container {
-    display: flex;
-    margin: 20px;
-    gap: 20px;
-    align-items: center;
+  display: flex;
+  margin: 20px;
+  gap: 20px;
+  align-items: center;
 }
 
 .groupEvents-event-anchor {
-    text-decoration: none;
-    color: black;
+  text-decoration: none;
+  color: black;
 }
 
 .groupEvents-event {
@@ -36,64 +36,141 @@
 }
 
 .groupEvents-event:hover {
-    background-color: rgb(200, 200, 200);
-    top: -3px;
-    box-shadow: 8px 6px rgba(0, 0, 0, 0.35);
+  background-color: rgb(200, 200, 200);
+  top: -3px;
+  box-shadow: 8px 6px rgba(0, 0, 0, 0.35);
 }
 
 .groupEvents-event-title {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 1;
-    overflow: hidden;
-  
-    font-weight: bold;
-    color: black;
-    max-width: 200px;
-    height: 1.1em;
-    font-size: 16px;
-    margin-bottom: 6px;
+  font-weight: 600;
+  font-size: 20px;
+  width: 180px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  word-wrap: break-word;
+  text-overflow: ellipsis;
 }
 
 .groupEvents-event-description {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    margin-top: 12px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  word-wrap: break-word;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 12px;
 }
 
 .groupEvents-event-date {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    font-size: 12px;
-    color: rgb(100, 100, 100);
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 12px;
+  color: rgb(100, 100, 100);
 }
 
 .groupEvents-event-location {
-    position: absolute;
-    bottom: 12px;
-    left: 12px;
-    font-size: 12px;
-    color: rgb(100, 100, 100);
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  font-size: 12px;
+  color: rgb(100, 100, 100);
+  width: 280px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+  word-wrap: break-word;
+  text-overflow: ellipsis;
 }
 
+.groupEvents-suggestedEvent {
+  background-color: rgb(35, 35, 35);
+  opacity: 0.8;
+  width: 300px;
+  height: 150px;
+  padding: 15px;
+  border-radius: 15px;
+  box-shadow: 4px 4px rgba(0, 0, 0, 0.3);
+  position: relative;
+  transition: all 0.15s ease 0s;
+  top: 0;
+}
+
+.groupEvents-suggestedEvent:hover {
+  top: -3px;
+  box-shadow: 8px 6px rgba(0, 0, 0, 0.35);
+}
+.groupEvents-suggestedEvent-suggested-text {
+  color: rgb(255, 255, 255);
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.groupEvents-suggestedEvent-title {
+  color: white;
+  font-weight: 600;
+  font-size: 20px;width: 180px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  word-wrap: break-word;
+  text-overflow: ellipsis;
+}
+
+.groupEvents-suggestedEvent-description {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  color: rgb(228, 228, 228);
+  -webkit-line-clamp: 3;
+  word-wrap: break-word;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 12px;
+}
+
+.groupEvents-suggestedEvent-date {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 12px;
+  color: rgb(228, 228, 228);
+}
+
+.groupEvents-suggestedEvent-location {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  font-size: 12px;
+  color: rgb(228, 228, 228);
+  width: 235px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+  word-wrap: break-word;
+  text-overflow: ellipsis;
+}
 
 .group-events-create-event-button {
-    font-size: 20px;
-    background-color: lightgray;
-    height: 48px;
-    width: 48px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: all 0.1s;
-    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-  }
-  .group-events-create-event-button:hover {
-    background-color: rgb(178, 178, 178);
-  }
+  font-size: 20px;
+  background-color: lightgray;
+  height: 48px;
+  width: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.1s;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+.group-events-create-event-button:hover {
+  background-color: rgb(178, 178, 178);
+}

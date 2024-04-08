@@ -1,58 +1,154 @@
-<%- include("./partials/header.ejs") %> <% if (!isLoggedIn) {%>
-  <%- include("./partials/signinRedirect.ejs")%>
-<% } else { %>
-<div class="eventInfo-page">
-  <div class="eventInfo-container">
-    <div class="eventInfo-div">
-      <div class="eventInfo-left">
-        <div class="event2-title">
-          <h1><%= event.eventName %></h1>
+<%- include("./partials/header.ejs") %> <% if (!isLoggedIn) {%> <%-
+include("./partials/signinRedirect.ejs")%> <% } else { %>
+<div class="event-page">
+  <div
+    class="event-page-top"
+    style="
+      background-image: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0) 0%,
+          rgba(255, 255, 255, 0.8) 0%,
+          rgba(255, 255, 255, 0.9) 10%,
+          rgba(255, 255, 255, 0.95) 21%,
+          rgba(255, 255, 255, 1) 33%,
+          rgba(255, 255, 255, 1) 100%
+        ),
+        url('/img/<%=group.interest%>.jpeg');
+    "
+  >
+    <div class="event-page-top-info">
+      <div class="event-page-top-info-images">
+        <div class="event-page-top-info-calendar">
+          <div class="event-page-top-info-calendar-top"></div>
+          <div class="event-page-top-info-calendar-bottom">
+            <div class="event-page-top-info-calendar-date">
+              <%= event.date.day%>.
+            </div>
+          </div>
         </div>
-        <div class="eventInfo-date">
-          This event takes place at: 
-          <%= event.date.hour < 10 ? "0":
+        <div class="event-page-top-info-image-container">
+          <img src="/img/<%=group.interest%>.jpeg" alt="" />
+        </div>
+      </div>
+      <div class="event-page-top-info-text">
+        <div class="event-page-top-info-text-date">
+          <%= event.date.day < 10 ? "0": ""%><%=event.date.day%>/<%=
+          event.date.month < 10 ? "0": ""%><%=event.date.month%> <%=
+          event.date.year%> - <%= event.date.hour < 10 ? "0":
           ""%><%=event.date.hour%>:<%= event.date.minute < 10 ? "0":
           ""%><%=event.date.minute%>
-          <%= event.date.day < 10 ? "0": ""%><%=event.date.day%>/<%=
-          event.date.month < 10 ? "0": ""%><%=event.date.month%>/<%=
-          event.date.year%> 
         </div>
-        <div class="eventInfo-description">
-          <p id="event-text"><%=event.description%></p>
-        </div>
-      
-
-      <div class="eventInfo-address">
-        <%= event.location.name%> | <%= event.location.address %>
-      </div>
-      <div class="event-leave-button">
-       <form id="leave-event-id" action="/user/leave-event" method="post">
-        <input type="hidden" name="eventId" value="<%= event._id %>">
-        <button class="button-leave" type="submit">Leave event</button>
-        <!--TODO Forlad side når man leaver event + Hvis du ikke er antendee skal du kunne joine event istedet + CSS hover til leave knap-->
-       </form>
-
-      </div>
-    </div>
-    <div class="eventInfo-right">
-      <div class="eventInfo-attendees">
-        <h2>Attendees</h2>
-        <div class="attendees-list">
-          <ul class="list-of-attendees">
-          <% if (eventParticipants.length > 0) { %>
-          <% eventParticipants.forEach((participant) => { %>
-          <li class="attendee"> <%= participant.name.firstName %> </li>
-          <% }) %>
-          </ul>
-          <% } else { %>
-          <p>No attendees yet</p>
-          <% } %>
-        </div>
+        <div class="event-page-top-info-text-name"><%= event.eventName%></div>
+        <div class="event-page-top-info-text-address">
+          <%= event.location.address%>
         </div>
       </div>
     </div>
+    <div class="event-page-top-buttons">
+      <form
+        method="post"
+        action="/user/groups/<%=group._id%>/events/<%=event._id%>/join"
+      >
+        <button <%if(isUserParticipating) {%>
+          disabled style="cursor: default; background-color: rgb(223, 233, 242);
+          color: rgb(0, 93, 199)" <%}%> class="event-page-top-button-join-event"
+          type="submit">
+          <i class="fa-regular fa-circle-check"></i>Participating
+        </button>
+        <input
+          type="text"
+          name="name"
+          hidden
+          value="<%=user.name.firstName%> <%=user.name.lastName%>"
+        />
+        <input
+          type="text"
+          name="eventName"
+          hidden
+          value="<%=event.eventName%>"
+        />
+        <input type="text" name="groupId" hidden value="<%=group._id%>" />
+      </form>
+      <form
+        method="post"
+        action="/user/groups/<%=group._id%>/events/<%=event._id%>/leave"
+      >
+        <button <%if(!isUserParticipating) {%>
+          disabled style="cursor: default; background-color: rgb(223, 233, 242);
+          color: rgb(0, 93, 199)" <%}%> type="submit"
+          class="event-page-top-button-leave-event">
+          <i class="fa-regular fa-circle-xmark"></i>Not Participating
+        </button>
+        <input
+          type="text"
+          name="name"
+          hidden
+          value="<%=user.name.firstName%> <%=user.name.lastName%>"
+        />
+        <input type="text" name="groupId" hidden value="<%=group._id%>" />
+        <input
+          type="text"
+          name="eventName"
+          hidden
+          value="<%=event.eventName%>"
+        />
+      </form>
+
+      <button class="event-page-top-button-options">
+        <i class="fa-solid fa-ellipsis"></i>
+      </button>
+    </div>
+  </div>
+  <div class="event-page-bottom">
+    <div class="event-page-bottom-details-container">
+      <div class="event-page-bottom-details-title">Event Details</div>
+      <div class="event-page-bottom-details-people">
+        <i class="fa-solid fa-users"></i>
+        <div class="event-page-bottom-details-people-text">
+          <%=eventParticipants.length%> <% if(eventParticipants.length == 1) {%>
+          person is<%} else{%> people are <%}%> partitioning,
+          <%if(eventParticipants.length == 0) {%> be the first! <%} else {%>
+          including <%for (let i = 0; i < 3; i++) {%> <% if
+          (i<=eventParticipants.length-1) {%> <%=
+          eventParticipants[i].name.firstName %> <%=
+          eventParticipants[i].name.lastName %><%if(
+          eventParticipants.length-1>i && i !== 2) {%>,<%}%> <%}%> <%}%> <%}%>
+          <div class="event-page-bottom-details-people-images">
+            <%for (let i = 0; i < 8; i++) {%> <% if
+            (i<=eventParticipants.length-1) {%>
+            <div class="event-page-bottom-details-people-image-container">
+              <img
+                src="/img/profileImg/profileImg<%=eventParticipants[i].profileImageId%>.jpeg"
+                alt=""
+              />
+            </div>
+            <%}}%>
+          </div>
+        </div>
+      </div>
+      <div class="event-page-bottom-details-location">
+        <i class="fa-solid fa-location-dot"></i>
+        <div class="event-page-bottom-details-people-text">
+          <%=event.location.name %> | <%= event.location.address%>
+        </div>
+      </div>
+      <div class="event-page-bottom-details-group">
+        <i class="fa-solid fa-users-rectangle"></i>
+        <a
+          href="/user/groups/<%= group._id%>"
+          class="event-page-bottom-details-group-text"
+        >
+          <%=group.groupName%>
+        </a>
+      </div>
+      <div class="event-page-bottom-details-description">
+        <%= event.description%>
+      </div>
     </div>
   </div>
 </div>
-<script src="/js/eventsinfo.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/socket.js"></script>
+<script src="/js/eventPage.js"></script>
+
 <% }%>
