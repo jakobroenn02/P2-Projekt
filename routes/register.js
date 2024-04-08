@@ -59,7 +59,7 @@ router.post("/", async (req, res) => {
         res.redirect("/user/interests");
       });
 
-       await db.collection("Location")
+       await db.collection("location")
         .find()
         .forEach((location) => {
           allLocations.push(location);

@@ -36,16 +36,13 @@
       <option value="Skalborg">Skalborg</option>
     </select>
 
-    <div class="location"><b>Aalborg location</b>
-      <div class="hiddenDiv">
-        <label for="location"><b>Aalborg Location</b></label>
-    <select name="location" class="register-input" required> 
-        <% for (let i = 0; i < allLocations.length; i++) {
-        <option value="allLocations"><% allLocations.location %></option>
-        } %>
+    <label for="location"><b>Aalborg Location</b></label>
+    <select name="location" class="register-input" required>
+      <% for (let i = 0; i < allLocations.length; i++) { %>
+        <option value="<%= allLocations[i].location %>"><%= allLocations[i].location %></option>
+      <% } %>
     </select>
-      </div>
-    </div>
+
     
     <label for="password"><b>Password</b></label>
     <input class="register-input" type="password" placeholder="Enter Password" name="password" required />
