@@ -49,7 +49,7 @@ router.get("/", async (req, res) => {
         );
       }
 
-      res.render("discover", { isLoggedIn: true, sortedGroups });
+      res.render("discover", { isLoggedIn: true, sortedGroups, user: decodedUser });
     } catch (error) {
       res.render("errorPage", { errorMessage: "Error" });
     }
@@ -100,6 +100,7 @@ router.get("/:id", async (req, res) => {
         group,
         participantsLocations, 
         groupEvents,
+        user: decodedUser,
       });
       
     } catch (error) {

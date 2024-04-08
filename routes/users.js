@@ -58,6 +58,7 @@ router.get("/:id", async (req, res) => {
           publicUser,
           commonEvents,
           commonGroups,
+          user: decodedUser,
         });
       } else if (publicUser) {
         res.render("errorPage", {
