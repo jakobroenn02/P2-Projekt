@@ -22,9 +22,11 @@ connectToDb((err) => {
 //
 //Group functionality
 async function getGroup(groupId) {
+  //Returns a group from id
   return await db.collection("groups").findOne({ _id: new ObjectId(groupId) });
 }
 async function addUserToGroup(userId, groupId) {
+  //Takes user and group, and adds the user to groupIds
   await db.collection("groups").updateOne(
     { _id: new ObjectId(groupId) },
     {
@@ -35,6 +37,7 @@ async function addUserToGroup(userId, groupId) {
   );
 }
 async function addGroupToUser(groupId, userId) {
+  //Takes group and user, and ands group to user
   await db.collection("users").updateOne(
     { _id: new ObjectId(userId) },
     {
@@ -45,6 +48,7 @@ async function addGroupToUser(groupId, userId) {
   );
 }
 async function getUserGroups(userId) {
+  //Takes a user, and return a list of all the groups he is member of
   const user = await getUser(userId);
 
   return await db
@@ -57,6 +61,7 @@ async function getUserGroups(userId) {
     .toArray();
 }
 async function getUserUnattendedGroups(userId) {
+  //Takes a user, and returns a list of all the groups the user is not a member of.
   const user = await getUser(userId);
   return await db
     .collection("groups")
@@ -68,9 +73,10 @@ async function getUserUnattendedGroups(userId) {
     .toArray();
 }
 function getCommonGroups() {
-  console.log("hey");
+  //Should take user1 and user2, and return their common groups
 }
 async function getGroupUsers(groupId) {
+  // returns the list of users from a group
   const group = await getGroup(groupId);
 
   return await db
@@ -79,7 +85,7 @@ async function getGroupUsers(groupId) {
     .toArray();
 }
 async function isUserInGroup(userId, groupId) {
-  //TODO doesnt work
+  //Takes a user and a group, and return true or false wether user is in group or not
   const group = await getGroup(groupId);
   for (let i = 0; i < group.userIds.length; i++) {
     if (group.userIds[i].toString() == userId) {
@@ -88,13 +94,34 @@ async function isUserInGroup(userId, groupId) {
   }
   return false;
 }
-async function removeUserFromGroup(userId, groupId) {}
-async function removeGroupFromUser(groupId, userId) {}
-async function getDiscoverGroups() {}
-function sortUserGroupsBasedOnInterests(user) {}
-async function userJoinGroup(userId, groupId) {}
-async function userLeaveGroup(userId, groupId) {}
+async function removeUserFromGroup(userId, groupId) {
+  //Takes user and group, and removes user from userIDs in group
+  await db.collection("groups").updateOne(
+    { _id: new ObjectId(groupId) },
+    {
+      $pull: {
+        userIds: {
+          $in: [new ObjectId(userId)],
+        },
+      },
+    }
+  );
+}
+async function removeGroupFromUser(groupId, userId) {
+  // Takes group and user, and removes group from groupIds in user
+  await db.collection("users").updateOne(
+    { _id: new ObjectId(userId) },
+    {
+      $pull: {
+        groupIds: {
+          $in: [new ObjectId(groupId)],
+        },
+      },
+    }
+  );
+}
 async function addMessageToGroup(message, groupId) {
+  //Takes a message, and a group, and add the message to the group in the database.
   await db.collection("groups").updateOne(
     { _id: new ObjectId(groupId) },
     {
@@ -129,9 +156,11 @@ async function addMessageToGroup(message, groupId) {
 //
 //User functionality
 async function getLoggedInUser(token) {
+  //Takes a token, and returns the user of which the id in the token is related to.
   return await db.collection("users").findOne({ _id: new ObjectId(token._id) });
 }
 async function getUser(userId) {
+  //takes id, and return the user related to the id.
   return await db.collection("users").findOne({ _id: new ObjectId(userId) });
 }
 async function updateUserInfo(
@@ -144,7 +173,7 @@ async function updateUserInfo(
   bio,
   gender
 ) {
-  // if parameter is null, it wont change it
+  // if parameter value is null, it wont change it
   const user = await getUser(userId);
 
   await db.collection("users").updateMany(
@@ -162,8 +191,8 @@ async function updateUserInfo(
     }
   );
 }
-function createUser() {}
 async function isUsernameTaken(username) {
+  //return true if username is taken, else false.
   return (await db.collection("users").findOne({ username: username }))
     ? true
     : false;
@@ -181,6 +210,7 @@ async function isUsernameTaken(username) {
 //
 //Event functionality
 async function getUserEvents(userId) {
+  //Takes a user, and returns a list of its events
   const user = await getUser(userId);
 
   return await db
@@ -193,29 +223,96 @@ async function getUserEvents(userId) {
     .toArray();
 }
 async function getGroupEvents(groupId) {
+  //Takes a group, and returns the list of events related to that group
   const group = await getGroup(groupId);
 
-  await db
+  return await db
     .collection("events")
     .find({ _id: { $in: group.eventIds } })
     .toArray();
 }
-function getCommonEvents() {}
-async function insertEvent(event) {}
-async function addEventToGroup(eventId, groupId) {}
-async function getEvent(eventId) {}
-async function getEventParticipants(eventId) {}
-async function userLeaveEvent(userId, eventId) {}
-async function removeUserFromEvent(userId, eventId) {}
-async function removeEventFromUser(eventId, userId) {}
-function createEvent(
-  eventName,
-  date,
-  description,
-  location,
-  groupId,
-  participantIds
-) {}
+async function getGroupSuggestedEvents(groupId) {
+  //Returns a list of the suggested events related to the group.
+  const group = await getGroup(groupId);
+
+  return await db
+    .collection("events")
+    .find({ _id: { $in: group.suggestedEventIds } })
+    .toArray();
+}
+function getCommonEvents() {
+  //Should take user1 and user2 and return the events they have in common
+}
+async function getEvent(eventId) {
+  //Takes event id and return event related to id
+  return await db.collection("events").findOne({ _id: new ObjectId(eventId) });
+}
+async function getEventParticipants(eventId) {
+  //Takes eventId, and return participants of event.
+  const event = await getEvent(eventId);
+
+  return await db
+    .collection("users")
+    .find({
+      _id: { $in: event.participantIds },
+    })
+    .toArray();
+}
+async function removeUserFromEvent(userId, eventId) {
+  //Removes user from event, takes id of both user and event
+  await db.collection("users").updateOne(
+    { _id: new ObjectId(userId) },
+    {
+      $pull: {
+        eventIds: new ObjectId(eventId),
+      },
+    }
+  );
+}
+async function removeEventFromUser(eventId, userId) {
+  // Removes event from user, takes id of both user and event.
+  await db.collection("events").updateOne(
+    { _id: new ObjectId(eventId) },
+    {
+      $pull: {
+        participantIds: new ObjectId(userId),
+      },
+    }
+  );
+}
+async function isUserInEvent(userId, eventId) {
+  //Returns true or false, wether user is in event or not.
+  const eventParticipants = await getEventParticipants(eventId);
+  const user = await getUser(userId);
+
+  return eventParticipants.filter(
+    (participant) => participant.username == user.username
+  ).length > 0
+    ? true
+    : false;
+}
+async function addUserToEvent(userId, eventId) {
+  //Adds user to event in participantids
+  await db.collection("events").updateOne(
+    { _id: new ObjectId(eventId) },
+    {
+      $push: {
+        participantIds: new ObjectId(userId),
+      },
+    }
+  );
+}
+async function addEventToUser(eventId, userId) {
+  //Adds event to user in eventIds
+  await db.collection("users").updateOne(
+    { _id: new ObjectId(userId) },
+    {
+      $push: {
+        eventIds: new ObjectId(eventId),
+      },
+    }
+  );
+}
 
 //
 //
@@ -229,6 +326,7 @@ function createEvent(
 //
 //Location functionality
 async function getLocations() {
+  //Returns a list of all locations
   return await db.collection("locations").find().toArray();
 }
 
@@ -243,9 +341,21 @@ async function getLocations() {
 //
 //
 //Interest functionality
-async function setUserInterests(userId, interests) {}
-
-async function getInterests() {}
+async function setUserInterests(userId, interests) {
+  //Sets the interest of a user to  a list of interests.
+  await db.collection("users").updateOne(
+    { _id: new ObjectId(userId) },
+    {
+      $set: {
+        interests: interests,
+      },
+    }
+  );
+}
+async function getInterests() {
+  //Returns a list of all interests.
+  return await db.collection("interests").find().toArray();
+}
 
 module.exports = {
   getUserEvents,
@@ -262,4 +372,16 @@ module.exports = {
   isUsernameTaken,
   updateUserInfo,
   addMessageToGroup,
+  removeGroupFromUser,
+  removeUserFromGroup,
+  getGroupSuggestedEvents,
+  getInterests,
+  setUserInterests,
+  getEventParticipants,
+  getEvent,
+  isUserInEvent,
+  addEventToUser,
+  addUserToEvent,
+  removeUserFromEvent,
+  removeEventFromUser,
 };

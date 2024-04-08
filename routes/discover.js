@@ -72,7 +72,6 @@ router.get("/:groupId", async (req, res) => {
       const group = await getGroup(req.params.groupId);
       const groupUsers = await getGroupUsers(req.params.groupId);
       const groupEvents = await getGroupEvents(req.params.groupId);
-
       res.render("discoverGroup", {
         isLoggedIn: true,
         group,
@@ -93,8 +92,8 @@ router.post("/:groupId/join", async (req, res) => {
     if (token == null) {
       return res.render("discoverGroup", { isLoggedIn: false });
     } else {
-      addGroupToUser(token._id, req.params.groupId);
-      addUserToGroup(req.params.groupId, token._id);
+      await addGroupToUser(req.params.groupId, token._id);
+      await addUserToGroup(token._id, req.params.groupId);
 
       res.redirect(`/user/groups/${req.params.groupId}`);
     }
