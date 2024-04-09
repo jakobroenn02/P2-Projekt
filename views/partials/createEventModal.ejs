@@ -117,10 +117,20 @@
           <button class="create-event-submit-button" type="submit">
             Create Event
           </button>
+          <input
+          type="text"
+          name="name"
+          hidden
+          value="<%=user.name.firstName%> <%=user.name.lastName%>"
+        />
+        <input type="text" name="socketGroupId" hidden value="<%if(typeof group !== 'undefined'){%><%=group._id%><%} else {%>undefined<%}%>" />
         </div>
       </form>
     </div>
   </div>
 </div>
 
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/socket.js"></script>
 <script src="/js/createEventModal.js"></script>

@@ -6,6 +6,16 @@ const jwt = require("jsonwebtoken");
 const { verifyToken } = require("../utils/cookiesUtils");
 const { getGroupsBasedOnInterests } = require("../utils/discoverUtils");
 const { render } = require("ejs");
+const {
+  getLoggedInUser,
+  getUserUnattendedGroups,
+  getGroup,
+  isUserInGroup,
+  getGroupUsers,
+  getGroupEvents,
+  addGroupToUser,
+  addUserToGroup,
+} = require("../utils/dbUtils");
 
 //connect to db
 let db;
@@ -16,124 +26,80 @@ connectToDb((err) => {
 });
 
 router.get("/", async (req, res) => {
-  const decodedUser = verifyToken(res, req);
-  let groupsNotAttendedByUser = [];
-  let sortedGroups = [];
+  try {
+    const token = verifyToken(res, req);
+    let sortedGroups = [];
+    if (token == null) {
+      return res.render("discover", { isLoggedIn: false });
+    } else {
+      const user = await getLoggedInUser(token);
+      const groupsNotAttendedByUser = await getUserUnattendedGroups(token._id);
 
-  if (decodedUser == null) {
-    return res.render("discover", { isLoggedIn: false });
-  } else {
-    try {
-      const user = await db
-        .collection("users")
-        .findOne({ username: decodedUser.username });
-
-      // Finds all groups
-      await db
-        .collection("groups")
-        .find({
-          _id: {
-            $nin: user.groupIds,
-          },
-        })
-        .forEach((group) => {
-          groupsNotAttendedByUser.push(group);
-        });
-
+      //Sorted groups are objects: {interest: "", groups:[]}
+      //Here we loop through all sorted groups, and gets 10 random groups per interest.
       for (let i = 0; i < user.interests.length; i++) {
         sortedGroups.push({ interest: user.interests[i], groups: [] });
         sortedGroups[i].groups = getGroupsBasedOnInterests(
           [user.interests[i]],
-          user.interests.length*10,
+          user.interests.length * 10,
           groupsNotAttendedByUser
         );
       }
 
-      res.render("discover", { isLoggedIn: true, sortedGroups });
-    } catch (error) {
-      res.render("errorPage", { errorMessage: "Error" });
+      res.render("discover", {
+        isLoggedIn: true,
+        sortedGroups,
+        user,
+      });
     }
+  } catch (error) {
+    console.log(error);
+    res.render("errorPage", { errorMessage: error });
   }
 });
 
-router.get("/:id", async (req, res) => {
-  const decodedUser = verifyToken(res, req);
-  let groupUsers = [];
-  let groupEvents = [];
+router.get("/:groupId", async (req, res) => {
+  try {
+    const token = verifyToken(res, req);
 
-  let participantsLocations = [];
-  let participantsAges = [];
-  let participantsGenders = [];
-
-  if (decodedUser == null) {
-    return res.render("discoverGroup", { isLoggedIn: false });
-  } else {
-    try {
-      const group = await db
-        .collection("groups")
-        .findOne({ _id: new ObjectId(req.params.id) });
-
-      const groupMemberAmount = group.userIds.length;
-      group.groupMemberAmount = groupMemberAmount;
-
-      await db
-        .collection("users")
-        .find({ _id: { $in: group.userIds } })
-        .forEach((user) => {
-          groupUsers.push(user);
-        });
-
-        await db
-        .collection("events")
-        .find({ _id: { $in: group.eventIds } })
-        .forEach((event) => {
-          groupEvents.push(event);
-        });
-        group.userIds.forEach( (userId) => {
-        if(userId == decodedUser._id){
-          res.redirect(`/user/groups/${req.params.id}`);
-        }
-        return group;
-      });
+    if (token == null) {
+      return res.render("discoverGroup", { isLoggedIn: false });
+    } else {
+      // checks if user is already part of the group
+      if (await isUserInGroup(token._id, req.params.groupId)) {
+        res.redirect(`/user/groups/${req.params.groupId}`);
+      }
+      const group = await getGroup(req.params.groupId);
+      const groupUsers = await getGroupUsers(req.params.groupId);
+      const groupEvents = await getGroupEvents(req.params.groupId);
       res.render("discoverGroup", {
         isLoggedIn: true,
         group,
-        participantsLocations, 
         groupEvents,
+        user: token,
       });
-      
-    } catch (error) {
-      res.render("errorpage", { errorMessage: "Error" });
-      
     }
+  } catch (error) {
+    console.log(error);
+    res.render("errorPage", { errorMessage: error });
   }
 });
 
-router.post("/:id/join", async (req, res) => {
-  const decodedUser = verifyToken(res, req);
+router.post("/:groupId/join", async (req, res) => {
+  try {
+    const token = verifyToken(res, req);
 
-  if (decodedUser == null) {
-    return res.render("discoverGroup", { isLoggedIn: false });
-  } else {
-    await db.collection("users").updateOne(
-      { username: decodedUser.username },
-      {
-        $push: {
-          groupIds: new ObjectId(req.params.id),
-        },
-      }
-    );
+    if (token == null) {
+      return res.render("discoverGroup", { isLoggedIn: false });
+    } else {
+      await addGroupToUser(req.params.groupId, token._id);
+      await addUserToGroup(token._id, req.params.groupId);
 
-    await db.collection("groups").updateOne(
-      { _id: new ObjectId(req.params.id) },
-      {
-        $push: {
-          userIds: new ObjectId(decodedUser._id),
-        },
-      }
-    );
-
-    res.redirect(`/user/groups/${req.params.id}`);
+      res.redirect(`/user/groups/${req.params.groupId}`);
+    }
+  } catch (error) {
+    console.log(error);
+    res.render("errorPage", { errorMessage: error });
   }
 });
 

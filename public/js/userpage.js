@@ -1,3 +1,4 @@
+
 // file: userpage.js
 document.addEventListener("DOMContentLoaded", () => {
   const profilePicture = document.querySelector(".profile-picture");
@@ -15,6 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
   profilePicture.addEventListener("click", () => {  // Opens modal
     const pictureModal = document.querySelector(".pictures-modal");
     pictureModal.style.display = "flex";
+
   });
 
   profilePictureOptions.forEach((option) => { 
@@ -28,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
 function deleteUser() {
   if (confirm("Are you sure you want to delete your account? This action cannot be undone.")) {
     fetch('/user/delete', {
-      method: 'POST',
+      method: 'DELETE',
       headers: {
         'Content-Type': 'application/json'
       },
@@ -39,7 +41,6 @@ function deleteUser() {
         throw new Error('Network response was not ok');
         
       }
-      window.location.href = '/'; // Redirect to home page after deletion
     })
     .catch(error => {
       console.error('There has been a problem with your fetch operation:', error);

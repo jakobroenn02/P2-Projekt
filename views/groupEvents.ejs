@@ -28,6 +28,28 @@ include("./partials/signinRedirect.ejs")%> <% } else { %>
       </div>
     </a>
     <%});%>
+    <% groupSuggestedEvents.forEach(event => { %>
+      <a
+        href="/user/groups/<%=event.groupId%>/events/<%=event._id%>"
+        class="groupEvents-event-anchor"
+      >
+        <div class="groupEvents-suggestedEvent">
+          <div class="groupEvents-suggestedEvent-suggested-text">Suggested</div>
+          <div class="groupEvents-suggestedEvent-title"><%= event.eventName%></div>
+          <div class="groupEvents-suggestedEvent-description"><%= event.description%></div>
+          <div class="groupEvents-suggestedEvent-date">
+            <%= event.date.day < 10 ? "0": ""%><%=event.date.day%>/<%=
+            event.date.month < 10 ? "0": ""%><%=event.date.month%>/<%=
+            event.date.year%> <%= event.date.hour < 10 ? "0":
+            ""%><%=event.date.hour%>:<%= event.date.minute < 10 ? "0":
+            ""%><%=event.date.minute%>
+          </div>
+          <div class="groupEvents-suggestedEvent-location">
+            <%=event.location.name%> | <%= event.location.address%>
+          </div>
+        </div>
+      </a>
+      <%});%>
     <div class="group-events-create-event-button">
       <i class="fa-solid fa-plus add-event-icon"></i>
     </div>

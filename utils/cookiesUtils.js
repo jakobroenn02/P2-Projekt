@@ -1,4 +1,6 @@
 const jwt = require("jsonwebtoken");
+
+// If token is not expired, then it returns a verified token, else it return null.
 function verifyToken(res, req) {
   try {
     if (req.cookies.token != null) {

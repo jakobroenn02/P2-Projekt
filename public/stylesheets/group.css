@@ -81,6 +81,20 @@
   max-width: 300px;
 }
 
+.group-message-custom {
+  display: flex;
+  justify-content: center;
+  color: rgb(90, 90, 90);
+  font-size: 12px;
+}
+
+.group-message-custom-text {
+  padding: 8px 0;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+}
+
 .group-message-input-container {
   height: 64px;
 }
@@ -239,11 +253,10 @@
 .group-events-calendar-button:hover,
 .group-events-create-button:hover {
   background-color: rgb(246, 246, 246);
-  
 }
 
 .group-events-calendar-button-icon,
-.group-events-create-button-icon { 
+.group-events-create-button-icon {
   background-color: rgb(238, 238, 238);
   height: 32px;
   display: flex;
@@ -253,7 +266,6 @@
   border-radius: 100%;
   color: black;
 }
-
 
 .group-user {
   height: 46px;

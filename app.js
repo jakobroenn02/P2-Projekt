@@ -38,7 +38,6 @@ app.use("/discover", discoverRouter);
 const usersRouter = require("./routes/users");
 app.use("/users", usersRouter);
 
-
 // Route for errors
 app.use((req, res, next) => {
   res.status(404).render("404", { req: req });
@@ -46,26 +45,28 @@ app.use((req, res, next) => {
 
 //Socket io
 io.on("connection", (socket) => {
-
   socket.on("join", (groupId, cb) => {
-    socket.join(groupId)
-  })
+    socket.join(groupId);
+  });
 
   socket.on("createMessage", (roomId, message, cb) => {
-    socket.broadcast.to(roomId).emit(
-      "displayMessage",
-      generateMessage(message.authorName, message.messageText, message.authorId)
-    );
+    socket.broadcast
+      .to(roomId)
+      .emit(
+        "displayMessage",
+        generateMessage(
+          message.authorName,
+          message.messageText,
+          message.authorId,
+          message.isCustom
+        )
+      );
     cb(message);
   });
 
   socket.on("disconnect", () => {});
 });
 
-//Port
 server.listen(3000, () => {
   console.log("Server is running on port http://localhost:3000");
 });
-
-// TODO: skal nok ikke være her, måske lave en mappe til utils et sted i serverside.
-

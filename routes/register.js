@@ -5,6 +5,7 @@ const { connectToDb, getDb } = require("../db");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { verifyToken } = require("../utils/cookiesUtils");
+const { getLocations, isUsernameTaken } = require("../utils/dbUtils");
 
 //connect to db
 let db;
@@ -14,30 +15,38 @@ connectToDb((err) => {
   }
 });
 
-router.get("/", (req, res) => {
-  const decodedUser = verifyToken(res, req);
-
-  if (decodedUser == null) {
-    return res.render("register", { isLoggedIn: false, hasTypeWrong: false });
-  } else {
-  }
+router.get("/", async (req, res) => {
   try {
-    res.render("register", { isLoggedIn: true, hasTypeWrong: false});
+    const token = verifyToken(res, req);
+
+    if (token == null) {
+      const locations = await getLocations();
+      return res.render("register", {
+        isLoggedIn: false,
+        hasTypeWrong: false,
+        locations,
+      });
+    } else {
+      res.render("register", { isLoggedIn: true, hasTypeWrong: false });
+    }
   } catch (error) {
-    res.render("errorPage", { errorMessage: "Error" });
+    console.log(error);
+    res.render("errorPage", { errorMessage: error });
   }
 });
 
 router.post("/", async (req, res) => {
-  let existingUser = [];
   try {
+    // encrypting password by hashing it
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
+
+    //Creates a user object, that will be added to the user database.
     const user = {
       name: { firstName: req.body.firstName, lastName: req.body.lastName },
       password: hashedPassword,
       bio: "",
       age: 0,
-      location: "",
+      location: req.body.location,
       groupIds: [],
       interests: [],
       eventIds: [],
@@ -45,35 +54,34 @@ router.post("/", async (req, res) => {
       profileImageId: 1,
       gender: req.body.gender,
     };
-    existingUser = await db
-        .collection("users")
-        .find({ username: req.body.username})
-        .toArray();
-    if (existingUser.length == 0) { 
-    db.collection("users")
-      .insertOne(user)
-      .then(() => {
-        const token = jwt.sign(user, process.env.JWTSECRET, {
-          expiresIn: "60m",
-        });
-      
-        //sets cookie in browser
-        res.cookie("token", token, {
-          httpOnly: true,
-        });
-        res.redirect("/user/interests");
+
+    // Checks if username is taken
+    if (!(await isUsernameTaken(req.body.username))) {
+      //Inserts user in db
+      const insertedUser = await db.collection("users").insertOne(user);
+
+      //Creates a token with id of user
+      const token = jwt.sign(
+        { _id: insertedUser.insertedId },
+        process.env.JWTSECRET,
+        {
+          expiresIn: "3h",
+        }
+      );
+
+      //Adds token to cookies
+      res.cookie("token", token, {
+        httpOnly: true,
       });
-    }else if(existingUser.length > 0){
+
+      res.redirect("/user/interests");
+    } else {
       return res.render("register", { isLoggedIn: false, hasTypeWrong: true });
     }
-  } catch {
-    res.render("errorPage", { errorMessage: "Error" });
+  } catch (error) {
+    console.log(error);
+    res.render("errorPage", { errorMessage: error });
   }
-});
-
-router.get("/logout", (req, res) => {
-  res.clearCookie("token");
-  return res.redirect("/");
 });
 
 module.exports = router;

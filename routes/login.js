@@ -5,6 +5,7 @@ const { connectToDb, getDb } = require("../db");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { verifyToken } = require("../utils/cookiesUtils");
+const { getLoggedInUser } = require("../utils/dbUtils");
 
 //connect to db
 let db;
@@ -14,59 +15,66 @@ connectToDb((err) => {
   }
 });
 
-router.get("/", (req, res) => {
-  const decodedUser = verifyToken(res, req);
-
-  if (decodedUser == null) {
-    return res.render("login", { isLoggedIn: false, hasTypeWrong: false });
-  } else {
-    try {
-      res.render("login", { isLoggedIn: true, hasTypeWrong: false });
-    } catch (error) {
-      res.render("register", { isLoggedIn: true });
+router.get("/", async (req, res) => {
+  try {
+    const token = verifyToken(res, req);
+    if (token == null) {
+      return res.render("login", { isLoggedIn: false, hasTypeWrong: false });
+    } else {
+      const user = await getLoggedInUser(token);
+      res.render("login", { isLoggedIn: true, hasTypeWrong: false, user });
     }
+  } catch (error) {
+    console.log(error);
+    res.render("errorPage", { errorMessage: error });
   }
 });
 
 router.post("/", async (req, res) => {
-  let loggedInUser = await db
-    .collection("users")
-    .findOne({ username: req.body.username });
-
-  if (!loggedInUser) {
-    return res.render("login", { isLoggedIn: false, hasTypeWrong: true });
-  }
-
   try {
-    const passMatch = await bcrypt.compare(
-      req.body.password,
-      loggedInUser.password
-    );
+    //Login via username
+    let user = await db
+      .collection("users")
+      .findOne({ username: req.body.username });
+
+    // If user cant be found, we give them an error message "Wrong u... or passsword"
+    if (!user) {
+      return res.render("login", { isLoggedIn: false, hasTypeWrong: true });
+    }
+
+    // check if pass is correct return true or false.
+    const passMatch = await bcrypt.compare(req.body.password, user.password);
 
     if (passMatch) {
-      //Creates jwt token
-
-      const token = jwt.sign(loggedInUser, process.env.JWTSECRET, {
+      //Creates jwt token, with only user _id
+      const token = jwt.sign({ _id: user._id }, process.env.JWTSECRET, {
         expiresIn: "3h",
       });
 
-      //sets cookie in browser
+      //sets token in browser cookies
       res.cookie("token", token, {
         httpOnly: true,
       });
 
       res.redirect("/");
     } else {
+      // If pass is wrong be give error "Wront u... or password"
       return res.render("login", { isLoggedIn: false, hasTypeWrong: true });
     }
-  } catch {
-    res.status(500).send();
+  } catch (error) {
+    console.log(error);
+    res.render("errorPage", { errorMessage: error });
   }
 });
 
 router.get("/logout", (req, res) => {
-  res.clearCookie("token");
-  return res.redirect("/login");
+  try {
+    res.clearCookie("token");
+    return res.redirect("/login");
+  } catch (error) {
+    console.log(error);
+    res.render("errorPage", { errorMessage: error });
+  }
 });
 
 module.exports = router;
