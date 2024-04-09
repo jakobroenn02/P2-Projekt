@@ -363,7 +363,7 @@ router.post("/interests", async (req, res) => {
     if (token != null) {
       await setUserInterests(token._id, selectedInterests);
 
-      res.redirect("/user");
+      res.redirect("/");
     }
   } catch (error) {
     console.log(error);
