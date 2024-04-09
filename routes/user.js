@@ -29,8 +29,8 @@ router.get("/", async (req, res) => {
             const user = await db
               .collection("users")
               .findOne({ username: decodedUser.username });
-
-            res.render("user", { isLoggedIn: true, user, profileImageId: user.profileImageId,Age: user.Age, Bio: user.Bio, Location: user.Location, Lastname: user.LastName,Firstname: user.FirstName,Gender: user.Gender });
+            
+            res.render("user", { isLoggedIn: true, user, profileImageId: user.profileImageId });
           } catch (error) {
             res.render("errorPage", { errorMessage: "Error" });
           }
@@ -78,8 +78,8 @@ router.get("/", async (req, res) => {
 
 router.post("/info/update", async (req, res) => {
   const decodedUser = verifyToken(res, req);
-  console.log("Req body:", req.body)
-
+  
+  
   if (decodedUser == null) {
     res.render("user", { isLoggedIn: false });
   } else {

@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const modalCloseButton = document.querySelector("#closeButton");
   const profilePictureOptions = document.querySelectorAll(".pictureOption");
   const pictureModal = document.querySelector(".pictures-modal");
-
+  
   modalCloseButton.addEventListener('mousedown', function() {
     pictureModal.style.display = 'none';
   });

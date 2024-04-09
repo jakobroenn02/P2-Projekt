@@ -5,7 +5,6 @@
       <div class="Profile-page">
         <section>
             <h2>Manage Your Information</h2>
-            <h3>Update your profile details below</h3>
             <p>Here you can update your personal information to keep your profile up to date.</p>
             <div class="profile-container">
               <div class="profile-picture">
@@ -47,19 +46,18 @@
             <div class="user-info">
             <form action="/user/info/update" method="post" class="eventform">
                 <input type="hidden" id="userId" name="userId" value="<%= user._id %>">
-                <input type="text" id="userFirstName" name="userFirstName" placeholder="<%= user.FirstName %>" required>
-                <input type="text" id="userLastName" name="userLastName" placeholder="<%= user.LastName %>" required>
-                <input type="number" id="userAge" name="userAge" placeholder="<%= user.Age %>" required>
+                <input type="text" id="userFirstName" name="userFirstName" value="<%= user.name.firstName %>" required>
+                <input type="text" id="userLastName" name="userLastName" value="<%= user.name.lastName %>" required>
+                <input type="number" id="userAge" name="userAge" value="<%= user.age %>" required>
                 <label for="gender">Gender:</label>
                 <select class="gender" name="userGender" id="userGender" >
-                  <option value="Unspecified">Unspecified</option>
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
+                  <option value="Male" <%= user.gender === 'Male' ? 'selected' : '' %>>Male</option>
+                  <option value="Female" <%= user.gender === 'Female' ? 'selected' : '' %>>Female</option>
                 </select>
-                <input type="text" id="userLocation" name="userLocation" placeholder="Location" required>
+                <input type="text" id="userLocation" name="userLocation" value="<%= user.location %>" required>
                 <input type="text" id="userUsername" name="userUsername" value="<%= user.username %>" required>
                 <input type="password" id="userPassword" name="userPassword" placeholder="New Password" required>
-                <textarea id="userBio" name="userBio" placeholder="Your bio." ></textarea>
+                <textarea id="userBio" name="userBio" ><%= user.bio %></textarea>
                 <button type="submit" class="updateinformation">Update Information</button>
                 <button type="button" class="InterestButton" onclick="window.location.href='/user/interests';">Go to Interest Page</button>
                 <button type="button" class="deleteButton" onclick="deleteUser()">Delete Account</button>
