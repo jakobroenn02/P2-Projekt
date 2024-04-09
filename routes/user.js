@@ -86,9 +86,6 @@ router.post("/profile-picture/update", async (req, res) => {
   }
 });
 
-
-
-
 router.post("/info/update", async (req, res) => {
   try {
     let hashedPassword;
@@ -101,12 +98,14 @@ router.post("/info/update", async (req, res) => {
         req.body.userUsername !== token.username &&
         !(await isUsernameTaken(req.body.username))
       ) {
-        
         //Checks if user want to change passowrd or not
-        if(req.body.password.length !== 0) {
-          hashedPassword = await bcrypt.hash(req.body.userPassword, 10);
+        if (req.body.hasOwnProperty("userPassword")) {
+          if (req.body.userPassword != "") {
+            console.log(req.body.userPassword);
+            hashedPassword = await bcrypt.hash(req.body.userPassword, 10);
+          }
         }
-        
+
         await updateUserInfo(
           token._id,
           req.body.userUsername,
@@ -116,7 +115,7 @@ router.post("/info/update", async (req, res) => {
           req.body.userLastName,
           req.body.userBio,
           req.body.userGender,
-          hashedPassword == undefined ? null : hashedPassword,
+          hashedPassword == undefined ? null : hashedPassword
         );
         return res.redirect("/user");
       } else {
@@ -131,12 +130,13 @@ router.post("/info/update", async (req, res) => {
   }
 });
 
-router.delete('/delete', async (req, res) => {
+router.post("/delete", async (req, res) => {
   try {
-  await db.collection('users').deleteOne({ _id: new ObjectId(req.body.userId) });
-  res.clearCookie('token');
-  res.redirect("/register");
-  } catch(error) {
+    await db
+      .collection("users")
+      .deleteOne({ _id: new ObjectId(req.body.userId) });
+    res.clearCookie("token");
+  } catch (error) {
     console.log(error);
     res.render("errorPage", { errorMessage: error });
   }

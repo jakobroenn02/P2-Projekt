@@ -171,13 +171,14 @@ async function updateUserInfo(
   firstName,
   lastName,
   bio,
-  gender
+  gender,
+  password
 ) {
   // if parameter value is null, it wont change it
   const user = await getUser(userId);
 
   await db.collection("users").updateMany(
-    { _id: new ObjectId(req.body.userId) },
+    { _id: new ObjectId(userId) },
     {
       $set: {
         username: username == null ? user.username : username,
@@ -187,6 +188,7 @@ async function updateUserInfo(
         "name.firstName": firstName == null ? user.name.firstName : firstName,
         "name.lastName": lastName == null ? user.name.lastName : lastName,
         bio: bio == null ? user.bio : bio,
+        password: password == null ? user.password : password,
       },
     }
   );
