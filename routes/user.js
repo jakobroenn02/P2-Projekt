@@ -394,7 +394,6 @@ router.get("/interests", async (req, res) => {
           });
           groupCountPerInterest[interest.hobby] = count;
         }
-        console.log(groupCountPerInterest);
       res.render("interests", { isLoggedIn: true, allInterests, user, groupCountPerInterest });
     } catch (error) {
       res.render("errorPage", { errorMessage: "Error" });

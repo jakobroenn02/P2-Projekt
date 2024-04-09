@@ -22,6 +22,7 @@
                 <input id="specific-<%= allInterests[i].hobby.replaceAll(" ", "-") %>-checkbox"
                  class="specificInterestCheckbox disabled" <% if (user.interests.includes(allInterests[i].hobby))
                   {%><%="checked"%><%} %> type="checkbox" disabled name="<%= allInterests[i].hobby %>" value="<%= allInterests[i].hobby %>">
+                <input type="hidden" name="<%= allInterests[i].hobby %>" value="<%= allInterests[i].hobby %>">
               <% } else { %>
                 <input id="specific-<%= allInterests[i].hobby.replaceAll(" ", "-") %>-checkbox"
                  class="specificInterestCheckbox" <% if (user.interests.includes(allInterests[i].hobby))

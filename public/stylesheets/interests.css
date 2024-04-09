@@ -184,9 +184,6 @@
   transition: all 0.2s;
   cursor: pointer;
   user-select: none;
+  pointer-events: none;
 }
 
-.specificSelectedInterest:hover {
-  border: 2px solid red;
-  cursor: pointer;
-}

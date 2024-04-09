@@ -32,7 +32,7 @@ specificInterestCheckboxes.forEach((box) => {
     if (e.target.disabled) {
       return;
     }
-
+    
     if (e.target.checked) {
       // if check - add to right box + make background of interest black
       interestsPageRightWrapper.appendChild(
