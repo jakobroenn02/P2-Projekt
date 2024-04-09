@@ -48,7 +48,6 @@ router.get("/", async (req, res) => {
       res.render("user", { isLoggedIn: false, hasTypeWrong: false });
     } else {
       const user = await getLoggedInUser(token);
-
       const locations = await getLocations();
 
       res.render("user", {
@@ -87,31 +86,12 @@ router.post("/profile-picture/update", async (req, res) => {
   }
 });
 
-router.post("/bio/update", async (req, res) => {
-  try {
-    const token = verifyToken(res, req);
 
-    if (token == null) {
-      res.render("user", { isLoggedIn: false });
-    } else {
-      await db.collection("users").updateMany(
-        { _id: new ObjectId(token._id) },
-        {
-          $set: {
-            bio: req.body.userBio,
-          },
-        }
-      );
-      res.redirect("/user");
-    }
-  } catch (error) {
-    console.log(error);
-    res.render("errorPage", { errorMessage: error });
-  }
-});
+
 
 router.post("/info/update", async (req, res) => {
   try {
+    let hashedPassword;
     const token = verifyToken(res, req);
     if (token == null) {
       res.render("user", { isLoggedIn: false });
@@ -121,6 +101,12 @@ router.post("/info/update", async (req, res) => {
         req.body.userUsername !== token.username &&
         !(await isUsernameTaken(req.body.username))
       ) {
+        
+        //Checks if user want to change passowrd or not
+        if(req.body.password.length !== 0) {
+          hashedPassword = await bcrypt.hash(req.body.userPassword, 10);
+        }
+        
         await updateUserInfo(
           token._id,
           req.body.userUsername,
@@ -128,8 +114,9 @@ router.post("/info/update", async (req, res) => {
           req.body.userLocation,
           req.body.userFirstName,
           req.body.userLastName,
-          null,
-          req.body.userGender
+          req.body.userBio,
+          req.body.userGender,
+          hashedPassword == undefined ? null : hashedPassword,
         );
         return res.redirect("/user");
       } else {
@@ -139,6 +126,17 @@ router.post("/info/update", async (req, res) => {
       }
     }
   } catch (error) {
+    console.log(error);
+    res.render("errorPage", { errorMessage: error });
+  }
+});
+
+router.delete('/delete', async (req, res) => {
+  try {
+  await db.collection('users').deleteOne({ _id: new ObjectId(req.body.userId) });
+  res.clearCookie('token');
+  res.redirect("/register");
+  } catch(error) {
     console.log(error);
     res.render("errorPage", { errorMessage: error });
   }
