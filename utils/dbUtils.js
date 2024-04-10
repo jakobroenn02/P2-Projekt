@@ -314,6 +314,17 @@ async function addEventToUser(eventId, userId) {
   );
 }
 
+async function isUserVotedToDelete(userId, eventId) {
+  //Takes a user and a group, and return true or false whether user is in group or not
+  const event = await getEvent(eventId);
+  for (let i = 0; i < event.userIdsVotedDelete.length; i++) {
+    if (event.userIdsVotedDelete[i].toString() == userId) {
+      return true;
+    }
+  }
+  return false;
+}
+
 //
 //
 //
@@ -384,4 +395,5 @@ module.exports = {
   addUserToEvent,
   removeUserFromEvent,
   removeEventFromUser,
+  isUserVotedToDelete,
 };

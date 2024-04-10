@@ -93,7 +93,16 @@ include("./partials/signinRedirect.ejs")%> <% } else { %>
           value="<%=event.eventName%>"
         />
       </form>
-
+    <form class="voteToDeleteButtonForm" method="post" action="/user/groups/<%=group._id %>/events/<%= event._id %>/delete">
+      <input type="checkbox" hidden name="isUserVoted" class="deleteCheckboxUser" <% if (isUserVoted) { %>
+        checked
+      <%} %>>
+      <% if (isUserVoted) { %>
+        <button class="event-page-top-button-vote-to-delete event-page-voted" type="submit"><i class="fa-solid fa-circle-minus"></i>Remove vote | <%=event.userIdsVotedDelete.length%>/<%=usersRequiredToDelete%></button>
+     <% }else {%>
+     <button class="event-page-top-button-vote-to-delete event-page-not-voted" type="submit"><i class="fa-solid fa-check-to-slot"></i>Vote to delete | <%=event.userIdsVotedDelete.length%>/<%=usersRequiredToDelete%></button>
+     <%} %>
+    </form>
       <button class="event-page-top-button-options">
         <i class="fa-solid fa-ellipsis"></i>
       </button>
