@@ -13,8 +13,8 @@
       <div class="interestsPageTitleLeft">Choose interests</div>
       <div class="interestsPageTitleRight">Your interests</div>
         <form method="post" action="/user/interests" class="interestsContainerWrapper">
-          <% for (let i=0; i < allInterests.length; i++) { %>
-          <label id="specific-<%= allInterests[i].hobby.replaceAll(" ", "-") %>" class="specificInterest <%if (user.interests.includes(allInterests[i].hobby)) {%>
+          <% for (let i=0; i < interests.length; i++) { %>
+          <label id="specific-<%= interests[i].hobby.replaceAll(" ", "-") %>" class="specificInterest <%if (user.interests.includes(interests[i].hobby)) {%>
             <%="selected"%>
             <% } %>">
               <%= allInterests[i].hobby %>
@@ -28,7 +28,6 @@
                  class="specificInterestCheckbox" <% if (user.interests.includes(allInterests[i].hobby))
                   {%><%="checked"%><%} %> type="checkbox" name="<%= allInterests[i].hobby %>" value="<%= allInterests[i].hobby %>">
               <% } %>
-              
           </label>
           <% } %>
           <button class="interestsSaveButton" type="submit">SAVE</button>

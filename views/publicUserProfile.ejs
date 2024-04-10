@@ -1,56 +1,69 @@
 <%- include("./partials/header.ejs") %> <% if (!isLoggedIn) {%>
     <%- include("./partials/signinRedirect.ejs")%>
     <% } else { %>
-        <div class="pubUsrProf-container">
-            <div class="pubUsrProf-left-container">
-                <div class="pubUsrProf-image-container">
-                    <img src="/img/profileImg/profileImg1.jpeg" alt="Profile Picture" class="pubUsrProf-image">
+        <div class="PUF-main">
+
+
+            <div class="PUF-leftContainer">
+
+                <div class="PUF-imageContainer">
+                    <img src="/img/profileImg/profileImg<%=user.profileImageId%>.jpeg" alt="Profile Picture" class="PUF-image">
                 </div>
-                <div class="pubUsrProf-name"><%= publicUser.name.firstName %> <%= publicUser.name.lastName %></div>
-                <!-- Gender/age here?-->
-                <div class="pubUsrProf-about">
-                    <div>Age: <%=publicUser.age%></div>
-                    <div>Gender: <%=publicUser.gender%></div>
-                    <div>From: <%=publicUser.location%></div>
+                <div class="PUF-username"><%=publicUser.username%></div>
+
+            </div>
+
+
+            <div class="PUF-middleContainer">
+                
+
+                <div class="PUF-about">
+                    <div class="PUF-nameContainer">
+                        <div>Name: <span class="PUF-userInfo"><%= publicUser.name.firstName %></span></div>
+                        <div>Surname: <span class="PUF-userInfo"><%= publicUser.name.lastName %></span></div>
+                    </div>
+                    <div>Age: <span class="PUF-userInfo"><%=publicUser.age%></span></div>
+                    <div>Gender: <span class="PUF-userInfo"><%=publicUser.gender%></span></div>
+                    <div>From: <span class="PUF-userInfo"><%=publicUser.location%></span></div>
                 </div>
-                <div class="pubUsrProf-bio-container">
-                    <div class="pubUsrProf-bio">
-                        <%= publicUser.bio %>
+                <div class="PUF-bioContainer">
+                    <span class="PUF-bioTitle">About:</span>
+                    <div class="PUF-bio"><%= publicUser.bio %></div>
+                </div>
+
+            </div>
+
+
+            <div class="PUF-rightContainer">
+
+                <div class="PUF-interestsContainer">
+                    <div class="PUF-interestsTitle"><%=publicUser.name.firstName%>'s Interests</div>
+                    <div class="PUF-interestsBox">
+                        <% for(let i=0; i<publicUser.interests.length; i++) {%>
+                            <div class="PUF-interest"><%= publicUser.interests[i]%></div>
+                        <%}%>
                     </div>
                 </div>
 
-                <div class="pubUsrProf-about-container">
-                    
-                </div>
-            </div>
-            <div class="pubUsrProf-right-container">
-                <div class="pubUsrProf-interests-container">
-                    <div class="pubUsrProf-interests-title"><%=publicUser.name.firstName%>'s Interests</div>
-                    <div class="pubUsrProf-interests-box">
-                     <% for(let i=0; i<publicUser.interests.length; i++) {%>
-                        <div class="pubUsrProf-interest"><%= publicUser.interests[i]%></div>
-                    <%}%>
+                <div class="PUF-sharedContentContainer">
+                    <div class="PUF-SharedContentTitle">Shared Groups</div>
+                    <div class="PUF-sharedContentBox">
+                        <% commonGroups.forEach(group => {%>
+                            <a href="/user/groups/<%=group._id%>" class="PUF-sharedContent"><%= group.groupName%></a>
+                        <%})%>
                     </div>
                 </div>
-                <div class="pubUsrProf-info-container">
-                    <div class="pubUsrProf-info-sharedContent-container">
-                        <div class="pubUsrProf-info-sharedContent-title">Shared Groups</div>
-                        <div class="pubUsrProf-info-sharedContent-box">
-                            <% commonGroups.forEach(group => {%>
-                                <div class="pubUsrProf-info-sharedContent"><%= group.groupName%></div>
-                               <%})%>
-                        </div>
 
-                    </div>
-                    <div class="pubUsrProf-info-sharedContent-container">
-                        <div class="pubUsrProf-info-sharedContent-title">Shared Events</div>
-                        <div class="pubUsrProf-info-sharedContent-box">
-                            <% commonEvents.forEach(event => {%>
-                                <div class="pubUsrProf-info-sharedContent"><%= event.eventName%></div>
-                               <%})%>
-                        </div>
+                <div class="PUF-sharedContentContainer">
+                    <div class="PUF-SharedContentTitle">Shared Events</div>
+                    <div class="PUF-sharedContentBox">
+                        <% commonEvents.forEach(event => {%>
+                            <a href="/user/groups/<%=event.groupId%>/events/<%=event._id%>" class="PUF-sharedContent"><%= event.eventName%></a>
+                        <%})%>
                     </div>
                 </div>
+
             </div>
+
         </div>
   <%} %>
