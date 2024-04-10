@@ -266,7 +266,7 @@ router.post("/groups/:groupId/leave", async (req, res) => {
         .toArray();
       const userGroupEventIds = userGroupEvents.map((event) => event._id);
 
-      // removes all eventId from user, og which he was participating in, in that group..
+      // removes all eventId from user, og which he was participating in, in that group.
       await db.collection("users").updateOne(
         { _id: new ObjectId(token._id) },
         {
@@ -350,16 +350,28 @@ router.get("/interests", async (req, res) => {
       const userGroups = await getUserGroups(token._id);
 
       // Creates a list of all the interests, of which groups, that user is member of, is related to.
+      //TODO FIX this, så det er mere nydeligt, og så man også kan fravælge interests i den højre box.
       let groupInterestsSet = new Set();
       userGroups.forEach((group) => {
         groupInterestsSet.add(group.interest);
       });
       const groupInterests = Array.from(groupInterestsSet);
-
-      res.render("interests", {
+      
+      
+      // count amount of groups per interests
+      const groupCountPerInterest = {};
+              for (let interest of interests) {
+                let count = await db.collection("groups").countDocuments({ 
+                  userIds: user._id,
+                  interest: interest.hobby,
+                });
+                groupCountPerInterest[interest.hobby] = count;
+              }
+        res.render("interests", {
         isLoggedIn: true,
         interests,
         groupInterests,
+        groupCountPerInterest,
         user,
       });
     }
