@@ -350,6 +350,7 @@ router.get("/interests", async (req, res) => {
       const userGroups = await getUserGroups(token._id);
 
       // Creates a list of all the interests, of which groups, that user is member of, is related to.
+      //TODO FIX this, så det er mere nydeligt, og så man også kan fravælge interests i den højre box.
       let groupInterestsSet = new Set();
       userGroups.forEach((group) => {
         groupInterestsSet.add(group.interest);
@@ -359,7 +360,7 @@ router.get("/interests", async (req, res) => {
       
       // count amount of groups per interests
       const groupCountPerInterest = {};
-              for (let interest of allInterests) {
+              for (let interest of interests) {
                 let count = await db.collection("groups").countDocuments({ 
                   userIds: user._id,
                   interest: interest.hobby,
@@ -370,7 +371,7 @@ router.get("/interests", async (req, res) => {
         isLoggedIn: true,
         interests,
         groupInterests,
-        groupCountPerInterest
+        groupCountPerInterest,
         user,
       });
     }

@@ -17,16 +17,16 @@
           <label id="specific-<%= interests[i].hobby.replaceAll(" ", "-") %>" class="specificInterest <%if (user.interests.includes(interests[i].hobby)) {%>
             <%="selected"%>
             <% } %>">
-              <%= allInterests[i].hobby %>
-              <% if (groupCountPerInterest[allInterests[i].hobby] > 0) { %>
-                <input id="specific-<%= allInterests[i].hobby.replaceAll(" ", "-") %>-checkbox"
-                 class="specificInterestCheckbox disabled" <% if (user.interests.includes(allInterests[i].hobby))
-                  {%><%="checked"%><%} %> type="checkbox" disabled name="<%= allInterests[i].hobby %>" value="<%= allInterests[i].hobby %>">
-                <input type="hidden" name="<%= allInterests[i].hobby %>" value="<%= allInterests[i].hobby %>">
+              <%= interests[i].hobby %>
+              <% if (groupCountPerInterest[interests[i].hobby] > 0) { %>
+                <input id="specific-<%= interests[i].hobby.replaceAll(" ", "-") %>-checkbox"
+                 class="specificInterestCheckbox disabled" <% if (user.interests.includes(interests[i].hobby))
+                  {%><%="checked"%><%} %> type="checkbox" disabled name="<%= interests[i].hobby %>" value="<%= interests[i].hobby %>">
+                <input type="hidden" name="<%= interests[i].hobby %>" value="<%= interests[i].hobby %>">
               <% } else { %>
-                <input id="specific-<%= allInterests[i].hobby.replaceAll(" ", "-") %>-checkbox"
-                 class="specificInterestCheckbox" <% if (user.interests.includes(allInterests[i].hobby))
-                  {%><%="checked"%><%} %> type="checkbox" name="<%= allInterests[i].hobby %>" value="<%= allInterests[i].hobby %>">
+                <input id="specific-<%= interests[i].hobby.replaceAll(" ", "-") %>-checkbox"
+                 class="specificInterestCheckbox" <% if (user.interests.includes(interests[i].hobby))
+                  {%><%="checked"%><%} %> type="checkbox" name="<%= interests[i].hobby %>" value="<%= interests[i].hobby %>">
               <% } %>
           </label>
           <% } %>
