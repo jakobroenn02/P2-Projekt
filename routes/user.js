@@ -29,6 +29,7 @@ const {
   addEventToUser,
   removeUserFromEvent,
   removeEventFromUser,
+  isUserVotedToDelete,
 } = require("../utils/dbUtils");
 
 //connect to db
@@ -401,6 +402,7 @@ router.post("/groups/:groupId/events/create", async (req, res) => {
         groupId: groupId,
         participantIds: [],
         isSuggested: false,
+        userIdsVotedDelete: [],
       };
 
       let insertedEventRes = await db
@@ -450,7 +452,12 @@ router.get("/groups/:groupId/events/:eventId", async (req, res) => {
       const group = await getGroup(req.params.groupId);
       const event = await getEvent(req.params.eventId);
       const eventParticipants = await getEventParticipants(req.params.eventId);
+      const usersRequiredToDelete = Math.ceil(group.userIds.length / 2);
       const isUserParticipating = await isUserInEvent(
+        token._id,
+        req.params.eventId
+      );
+      const isUserVoted = await isUserVotedToDelete(
         token._id,
         req.params.eventId
       );
@@ -462,6 +469,8 @@ router.get("/groups/:groupId/events/:eventId", async (req, res) => {
         user,
         group,
         isUserParticipating,
+        isUserVoted,
+        usersRequiredToDelete,
       });
     }
   } catch (error) {
@@ -476,6 +485,53 @@ router.post("/groups/:groupId/events/:eventId/join", async (req, res) => {
     if (token != null) {
       await addUserToEvent(token._id, req.params.eventId);
       await addEventToUser(req.params.eventId, token._id);
+
+      res.redirect(
+        `/user/groups/${req.params.groupId}/events/${req.params.eventId}`
+      );
+    }
+  } catch (error) {
+    console.log(error);
+    res.render("errorPage", { errorMessage: error });
+  }
+});
+
+router.post("/groups/:groupId/events/:eventId/delete", async (req, res) => {
+  try {
+    const token = verifyToken(res, req);
+    if (token != null) {
+      const group = await getGroup(req.params.groupId);
+      const event = await getEvent(req.params.eventId);
+      if (req.body.isUserVoted) {
+        await db.collection("events").updateOne(
+          {
+            _id: new ObjectId(req.params.eventId),
+          },
+          { $pull: { userIdsVotedDelete: new ObjectId(token._id) } }
+        );
+      } else {
+        await db.collection("events").updateOne(
+          {
+            _id: new ObjectId(req.params.eventId),
+          },
+          { $push: { userIdsVotedDelete: new ObjectId(token._id) } }
+        );
+        if (
+          event.userIdsVotedDelete.length + 1 >=
+          Math.ceil(group.userIds.length / 2)
+        ) {
+          await db.collection("events").deleteOne({
+            _id: new ObjectId(req.params.eventId),
+          });
+
+          await db.collection("groups").updateOne(
+            { _id: new ObjectId(req.params.groupId) },
+            { $pull: { eventIds: new ObjectId(req.params.eventId) } }
+          );
+
+          return res.redirect(`/user/groups/${req.params.groupId}/events`);
+        }
+      }
 
       res.redirect(
         `/user/groups/${req.params.groupId}/events/${req.params.eventId}`

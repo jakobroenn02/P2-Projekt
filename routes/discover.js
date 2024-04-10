@@ -65,6 +65,7 @@ router.get("/:groupId", async (req, res) => {
     if (token == null) {
       return res.render("discoverGroup", { isLoggedIn: false });
     } else {
+      const user = await getLoggedInUser(token);
       // checks if user is already part of the group
       if (await isUserInGroup(token._id, req.params.groupId)) {
         res.redirect(`/user/groups/${req.params.groupId}`);
@@ -76,7 +77,7 @@ router.get("/:groupId", async (req, res) => {
         isLoggedIn: true,
         group,
         groupEvents,
-        user: token,
+        user,
       });
     }
   } catch (error) {
@@ -88,10 +89,17 @@ router.get("/:groupId", async (req, res) => {
 router.post("/:groupId/join", async (req, res) => {
   try {
     const token = verifyToken(res, req);
+    const maxGroupAmount = 5;
+    const user = await getLoggedInUser(token);
 
     if (token == null) {
       return res.render("discoverGroup", { isLoggedIn: false });
     } else {
+      if (user.groupIds.length >= maxGroupAmount) {
+        return res.render("errorPage", {
+          errorMessage: `You can only join a maximum of ${maxGroupAmount} groups`,
+        });
+      }
       await addGroupToUser(req.params.groupId, token._id);
       await addUserToGroup(token._id, req.params.groupId);
 
