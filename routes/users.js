@@ -9,6 +9,13 @@ const {
   commonEventsIds,
 } = require("../utils/publicUserUtils.js");
 const { verifyToken } = require("../utils/cookiesUtils.js");
+const {
+  getUser,
+  getLoggedInUser,
+  getGroup,
+  getGroups,
+  getEvents,
+} = require("../utils/dbUtils.js");
 
 //connect to db
 let db;
@@ -19,38 +26,17 @@ connectToDb((err) => {
 });
 
 router.get("/:id", async (req, res) => {
-  let decodedUser = verifyToken(res, req);
-  let commonGroups = [];
-  let commonEvents = [];
+  try {
+    let token = verifyToken(res, req);
 
-  if (decodedUser == null) {
-    res.render("publicUserProfile", { isLoggedIn: false });
-  } else {
-    try {
-      const userId = req.params.id;
-      const publicUser = await db
-        .collection("users")
-        .findOne({ _id: new ObjectId(userId) });
+    if (token == null) {
+      res.render("publicUserProfile", { isLoggedIn: false });
+    } else {
+      const publicUser = await getUser(req.params.id);
+      const user = await getLoggedInUser(token);
 
-      const ownUser = await db
-        .collection("users")
-        .findOne({ _id: new ObjectId(decodedUser._id) });
-
-      const usersCommonGroupsIds = commonGroupsIds(publicUser, ownUser);
-      const usersCommonEventsIds = commonEventsIds(publicUser, ownUser);
-
-      await db
-        .collection("groups")
-        .find({ _id: { $in: usersCommonGroupsIds } })
-        .forEach((group) => {
-          commonGroups.push(group);
-        });
-      await db
-        .collection("events")
-        .find({ _id: { $in: usersCommonEventsIds } })
-        .forEach((event) => {
-          commonEvents.push(event);
-        });
+      const commonGroups = await getGroups(commonGroupsIds(publicUser, user));
+      const commonEvents = await getEvents(commonEventsIds(publicUser, user));
 
       if (publicUser && commonGroups.length >= 1) {
         res.render("publicUserProfile", {
@@ -58,20 +44,18 @@ router.get("/:id", async (req, res) => {
           publicUser,
           commonEvents,
           commonGroups,
-          user: decodedUser,
+          user,
         });
-      } else if (publicUser) {
+      } else {
         res.render("errorPage", {
           isLoggedIn: true,
           errorMessage: "Access denied",
         });
       }
-    } catch (error) {
-      res.render("errorPage", {
-        isLoggedIn: true,
-        errorMessage: "User not found",
-      });
     }
+  } catch (error) {
+    console.log(error);
+    res.render("errorPage", { errorMessage: error });
   }
 });
 

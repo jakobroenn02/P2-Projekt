@@ -346,9 +346,22 @@ router.get("/interests", async (req, res) => {
       res.render("interests", { isLoggedIn: false });
     } else {
       const interests = await getInterests();
-      let user = await getLoggedInUser(token);
+      const user = await getLoggedInUser(token);
+      const userGroups = await getUserGroups(token._id);
 
-      res.render("interests", { isLoggedIn: true, interests, user });
+      // Creates a list of all the interests, of which groups, that user is member of, is related to.
+      let groupInterestsSet = new Set();
+      userGroups.forEach((group) => {
+        groupInterestsSet.add(group.interest);
+      });
+      const groupInterests = Array.from(groupInterestsSet);
+
+      res.render("interests", {
+        isLoggedIn: true,
+        interests,
+        groupInterests,
+        user,
+      });
     }
   } catch (error) {
     console.log(error);
@@ -524,10 +537,12 @@ router.post("/groups/:groupId/events/:eventId/delete", async (req, res) => {
             _id: new ObjectId(req.params.eventId),
           });
 
-          await db.collection("groups").updateOne(
-            { _id: new ObjectId(req.params.groupId) },
-            { $pull: { eventIds: new ObjectId(req.params.eventId) } }
-          );
+          await db
+            .collection("groups")
+            .updateOne(
+              { _id: new ObjectId(req.params.groupId) },
+              { $pull: { eventIds: new ObjectId(req.params.eventId) } }
+            );
 
           return res.redirect(`/user/groups/${req.params.groupId}/events`);
         }

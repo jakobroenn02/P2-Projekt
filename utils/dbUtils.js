@@ -25,6 +25,15 @@ async function getGroup(groupId) {
   //Returns a group from id
   return await db.collection("groups").findOne({ _id: new ObjectId(groupId) });
 }
+
+async function getGroups(groupIds) {
+  //Returns a group from id
+  return await db
+    .collection("groups")
+    .find({ _id: { $in: groupIds } })
+    .toArray();
+}
+
 async function addUserToGroup(userId, groupId) {
   //Takes user and group, and adds the user to groupIds
   await db.collection("groups").updateOne(
@@ -224,6 +233,13 @@ async function getUserEvents(userId) {
     })
     .toArray();
 }
+
+async function getEvents(eventIds) {
+  return await db
+    .collection("events")
+    .find({ _id: { $in: eventIds } })
+    .toArray();
+}
 async function getGroupEvents(groupId) {
   //Takes a group, and returns the list of events related to that group
   const group = await getGroup(groupId);
@@ -398,4 +414,7 @@ module.exports = {
   removeUserFromEvent,
   removeEventFromUser,
   isUserVotedToDelete,
+  getUser,
+  getGroups,
+  getEvents,
 };
