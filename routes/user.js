@@ -143,6 +143,7 @@ router.post("/info/update", async (req, res) => {
   }
 });
 // TODO Should be a delete request, and has to be done in client side js.
+// Should also delete user groups + events
 router.post("/delete", async (req, res) => {
   try {
     await db
