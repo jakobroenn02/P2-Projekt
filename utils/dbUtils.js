@@ -202,6 +202,7 @@ async function addGroup(group) {
   addSuggestedEventToGroup(insertRes.insertedId);
 }
 
+//Returns the amount of groups that are empty, has a specific interest and requirements.
 async function emptyGroupsInterestAndRequirementsAmount(
   interest,
   requirements
@@ -217,6 +218,7 @@ async function emptyGroupsInterestAndRequirementsAmount(
   return groups.filter((group) => group.userIds.length == 0).length;
 }
 
+//Deletes all groups of a specific interest and requirement, and creates a new empty one.
 async function deleteAllButOneEmptyGroup(interest, requirements, location) {
   const groupsToDelete = await db
     .collection("groups")
