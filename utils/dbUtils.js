@@ -253,6 +253,7 @@ async function deleteAllButOneEmptyGroup(interest, requirements, location) {
   await addGroup(createGroupObject(interest, location, requirements));
 }
 
+//Function that makes a group of each combination of interests and requirements.
 async function repopulateGroups(interests, requirements, location) {
   interests.forEach(async (interest) => {
     requirements.forEach(async (requirement) => {
@@ -273,6 +274,8 @@ async function repopulateGroups(interests, requirements, location) {
     });
   });
 }
+
+//Generates a random groupname based on interest with suffix and prefix ex: "The Football Crew"
 function generateGroupName(interest) {
   // Prefixes and suffixes to make the group name unique
   const prefixes = [
@@ -306,6 +309,8 @@ function generateGroupName(interest) {
 
   return `${prefix} ${interest} ${suffix}`;
 }
+
+// Gets the description of a specific interest. The descriptions are hardcoded in generalutils.js
 function getGroupDescription(interest) {
   return INTEREST_DESCRIPTIONS[interest];
 }
