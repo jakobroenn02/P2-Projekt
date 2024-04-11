@@ -84,6 +84,7 @@ async function getUserUnattendedGroups(userId) {
     })
     .toArray();
 
+  // Filter away full groups, and groups that user can't join, because user doesn't live up to the requirements.
   groups = groups.filter((group) => {
     if (group.userIds.length >= group.maxMembers) {
       return false;
@@ -201,6 +202,7 @@ async function addGroup(group) {
   addSuggestedEventToGroup(insertRes.insertedId);
 }
 
+//Returns the amount of groups that are empty, has a specific interest and requirements.
 async function emptyGroupsInterestAndRequirementsAmount(
   interest,
   requirements
@@ -216,6 +218,7 @@ async function emptyGroupsInterestAndRequirementsAmount(
   return groups.filter((group) => group.userIds.length == 0).length;
 }
 
+//Deletes all groups of a specific interest and requirement, and creates a new empty one.
 async function deleteAllButOneEmptyGroup(interest, requirements, location) {
   const groupsToDelete = await db
     .collection("groups")
@@ -250,6 +253,7 @@ async function deleteAllButOneEmptyGroup(interest, requirements, location) {
   await addGroup(createGroupObject(interest, location, requirements));
 }
 
+//Function that makes a group of each combination of interests and requirements.
 async function repopulateGroups(interests, requirements, location) {
   interests.forEach(async (interest) => {
     requirements.forEach(async (requirement) => {
@@ -270,6 +274,8 @@ async function repopulateGroups(interests, requirements, location) {
     });
   });
 }
+
+//Generates a random groupname based on interest with suffix and prefix ex: "The Football Crew"
 function generateGroupName(interest) {
   // Prefixes and suffixes to make the group name unique
   const prefixes = [
@@ -303,6 +309,8 @@ function generateGroupName(interest) {
 
   return `${prefix} ${interest} ${suffix}`;
 }
+
+// Gets the description of a specific interest. The descriptions are hardcoded in generalutils.js
 function getGroupDescription(interest) {
   return INTEREST_DESCRIPTIONS[interest];
 }
@@ -497,6 +505,7 @@ async function isUserVotedToDelete(userId, eventId) {
   return false;
 }
 
+//Creates a suggested event based on the groupId, and add it to the group.
 async function addSuggestedEventToGroup(groupId) {
   const group = await getGroup(groupId);
   const eventTemplates = await db
@@ -521,10 +530,12 @@ async function addSuggestedEventToGroup(groupId) {
   );
 }
 
+//add event to event database.
 async function addEvent(event) {
   return await db.collection("events").insertOne(event);
 }
 
+//Adds event to a group.
 async function addEventToGroup(eventId, groupId) {
   await db.collection("groups").updateOne(
     { _id: groupId },
@@ -536,6 +547,7 @@ async function addEventToGroup(eventId, groupId) {
   );
 }
 
+//Is hardcoded, but should return a random date in the current future (Maybe random choose saturday or sunday, and a random time of the day between 12 and 18)
 function getRandomEventDate() {
   return {
     year: 2024,

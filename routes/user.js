@@ -143,6 +143,7 @@ router.post("/info/update", async (req, res) => {
   }
 });
 // TODO Should be a delete request, and has to be done in client side js.
+// Should also delete user groups + events
 router.post("/delete", async (req, res) => {
   try {
     await db
@@ -406,7 +407,7 @@ router.post("/groups/:groupId/leave", async (req, res) => {
 
       // Checks to delete empty groups:
       if (group.userIds.length - 1 == 0) {
-        // If user leaved a group with only him in - We delete that group, else there are 2 groups that are empty.
+        // If user leaved a group with only him in - We delete that group so that there is only one group which is empty
         //Check for amounts of empty group just to be safe.
         if (
           (await emptyGroupsInterestAndRequirementsAmount(
