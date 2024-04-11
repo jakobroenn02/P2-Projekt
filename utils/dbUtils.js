@@ -1,5 +1,7 @@
 const { ObjectId } = require("mongodb");
 const { connectToDb, getDb } = require("../db");
+const { MAX_MEMBERS, INTEREST_DESCRIPTIONS } = require("./constUtils");
+const { getRandomElement } = require("./generalUtil");
 
 let db;
 connectToDb((err) => {
@@ -72,7 +74,8 @@ async function getUserGroups(userId) {
 async function getUserUnattendedGroups(userId) {
   //Takes a user, and returns a list of all the groups the user is not a member of.
   const user = await getUser(userId);
-  return await db
+
+  let groups = await db
     .collection("groups")
     .find({
       _id: {
@@ -80,10 +83,35 @@ async function getUserUnattendedGroups(userId) {
       },
     })
     .toArray();
+
+  groups = groups.filter((group) => {
+    if (group.userIds.length >= group.maxMembers) {
+      return false;
+    }
+
+    if (
+      group.requirements.maxAge == undefined &&
+      group.requirements.minAge <= user.age &&
+      ((user.gender == "Male" && group.requirements.isMaleAllowed) ||
+        (user.gender == "Female" && group.requirements.isFemaleAllowed))
+    ) {
+      return false;
+    } else if (
+      group.requirements.minAge <= user.age &&
+      group.requirements.maxAge >= user.age &&
+      ((user.gender == "Male" && group.requirements.isMaleAllowed) ||
+        (user.gender == "Female" && group.requirements.isFemaleAllowed))
+    ) {
+      return true;
+    }
+  });
+
+  return groups;
 }
 function getCommonGroups() {
   //Should take user1 and user2, and return their common groups
 }
+
 async function getGroupUsers(groupId) {
   // returns the list of users from a group
   const group = await getGroup(groupId);
@@ -151,6 +179,132 @@ async function addMessageToGroup(message, groupId) {
       },
     }
   );
+}
+
+function createGroupObject(interest, location, requirements) {
+  return {
+    groupName: generateGroupName(interest),
+    description: getGroupDescription(interest),
+    interest: interest,
+    maxMembers: MAX_MEMBERS,
+    location: location,
+    requirements: requirements,
+    suggestedEventIds: [],
+    eventIds: [],
+    userIds: [],
+    messages: [],
+  };
+}
+
+async function addGroup(group) {
+  const insertRes = await db.collection("groups").insertOne(group);
+  addSuggestedEventToGroup(insertRes.insertedId);
+}
+
+async function emptyGroupsInterestAndRequirementsAmount(
+  interest,
+  requirements
+) {
+  const groups = await db
+    .collection("groups")
+    .find({
+      interest: interest,
+      requirements: requirements,
+    })
+    .toArray();
+
+  return groups.filter((group) => group.userIds.length == 0).length;
+}
+
+async function deleteAllButOneEmptyGroup(interest, requirements, location) {
+  const groupsToDelete = await db
+    .collection("groups")
+    .find({
+      interest: interest,
+      requirements: requirements,
+      userIds: {
+        $size: 0,
+      },
+    })
+    .toArray();
+    
+  const groupsToDeleteIds = groupsToDelete.map((group) => {
+    return group._id;
+  });
+
+  //delete all the events related to group:
+  const res = await db.collection("events").deleteMany({
+    groupId: { $in: groupsToDeleteIds },
+  });
+
+  console.log(res);
+
+  await db.collection("groups").deleteMany({
+    interest: interest,
+    requirements: requirements,
+    userIds: {
+      $size: 0,
+    },
+  });
+
+  await addGroup(createGroupObject(interest, location, requirements));
+}
+
+async function repopulateGroups(interests, requirements, location) {
+  interests.forEach(async (interest) => {
+    requirements.forEach(async (requirement) => {
+      const emptyGroups = await db
+        .collection("groups")
+        .find({
+          interest: interest,
+          requirements: requirement,
+          userIds: {
+            $size: 0,
+          },
+        })
+        .toArray();
+
+      if (emptyGroups.length == 0) {
+        addGroup(createGroupObject(interest, location, requirement));
+      }
+    });
+  });
+}
+function generateGroupName(interest) {
+  // Prefixes and suffixes to make the group name unique
+  const prefixes = [
+    "The",
+    "Team",
+    "Alliance",
+    "Squad",
+    "Club",
+    "Guild",
+    "Fellowship",
+    "Association",
+    "League",
+  ];
+  const suffixes = [
+    "Group",
+    "Crew",
+    "Society",
+    "Bunch",
+    "Gang",
+    "Circle",
+    "Band",
+    "Collective",
+    "Ensemble",
+  ];
+
+  // Function to generate a random element from an array
+
+  // Generating a unique group name
+  const prefix = getRandomElement(prefixes);
+  const suffix = getRandomElement(suffixes);
+
+  return `${prefix} ${interest} ${suffix}`;
+}
+function getGroupDescription(interest) {
+  return INTEREST_DESCRIPTIONS[interest];
 }
 
 //
@@ -343,6 +497,55 @@ async function isUserVotedToDelete(userId, eventId) {
   return false;
 }
 
+async function addSuggestedEventToGroup(groupId) {
+  const group = await getGroup(groupId);
+  const eventTemplates = await db
+    .collection("eventTemplates")
+    .find({ interest: group.interest })
+    .toArray();
+
+  const randomTemplate = getRandomElement(eventTemplates);
+  randomTemplate.groupId = groupId;
+  randomTemplate.date = getRandomEventDate();
+  randomTemplate._id = new ObjectId();
+
+  const insertedRes = await addEvent(randomTemplate);
+
+  await db.collection("groups").updateOne(
+    { _id: groupId },
+    {
+      $push: {
+        suggestedEventIds: insertedRes.insertedId,
+      },
+    }
+  );
+}
+
+async function addEvent(event) {
+  return await db.collection("events").insertOne(event);
+}
+
+async function addEventToGroup(eventId, groupId) {
+  await db.collection("groups").updateOne(
+    { _id: groupId },
+    {
+      $push: {
+        eventIds: eventId,
+      },
+    }
+  );
+}
+
+function getRandomEventDate() {
+  return {
+    year: 2024,
+    month: 7,
+    day: 10,
+    hour: 12,
+    minute: 30,
+  };
+}
+
 //
 //
 //
@@ -417,4 +620,12 @@ module.exports = {
   getUser,
   getGroups,
   getEvents,
+  addGroup,
+  createGroupObject,
+  emptyGroupsInterestAndRequirementsAmount,
+  deleteAllButOneEmptyGroup,
+  generateGroupName,
+  repopulateGroups,
+  getGroupDescription,
+  addSuggestedEventToGroup,
 };

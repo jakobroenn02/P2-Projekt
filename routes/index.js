@@ -10,7 +10,10 @@ const {
   getUserEvents,
   getUserGroups,
   getUserUnattendedGroups,
+  repopulateGroups,
+  getInterests,
 } = require("../utils/dbUtils");
+const { REQUIREMENTS_LIST } = require("../utils/constUtils");
 
 // Connecting to database
 let db;
@@ -28,6 +31,15 @@ router.get("/", async (req, res) => {
     if (token == null) {
       return res.redirect("/login");
     } else {
+      
+      /*
+      USED FOR TESTING 
+      const interests = (await getInterests()).map(
+        (interest) => interest.hobby
+      );
+      repopulateGroups(interests, REQUIREMENTS_LIST, "Aalborg");
+
+      */
       const user = await getLoggedInUser(token);
       const userEvents = await getUserEvents(token._id);
       const userGroups = await getUserGroups(token._id);
@@ -36,6 +48,7 @@ router.get("/", async (req, res) => {
       let groupsNotAttendedByUser = await getUserUnattendedGroups(token._id);
 
       // Gets 10 groups, equally many from each interest you have
+
       const discoverGroups = getGroupsBasedOnInterests(
         user.interests,
         10,
