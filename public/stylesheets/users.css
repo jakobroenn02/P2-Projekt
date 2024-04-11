@@ -1,5 +1,5 @@
 
-.Profile-page{
+.user-page{
   min-height: 100vh;
   margin-top: 100px;
   font-family: Arial, sans-serif;
@@ -10,11 +10,11 @@
 }
 
 
-input[type="text"],
-input[type="number"],
-input[type="password"],
-textarea,
-input[type="file"] {
+.user-page input[type="text"],
+.user-page input[type="number"],
+.user-page input[type="password"],
+.user-page textarea,
+.user-page input[type="file"] {
   width: 100%;
   padding: 10px;
   margin-top: 5px;
@@ -23,7 +23,7 @@ input[type="file"] {
   border: 1px solid #ddd;
 }
 
-button {
+.user-page button {
   background-color: green;
   color: #ffffff;
   padding: 10px 15px;
@@ -33,32 +33,32 @@ button {
   margin-right: 20px;
 }
 
-button:hover {
+.user-page button:hover {
   opacity: 0.9;
 }
 
-.profile-container {
+.user-page .profile-container {
   display: flex;
   align-items: flex-start;
   justify-content: center;
   padding: 20px;
   flex-wrap: wrap;
 }
-.profile-picture-userpage {
+.user-page .profile-picture-userpage {
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.profile-picture-userpage img {
+.user-page .profile-picture-userpage img {
   
   width: 350px;
   height: auto;
   border-radius: 50%;
   
 }
-.profile-picture {
+.user-page .profile-picture {
   flex: 1; 
   max-width: 350px; 
   text-align: center;
@@ -67,12 +67,12 @@ button:hover {
   margin-right: 100px;
 }
 
-.user-info {
+.user-page .user-info {
   flex: 2;
   max-width: 60%;
 
 }
-.pictures-modal {
+.user-page .pictures-modal {
   display: none;
   flex-direction: column;
   border-radius: 10px;
@@ -88,7 +88,7 @@ button:hover {
   z-index: 100;
 }
 
-.profilePictureChangeConfirm{
+.user-page .profilePictureChangeConfirm{
   position: absolute;
   right: calc(50% - 50px + 4px);
   bottom: 0%;
@@ -105,31 +105,31 @@ button:hover {
   transition: all 0.15s;
 }
 
-.profilePictureChangeConfirm:hover {
+.user-page .profilePictureChangeConfirm:hover {
   background-color: rgb(0, 109, 0);
 }
 
-.modal-header {
+.user-page .modal-header {
   display: flex;
   width: 100%;
   justify-content: space-between;
 }
 
-.modal-header-title {
+.user-page .modal-header-title {
   font-size: 20px;
   font-weight: 600;
   color: rgb(71, 71, 71);
 }
-.modal-header-close {
+.user-page .modal-header-close {
   color: rgb(71, 71, 71);
 }
 
-.modal-pictures {
+.user-page .modal-pictures {
   height: 100%;
   width: 100%;
 }
 
-.modal-pictures-main {
+.user-page .modal-pictures-main {
   width: 100%;
   display: flex;
   justify-content: center;
@@ -138,7 +138,7 @@ button:hover {
   border-bottom: 2px solid black;
 }
 
-.modal-main-picture-container {
+.user-page .modal-main-picture-container {
   background-color: green;
   width: 200px;
   height: 200px;
@@ -149,13 +149,13 @@ button:hover {
   justify-content: center;
 }
 
-.modal-main-picture-container img {
+.user-page .modal-main-picture-container img {
   min-width: 100%;
   min-height: 100%;
   object-fit: cover;
 }
 
-.modal-pictures-options {
+.user-page .modal-pictures-options {
   display: flex;
   gap: 12px;
   width: 100%;
@@ -164,7 +164,7 @@ button:hover {
   height: 50%;
 }
 
-.modal-pictures-options-container {
+.user-page .modal-pictures-options-container {
   display: flex;
   overflow: hidden;
   display: flex;
@@ -176,26 +176,26 @@ button:hover {
   transition: all 0.1s;
 }
 
-.modal-pictures-options-container:hover {
+.user-page .modal-pictures-options-container:hover {
   opacity: 0.9;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 
-.modal-pictures-options-container img {
+.user-page .modal-pictures-options-container img {
   object-fit: cover;
   min-width: 100%;
   min-height: 100%;
 }
 
-.close-mark {
+.user-page .close-mark {
   transition: all 0.15s;
 }
 
-.close-mark:hover {
+.user-page .close-mark:hover {
   cursor: pointer;
   color: rgb(201, 22, 22);
 }
-.deleteButton{
+.user-page .deleteButton{
   background-color: red;
   color: white;
   padding: 10px 15px;
@@ -204,7 +204,7 @@ button:hover {
   cursor: pointer;
   margin-right: 20px;
 }
-.gender{
+.user-page .gender{
   
   justify-content: space-between;
   margin-top: 5px;

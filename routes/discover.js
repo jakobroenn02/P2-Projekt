@@ -15,7 +15,13 @@ const {
   getGroupEvents,
   addGroupToUser,
   addUserToGroup,
+  addGroup,
+  createGroupObject,
+  emptyGroupsInterestAndRequirementsAmount,
+  randomGroupNameGenerator,
+  getGroupDescription,
 } = require("../utils/dbUtils");
+const { MAX_GROUPS_AMOUNT, MAX_MEMBERS } = require("../utils/constUtils");
 
 //connect to db
 let db;
@@ -68,7 +74,7 @@ router.get("/:groupId", async (req, res) => {
       const user = await getLoggedInUser(token);
       // checks if user is already part of the group
       if (await isUserInGroup(token._id, req.params.groupId)) {
-        res.redirect(`/user/groups/${req.params.groupId}`);
+        return res.redirect(`/user/groups/${req.params.groupId}`);
       }
       const group = await getGroup(req.params.groupId);
       const groupUsers = await getGroupUsers(req.params.groupId);
@@ -89,21 +95,48 @@ router.get("/:groupId", async (req, res) => {
 router.post("/:groupId/join", async (req, res) => {
   try {
     const token = verifyToken(res, req);
-    const maxGroupAmount = 5;
     const user = await getLoggedInUser(token);
+    const group = await getGroup(req.params.groupId);
 
     if (token == null) {
       return res.render("discoverGroup", { isLoggedIn: false });
     } else {
-      if (user.groupIds.length >= maxGroupAmount) {
+      //Checks if user is part of more than max amounts of groups allowed to be part of.
+      if (user.groupIds.length >= MAX_GROUPS_AMOUNT) {
         return res.render("errorPage", {
-          errorMessage: `You can only join a maximum of ${maxGroupAmount} groups`,
+          errorMessage: `You can only join a maximum of ${MAX_GROUPS_AMOUNT} groups`,
         });
       }
+
+      //Checks if user is already part of the group (If user joins group and goes to previous page)
+      if (await isUserInGroup(token._id, req.params.groupId)) {
+        return res.redirect(`/user/groups/${req.params.groupId}`);
+      }
+
       await addGroupToUser(req.params.groupId, token._id);
       await addUserToGroup(token._id, req.params.groupId);
 
-      res.redirect(`/user/groups/${req.params.groupId}`);
+      // Checks to create new groups:
+      if (group.userIds.length + 1 == 1) {
+        // If user joined an empty group. - We create one more empty group
+        //Check for amounts of empty group just to be safe.
+        if (
+          (await emptyGroupsInterestAndRequirementsAmount(
+            group.interest,
+            group.requirements
+          )) == 0
+        ) {
+          await addGroup(
+            createGroupObject(
+              group.interest,
+              group.location,
+              group.requirements
+            )
+          );
+        }
+      }
+
+      return res.redirect(`/user/groups/${req.params.groupId}`);
     }
   } catch (error) {
     console.log(error);

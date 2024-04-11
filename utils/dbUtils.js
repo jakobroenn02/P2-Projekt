@@ -1,5 +1,7 @@
 const { ObjectId } = require("mongodb");
 const { connectToDb, getDb } = require("../db");
+const { MAX_MEMBERS, INTEREST_DESCRIPTIONS } = require("./constUtils");
+const { getRandomElement } = require("./generalUtil");
 
 let db;
 connectToDb((err) => {
@@ -72,7 +74,8 @@ async function getUserGroups(userId) {
 async function getUserUnattendedGroups(userId) {
   //Takes a user, and returns a list of all the groups the user is not a member of.
   const user = await getUser(userId);
-  return await db
+
+  let groups = await db
     .collection("groups")
     .find({
       _id: {
@@ -80,10 +83,36 @@ async function getUserUnattendedGroups(userId) {
       },
     })
     .toArray();
+
+  // Filter away full groups, and groups that user can't join, because user doesn't live up to the requirements.
+  groups = groups.filter((group) => {
+    if (group.userIds.length >= group.maxMembers) {
+      return false;
+    }
+
+    if (
+      group.requirements.maxAge == undefined &&
+      group.requirements.minAge <= user.age &&
+      ((user.gender == "Male" && group.requirements.isMaleAllowed) ||
+        (user.gender == "Female" && group.requirements.isFemaleAllowed))
+    ) {
+      return false;
+    } else if (
+      group.requirements.minAge <= user.age &&
+      group.requirements.maxAge >= user.age &&
+      ((user.gender == "Male" && group.requirements.isMaleAllowed) ||
+        (user.gender == "Female" && group.requirements.isFemaleAllowed))
+    ) {
+      return true;
+    }
+  });
+
+  return groups;
 }
 function getCommonGroups() {
   //Should take user1 and user2, and return their common groups
 }
+
 async function getGroupUsers(groupId) {
   // returns the list of users from a group
   const group = await getGroup(groupId);
@@ -151,6 +180,139 @@ async function addMessageToGroup(message, groupId) {
       },
     }
   );
+}
+
+function createGroupObject(interest, location, requirements) {
+  return {
+    groupName: generateGroupName(interest),
+    description: getGroupDescription(interest),
+    interest: interest,
+    maxMembers: MAX_MEMBERS,
+    location: location,
+    requirements: requirements,
+    suggestedEventIds: [],
+    eventIds: [],
+    userIds: [],
+    messages: [],
+  };
+}
+
+async function addGroup(group) {
+  const insertRes = await db.collection("groups").insertOne(group);
+  addSuggestedEventToGroup(insertRes.insertedId);
+}
+
+//Returns the amount of groups that are empty, has a specific interest and requirements.
+async function emptyGroupsInterestAndRequirementsAmount(
+  interest,
+  requirements
+) {
+  const groups = await db
+    .collection("groups")
+    .find({
+      interest: interest,
+      requirements: requirements,
+    })
+    .toArray();
+
+  return groups.filter((group) => group.userIds.length == 0).length;
+}
+
+//Deletes all groups of a specific interest and requirement, and creates a new empty one.
+async function deleteAllButOneEmptyGroup(interest, requirements, location) {
+  const groupsToDelete = await db
+    .collection("groups")
+    .find({
+      interest: interest,
+      requirements: requirements,
+      userIds: {
+        $size: 0,
+      },
+    })
+    .toArray();
+    
+  const groupsToDeleteIds = groupsToDelete.map((group) => {
+    return group._id;
+  });
+
+  //delete all the events related to group:
+  const res = await db.collection("events").deleteMany({
+    groupId: { $in: groupsToDeleteIds },
+  });
+
+  console.log(res);
+
+  await db.collection("groups").deleteMany({
+    interest: interest,
+    requirements: requirements,
+    userIds: {
+      $size: 0,
+    },
+  });
+
+  await addGroup(createGroupObject(interest, location, requirements));
+}
+
+//Function that makes a group of each combination of interests and requirements.
+async function repopulateGroups(interests, requirements, location) {
+  interests.forEach(async (interest) => {
+    requirements.forEach(async (requirement) => {
+      const emptyGroups = await db
+        .collection("groups")
+        .find({
+          interest: interest,
+          requirements: requirement,
+          userIds: {
+            $size: 0,
+          },
+        })
+        .toArray();
+
+      if (emptyGroups.length == 0) {
+        addGroup(createGroupObject(interest, location, requirement));
+      }
+    });
+  });
+}
+
+//Generates a random groupname based on interest with suffix and prefix ex: "The Football Crew"
+function generateGroupName(interest) {
+  // Prefixes and suffixes to make the group name unique
+  const prefixes = [
+    "The",
+    "Team",
+    "Alliance",
+    "Squad",
+    "Club",
+    "Guild",
+    "Fellowship",
+    "Association",
+    "League",
+  ];
+  const suffixes = [
+    "Group",
+    "Crew",
+    "Society",
+    "Bunch",
+    "Gang",
+    "Circle",
+    "Band",
+    "Collective",
+    "Ensemble",
+  ];
+
+  // Function to generate a random element from an array
+
+  // Generating a unique group name
+  const prefix = getRandomElement(prefixes);
+  const suffix = getRandomElement(suffixes);
+
+  return `${prefix} ${interest} ${suffix}`;
+}
+
+// Gets the description of a specific interest. The descriptions are hardcoded in generalutils.js
+function getGroupDescription(interest) {
+  return INTEREST_DESCRIPTIONS[interest];
 }
 
 //
@@ -343,6 +505,59 @@ async function isUserVotedToDelete(userId, eventId) {
   return false;
 }
 
+//Creates a suggested event based on the groupId, and add it to the group.
+async function addSuggestedEventToGroup(groupId) {
+  const group = await getGroup(groupId);
+  const eventTemplates = await db
+    .collection("eventTemplates")
+    .find({ interest: group.interest })
+    .toArray();
+
+  const randomTemplate = getRandomElement(eventTemplates);
+  randomTemplate.groupId = groupId;
+  randomTemplate.date = getRandomEventDate();
+  randomTemplate._id = new ObjectId();
+
+  const insertedRes = await addEvent(randomTemplate);
+
+  await db.collection("groups").updateOne(
+    { _id: groupId },
+    {
+      $push: {
+        suggestedEventIds: insertedRes.insertedId,
+      },
+    }
+  );
+}
+
+//add event to event database.
+async function addEvent(event) {
+  return await db.collection("events").insertOne(event);
+}
+
+//Adds event to a group.
+async function addEventToGroup(eventId, groupId) {
+  await db.collection("groups").updateOne(
+    { _id: groupId },
+    {
+      $push: {
+        eventIds: eventId,
+      },
+    }
+  );
+}
+
+//Is hardcoded, but should return a random date in the current future (Maybe random choose saturday or sunday, and a random time of the day between 12 and 18)
+function getRandomEventDate() {
+  return {
+    year: 2024,
+    month: 7,
+    day: 10,
+    hour: 12,
+    minute: 30,
+  };
+}
+
 //
 //
 //
@@ -417,4 +632,12 @@ module.exports = {
   getUser,
   getGroups,
   getEvents,
+  addGroup,
+  createGroupObject,
+  emptyGroupsInterestAndRequirementsAmount,
+  deleteAllButOneEmptyGroup,
+  generateGroupName,
+  repopulateGroups,
+  getGroupDescription,
+  addSuggestedEventToGroup,
 };

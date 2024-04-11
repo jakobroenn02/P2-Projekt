@@ -30,6 +30,8 @@ const {
   removeUserFromEvent,
   removeEventFromUser,
   isUserVotedToDelete,
+  deleteAllButOneEmptyGroup,
+  emptyGroupsInterestAndRequirementsAmount,
 } = require("../utils/dbUtils");
 
 //connect to db
@@ -40,7 +42,17 @@ connectToDb((err) => {
   }
 });
 
-//routes
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+// Routes for USER
 router.get("/", async (req, res) => {
   try {
     const token = verifyToken(res, req);
@@ -130,7 +142,8 @@ router.post("/info/update", async (req, res) => {
     res.render("errorPage", { errorMessage: error });
   }
 });
-
+// TODO Should be a delete request, and has to be done in client side js.
+// Should also delete user groups + events
 router.post("/delete", async (req, res) => {
   try {
     await db
@@ -143,6 +156,19 @@ router.post("/delete", async (req, res) => {
   }
 });
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+// Routes for events
 router.get("/events", async (req, res) => {
   try {
     const token = verifyToken(res, req);
@@ -166,6 +192,90 @@ router.get("/events", async (req, res) => {
     res.render("errorPage", { errorMessage: error });
   }
 });
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+// Routes for interests
+router.get("/interests", async (req, res) => {
+  try {
+    const token = verifyToken(res, req);
+
+    if (token == null) {
+      res.render("interests", { isLoggedIn: false });
+    } else {
+      const interests = await getInterests();
+      const user = await getLoggedInUser(token);
+      const userGroups = await getUserGroups(token._id);
+
+      // Creates a list of all the interests, of which groups, that user is member of, is related to.
+      //TODO FIX this, så det er mere nydeligt, og så man også kan fravælge interests i den højre box.
+      let groupInterestsSet = new Set();
+      userGroups.forEach((group) => {
+        groupInterestsSet.add(group.interest);
+      });
+      const groupInterests = Array.from(groupInterestsSet);
+
+      // count amount of groups per interests
+      const groupCountPerInterest = {};
+      for (let interest of interests) {
+        let count = await db.collection("groups").countDocuments({
+          userIds: user._id,
+          interest: interest.hobby,
+        });
+        groupCountPerInterest[interest.hobby] = count;
+      }
+      res.render("interests", {
+        isLoggedIn: true,
+        interests,
+        groupInterests,
+        groupCountPerInterest,
+        user,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    res.render("errorPage", { errorMessage: error });
+  }
+});
+
+// TODO Should be a put request, and has to be sent in js clientside.
+router.post("/interests", async (req, res) => {
+  try {
+    const token = verifyToken(res, req);
+    const selectedInterests = Object.values(req.body);
+
+    if (token != null) {
+      await setUserInterests(token._id, selectedInterests);
+
+      res.redirect("/");
+    }
+  } catch (error) {
+    console.log(error);
+    res.render("errorPage", { errorMessage: error });
+  }
+});
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+// Routes for groups
 
 router.get("/groups", async (req, res) => {
   try {
@@ -216,7 +326,7 @@ router.get("/groups/:groupId", async (req, res) => {
     res.render("errorPage", { errorMessage: error });
   }
 });
-
+// Todo, should be a post request to "/.../addMessage"
 router.post("/groups/:groupId", async (req, res) => {
   try {
     const token = verifyToken(res, req);
@@ -248,9 +358,11 @@ router.post("/groups/:groupId", async (req, res) => {
   }
 });
 
+//TODO should be a put request
 router.post("/groups/:groupId/leave", async (req, res) => {
   try {
     const token = verifyToken(res, req);
+    const group = await getGroup(req.params.groupId);
 
     if (token == null) {
       res.render("groupEvents", { isLoggedIn: false });
@@ -293,6 +405,24 @@ router.post("/groups/:groupId/leave", async (req, res) => {
       await removeUserFromGroup(token._id, req.params.groupId);
       await removeGroupFromUser(req.params.groupId, token._id);
 
+      // Checks to delete empty groups:
+      if (group.userIds.length - 1 == 0) {
+        // If user leaved a group with only him in - We delete that group so that there is only one group which is empty
+        //Check for amounts of empty group just to be safe.
+        if (
+          (await emptyGroupsInterestAndRequirementsAmount(
+            group.interest,
+            group.requirements
+          )) > 1
+        ) {
+          await deleteAllButOneEmptyGroup(
+            group.interest,
+            group.requirements,
+            group.location
+          );
+        }
+      }
+
       res.redirect("/");
     }
   } catch (error) {
@@ -301,6 +431,19 @@ router.post("/groups/:groupId/leave", async (req, res) => {
   }
 });
 
+
+
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+// routes for group events
 router.get("/groups/:groupId/events", async (req, res) => {
   try {
     const token = verifyToken(res, req);
@@ -331,65 +474,6 @@ router.get("/groups/:groupId/events", async (req, res) => {
         groupSuggestedEvents,
         user,
       });
-    }
-  } catch (error) {
-    console.log(error);
-    res.render("errorPage", { errorMessage: error });
-  }
-});
-
-router.get("/interests", async (req, res) => {
-  try {
-    const token = verifyToken(res, req);
-
-    if (token == null) {
-      res.render("interests", { isLoggedIn: false });
-    } else {
-      const interests = await getInterests();
-      const user = await getLoggedInUser(token);
-      const userGroups = await getUserGroups(token._id);
-
-      // Creates a list of all the interests, of which groups, that user is member of, is related to.
-      //TODO FIX this, så det er mere nydeligt, og så man også kan fravælge interests i den højre box.
-      let groupInterestsSet = new Set();
-      userGroups.forEach((group) => {
-        groupInterestsSet.add(group.interest);
-      });
-      const groupInterests = Array.from(groupInterestsSet);
-      
-      
-      // count amount of groups per interests
-      const groupCountPerInterest = {};
-              for (let interest of interests) {
-                let count = await db.collection("groups").countDocuments({ 
-                  userIds: user._id,
-                  interest: interest.hobby,
-                });
-                groupCountPerInterest[interest.hobby] = count;
-              }
-        res.render("interests", {
-        isLoggedIn: true,
-        interests,
-        groupInterests,
-        groupCountPerInterest,
-        user,
-      });
-    }
-  } catch (error) {
-    console.log(error);
-    res.render("errorPage", { errorMessage: error });
-  }
-});
-
-router.post("/interests", async (req, res) => {
-  try {
-    const token = verifyToken(res, req);
-    const selectedInterests = Object.values(req.body);
-
-    if (token != null) {
-      await setUserInterests(token._id, selectedInterests);
-
-      res.redirect("/");
     }
   } catch (error) {
     console.log(error);
@@ -504,6 +588,7 @@ router.get("/groups/:groupId/events/:eventId", async (req, res) => {
   }
 });
 
+// TODO Should be a put request
 router.post("/groups/:groupId/events/:eventId/join", async (req, res) => {
   try {
     const token = verifyToken(res, req);
@@ -521,6 +606,7 @@ router.post("/groups/:groupId/events/:eventId/join", async (req, res) => {
   }
 });
 
+// TODO Should be a put request
 router.post("/groups/:groupId/events/:eventId/delete", async (req, res) => {
   try {
     const token = verifyToken(res, req);
@@ -570,6 +656,7 @@ router.post("/groups/:groupId/events/:eventId/delete", async (req, res) => {
   }
 });
 
+// TODO Should be a put request
 router.post("/groups/:groupId/events/:eventId/leave", async (req, res) => {
   try {
     const token = verifyToken(res, req);
@@ -586,5 +673,4 @@ router.post("/groups/:groupId/events/:eventId/leave", async (req, res) => {
     res.render("errorPage", { errorMessage: error });
   }
 });
-
 module.exports = router;

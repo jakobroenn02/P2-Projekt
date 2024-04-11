@@ -38,6 +38,9 @@ app.use("/discover", discoverRouter);
 const usersRouter = require("./routes/users");
 app.use("/users", usersRouter);
 
+const groupsRouter = require("./routes/users");
+app.use("/users", groupsRouter);
+
 // Route for errors
 app.use((req, res, next) => {
   res.status(404).render("404", { req: req });
@@ -67,6 +70,6 @@ io.on("connection", (socket) => {
   socket.on("disconnect", () => {});
 });
 
-server.listen(3000, () => {
+server.listen(3000, async () => {
   console.log("Server is running on port http://localhost:3000");
 });
