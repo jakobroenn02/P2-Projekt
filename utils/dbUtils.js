@@ -505,6 +505,7 @@ async function isUserVotedToDelete(userId, eventId) {
   return false;
 }
 
+//Creates a suggested event based on the groupId, and add it to the group.
 async function addSuggestedEventToGroup(groupId) {
   const group = await getGroup(groupId);
   const eventTemplates = await db
@@ -529,10 +530,12 @@ async function addSuggestedEventToGroup(groupId) {
   );
 }
 
+//add event to event database.
 async function addEvent(event) {
   return await db.collection("events").insertOne(event);
 }
 
+//Adds event to a group.
 async function addEventToGroup(eventId, groupId) {
   await db.collection("groups").updateOne(
     { _id: groupId },
@@ -544,6 +547,7 @@ async function addEventToGroup(eventId, groupId) {
   );
 }
 
+//Is hardcoded, but should return a random date in the current future (Maybe random choose saturday or sunday, and a random time of the day between 12 and 18)
 function getRandomEventDate() {
   return {
     year: 2024,
