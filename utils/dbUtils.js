@@ -84,6 +84,7 @@ async function getUserUnattendedGroups(userId) {
     })
     .toArray();
 
+  // Filter away full groups, and groups that user can't join, because user doesn't live up to the requirements.
   groups = groups.filter((group) => {
     if (group.userIds.length >= group.maxMembers) {
       return false;
