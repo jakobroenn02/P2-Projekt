@@ -1,7 +1,7 @@
 const { ObjectId } = require("mongodb");
 const { connectToDb, getDb } = require("../db");
 const { MAX_MEMBERS, INTEREST_DESCRIPTIONS } = require("./constUtils");
-const { getRandomElement } = require("./generalUtil");
+const { getRandomElement, getAgeFromBirthDate } = require("./generalUtil");
 
 let db;
 connectToDb((err) => {
@@ -92,14 +92,14 @@ async function getUserUnattendedGroups(userId) {
 
     if (
       group.requirements.maxAge == undefined &&
-      group.requirements.minAge <= user.age &&
+      group.requirements.minAge <= getAgeFromBirthDate(user.birth) &&
       ((user.gender == "Male" && group.requirements.isMaleAllowed) ||
         (user.gender == "Female" && group.requirements.isFemaleAllowed))
     ) {
-      return false;
+      return true;
     } else if (
-      group.requirements.minAge <= user.age &&
-      group.requirements.maxAge >= user.age &&
+      group.requirements.minAge <= getAgeFromBirthDate(user.birth) &&
+      group.requirements.maxAge >= getAgeFromBirthDate(user.birth) &&
       ((user.gender == "Male" && group.requirements.isMaleAllowed) ||
         (user.gender == "Female" && group.requirements.isFemaleAllowed))
     ) {
@@ -230,7 +230,7 @@ async function deleteAllButOneEmptyGroup(interest, requirements, location) {
       },
     })
     .toArray();
-    
+
   const groupsToDeleteIds = groupsToDelete.map((group) => {
     return group._id;
   });
@@ -337,7 +337,7 @@ async function getUser(userId) {
 async function updateUserInfo(
   userId,
   username,
-  age,
+  birth,
   location,
   firstName,
   lastName,
@@ -353,7 +353,7 @@ async function updateUserInfo(
     {
       $set: {
         username: username == null ? user.username : username,
-        age: age == null ? user.age : age,
+        birth: birth == null ? user.birth : birth,
         location: location == null ? user.location : location,
         gender: gender == null ? user.gender : gender,
         "name.firstName": firstName == null ? user.name.firstName : firstName,

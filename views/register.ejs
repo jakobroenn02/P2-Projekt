@@ -1,47 +1,100 @@
-<%- include("./partials/header.ejs") %> 
-<% if (isLoggedIn) {%>
+<%- include("./partials/header.ejs") %> <% if (isLoggedIn) {%>
 <div>You are already logged in</div>
 <% } else { %>
 <div class="register-container">
   <% if(hasTypeWrong){%>
-    <div class="register-input-error">Username is already taken. Try a different one.</div>
+  <div class="register-input-error">
+    Username is already taken. Try a different one.
+  </div>
   <%}%>
   <form action="/register" method="post">
     <label for="firstName"><b>First Name</b></label>
-    <input class="register-input" type="text" placeholder="Enter First Name" name="firstName" required />
-
+    <input
+      class="register-input"
+      type="text"
+      placeholder="Enter First Name"
+      name="firstName"
+      required
+    />
 
     <label for="lastName"><b>Last Name</b></label>
-    <input class="register-input" type="text" placeholder="Enter Last Name" name="lastName" required />
+    <input
+      class="register-input"
+      type="text"
+      placeholder="Enter Last Name"
+      name="lastName"
+      required
+    />
 
     <label for="username"><b>Username</b></label>
-    <input class="register-input" type="text" placeholder="Enter Username" name="username" required />
+    <input
+      class="register-input"
+      type="text"
+      placeholder="Enter Username"
+      name="username"
+      required
+    />
 
     <label for="gender"><b>Gender</b></label>
     <select name="gender" class="register-input" required>
-      <option value="male">Male</option>
-      <option value="female">Female</option>
+      <option value="Male">Male</option>
+      <option value="Female">Female</option>
     </select>
-    
+    <label><b>Date of Birth</b></label>
+    <div class="register-date-of-birth-container">
+      <div>
+        <p>Day</p>
+        <input type="number" placeholder="DD" name="birthDay" />
+      </div>
+      <div>
+        <p>Month</p>
+        <input type="number" placeholder="MM" name="birthMonth" />
+      </div>
+      <div>
+        <p>Year</p>
+        <input type="number" placeholder="YYYY" name="birthYear" />
+      </div>
+    </div>
+
     <label for="location"><b>Location</b></label>
-           <div class="register-locations-box">
-            <input type="text" name="location" class="register-location-input">
-            <div hidden class="register-locations">
-              <% for (let i=0; i < locations.length; i++) { %>
-                <div class="register-location" hidden><%= locations[i].location %></div>
-                <% } %>
-           </div>
-            <div hidden class="register-locations-validity">Location not valid</div>
-          </div>
+    <div class="register-locations-box">
+      <input
+        autocomplete="off"
+        type="text"
+        name="location"
+        class="register-location-input"
+      />
+      <div hidden class="register-locations">
+        <% for (let i=0; i < locations.length; i++) { %>
+        <div class="register-location" hidden><%= locations[i].location %></div>
+        <% } %>
+      </div>
+      <div hidden class="register-locations-validity">Location not valid</div>
+    </div>
 
     <label for="password"><b>Password</b></label>
-    <input class="register-input" type="password" placeholder="Enter Password" name="password" required />
+    <input
+      class="register-input"
+      type="password"
+      placeholder="Enter Password"
+      name="password"
+      required
+    />
 
     <label for="confirmedPassword"><b>Confirm Password</b></label>
-    <input class="register-input" type="password" placeholder="Confirm Password" name="confirmedPassword" required />
+    <input
+      class="register-input"
+      type="password"
+      placeholder="Confirm Password"
+      name="confirmedPassword"
+      required
+    />
 
-  <button class="register-button" type="submit">Register</button>
-    <caption><br>Already have an account?: <a href="/login">Sign In Here</a></caption>
+    <button class="register-button" type="submit">Register</button>
+    <caption>
+      <br />Already have an account?:
+      <a href="/login">Sign In Here</a>
+    </caption>
   </form>
 </div>
 

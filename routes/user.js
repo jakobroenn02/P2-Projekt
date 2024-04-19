@@ -122,7 +122,11 @@ router.post("/info/update", async (req, res) => {
         await updateUserInfo(
           token._id,
           req.body.userUsername,
-          req.body.userAge,
+          {
+            day: req.body.userBirthDay,
+            month: req.body.userBirthMonth,
+            year: req.body.userBirthYear,
+          },
           req.body.userLocation,
           req.body.userFirstName,
           req.body.userLastName,
@@ -430,9 +434,6 @@ router.post("/groups/:groupId/leave", async (req, res) => {
     res.render("errorPage", { errorMessage: error });
   }
 });
-
-
-
 
 //
 //
