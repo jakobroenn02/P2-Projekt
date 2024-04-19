@@ -614,6 +614,8 @@ router.post("/groups/:groupId/events/:eventId/delete", async (req, res) => {
     if (token != null) {
       const group = await getGroup(req.params.groupId);
       const event = await getEvent(req.params.eventId);
+
+      //If user was already voting to delete, we remove her vote.
       if (req.body.isUserVoted) {
         await db.collection("events").updateOne(
           {
@@ -622,26 +624,51 @@ router.post("/groups/:groupId/events/:eventId/delete", async (req, res) => {
           { $pull: { userIdsVotedDelete: new ObjectId(token._id) } }
         );
       } else {
+        //If user was not already voting to delete, it means user wants to delete, therefor user is added to list of voters.
         await db.collection("events").updateOne(
           {
             _id: new ObjectId(req.params.eventId),
           },
           { $push: { userIdsVotedDelete: new ObjectId(token._id) } }
         );
+
+        //Here it checks if there are enough voters to delete the event (half the members, or more.)
         if (
           event.userIdsVotedDelete.length + 1 >=
           Math.ceil(group.userIds.length / 2)
         ) {
+          //First, it removes the eventids from the users who were participating.
+
+          await db.collection("users").updateMany(
+            { _id: { $in: event.participantIds } },
+            {
+              $pull: { eventIds: new ObjectId(req.params.eventId) },
+            }
+          );
+
+          //Then it removes the eventid from the group's eventIds list.
+          if (event.isSuggested) {
+            await db.collection("groups").updateOne(
+              { _id: new ObjectId(req.params.groupId) },
+              {
+                $pull: {
+                  suggestedEventIds: new ObjectId(req.params.eventId),
+                },
+              }
+            );
+          } else {
+            await db
+              .collection("groups")
+              .updateOne(
+                { _id: new ObjectId(req.params.groupId) },
+                { $pull: { eventIds: new ObjectId(req.params.eventId) } }
+              );
+          }
+
+          //Then it removes the event from the database.
           await db.collection("events").deleteOne({
             _id: new ObjectId(req.params.eventId),
           });
-
-          await db
-            .collection("groups")
-            .updateOne(
-              { _id: new ObjectId(req.params.groupId) },
-              { $pull: { eventIds: new ObjectId(req.params.eventId) } }
-            );
 
           return res.redirect(`/user/groups/${req.params.groupId}/events`);
         }
