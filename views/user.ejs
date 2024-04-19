@@ -50,8 +50,12 @@
                 <input type="text" id="userFirstName" name="userFirstName" value="<%= user.name.firstName %>" required>
                 <label for="userLastName">Last name:</label>
                 <input type="text" id="userLastName" name="userLastName" value="<%= user.name.lastName %>" required>
-                <label for="userAge">Age:</label>
-                <input type="number" id="userAge" name="userAge" value="<%= user.age %>" required>
+                <label for="userBirthDay">Birth Day</label>
+                <input type="number" id="userBirthDay" name="userBirthDay" value="<%= user.birth.day %>" required>
+                <label for="userBirthMonth">Birth Month</label>
+                <input type="number" id="userBirthMonth" name="userBirthMonth" value="<%= user.birth.month %>" required>
+                <label for="userBirthYear">Birth Year</label>
+                <input type="number" id="userBirthYear" name="userBirthYear" value="<%= user.birth.year %>" required>
                 <label for="userGender">Gender:</label>
                 <select class="gender" name="userGender" id="userGender" >
                   <option value="Male" <%= user.gender === 'Male' ? 'selected' : '' %>>Male</option>

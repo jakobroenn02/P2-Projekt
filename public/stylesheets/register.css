@@ -1,115 +1,143 @@
-form {
-    border: 4px red
+.register-container form > input,
+.register-container select {
+  margin-bottom: 20px;
+}
+
+.register-container input:focus::placeholder {
+  color: transparent;
 }
 
 .register-input {
-    width: 100%;
-    padding: 12px 20px;
-    margin: 6px;
-    display: inline-block;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
+  width: 100%;
+  padding: 12px 20px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
 }
 
 .register-button {
-    background-color: green;
-    color: white;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    width: 100%;
+  background-color: green;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  width: 100%;
 }
 
 .register-button:hover {
-    opacity: 0.8;
+  opacity: 0.8;
 }
 
 .register-button-disabled:hover {
-    opacity: 0.4;
-    cursor: default;
+  opacity: 0.4;
+  cursor: default;
 }
 
 .register-button-disabled {
-    opacity: 0.4;
-    cursor: default;
+  opacity: 0.4;
+  cursor: default;
 }
 
 .register-container {
-    width: 400px;
-    border: 2px solid black;
-    padding: 17px;
-    margin: 0 auto;
-    margin-top: 200px;
-    border-radius: 20px;
+  width: 400px;
+  border: 2px solid black;
+  padding: 17px;
+  margin: 0 auto;
+  margin-top: 200px;
+  border-radius: 20px;
+}
+
+.register-date-of-birth-container {
+  display: flex;
+  width: 100%;
+  gap: 12px;
+  margin-bottom: 20px;
+  margin-top: 4px;
+}
+
+.register-date-of-birth-container p {
+  margin: 0;
+  font-size: 12px;
+  color: rgb(68, 68, 68);
+}
+.register-date-of-birth-container input {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  padding: 12px 4px 12px 20px;
 }
 
 .register-locations-box {
-    position: relative;
+  position: relative;
 }
 
-
 .register-location-input {
-    width: 100%;
-    padding: 12px 20px;
-    margin: 6px;
-    display: inline-block;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
+  width: 100%;
+  padding: 12px 20px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  margin-bottom: 20px;
 }
 
 .register-locations {
-    position: absolute;
-    left: 6px;
-    top: 44px;
-    right: -6px;
-    max-height: 150px;
-    overflow-y: auto;
-    border-left: 2px solid black;
-    border-right: 2px solid black;
-    border-bottom: 2px solid black;
-
+  position: absolute;
+  top: 38px;
+  left: 0;
+  right: 0;
+  max-height: 150px;
+  overflow-y: auto;
+  border-left: 2px solid black;
+  border-right: 2px solid black;
+  border-bottom: 2px solid black;
 }
 
 .register-location {
-    background-color: white;
-    width: 100%;
-    font-size: 12px;
-    padding-left: 8px;
-    box-sizing: border-box;
-    cursor: pointer;
-    transition: all 0.1s;
+  background-color: white;
+  width: 100%;
+  font-size: 12px;
+  padding-left: 8px;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: all 0.1s;
 }
 
 .register-location:hover {
-    background-color: rgb(240, 240, 240);
+  background-color: rgb(240, 240, 240);
 }
 
 .register-locations-validity {
-    color: rgb(180, 24, 24);
-    font-size: 12px;
-    padding-left: 6px;
-    margin-bottom: 8px;
+  color: rgb(180, 24, 24);
+  font-size: 12px;
+  padding-left: 6px;
+  margin-bottom: 8px;
 }
 
-  .register-input-error {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 16px;
-    padding-top: 12px;
-    padding-bottom: 12px;
-    color: rgb(255, 50, 50);
-    animation: vertical-shaking .5s .5s;
-  }
+.register-input-error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 16px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  color: rgb(255, 50, 50);
+  animation: vertical-shaking 0.5s 0.5s;
+}
 
-  @keyframes vertical-shaking {
-    25% { transform: translateY(2px) }
-    50% { transform: translateY(-2px) }
-    75% { transform: translateY(2px) }
-    100% { transform: translateY(0) }
+@keyframes vertical-shaking {
+  25% {
+    transform: translateY(2px);
   }
-  
-
+  50% {
+    transform: translateY(-2px);
+  }
+  75% {
+    transform: translateY(2px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}

@@ -45,7 +45,11 @@ router.post("/", async (req, res) => {
       name: { firstName: req.body.firstName, lastName: req.body.lastName },
       password: hashedPassword,
       bio: "",
-      age: 0,
+      birth: {
+        day: req.body.birthDay,
+        month: req.body.birthMonth,
+        year: req.body.birthYear,
+      },
       location: req.body.location,
       groupIds: [],
       interests: [],
@@ -76,7 +80,13 @@ router.post("/", async (req, res) => {
 
       res.redirect("/user/interests");
     } else {
-      return res.render("register", { isLoggedIn: false, hasTypeWrong: true });
+      const locations = await getLocations();
+
+      return res.render("register", {
+        isLoggedIn: false,
+        hasTypeWrong: true,
+        locations,
+      });
     }
   } catch (error) {
     console.log(error);
