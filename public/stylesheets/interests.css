@@ -9,22 +9,29 @@
   align-items: center;
 }
 
-.alertTextInterests{
+.alertTextInterests {
   color: red;
   font-size: 20px;
   padding-top: 8px;
   padding-bottom: 8px;
   color: rgb(255, 50, 50);
-  animation: vertical-shaking .5s .5s;
+  animation: vertical-shaking 0.5s 0.5s;
 }
 
 @keyframes vertical-shaking {
-  25% { transform: translateY(2px) }
-  50% { transform: translateY(-2px) }
-  75% { transform: translateY(2px) }
-  100% { transform: translateY(0) }
+  25% {
+    transform: translateY(2px);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+  75% {
+    transform: translateY(2px);
+  }
+  100% {
+    transform: translateY(0);
+  }
 }
-
 
 .interestsPageContent {
   display: flex;
@@ -81,8 +88,6 @@
   display: flex;
   gap: 12px;
 }
-
-
 
 .specificInterest {
   padding: 4px 8px;
@@ -141,15 +146,11 @@
   position: relative;
   display: flex;
   align-items: flex-start;
-
-
   height: 300px;
   width: 300px;
-
   margin-top: 91.6px;
   border: 2px solid black;
   padding: 8px;
-  
   overflow-y: auto;
 }
 
@@ -157,8 +158,6 @@
   position: absolute;
   width: 303.5px;
   padding: 0 8px 0 8px;
-  
-
   height: 48px;
   left: 539.5px;
   top: 44px;
@@ -186,4 +185,3 @@
   user-select: none;
   pointer-events: none;
 }
-

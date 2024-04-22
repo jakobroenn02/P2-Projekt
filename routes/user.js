@@ -58,12 +58,12 @@ router.get("/", async (req, res) => {
     const token = verifyToken(res, req);
 
     if (token == null) {
-      res.render("user", { isLoggedIn: false, hasTypeWrong: false });
+      res.render("user2", { isLoggedIn: false, hasTypeWrong: false });
     } else {
       const user = await getLoggedInUser(token);
       const locations = await getLocations();
 
-      res.render("user", {
+      res.render("user2", {
         isLoggedIn: true,
         hasTypeWrong: false,
         user,
