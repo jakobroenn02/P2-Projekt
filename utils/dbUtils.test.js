@@ -43,9 +43,9 @@ const testEventId = new ObjectId("662593ec3b56d9bc4924e952"); //TODO Temp event 
 async function addTestUser(db, testGroupId) {
   const result = await db.collection("users").insertOne({
     name: { firstName: "Test", lastName: "User" },
-    password: "$2b$10$MajCTy3OEPdUua8J2BNfNuID8ngdNqCi/UmBAqVjT04cFbC3FVKdi",
+    password: "$2b$10$3WQXgvtZCu4StNhzF0PTMubYh4pgceAwnDOgNzBVeV2R/BnmIJOzG",
     bio: "Test Bio",
-    birth: { day: "20", month: "5", year: "2002" },
+    birth: { day: "1", month: "1", year: "2002" },
     location: "Test Location",
     groupIds: [testGroupId],
     interests: ["Test Interest"],
@@ -60,10 +60,6 @@ async function addTestUser(db, testGroupId) {
 async function getAllGroupIds(db) {
   const groups = await db.collection("groups").find({}).toArray();
   return groups.map((group) => group._id);
-}
-
-async function getAllGroups(db) {
-  return await db.collection("groups").find({}).toArray();
 }
 
 //TODO Generel note: Jeg tror grunden til testene fejler nogle gange, er fordi connection sjældent lukkes ordentligt. Tag getGroups funktionen som eksempel...
