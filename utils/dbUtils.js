@@ -361,8 +361,7 @@ async function updateUserInfo(
         bio: bio == null ? user.bio : bio,
         password: password == null ? user.password : password,
       },
-    }
-  );
+    });
 }
 async function isUsernameTaken(username) {
   //return true if username is taken, else false.
@@ -571,7 +570,14 @@ function getRandomEventDate() {
 //Location functionality
 async function getLocations() {
   //Returns a list of all locations
-  return await db.collection("locations").find().toArray();
+  try{
+  
+    const locations = await db.collection("locations").find().toArray();
+    
+    return locations;
+  } catch (err) {
+    console.error('Error querying locations: ', err);
+  }
 }
 
 //
