@@ -5,16 +5,162 @@
   justify-content: space-between;
   padding: 24px;
   gap: 24px;
+  overflow: auto;
 }
 
 .userpage-left {
   background-color: white;
-  height: 700px;
   border-radius: 8px;
-  min-width: 400px;
+  width: 400px;
   border: 1px solid rgb(239, 239, 239);
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
+
+.userpage-left-top {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  height: 200px;
+  width: 100%;
+}
+.userpage-left-top-top {
+  flex: 5;
+}
+.userpage-left-top-bottom {
+  flex: 1;
+  border-bottom: 2px solid rgb(239, 239, 239);
+}
+.userpage-left-image-relative {
+  position: absolute;
+  top: 0px;
+  right: 0;
+  left: 0;
+  height: 250px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.userpage-left-image-container {
+  background-color: white;
+  width: 200px;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  object-fit: cover;
+  overflow: hidden;
+  border-radius: 50%;
+  border: 6px solid white;
+}
+
+.userpage-left-image-container img {
+  min-width: 100%;
+  min-height: 100%;
+}
+
+.userpage-left-image-change {
+  position: absolute;
+  right: 100px;
+  top: 180px;
+  background-color: rgb(255, 223, 218);
+  padding: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  border: 4px solid white;
+  cursor: pointer;
+  transition: all 0.1s;
+}
+
+.userpage-left-image-change:hover {
+  background-color: rgb(255, 215, 209);
+}
+
+.userpage-left-settings-container {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  height: 32px;
+  width: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.userpage-left-info {
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(245, 245, 245);
+  width: 100%;
+  height: 100%;
+}
+
+.userpage-left-info-row1 {
+  display: flex;
+  flex-direction: column;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 36px 0 0px 0;
+}
+.userpage-left-info-name {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+}
+.userpage-left-info-username {
+  margin: 0;
+  font-size: 14px;
+  color: grey;
+}
+.userpage-left-info-row2,
+.userpage-left-info-row3,
+.userpage-left-info-row4,
+.userpage-left-info-row5 {
+  padding: 0px 16px;
+}
+
+.userpage-left-info-bio-text {
+  color: rgb(84, 84, 84);
+  font-size: 14px;
+  margin: 0;
+}
+
+.userpage-left-info-birthday,
+.userpage-left-info-location,
+.userpage-left-info-gender,
+.userpage-left-info-bio {
+  border-bottom: 1px solid rgb(220, 220, 220);
+  padding: 12px 0;
+  display: flex;
+}
+
+.userpage-left-info-birthday i,
+.userpage-left-info-location i,
+.userpage-left-info-gender i {
+  display: flex;
+  align-items: center;
+  color: rgb(84, 84, 84);
+  height: 32px;
+  width: 24px;
+}
+
+.userpage-left-info-birthday-text,
+.userpage-left-info-location-text,
+.userpage-left-info-gender-text {
+  height: 32px;
+  margin: 0;
+  align-items: center;
+  display: flex;
+  padding-top: 1px;
+  margin-left: 12px;
+  color: rgb(84, 84, 84);
+  font-size: 14px;
+}
+
 .userpage-right {
   background-color: white;
   flex: 1;
@@ -57,8 +203,8 @@
   background-color: rgb(220, 220, 220);
 }
 .userpage-right-interests {
-    height: calc(100% - 64px);
-    overflow: auto;
+  height: calc(100% - 64px);
+  overflow: auto;
 }
 
 .userpage-right-interests-scroll {
@@ -111,4 +257,126 @@
   min-width: 100%;
   min-height: 100%;
   object-fit: cover;
+}
+.userpage-pictures-modal {
+  display: none;
+  flex-direction: column;
+  border-radius: 10px;
+  padding: 6px;
+  background-color: rgb(251, 251, 251);
+  position: fixed;
+  top: 50%;
+  height: 500px;
+  width: 700px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 4px 4px 10px 10px rgb(0, 0, 0, 0.2);
+  z-index: 100;
+}
+
+.userpage-profilePictureChangeConfirm {
+  position: absolute;
+  right: calc(50% - 50px + 4px);
+  bottom: 0%;
+  border: none;
+  width: 100px;
+  height: fit-content;
+  margin-bottom: 10px;
+
+  background-color: rgb(0, 92, 0);
+  padding: 4px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  color: white;
+  transition: all 0.15s;
+}
+
+.userpage-profilePictureChangeConfirm:hover {
+  background-color: rgb(0, 109, 0);
+}
+
+.userpage-modal-header {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.userpage-modal-header-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: rgb(71, 71, 71);
+}
+.userpage-modal-header-close {
+  color: rgb(71, 71, 71);
+}
+
+.userpage-modal-pictures {
+  height: 100%;
+  width: 100%;
+}
+
+.userpage-modal-pictures-main {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50%;
+  border-bottom: 2px solid black;
+}
+
+.userpage-modal-main-picture-container {
+  background-color: green;
+  width: 200px;
+  height: 200px;
+  overflow: hidden;
+  border-radius: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.userpage-modal-main-picture-container img {
+  min-width: 100%;
+  min-height: 100%;
+  object-fit: cover;
+}
+
+.userpage-modal-pictures-options {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 50%;
+}
+.userpage-modal-pictures-options-container {
+  display: flex;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  height: 150px;
+  width: 150px;
+  border-radius: 100%;
+  cursor: pointer;
+  transition: all 0.1s;
+}
+
+.userpage-modal-pictures-options-container:hover {
+  opacity: 0.9;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.userpage-modal-pictures-options-container img {
+  object-fit: cover;
+  min-width: 100%;
+  min-height: 100%;
+}
+
+.userpage-close-mark {
+  transition: all 0.15s;
+}
+
+.userpage-close-mark:hover {
+  cursor: pointer;
+  color: rgb(201, 22, 22);
 }

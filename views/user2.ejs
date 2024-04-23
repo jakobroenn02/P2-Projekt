@@ -1,7 +1,61 @@
 <%- include("./partials/header.ejs") %> <% if (!isLoggedIn) {%> <%-
 include("./partials/signinRedirect.ejs")%> <% } else { %>
 <div class="userpage">
-  <div class="userpage-left"></div>
+  <div class="userpage-left">
+    <div class="userpage-left-top">
+      <div class="userpage-left-top-top"></div>
+      <div class="userpage-left-top-bottom"></div>
+      <div class="userpage-left-image-relative">
+        <div class="userpage-left-image-container">
+          <img
+            src="/img/profileImg/profileImg<%=user.profileImageId%>.jpeg"
+            alt=""
+          />
+        </div>
+        <div class="userpage-left-image-change">
+          <i class="fa-solid fa-image"></i>
+        </div>
+      </div>
+      <div class="userpage-left-settings-container">
+        <i class="fa-solid fa-ellipsis-vertical"></i>
+      </div>
+    </div>
+
+    <div class="userpage-left-info">
+      <div class="userpage-left-info-row1">
+        <p class="userpage-left-info-name">
+          <%=user.name.firstName%> <%=user.name.lastName%>
+        </p>
+        <p class="userpage-left-info-username"><%=user.username%></p>
+      </div>
+      <div class="userpage-left-info-row2">
+        <div class="userpage-left-info-bio">
+          <p class="userpage-left-info-bio-text"><%=user.bio%></p>
+        </div>
+      </div>
+      <div class="userpage-left-info-row3">
+        <div class="userpage-left-info-birthday">
+          <i class="fa-solid fa-cake"></i>
+          <p class="userpage-left-info-birthday-text">
+            <%=user.birth.day%>/<%=user.birth.month%> <%=user.birth.year%>
+          </p>
+        </div>
+      </div>
+      <div class="userpage-left-info-row4">
+        <div class="userpage-left-info-location">
+          <i class="fa-solid fa-location-dot"></i>
+          <p class="userpage-left-info-location-text"><%=user.location%></p>
+        </div>
+      </div>
+      <div class="userpage-left-info-row5">
+        <div class="userpage-left-info-gender">
+          <i class="fa-solid fa-venus-mars"></i>
+          <p class="userpage-left-info-gender-text"><%=user.gender%></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="userpage-right">
     <div class="userpage-right-header">
       <p class="userpage-right-header-title">Your Interests</p>
@@ -27,5 +81,61 @@ include("./partials/signinRedirect.ejs")%> <% } else { %>
       </div>
     </div>
   </div>
+  <div id="userpage-pictures-modal" class="userpage-pictures-modal">
+    <div class="userpage-modal-header">
+      <div class="userpage-modal-header-title">Change Profile Picture</div>
+      <div id="userpage-closeButton" class="userpage-modal-header-close">
+        <i class="fa-solid fa-xmark close-mark"></i>
+      </div>
+    </div>
+    <div class="userpage-modal-pictures">
+      <div class="userpage-modal-pictures-main">
+        <div class="userpage-modal-main-picture-container">
+          <img
+            class="userpage-modalProfPic"
+            src="/img/profileImg/profileImg<%= user.profileImageId %>.jpeg"
+            alt=""
+          />
+        </div>
+      </div>
+      <div class="userpage-modal-pictures-options">
+        <div class="userpage-modal-pictures-options-container">
+          <img
+            class="userpage-pictureOption"
+            id="1"
+            src="/img/profileImg/profileImg1.jpeg"
+          />
+        </div>
+        <div class="userpage-modal-pictures-options-container">
+          <img
+            class="userpage-pictureOption"
+            id="2"
+            src="/img/profileImg/profileImg2.jpeg"
+          />
+        </div>
+        <div class="userpage-modal-pictures-options-container">
+          <img
+            class="userpage-pictureOption"
+            id="3"
+            src="/img/profileImg/profileImg3.jpeg"
+          />
+        </div>
+      </div>
+      <form method="post" action="/user/profile-picture/update">
+        <input
+          type="number"
+          name="profileImageId"
+          value="<%=user.profileImageId%>"
+          class="userpage-profileImageIdNumber"
+          hidden
+        />
+        <!-- Prevents bad imageId by defaulting to id from db-->
+        <button class="userpage-profilePictureChangeConfirm" type="submit" hidden >
+          Confirm
+        </button>
+      </form>
+    </div>
+  </div>
 </div>
+<script src="/js/userpage.js"></script>
 <% } %>
