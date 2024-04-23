@@ -9,8 +9,10 @@ module.exports = {
   connectToDb: (cb) => {
     MongoClient.connect(process.env.DBURL)
       .then((client) => {
-        dbConnection = client.db();
+        dbConnection = client.db('database');
+
         return cb();
+
       })
       .catch((err) => {
         console.log(err);
