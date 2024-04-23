@@ -1,0 +1,31 @@
+<%- include("./partials/header.ejs") %> <% if (!isLoggedIn) {%> <%-
+include("./partials/signinRedirect.ejs")%> <% } else { %>
+<div class="userpage">
+  <div class="userpage-left"></div>
+  <div class="userpage-right">
+    <div class="userpage-right-header">
+      <p class="userpage-right-header-title">Your Interests</p>
+      <div class="userpage-right-header-buttons">
+        <a href="/user/interests" class="userpage-right-header-buttons-edit"
+          >Edit</a
+        >
+      </div>
+    </div>
+    <div class="userpage-right-interests">
+      <div class="userpage-right-interests-scroll">
+        <% for (let i = 0; i < user.interests.length; i++) {%>
+        <div class="userpage-right-interest">
+          <div class="userpage-interest-left">
+            <p class="userpage-interest-name"><%= user.interests[i]%></p>
+            <p class="userpage-interest-info">Groups: 3 | Events:</p>
+          </div>
+          <div class="userpage-interest-right">
+            <img src="/img/<%=user.interests[i]%>.jpeg" alt="" />
+          </div>
+        </div>
+        <%} %>
+      </div>
+    </div>
+  </div>
+</div>
+<% } %>

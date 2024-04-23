@@ -1,0 +1,114 @@
+.userpage {
+  background-color: rgb(243, 243, 243);
+  height: calc(100vh - 88px - 48px);
+  display: flex;
+  justify-content: space-between;
+  padding: 24px;
+  gap: 24px;
+}
+
+.userpage-left {
+  background-color: white;
+  height: 700px;
+  border-radius: 8px;
+  min-width: 400px;
+  border: 1px solid rgb(239, 239, 239);
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+.userpage-right {
+  background-color: white;
+  flex: 1;
+  border-radius: 8px;
+  border: 1px solid rgb(239, 239, 239);
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  height: 400px;
+  overflow: hidden;
+}
+
+.userpage-right-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid rgb(239, 239, 239);
+  height: 64px;
+}
+
+.userpage-right-header-title {
+  font-weight: 600;
+  font-size: 20px;
+  margin-left: 20px;
+}
+.userpage-right-header-buttons {
+  margin-right: 20px;
+}
+
+.userpage-right-header-buttons-edit {
+  padding: 8px 24px;
+  background-color: rgb(230, 230, 230);
+  color: rgb(108, 108, 108);
+  border-radius: 200px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.05s;
+  font-size: 12px;
+}
+.userpage-right-header-buttons-edit:hover {
+  background-color: rgb(220, 220, 220);
+}
+.userpage-right-interests {
+    height: calc(100% - 64px);
+    overflow: auto;
+}
+
+.userpage-right-interests-scroll {
+  flex-wrap: wrap;
+  display: flex;
+  padding: 20px;
+  gap: 20px;
+  overflow: auto;
+}
+
+.userpage-right-interest {
+  background-color: rgb(240, 240, 240);
+  border-radius: 10px;
+  display: flex;
+  border-radius: 8px;
+  overflow: hidden;
+  height: 48px;
+}
+
+.userpage-interest-left {
+  display: flex;
+  flex-direction: column;
+  padding: 6px 10px 6px 10px;
+  justify-content: space-between;
+  height: 38px;
+}
+
+.userpage-interest-name {
+  text-wrap: nowrap;
+  font-weight: 600;
+  margin: 0;
+}
+
+.userpage-interest-info {
+  font-size: 14px;
+  color: grey;
+  text-wrap: nowrap;
+  margin: 0;
+}
+
+.userpage-interest-right {
+  width: 48px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+.userpage-interest-right img {
+  min-width: 100%;
+  min-height: 100%;
+  object-fit: cover;
+}
