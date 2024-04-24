@@ -1,126 +1,57 @@
-.userEvents {
-  min-height: calc(100vh - 88px);
-}
-
-.events-container {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-}
-
-.event-div {
-  position: relative;
-  height: 135px;
-  width: 300px;
-  background-color: lightgray;
-  border-radius: 15px;
-  margin: 10px;
-  padding: 12px;
-  transition: all 0.1s;
-  box-shadow: 4px 4px rgba(0, 0, 0, 0.3);
-  
-}
-
-.event-div:hover {
-  background-color: rgb(200, 200, 200);
-    top: -3px;
-    box-shadow: 8px 6px rgba(0, 0, 0, 0.35);
-}
-
-.event-name {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 1;
-  overflow: hidden;
-
-  font-weight: bold;
-  color: black;
-  max-width: 200px;
-  height: 1.1em;
-  font-size: 16px;
-  margin-bottom: 6px;
-}
-
-.events-title {
-  padding: 10px;
-  margin: 0px;
-}
-
-.event-description {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  margin-bottom: 6px;
-  color: black;
-}
-
-.event-date {
-  position: absolute;
-  right: 12px;
-  top: 12px;
-  font-size: 12px;
-  color: rgb(98, 98, 98);
-}
-
-.event-address {
-  position: absolute;
-  bottom: 12px;
-  left: 12px;
-  font-size: 12px;
-  color: rgb(98, 98, 98);
-}
-
-
-/* TODO Hvad er det her?? Det hører ikke til /user/events!??!*/
-
-.eventInfo-left {
+.main-container {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  width: 50%;
-  padding: 20px;
-  margin: 20px;
-  font-size: 20px;
-  color: black;
-  outline: #000 medium solid;
 }
 
-.event2-title {
-  margin: 0px;
-  font-size: 20px;
-  color: black;
-}
-.eventInfo-description {
-  margin-bottom: 6px;
-  outline: medium;
-  outline-color: rgb(0, 0, 0);
-  outline-width: 2px;
-}
-#event-text {
-  margin-bottom: 6px;
-  color: black;
-  font-size: 20px;
-  font-weight: bold;
-}
-.event-leave-button {
-  margin-top: 20px;
-}
-.user-events-create-event-button {
-  margin-left: 12px;
-  font-size: 20px;
-  background-color: lightgray;
-  height: 48px;
-  width: 48px;
+/* Month title content*/
+.calendarMonth-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 50%;
+  flex-direction: row;
+  padding: 8px;
+  background-color: gray;
+}
+
+.calendarMonth-title {
+  margin: 0 8px 0 8px;
+  font-weight: bold;
+}
+
+.changeDateButton {
+  font-size: 1.5em;
   cursor: pointer;
-  transition: all 0.1s;
-  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
-.user-events-create-event-button:hover {
-  background-color: rgb(178, 178, 178);
+.changeDateButton:hover {
+  transform: scale(1.2);
 }
+
+
+/* Calendar content */
+.calendarContent-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  column-count: 7;
+
+  width: 100%;
+  height: fit-content;
+
+}
+
+.calendarContent-header{
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 2em;
+  background-color: gray;
+  font-weight: bold;
+}
+
+.calendarContent-header-item {
+  width: calc(100% / 7);
+  text-align: center;
+}
+
+
