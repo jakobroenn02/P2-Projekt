@@ -78,7 +78,7 @@
   background-color: rgb(255, 215, 209);
 }
 
-.userpage-left-settings-container {
+.userpage-left-settings-button {
   position: absolute;
   right: 12px;
   top: 12px;
@@ -88,16 +88,138 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  border: none;
+  border-radius: 50%;
+  background-color: white;
+  transition: all 0.1s;
+}
+
+.userpage-left-settings-container {
+  position: absolute;
+  right: 24px;
+  top: 40px;
+  background-color: white;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  border-radius: 4px;
+}
+
+.userpage-left-settings-edit {
+  padding: 12px;
+  cursor: pointer;
+  border-bottom: 1px solid rgb(245, 245, 245);
+}
+
+.userpage-left-settings-change {
+  padding: 12px;
+  cursor: pointer;
+  border-bottom: 1px solid rgb(245, 245, 245);
+}
+
+.userpage-left-settings-delete {
+  cursor: pointer;
+  padding: 12px;
+}
+
+.userpage-left-settings-edit:hover,
+.userpage-left-settings-change:hover,
+.userpage-left-settings-delete:hover {
+  background-color: rgb(245, 245, 245);
+}
+
+.userpage-delete-confirm-modal {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.4);
+  justify-content: center;
+  align-items: center;
+}
+
+.userpage-delete-confirm-modal-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -100px;
+  margin-left: -250px;
+  width: 500px;
+  background-color: white;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  display: flex;
+  flex-direction: column;
+  border-top: 10px solid rgb(246, 60, 60);
+  border-radius: 4px;
+}
+
+.userpage-delete-confirm-modal-container-upper {
+  border-bottom: 1px solid rgb(222, 222, 222);
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.userpage-delete-confirm-modal-image-container {
+  width: 100px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  object-fit: cover;
+}
+.userpage-delete-confirm-modal-image-container img {
+  min-width: 100%;
+  max-width: 100%;
+}
+
+.userpage-delete-confirm-modal-text {
+}
+
+.userpage-delete-confirm-modal-title {
+  font-size: 22px;
+  margin: 0 0 12px 0;
+}
+
+.userpage-delete-confirm-modal-description {
+  margin: 0;
+  color: grey;
+}
+
+.userpage-delete-confirm-modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  padding: 12px 24px;
+  gap: 24px;
+}
+
+.userpage-delete-confirm-modal-delete-button {
+  padding: 8px 32px;
+  background-color: rgb(246, 60, 60);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.1s;
+}
+.userpage-delete-confirm-modal-cancel-button {
+  padding: 8px 32px;
+  background-color: rgb(232, 232, 232);
+  border: none;
+  border-radius: 4px;
+  transition: all 0.1s;
+  cursor: pointer;
+}
+.userpage-delete-confirm-modal-delete-button:hover,
+.userpage-delete-confirm-modal-cancel-button:hover {
+  opacity: 0.9;
 }
 
 .userpage-left-info {
-  display: flex;
-  flex-direction: column;
   background-color: rgb(245, 245, 245);
   width: 100%;
   height: 100%;
 }
-
 .userpage-left-info-row1 {
   display: flex;
   flex-direction: column;
@@ -159,6 +281,12 @@
   margin-left: 12px;
   color: rgb(84, 84, 84);
   font-size: 14px;
+}
+
+.userpage-left-info-edit {
+  background-color: rgb(245, 245, 245);
+  width: 100%;
+  height: 100%;
 }
 
 .userpage-right {

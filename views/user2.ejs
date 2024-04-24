@@ -16,8 +16,37 @@ include("./partials/signinRedirect.ejs")%> <% } else { %>
           <i class="fa-solid fa-image"></i>
         </div>
       </div>
-      <div class="userpage-left-settings-container">
+      <button class="userpage-left-settings-button">
         <i class="fa-solid fa-ellipsis-vertical"></i>
+      </button>
+      <div hidden class="userpage-left-settings-container">
+        <div class="userpage-left-settings-edit">Edit</div>
+        <div class="userpage-left-settings-change">Change Password</div>
+        <div class="userpage-left-settings-delete">Delete User</div>
+      </div>
+    </div>
+    <div hidden class="userpage-delete-confirm-modal">
+      <div class="userpage-delete-confirm-modal-container">
+        <div class="userpage-delete-confirm-modal-container-upper">
+          <div class="userpage-delete-confirm-modal-image-container">
+            <img src="/img/warning.jpeg" alt="" />
+          </div>
+          <div class="userpage-delete-confirm-modal-text">
+            <p class="userpage-delete-confirm-modal-title">Delete User?</p>
+            <p class="userpage-delete-confirm-modal-description">
+              You are about to delete your user, are you sure you want to delete
+              your user?
+            </p>
+          </div>
+        </div>
+
+        <div class="userpage-delete-confirm-modal-buttons">
+          <button class="userpage-delete-confirm-modal-cancel-button">
+            Cancel</button
+          ><button class="userpage-delete-confirm-modal-delete-button">
+            Delete
+          </button>
+        </div>
       </div>
     </div>
 
@@ -30,7 +59,10 @@ include("./partials/signinRedirect.ejs")%> <% } else { %>
       </div>
       <div class="userpage-left-info-row2">
         <div class="userpage-left-info-bio">
-          <p class="userpage-left-info-bio-text"><%=user.bio%></p>
+          <p class="userpage-left-info-bio-text">
+            <%if(user.bio) {%> <%=user.bio%> <%} else {%> Edit your profile to
+            write a bio... <%}%>
+          </p>
         </div>
       </div>
       <div class="userpage-left-info-row3">
@@ -54,6 +86,46 @@ include("./partials/signinRedirect.ejs")%> <% } else { %>
         </div>
       </div>
     </div>
+
+    <div hidden class="userpage-left-info-edit">
+      <form action="/user/update" method="post">
+        <div class="userpage-left-info-row1">
+          <p class="userpage-left-info-name">
+            <input type="text" placeholder="<%=user.name.firstName%>" />
+            <input type="text" placeholder="<%=user.name.lastName%>" />
+          </p>
+          <p class="userpage-left-info-username"><%=user.username%></p>
+        </div>
+        <div class="userpage-left-info-row2">
+          <div class="userpage-left-info-bio">
+            <p class="userpage-left-info-bio-text">
+              <%if(user.bio) {%> <%=user.bio%> <%} else {%> Edit your profile to
+              write a bio... <%}%>
+            </p>
+          </div>
+        </div>
+        <div class="userpage-left-info-row3">
+          <div class="userpage-left-info-birthday">
+            <i class="fa-solid fa-cake"></i>
+            <p class="userpage-left-info-birthday-text">
+              <%=user.birth.day%>/<%=user.birth.month%> <%=user.birth.year%>
+            </p>
+          </div>
+        </div>
+        <div class="userpage-left-info-row4">
+          <div class="userpage-left-info-location">
+            <i class="fa-solid fa-location-dot"></i>
+            <p class="userpage-left-info-location-text"><%=user.location%></p>
+          </div>
+        </div>
+        <div class="userpage-left-info-row5">
+          <div class="userpage-left-info-gender">
+            <i class="fa-solid fa-venus-mars"></i>
+            <p class="userpage-left-info-gender-text"><%=user.gender%></p>
+          </div>
+        </div>
+      </form>
+    </div>
   </div>
 
   <div class="userpage-right">
@@ -71,7 +143,10 @@ include("./partials/signinRedirect.ejs")%> <% } else { %>
         <div class="userpage-right-interest">
           <div class="userpage-interest-left">
             <p class="userpage-interest-name"><%= user.interests[i]%></p>
-            <p class="userpage-interest-info">Groups: 3 | Events:</p>
+            <p class="userpage-interest-info">
+              Groups: <%=groupsPerInterest[user.interests[i]]%> | Events:
+              <%=eventsPerInterest[user.interests[i]]%>
+            </p>
           </div>
           <div class="userpage-interest-right">
             <img src="/img/<%=user.interests[i]%>.jpeg" alt="" />
@@ -130,7 +205,11 @@ include("./partials/signinRedirect.ejs")%> <% } else { %>
           hidden
         />
         <!-- Prevents bad imageId by defaulting to id from db-->
-        <button class="userpage-profilePictureChangeConfirm" type="submit" hidden >
+        <button
+          class="userpage-profilePictureChangeConfirm"
+          type="submit"
+          hidden
+        >
           Confirm
         </button>
       </form>

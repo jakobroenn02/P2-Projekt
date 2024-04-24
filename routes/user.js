@@ -62,11 +62,35 @@ router.get("/", async (req, res) => {
     } else {
       const user = await getLoggedInUser(token);
       const locations = await getLocations();
+      const groups = await getUserGroups(token._id);
+      const events = await getUserEvents(token._id);
+      let groupsPerInterest = {};
+      let eventsPerInterest = {};
+
+      // Code below will count amount of groups user is member of for each interest.
+      // And the amount of events user is participating in, per interest.
+      user.interests.forEach((interest) => {
+        //initialising the object.
+        groupsPerInterest[interest] = 0;
+        eventsPerInterest[interest] = 0;
+      });
+
+      groups.forEach((group) => {
+        //adding 1 to the value of the interest corresponding the the group.
+        groupsPerInterest[group.interest] += 1;
+      });
+
+      events.forEach((event) => {
+        //adding 1 to the value of the interest corresponding the the event.
+        eventsPerInterest[event.interest] += 1;
+      });
 
       res.render("user2", {
         isLoggedIn: true,
         hasTypeWrong: false,
         user,
+        groupsPerInterest,
+        eventsPerInterest,
         location: locations,
       });
     }
@@ -148,12 +172,36 @@ router.post("/info/update", async (req, res) => {
 });
 // TODO Should be a delete request, and has to be done in client side js.
 // Should also delete user groups + events
-router.post("/delete", async (req, res) => {
+router.delete("/delete", async (req, res) => {
   try {
-    await db
-      .collection("users")
-      .deleteOne({ _id: new ObjectId(req.body.userId) });
-    res.clearCookie("token");
+    const token = verifyToken(res, req);
+    if (token == null) {
+      res.render("user2", { isLoggedIn: false, hasTypeWrong: false });
+    } else {
+      const user = await getLoggedInUser(token);
+      // Remove user from participating events.
+      await db.collection("events").updateMany(
+        { _id: { $in: user.eventIds } },
+        {
+          $pull: {
+            participantIds: user._id,
+          },
+        }
+      );
+
+      // Remove user from groups.
+      await db.collection("groups").updateMany(
+        { _id: { $in: user.groupIds } },
+        {
+          $pull: { userIds: user._id },
+        }
+      );
+
+      // Delete user from db.
+      await db.collection("users").deleteOne({ _id: user._id });
+      res.clearCookie("token");
+      res.status(200).send("user deleted");
+    }
   } catch (error) {
     console.log(error);
     res.render("errorPage", { errorMessage: error });
