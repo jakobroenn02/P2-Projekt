@@ -1,3 +1,5 @@
+View the application live on: www.heldorf.dev
+
 When pulling from git:
 - run npm install
 - create .env file with DBURL to db you want to connect to, and JWTSECRET.
