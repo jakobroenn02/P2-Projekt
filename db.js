@@ -8,17 +8,21 @@ let dbConnection;
 
 module.exports = {
   connectToDb: (cb) => {
-    MongoClient.connect(process.env.DBURL)
+    MongoClient.connect(process.env.DBURL , {tls: true})
       .then((client) => {
         dbConnection = client.db('database');
-
+        console.log("DB connection established.");
         return cb();
 
       })
       .catch((err) => {
-        console.log(err);
+        console.error("DB connection failed: ", err);
         return cb(err);
       });
   },
-  getDb: () => dbConnection,
+  getDb: () => { if (!dbConnection){
+    throw new Error("DB connection not established");
+  }
+  return dbConnection;
+  },
 };
