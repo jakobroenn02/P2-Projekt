@@ -3,6 +3,11 @@ include("./partials/signinRedirect.ejs")%> <% } else { %>
 <div class="userpage">
   <div class="userpage-left">
     <div class="userpage-left-top">
+      <%if(warning) {%>
+      <div class="userpage-left-info-warning"><%=warning%></div>
+      <%}%><%if(message) {%>
+      <div class="userpage-left-info-message"><%=message%></div>
+      <%}%>
       <div class="userpage-left-top-top"></div>
       <div class="userpage-left-top-bottom"></div>
       <div class="userpage-left-image-relative">
@@ -50,6 +55,62 @@ include("./partials/signinRedirect.ejs")%> <% } else { %>
       </div>
     </div>
 
+    <div hidden class="userpage-change-password-modal">
+      <div class="userpage-change-password-modal-container">
+        <form method="post" action="/user/password/update">
+          <legend>Change Password</legend>
+          <div class="userpage-change-password-current-container">
+            <label for="currentPassword">Current Password</label>
+            <input
+              required
+              placeholde="Current Password"
+              type="password"
+              name="currentPassword"
+              class="userpage-change-password-input"
+            />
+          </div>
+          <div class="userpage-change-password-new-container">
+            <label for="newPassword">New Password</label>
+            <input
+              required
+              placeholde="Current Password"
+              type="password"
+              name="newPassword"
+              class="userpage-change-password-input"
+            />
+          </div>
+          <div class="userpage-change-password-confirm-new-container">
+            <label for="confirmNewPassword">Confirm New Password</label>
+            <input
+              required
+              placeholde="Confirm New Password"
+              type="password"
+              name="confirmNewPassword"
+              class="userpage-change-password-input"
+            />
+          </div>
+          <div class="userpage-left-change-password-buttons">
+            <button
+              class="userpage-left-change-password-save-button"
+              type="submit"
+            >
+              <i class="fa-solid fa-check"></i>
+              <div>|</div>
+              <div>Change Password</div>
+            </button>
+            <button
+              type="button"
+              class="userpage-left-change-password-cancel-button"
+            >
+              <i class="fa-solid fa-xmark"></i>
+              <div>|</div>
+              <div>Cancel</div>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
     <div class="userpage-left-info">
       <div class="userpage-left-info-row1">
         <p class="userpage-left-info-name">
@@ -57,11 +118,12 @@ include("./partials/signinRedirect.ejs")%> <% } else { %>
         </p>
         <p class="userpage-left-info-username"><%=user.username%></p>
       </div>
+
       <div class="userpage-left-info-row2">
         <div class="userpage-left-info-bio">
           <p class="userpage-left-info-bio-text">
-            <%if(user.bio) {%> <%=user.bio%> <%} else {%> Edit your profile to
-            write a bio... <%}%>
+            <%if(user.bio!== "" ) {%> <%=user.bio%> <%} else {%> Edit your
+            profile to write a bio... <%}%>
           </p>
         </div>
       </div>
@@ -88,41 +150,159 @@ include("./partials/signinRedirect.ejs")%> <% } else { %>
     </div>
 
     <div hidden class="userpage-left-info-edit">
-      <form action="/user/update" method="post">
-        <div class="userpage-left-info-row1">
-          <p class="userpage-left-info-name">
-            <input type="text" placeholder="<%=user.name.firstName%>" />
-            <input type="text" placeholder="<%=user.name.lastName%>" />
-          </p>
-          <p class="userpage-left-info-username"><%=user.username%></p>
-        </div>
-        <div class="userpage-left-info-row2">
-          <div class="userpage-left-info-bio">
-            <p class="userpage-left-info-bio-text">
-              <%if(user.bio) {%> <%=user.bio%> <%} else {%> Edit your profile to
-              write a bio... <%}%>
-            </p>
+      <form action="/user/info/update" method="post">
+        <div class="userpage-left-info-row1-edit">
+          <div class="userpage-left-info-name-edit">
+            <div class="userpage-left-info-first-name-edit">
+              <label
+                for="firstName"
+                class="userpage-left-info-first-name-title-edit"
+              >
+                First Name
+              </label>
+              <input
+                type="text"
+                placeholder="First Name"
+                value="<%=user.name.firstName%>"
+                class="userpage-left-info-first-name-input-edit"
+                name="firstName"
+              />
+            </div>
+            <div class="userpage-left-info-last-name-edit">
+              <label
+                for="lastName"
+                class="userpage-left-info-last-name-title-edit"
+              >
+                Last Name
+              </label>
+              <input
+                type="text"
+                placeholder="Last Name"
+                value="<%=user.name.lastName%>"
+                class="userpage-left-info-last-name-input-edit"
+                name="lastName"
+              />
+            </div>
+          </div>
+          <div class="userpage-left-info-username-edit">
+            <label
+              for="username"
+              class="userpage-left-info-username-title-edit"
+            >
+              Username
+            </label>
+            <input
+              type="text"
+              placeholder="Username"
+              value="<%=user.username%>"
+              class="userpage-left-info-username-input-edit"
+              name="username"
+            />
           </div>
         </div>
-        <div class="userpage-left-info-row3">
-          <div class="userpage-left-info-birthday">
-            <i class="fa-solid fa-cake"></i>
-            <p class="userpage-left-info-birthday-text">
-              <%=user.birth.day%>/<%=user.birth.month%> <%=user.birth.year%>
-            </p>
+
+        <div class="userpage-left-info-row2-edit">
+          <div class="userpage-left-info-bio-edit">
+            <label for="bio" class="userpage-left-info-bio-title-edit">
+              Bio
+            </label>
+            <textarea
+              class="userpage-left-info-bio-input-edit"
+              rows="5"
+              name="bio"
+              placeholder="Bio"
+            >
+<%=user.bio%></textarea
+            >
           </div>
         </div>
-        <div class="userpage-left-info-row4">
-          <div class="userpage-left-info-location">
-            <i class="fa-solid fa-location-dot"></i>
-            <p class="userpage-left-info-location-text"><%=user.location%></p>
+        <div class="userpage-left-info-row3-edit">
+          <div class="userpage-left-info-birth-super-title">Birth</div>
+          <div class="userpage-left-info-birth-edit">
+            <div class="userpage-left-info-birth-day-edit">
+              <label class="userpage-left-info-birth-title-edit">Day</label>
+              <input
+                name="birthDay"
+                value="<%=user.birth.day%>"
+                type="number"
+                class="userpage-left-info-birth-input-edit"
+                placeholder="Day"
+              />
+            </div>
+            <div class="userpage-left-info-birth-month-edit">
+              <label class="userpage-left-info-birth-title-edit">Month</label>
+              <input
+                name="birthMonth"
+                value="<%=user.birth.month%>"
+                type="number"
+                class="userpage-left-info-birth-input-edit"
+                placeholder="Month"
+              />
+            </div>
+            <div class="userpage-left-info-birth-year-edit">
+              <label class="userpage-left-info-birth-title-edit">Year</label>
+              <input
+                name="birthYear"
+                value="<%=user.birth.year%>"
+                type="number"
+                class="userpage-left-info-birth-input-edit"
+                placeholder="Year"
+              />
+            </div>
           </div>
         </div>
-        <div class="userpage-left-info-row5">
-          <div class="userpage-left-info-gender">
-            <i class="fa-solid fa-venus-mars"></i>
-            <p class="userpage-left-info-gender-text"><%=user.gender%></p>
+        <div class="userpage-left-info-row4-edit">
+          <div class="userpage-left-info-location-edit">
+            <label class="userpage-left-info-location-title-edit"
+              >Location</label
+            >
+            <input
+              name="location"
+              value="<%=user.location%>"
+              type="text"
+              class="userpage-left-info-location-input-edit"
+              placeholder="Location"
+              autocomplete="off"
+            />
           </div>
+          <div hidden class="userpage-left-info-locations-list">
+            <%for (let i = 0; i < locations.length; i++) {%>
+            <div class="userpage-left-info-location-option">
+              <%=locations[i].location%>
+            </div>
+            <%}%>
+          </div>
+        </div>
+        <div class="userpage-left-info-row5-edit">
+          <div class="userpage-left-info-gender-edit">
+            <label class="userpage-left-info-gender-title-edit">Gender</label>
+            <select
+              name="gender"
+              type="text"
+              class="userpage-left-info-gender-input-edit"
+              placeholder="Gender"
+            >
+              <%if(user.gender == "Female") {%>
+              <option value="Male">Male</option>
+              <option selected value="Female">Female</option>
+              <%} else {%>
+              <option selected value="Male">Male</option>
+              <option value="Female">Female</option>
+              <%}%>
+            </select>
+          </div>
+        </div>
+        <div class="userpage-left-info-buttons">
+          <button class="userpage-left-info-save-button" type="submit">
+            <i class="fa-solid fa-check"></i>
+            <div>|</div>
+            <div>Save</div>
+          </button>
+          <button type="button" class="userpage-left-info-cancel-button">
+            <i class="fa-solid fa-xmark"></i>
+            <div>|</div>
+            <div>Cancel</div>
+          </button>
         </div>
       </form>
     </div>

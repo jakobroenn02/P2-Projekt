@@ -22,6 +22,7 @@
   position: relative;
   height: 200px;
   width: 100%;
+  z-index: 2;
 }
 .userpage-left-top-top {
   flex: 5;
@@ -135,6 +136,7 @@
   background-color: rgba(255, 255, 255, 0.4);
   justify-content: center;
   align-items: center;
+  z-index: 3;
 }
 
 .userpage-delete-confirm-modal-container {
@@ -215,11 +217,173 @@
   opacity: 0.9;
 }
 
+.userpage-change-password-modal {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.4);
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+}
+
+.userpage-change-password-modal-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -200px;
+  margin-left: -250px;
+  width: 500px;
+  background-color: white;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  border-top: 10px solid rgb(35, 65, 141);
+  border-radius: 4px;
+}
+
+.userpage-change-password-modal-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  background-color: rgb(249, 249, 249);
+  padding: 16px;
+}
+.userpage-change-password-modal-container legend {
+  font-size: 20px;
+}
+
+.userpage-change-password-current-container,
+.userpage-change-password-new-container,
+.userpage-change-password-confirm-new-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.userpage-change-password-confirm-new-container label,
+.userpage-change-password-new-container label,
+.userpage-change-password-current-container label {
+  color: grey;
+  font-size: 12px;
+}
+
+.userpage-change-password-confirm-new-container input,
+.userpage-change-password-new-container input,
+.userpage-change-password-current-container input {
+  border: none;
+  padding: 8px 12px;
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 4px;
+  resize: none;
+  font-family: sans-serif;
+}
+
+.userpage-change-password-confirm-new-container input:focus,
+.userpage-change-password-new-container input:focus,
+.userpage-change-password-current-container input:focus {
+  outline: none;
+}
+
+.userpage-left-change-password-buttons {
+  padding: 6px 16px;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.userpage-left-change-password-save-button {
+  padding: 6px 12px;
+  border: none;
+  color: white;
+  background-color: rgb(47, 140, 47);
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  display: flex;
+  justify-content: flex-start;
+  gap: 7px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.1s;
+}
+
+.userpage-left-change-password-save-button:hover {
+  background-color: rgb(57, 156, 57);
+}
+
+.userpage-left-change-password-cancel-button {
+  padding: 6px 12px;
+  border: none;
+  color: white;
+  background-color: rgb(179, 179, 179);
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  display: flex;
+  justify-content: flex-start;
+  gap: 7px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.1s;
+}
+
+.userpage-left-change-password-cancel-button:hover {
+  background-color: rgb(170, 170, 170);
+}
+
 .userpage-left-info {
   background-color: rgb(245, 245, 245);
   width: 100%;
+  position: relative;
   height: 100%;
 }
+
+.userpage-left-info-warning {
+  position: absolute;
+  top: 4px;
+  z-index: 3;
+  color: rgb(214, 58, 58);
+  font-size: 14px;
+  -webkit-animation: cssAnimation 5s forwards;
+  animation: cssAnimation 5s forwards;
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+
+.userpage-left-info-message {
+  position: absolute;
+  top: 4px;
+  z-index: 3;
+  color: rgb(70, 110, 212);
+  font-size: 14px;
+  -webkit-animation: cssAnimation 5s forwards;
+  animation: cssAnimation 5s forwards;
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+
+@keyframes cssAnimation {
+  0% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@-webkit-keyframes cssAnimation {
+  0% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
 .userpage-left-info-row1 {
   display: flex;
   flex-direction: column;
@@ -287,6 +451,186 @@
   background-color: rgb(245, 245, 245);
   width: 100%;
   height: 100%;
+}
+.userpage-left-info-row1-edit {
+  display: flex;
+  flex-direction: column;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 36px 0 0px 0;
+}
+.userpage-left-info-name-edit {
+  display: flex;
+  gap: 12px;
+  padding: 0 16px;
+}
+
+.userpage-left-info-first-name-title-edit,
+.userpage-left-info-last-name-title-edit,
+.userpage-left-info-username-title-edit,
+.userpage-left-info-bio-title-edit,
+.userpage-left-info-birth-title-edit,
+.userpage-left-info-gender-title-edit,
+.userpage-left-info-location-title-edit {
+  font-size: 10px;
+  color: grey;
+}
+
+.userpage-left-info-first-name-input-edit,
+.userpage-left-info-last-name-input-edit,
+.userpage-left-info-username-input-edit,
+.userpage-left-info-bio-input-edit,
+.userpage-left-info-birth-input-edit,
+.userpage-left-info-location-input-edit,
+.userpage-left-info-gender-input-edit {
+  border: none;
+  padding: 8px 12px;
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 4px;
+  resize: none;
+  font-family: sans-serif;
+}
+
+.userpage-left-info-first-name-input-edit:focus,
+.userpage-left-info-last-name-input-edit:focus,
+.userpage-left-info-username-input-edit:focus,
+.userpage-left-info-bio-input-edit:focus,
+.userpage-left-info-birth-input-edit:focus,
+.userpage-left-info-location-input-edit:focus,
+.userpage-left-info-gender-input-edit:focus {
+  outline: none;
+}
+.userpage-left-info-birth-super-title {
+  padding: 16px 0 0 0;
+  font-size: 12px;
+  color: grey;
+}
+
+.userpage-left-info-username-edit {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 16px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.userpage-left-info-row2-edit {
+  padding: 0 16px;
+}
+.userpage-left-info-bio-edit {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid rgb(220, 220, 220);
+  padding: 12px 0;
+}
+
+.userpage-left-info-bio-input-edit::placeholder {
+  font-family: sans-serif;
+}
+
+.userpage-left-info-row3-edit,
+.userpage-left-info-row4-edit,
+.userpage-left-info-row5-edit {
+  padding: 0px 16px;
+}
+
+.userpage-left-info-row4-edit {
+  position: relative;
+}
+
+.userpage-left-info-location-edit,
+.userpage-left-info-gender-edit {
+  padding: 16px 0;
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid rgb(220, 220, 220);
+}
+
+.userpage-left-info-birth-edit {
+  padding: 0 0 16px 0;
+  display: flex;
+  border-bottom: 1px solid rgb(220, 220, 220);
+  gap: 16px;
+}
+
+.userpage-left-info-location-input-edit {
+  width: 100%;
+  padding: 12px 20px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  margin-bottom: 20px;
+}
+
+.userpage-left-info-locations-list {
+  position: absolute;
+  top: 68px;
+  left: 16px;
+  right: 16px;
+  max-height: 150px;
+  overflow-y: auto;
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+}
+
+.userpage-left-info-location-option {
+  background-color: white;
+  width: 100%;
+  font-size: 12px;
+  padding-left: 8px;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: all 0.1s;
+}
+
+.userpage-left-info-location-option:hover {
+  background-color: rgb(240, 240, 240);
+}
+
+.userpage-left-info-buttons {
+  padding: 16px;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.userpage-left-info-save-button {
+  padding: 6px 12px;
+  border: none;
+  color: white;
+  background-color: rgb(47, 140, 47);
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  display: flex;
+  justify-content: flex-start;
+  gap: 7px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.1s;
+}
+
+.userpage-left-info-save-button:hover {
+  background-color: rgb(57, 156, 57);
+}
+
+.userpage-left-info-cancel-button {
+  padding: 6px 12px;
+  border: none;
+  color: white;
+  background-color: rgb(179, 179, 179);
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  display: flex;
+  justify-content: flex-start;
+  gap: 7px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.1s;
+}
+
+.userpage-left-info-cancel-button:hover {
+  background-color: rgb(170, 170, 170);
 }
 
 .userpage-right {

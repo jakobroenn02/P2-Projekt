@@ -66,7 +66,8 @@ router.get("/", async (req, res) => {
       const events = await getUserEvents(token._id);
       let groupsPerInterest = {};
       let eventsPerInterest = {};
-
+      const warning = req.query.warning;
+      const message = req.query.message;
       // Code below will count amount of groups user is member of for each interest.
       // And the amount of events user is participating in, per interest.
       user.interests.forEach((interest) => {
@@ -91,7 +92,9 @@ router.get("/", async (req, res) => {
         user,
         groupsPerInterest,
         eventsPerInterest,
-        location: locations,
+        locations: locations,
+        warning,
+        message,
       });
     }
   } catch (error) {
@@ -105,7 +108,7 @@ router.post("/profile-picture/update", async (req, res) => {
     const token = verifyToken(res, req);
 
     if (token == null) {
-      res.render("user", { isLoggedIn: false });
+      res.render("user2", { isLoggedIn: false });
     } else {
       await db.collection("users").updateOne(
         { _id: new ObjectId(token._id) },
@@ -125,44 +128,44 @@ router.post("/profile-picture/update", async (req, res) => {
 
 router.post("/info/update", async (req, res) => {
   try {
-    let hashedPassword;
     const token = verifyToken(res, req);
     if (token == null) {
-      res.render("user", { isLoggedIn: false });
+      res.render("user2", { isLoggedIn: false });
     } else {
-      //Checks if user changed to username that is already taken.
-      if (
-        req.body.userUsername !== token.username &&
-        !(await isUsernameTaken(req.body.username))
-      ) {
-        //Checks if user want to change passowrd or not
-        if (req.body.hasOwnProperty("userPassword")) {
-          if (req.body.userPassword != "") {
-            console.log(req.body.userPassword);
-            hashedPassword = await bcrypt.hash(req.body.userPassword, 10);
-          }
-        }
+      const user = await getLoggedInUser(token);
+      let locations = await getLocations();
+      locations = locations.map((location) => location.location);
 
+      //Checks if location is valid
+      if (!locations.includes(req.body.location)) {
+        return res.redirect(
+          `/user?warning=+${req.body.location}+is+not+valid+a+valid+location`
+        );
+      }
+
+      //Checks if username is already taken.
+      if (
+        req.body.username != user.username &&
+        (await isUsernameTaken(req.body.username))
+      ) {
+        return res.redirect("/user?warning=Username+taken");
+      } else {
+        // Else change user info - if username is not taken or has not been changed.
         await updateUserInfo(
           token._id,
-          req.body.userUsername,
+          req.body.username,
           {
-            day: req.body.userBirthDay,
-            month: req.body.userBirthMonth,
-            year: req.body.userBirthYear,
+            day: req.body.birthDay,
+            month: req.body.birthMonth,
+            year: req.body.birthYear,
           },
-          req.body.userLocation,
-          req.body.userFirstName,
-          req.body.userLastName,
-          req.body.userBio,
-          req.body.userGender,
-          hashedPassword == undefined ? null : hashedPassword
+          req.body.location,
+          req.body.firstName,
+          req.body.lastName,
+          req.body.bio,
+          req.body.gender
         );
-        return res.redirect("/user");
-      } else {
-        // if you try to change username to one that is already taken
-        const user = await getLoggedInUser(token);
-        res.render("user", { isLoggedIn: true, hasTypeWrong: true, user });
+        return res.redirect("/user?message=User+updated");
       }
     }
   } catch (error) {
@@ -170,8 +173,47 @@ router.post("/info/update", async (req, res) => {
     res.render("errorPage", { errorMessage: error });
   }
 });
-// TODO Should be a delete request, and has to be done in client side js.
-// Should also delete user groups + events
+
+router.post("/password/update", async (req, res) => {
+  try {
+    const token = verifyToken(res, req);
+    if (token == null) {
+      res.render("user2", { isLoggedIn: false });
+    } else {
+      const user = await getLoggedInUser(token);
+      //Check if current pass is correct
+      const passMatch = await bcrypt.compare(
+        req.body.currentPassword,
+        user.password
+      );
+
+      if (passMatch) {
+        //Check if confirm password is same as new password:
+        if (req.body.newPassword !== req.body.confirmNewPassword) {
+          res.redirect("/user?warning=Passwords+did+not+match");
+        } else {
+          //Hashing new password, and updating the user in the database
+          const hashedPassword = await bcrypt.hash(req.body.newPassword, 10);
+          await db.collection("users").updateOne(
+            { _id: new ObjectId(token._id) },
+            {
+              $set: {
+                password: hashedPassword,
+              },
+            }
+          );
+          res.redirect("/user?message=Password+updated");
+        }
+      } else {
+        res.redirect("/user?warning=Wrong+password");
+      }
+    }
+  } catch (error) {
+    console.log(error);
+    res.render("errorPage", { errorMessage: error });
+  }
+});
+
 router.delete("/delete", async (req, res) => {
   try {
     const token = verifyToken(res, req);

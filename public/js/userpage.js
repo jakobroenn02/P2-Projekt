@@ -134,10 +134,126 @@ cancelDeleteButton.addEventListener("click", (e) => {
 //
 //
 // Change password button
-const changeUserButton = document.querySelector(
+const changePasswordButton = document.querySelector(
   ".userpage-left-settings-change"
 );
+changePasswordButton.addEventListener("click", (e) => {
+  const changePasswordModal = document.querySelector(
+    ".userpage-change-password-modal"
+  );
 
-changeUserButton.addEventListener("click", (e) => {
-  e.stopPropagation();
+  //Closes modal
+  changePasswordModal.hidden = false;
+});
+
+//JS for update user form
+
+//
+//
+//
+//
+//Js for cancel of userinfo form
+const cancelUpdateButton = document.querySelector(
+  ".userpage-left-info-cancel-button"
+);
+cancelUpdateButton.addEventListener("click", (e) => {
+  const infoContainer = document.querySelector(".userpage-left-info");
+  const editFormContainer = document.querySelector(".userpage-left-info-edit");
+
+  editFormContainer.hidden = true;
+  infoContainer.hidden = false;
+});
+
+//
+//
+//
+//
+//
+//Js for search of locations
+
+const locationInput = document.querySelector(
+  ".userpage-left-info-location-input-edit"
+);
+const locationsContainer = document.querySelector(
+  ".userpage-left-info-locations-list"
+);
+const locationElements = document.getElementsByClassName(
+  "userpage-left-info-location-option"
+);
+
+let locations = getAllTextsFromElements(locationElements);
+
+function isRegisterValid() {
+  let isValid = true;
+  if (!locations.includes(locationInput.value)) {
+    isValid = false;
+  }
+  return isValid;
+}
+
+function getAllTextsFromElements(elements) {
+  let output = [];
+  for (let i = 0; i < elements.length; i++) {
+    output.push(elements[i].innerText);
+  }
+  return output;
+}
+
+locationInput.addEventListener("keyup", (e) => {
+  for (let i = 0; i < locationElements.length; i++) {
+    if (
+      !locationElements[i].innerText
+        .toLowerCase()
+        .includes(locationInput.value.toLowerCase())
+    ) {
+      locationElements[i].hidden = true;
+    } else {
+      locationElements[i].hidden = false;
+    }
+  }
+});
+
+locationInput.addEventListener("focusout", (e) => {
+  locationsContainer.hidden = true;
+});
+
+locationInput.addEventListener("focusin", (e) => {
+  locationsContainer.hidden = false;
+
+  for (let i = 0; i < locationElements.length; i++) {
+    locationElements[i].hidden = false;
+  }
+});
+
+for (let i = 0; i < locationElements.length; i++) {
+  locationElements[i].addEventListener("mousedown", (e) => {
+    locationInput.value = locationElements[i].innerText;
+  });
+}
+
+//
+//
+//
+//
+//Js for change pass modal.
+//Cancel change pass button:
+const cancelChangePassButton = document.querySelector(
+  ".userpage-left-change-password-cancel-button"
+);
+
+cancelChangePassButton.addEventListener("click", (e) => {
+  const inputFields = document.querySelectorAll(
+    ".userpage-left-change-password-modal-container input"
+  );
+  const changePasswordModal = document.querySelector(
+    ".userpage-change-password-modal"
+  );
+
+  //Start by resetting all input fields.
+  inputFields.forEach((input) => {
+    input.value = "";
+  });
+
+  //Closes modal
+  changePasswordModal.hidden = true;
 });
