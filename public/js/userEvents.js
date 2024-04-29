@@ -123,7 +123,8 @@ function drawCalendar(currentDate, events) {
     //Check if day is today
     if (
       i === todayDate.getDate() &&
-      currentDate.getMonth() === todayDate.getMonth()
+      currentDate.getMonth() === todayDate.getMonth() &&
+      currentDate.getFullYear() === todayDate.getFullYear()
     ) {
       dayDiv.classList.add("calendarContent-day-today");
       dayText.textContent += " (Today)";
