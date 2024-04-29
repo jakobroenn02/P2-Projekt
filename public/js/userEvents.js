@@ -1,7 +1,7 @@
 // Calendar functionality
 
 // Get elements
-const monthTitle = document.querySelector(".calendarMonth-title");
+let monthTitle = document.querySelector(".calendarMonth-title");
 const scaleDownMonthBtn = document.querySelector("#scaleDownMonth");
 const scaleUpMonthBtn = document.querySelector("#scaleUpMonth");
 const calenderHeaderContainer = document.querySelector(
@@ -13,26 +13,40 @@ const calenderContent = document.querySelector(".calendarContent-body");
 const eventsJSON = document.querySelector(".events");
 const events = JSON.parse(eventsJSON.value);
 
-let eventDates = [];
+// for each event, push date object to array. Indexes match with corrosponding event in events array
+let participatedEventDates = [];
 events.forEach((event) => {
-  // for each event, push date object to array. Indexes match with corrosponding event in events array
-  eventDates.push(
+  participatedEventDates.push(
     new Date(event.date.year, event.date.month - 1, event.date.day)
   );
 });
+
+// Group events and user id passed from hidden input
+const nonParticipantEventsJSON = document.querySelector(".nonParticipantEvents");
+const nonParticipantEvents = JSON.parse(nonParticipantEventsJSON.value);
+
+//for each group, for each event, push date object to array if user is not participant.
+let nonParticipatedEventDates = []; 
+
+nonParticipantEvents.forEach((event) => {
+  nonParticipatedEventDates.push(
+    new Date(event.date.year, event.date.month - 1, event.date.day)
+  );
+});
+
 
 // Add eventlisteners
 scaleDownMonthBtn.addEventListener("click", () => {
   workingDate.setMonth(workingDate.getMonth() - 1);
   displayMonth = stringifyMonth(workingDate);
-  monthTitle.textContent = displayMonth;
+  monthTitle.textContent = displayMonth + " " + workingDate.getFullYear();
   drawCalendar(workingDate, events);
 });
 
 scaleUpMonthBtn.addEventListener("click", () => {
   workingDate.setMonth(workingDate.getMonth() + 1);
   displayMonth = stringifyMonth(workingDate);
-  monthTitle.textContent = displayMonth;
+  monthTitle.textContent = displayMonth + " " + workingDate.getFullYear();
   drawCalendar(workingDate, events);
 });
 
@@ -41,12 +55,12 @@ window.addEventListener("keydown", (e) => {
   if (e.key === "ArrowLeft") {
     workingDate.setMonth(workingDate.getMonth() - 1);
     displayMonth = stringifyMonth(workingDate);
-    monthTitle.textContent = displayMonth;
+    monthTitle.textContent = displayMonth + " " + workingDate.getFullYear();
     drawCalendar(workingDate, events);
   } else if (e.key === "ArrowRight") {
     workingDate.setMonth(workingDate.getMonth() + 1);
     displayMonth = stringifyMonth(workingDate);
-    monthTitle.textContent = displayMonth;
+    monthTitle.textContent = displayMonth + " " + workingDate.getFullYear();
     drawCalendar(workingDate, events);
   }
 });
@@ -59,22 +73,11 @@ let displayMonth = stringifyMonth(todayDate);
 let workingDate = todayDate;
 
 // Update HTML content
-monthTitle.textContent = displayMonth;
+monthTitle.textContent = displayMonth + " " + todayDate.getFullYear();
 drawCalendar(workingDate, events);
 
-// Functions
-function stringifyMonth(date) {
-  // Takes date object and returns month in string format
-  date = date.toLocaleString("default", { month: "long" });
-  return date.charAt(0).toUpperCase() + date.slice(1);
-}
 
-function stringifyDay(date) {
-  // Takes date object and returns month in string format
-  date = date.toLocaleString("default", { weekday: "long" });
-  return date.charAt(0).toUpperCase() + date.slice(1);
-}
-
+// Main calendar function
 function drawCalendar(currentDate, events) {
   // Clear previous content
   calenderContent.innerHTML = "";
@@ -130,8 +133,12 @@ function drawCalendar(currentDate, events) {
       dayText.textContent += " (Today)";
     }
 
-    // Check if day has events
-    eventDates.forEach((eventDate) => {
+    const eventContainer = document.createElement("div");
+    eventContainer.classList.add("calendarContent-day-event-container");
+    dayDiv.appendChild(eventContainer);
+
+    // Check if day has user participated events
+    participatedEventDates.forEach((eventDate) => {
       if (
         eventDate.getDate() === i &&
         eventDate.getMonth() === currentDate.getMonth() &&
@@ -140,21 +147,101 @@ function drawCalendar(currentDate, events) {
         // Create event anchor with link to event page.
         let link =
           "/user/groups/" +
-          events[eventDates.indexOf(eventDate)].groupId +
+          events[participatedEventDates.indexOf(eventDate)].groupId +
           "/events/" +
-          events[eventDates.indexOf(eventDate)]._id;
+          events[participatedEventDates.indexOf(eventDate)]._id;
         const eventAnchor = document.createElement("a");
+        const eventAnchorName = document.createElement("div");
         eventAnchor.setAttribute("href", link);
-        eventAnchor.textContent =
-          events[eventDates.indexOf(eventDate)].eventName;
+        eventAnchorName.textContent =
+          events[participatedEventDates.indexOf(eventDate)].eventName;
         eventAnchor.classList.add("calendarContent-day-event");
-        dayDiv.appendChild(eventAnchor);
+        eventAnchorName.classList.add("calenderContent-day-event-name");
+        eventContainer.appendChild(eventAnchor);
+        eventAnchor.appendChild(eventAnchorName);
+
+        // Add start time of event and TODO status
+        const eventTime = document.createElement("div");
+        eventTime.classList.add("calendarContent-day-event-time");
+        eventTime.textContent = checkCorrectTime(events[participatedEventDates.indexOf(eventDate)].date.hour, events[participatedEventDates.indexOf(eventDate)].date.minute);
         
+
+        eventAnchor.appendChild(eventTime);
+
         // Change background color of day
         dayDiv.classList.add("calendarContent-day-event-bg");
       }
     });
+
+    // Check if day has group events user is not participating
+    nonParticipatedEventDates.forEach((eventDate) => {
+      if (
+        eventDate.getDate() === i &&
+        eventDate.getMonth() === currentDate.getMonth() &&
+        eventDate.getFullYear() === currentDate.getFullYear()
+      ) {
+        // Create event anchor with link to event page.
+        let link =
+          "/user/groups/" +
+          nonParticipantEvents[nonParticipatedEventDates.indexOf(eventDate)]
+            .groupId +
+          "/events/" +
+          nonParticipantEvents[nonParticipatedEventDates.indexOf(eventDate)]._id;
+        const eventAnchor = document.createElement("a");
+        const eventAnchorName = document.createElement("div");
+        eventAnchor.setAttribute("href", link);
+        eventAnchorName.textContent =
+          nonParticipantEvents[nonParticipatedEventDates.indexOf(eventDate)]
+            .eventName;
+        eventAnchor.classList.add("calendarContent-day-groupEvent");  //groupEvent are events user is not participating in
+        eventAnchorName.classList.add("calenderContent-day-event-name");
+        eventContainer.appendChild(eventAnchor);
+        eventAnchor.appendChild(eventAnchorName);
+
+        // Add start time of event
+        const eventTime = document.createElement("div");
+        eventTime.classList.add("calendarContent-day-event-time");
+        eventTime.textContent = checkCorrectTime(nonParticipantEvents[nonParticipatedEventDates.indexOf(eventDate)].date.hour, nonParticipantEvents[nonParticipatedEventDates.indexOf(eventDate)].date.minute);
+        eventAnchor.appendChild(eventTime);
+
+        // Change background color of day if user is not already participating in an event
+        if(dayDiv.classList.contains("calendarContent-day-event-bg") === false){
+          dayDiv.classList.add("calendarContent-day-groupEvent-bg");
+        }
+      }
+    }); 
+
   }
+}
+
+
+// Helper Functions
+function stringifyMonth(date) {
+  // Takes date object and returns month in string format
+  date = date.toLocaleString("default", { month: "long" });
+  return date.charAt(0).toUpperCase() + date.slice(1);
+}
+
+function stringifyDay(date) {
+  // Takes date object and returns month in string format
+  date = date.toLocaleString("default", { weekday: "long" });
+  return date.charAt(0).toUpperCase() + date.slice(1);
+}
+
+function checkCorrectTime(hour, minute) {
+  // Takes hour and minute as input and returns time in correct format
+  let time = "";
+  if (hour < 10) {
+    time += "0" + hour + ":";
+  } else {
+    time += hour + ":";
+  }
+  if (minute < 10) {
+    time += "0" + minute;
+  } else {
+    time += minute;
+  }
+  return time;
 }
 
 // JS for creating new event
