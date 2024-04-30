@@ -5,6 +5,22 @@
 }
 
 /* Month title content*/
+
+.calendarMisc-container{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  padding: 8px;
+  height: 5%;
+
+  position: relative;
+
+
+  overflow: hidden;
+}
+
 .calendarMonth-container {
   display: flex;
   justify-content: center;
@@ -12,8 +28,8 @@
   flex-direction: row;
   padding: 8px;
   height: 5%;
+  width: 33%;
 
-  position: relative;
 }
 
 .calendarMonth-title {
@@ -38,11 +54,9 @@
 .user-events-createEventModal{
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
-  width: fit-content;
-  position: absolute;
-  left: 8px;
+  width: 33%;
 }
 
 .user-events-create-event-button {
@@ -67,6 +81,39 @@
 
 .user-events-modalDesc{
   margin-left: 8px;
+}
+
+.user-events-legend{
+  display: flex;
+  justify-content: end;
+  flex-wrap: nowrap;
+  width: 33%;
+  overflow: hidden;
+}
+
+.user-events-legend-item{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 140px;
+  gap: 8px;
+
+  overflow: hidden;
+}
+
+.user-events-legend-color-nonPart{
+  background-color: rgb(152, 222, 255);
+  width: 10%;
+  height: 20%;
+  border-radius: 10px;
+}
+
+.user-events-legend-color-part{
+  background-color: rgb(152, 255, 174);
+  width: 10%;
+  height: 20%;
+  border-radius: 10px;
 }
 
 
@@ -117,13 +164,11 @@
   flex-wrap: wrap;
 
 
-  width: calc(100% / 7 - 8px);
+  width: calc(100% / 7 - 6px);
   min-height: calc(100% / 7 + 10px);
   max-height: calc(100% / 6 + 20px);
   border: 1px solid rgba(0, 0, 0, 0.2);
-  margin: 1px;
   padding: 2px;
-
   overflow: hidden;
 }
 
@@ -262,3 +307,5 @@
   background-color: rgba(255, 223, 223, 0.2);
   color: rgb(255, 84, 84);
 }
+
+/* TODO problem med overflow i events dage, hvor højden på dagen bliver kortere.....*/

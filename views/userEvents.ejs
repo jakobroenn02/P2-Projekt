@@ -1,17 +1,37 @@
 <%- include("./partials/header.ejs") %> <% if (!isLoggedIn) {%> <%-
 include("./partials/signinRedirect.ejs")%> <% } else { %>
 <main class="calendar-main-container">
-  <div class="calendarMonth-container">
-    <i class="fa-solid fa-angle-left changeDateButton" id="scaleDownMonth"></i>
-    <h2 class="calendarMonth-title"></h2>
-    <i class="fa-solid fa-angle-right changeDateButton" id="scaleUpMonth"></i>
+  <div class="calendarMisc-container">
     <div class="user-events-createEventModal">
       <div class="user-events-create-event-button">
         <i class="fa-solid fa-plus add-event-icon"></i>
       </div>
       <p class="user-events-modalDesc">Create An Event</p>
     </div>
-    
+
+    <div class="calendarMonth-container">
+      <i
+        class="fa-solid fa-angle-left changeDateButton"
+        id="scaleDownMonth"
+      ></i>
+      <h2 class="calendarMonth-title"></h2>
+      <i class="fa-solid fa-angle-right changeDateButton" id="scaleUpMonth"></i>
+    </div>
+
+    <div class="user-events-legend">
+      <div class="user-events-legend-item">
+        <div
+          class="user-events-legend-color-nonPart">
+        </div>
+        <p class="user-events-legend-text">Not Participating</p>
+      </div>
+      <div class="user-events-legend-item">
+        <div
+          class="user-events-legend-color-part"
+        ></div>
+        <p class="user-events-legend-text">Participating</p>
+      </div>
+    </div>
   </div>
 
   <div class="calendarContent-container">
@@ -24,13 +44,16 @@ include("./partials/signinRedirect.ejs")%> <% } else { %>
       <div class="calendarContent-header-item">Lørdag</div>
       <div class="calendarContent-header-item">Søndag</div>
     </div>
-    <div class="calendarContent-body">  <!-- Content is generated in js script-->
+    <div class="calendarContent-body">
+      <!-- Content is generated in js script-->
     </div>
-      <input type="hidden" class="events" value="<%= JSON.stringify(events) %>">
-      <input type="hidden" class="nonParticipantEvents" value="<%= JSON.stringify(userNotParticipantEvents) %>">
+    <input type="hidden" class="events" value="<%= JSON.stringify(events) %>" />
+    <input
+      type="hidden"
+      class="nonParticipantEvents"
+      value="<%= JSON.stringify(userNotParticipantEvents) %>"
+    />
   </div>
-
-  
 </main>
 <%- include("./partials/createEventModal.ejs") %>
 <script src="/js/userEvents.js"></script>
