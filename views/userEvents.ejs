@@ -51,7 +51,7 @@ include("./partials/signinRedirect.ejs")%> <% } else { %>
     <input
       type="hidden"
       class="nonParticipantEvents"
-      value="<%= JSON.stringify(userNotParticipantEvents) %>"
+      value="<%= JSON.stringify(notParticipatingEvents) %>"
     />
   </div>
 </main>

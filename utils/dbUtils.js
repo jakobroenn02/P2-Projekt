@@ -395,6 +395,26 @@ async function getUserEvents(userId) {
     .toArray();
 }
 
+async function getUserNotParticiaingEvents(userId) {
+
+  const user = await getUser(userId);
+  let userGroups = await getUserGroups(userId);
+  let events = await getUserEvents(userId);
+
+  let userNotParticipantEvents = [];
+  for(i = 0; i < userGroups.length; i++){
+    let helperArray = await getGroupEvents(userGroups[i]._id);
+    helperArray.forEach(event => {
+      if (events.every(e => e._id.toString() !== event._id.toString())) {
+        userNotParticipantEvents.push(event);
+      }
+    });
+  }   
+  return userNotParticipantEvents;
+}
+
+
+
 async function getEvents(eventIds) {
   return await db
     .collection("events")
@@ -609,6 +629,7 @@ async function getInterests() {
 
 module.exports = {
   getUserEvents,
+  getUserNotParticiaingEvents,
   getLoggedInUser,
   getUserGroups,
   getUserUnattendedGroups,
