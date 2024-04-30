@@ -396,7 +396,7 @@ async function getUserEvents(userId) {
 }
 
 async function getUserNotParticiaingEvents(userId) {
-
+  //Takes a user, and returns a list of events the user is not participating in.
   const user = await getUser(userId);
   let userGroups = await getUserGroups(userId);
   let events = await getUserEvents(userId);
