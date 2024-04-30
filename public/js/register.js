@@ -10,8 +10,6 @@ function isRegisterValid() {
     let isValid = true
     if (!locations.includes(locationInput.value)) {
         isValid = false;
-        console.log(locations)
-        console.log(locationInput.value)
     }
     return isValid;
 }

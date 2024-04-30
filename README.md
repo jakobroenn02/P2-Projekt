@@ -1,4 +1,4 @@
-View the application live on: www.heldorf.dev
+To view the application live, visit: www.heldorf.dev
 
 When pulling from git:
 - run npm install
