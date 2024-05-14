@@ -169,7 +169,7 @@ async function addMessageToGroup(message, groupId) {
           authorName: message.authorName,
           authorId: message.authorId,
           createdAt: {
-            year: message.year,
+            year: message.createdAt.year,
             month: message.createdAt.month,
             day: message.createdAt.day,
             hour: message.createdAt.hour,
@@ -566,7 +566,7 @@ async function addEventToGroup(eventId, groupId) {
   );
 }
 
-//Is hardcoded, but should return a random date in the current future (Maybe random choose saturday or sunday, and a random time of the day between 12 and 18)
+//TODO Is hardcoded, but should return a random date in the current future (Maybe random choose saturday or sunday, and a random time of the day between 12 and 18)
 function getRandomEventDate() {
   return {
     year: 2024,

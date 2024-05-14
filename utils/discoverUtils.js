@@ -105,4 +105,4 @@ function shuffleSortedGroups(sortedGroups) {
   });
 }
 
-module.exports = { getGroupsBasedOnInterests };
+module.exports = { getGroupsBasedOnInterests, shuffleArray };
