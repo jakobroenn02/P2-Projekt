@@ -32,6 +32,7 @@ const {
   isUserVotedToDelete,
   deleteAllButOneEmptyGroup,
   emptyGroupsInterestAndRequirementsAmount,
+  getUserNotParticiaingEvents,
 } = require("../utils/dbUtils");
 
 //connect to db
@@ -273,12 +274,15 @@ router.get("/events", async (req, res) => {
       let user = await getLoggedInUser(token);
       let events = await getUserEvents(token._id);
       let userGroups = await getUserGroups(token._id);
+      let notParticipatingEvents = await getUserNotParticiaingEvents(token._id);
 
+         
       res.render("userEvents", {
         isLoggedIn: true,
         events,
         user,
         userGroups,
+        notParticipatingEvents,
       });
     }
   } catch (error) {
