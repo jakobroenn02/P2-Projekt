@@ -6,7 +6,9 @@ socket.on("connect", () => {
   socket.emit("join", groupId, (err) => {});
 
   // scroll to bottom of text messages by default
-  scrollToBottom();
+  if (typeof scrollToBottom != "undefined") {
+    scrollToBottom();
+  }
 });
 
 socket.on("disconnect", () => {
