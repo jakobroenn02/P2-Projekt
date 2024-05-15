@@ -566,14 +566,19 @@ async function addEventToGroup(eventId, groupId) {
   );
 }
 
-//TODO Is hardcoded, but should return a random date in the current future (Maybe random choose saturday or sunday, and a random time of the day between 12 and 18)
+// Returns a random date which is in the same year and month as the current date.
 function getRandomEventDate() {
+  const currentDate = new Date();
+  const year = currentDate.getFullYear();
+  const month = currentDate.getMonth();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+
   return {
-    year: 2024,
-    month: 7,
-    day: 10,
-    hour: 12,
-    minute: 30,
+    year: year,
+    month: month + 1,
+    day: Math.floor(Math.random() * daysInMonth) + 1,
+    hour: 12 + Math.floor(Math.random() * 12),
+    minute: Math.floor(Math.random() * 60),
   };
 }
 

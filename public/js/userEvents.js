@@ -81,7 +81,7 @@ drawCalendar(workingDate, events);
 function drawCalendar(currentDate, events) {
   // Clear previous content
   calenderContent.innerHTML = "";
-  const todayDate = new Date(); //TODO TodayDate keeps being updated for some reason, so this fixes the issue
+  const todayDate = new Date();
 
   // If day 1 is not monday, add days from previous month until first monday
   let firstDay = new Date(

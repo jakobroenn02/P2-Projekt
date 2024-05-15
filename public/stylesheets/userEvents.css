@@ -199,7 +199,7 @@
 .calendarContent-day-event-container::-webkit-scrollbar-track {
   padding: 1px 0;
   border-radius: 40px;
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: white;
 }
 
 .calendarContent-day-event-container::-webkit-scrollbar {
@@ -208,7 +208,7 @@
 
 .calendarContent-day-event-container::-webkit-scrollbar-thumb {
   border-radius: 10px;
-  background-color: white;
+  background-color: lightgrey;
   height: 5px;
 
 }
@@ -307,5 +307,3 @@
   background-color: rgba(255, 223, 223, 0.2);
   color: rgb(255, 84, 84);
 }
-
-/* TODO problem med overflow i events dage, hvor højden på dagen bliver kortere.....*/
