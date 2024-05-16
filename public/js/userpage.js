@@ -114,7 +114,6 @@ confirmDeleteButton.addEventListener("click", (e) => {
       "Content-type": "application/json; charset=UTF-8",
     },
   }).then((res) => {
-    console.log(res);
     if (res.ok) {
       window.location.href = "/";
     } else {

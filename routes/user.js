@@ -99,7 +99,6 @@ router.get("/", async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
     res.render("errorPage", { errorMessage: error });
   }
 });
@@ -122,7 +121,6 @@ router.post("/profile-picture/update", async (req, res) => {
       return res.redirect("/user");
     }
   } catch (error) {
-    console.log(error);
     res.render("errorPage", { errorMessage: error });
   }
 });
@@ -170,7 +168,6 @@ router.post("/info/update", async (req, res) => {
       }
     }
   } catch (error) {
-    console.log(error);
     res.render("errorPage", { errorMessage: error });
   }
 });
@@ -210,7 +207,6 @@ router.post("/password/update", async (req, res) => {
       }
     }
   } catch (error) {
-    console.log(error);
     res.render("errorPage", { errorMessage: error });
   }
 });
@@ -246,7 +242,6 @@ router.delete("/delete", async (req, res) => {
       res.status(200).send("user deleted");
     }
   } catch (error) {
-    console.log(error);
     res.render("errorPage", { errorMessage: error });
   }
 });
@@ -286,7 +281,6 @@ router.get("/events", async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
     res.render("errorPage", { errorMessage: error });
   }
 });
@@ -340,7 +334,6 @@ router.get("/interests", async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
     res.render("errorPage", { errorMessage: error });
   }
 });
@@ -357,7 +350,6 @@ router.post("/interests", async (req, res) => {
       res.redirect("/");
     }
   } catch (error) {
-    console.log(error);
     res.render("errorPage", { errorMessage: error });
   }
 });
@@ -388,7 +380,6 @@ router.get("/groups", async (req, res) => {
       res.render("groups", { isLoggedIn: true, groups, user });
     }
   } catch (error) {
-    console.log(error);
     res.render("errorPage", { errorMessage: error });
   }
 });
@@ -420,7 +411,6 @@ router.get("/groups/:groupId", async (req, res) => {
       }
     }
   } catch (error) {
-    console.log(error);
     res.render("errorPage", { errorMessage: error });
   }
 });
@@ -451,7 +441,6 @@ router.post("/groups/:groupId", async (req, res) => {
       );
     }
   } catch (error) {
-    console.log(error);
     res.render("errorPage", { errorMessage: error });
   }
 });
@@ -524,7 +513,6 @@ router.post("/groups/:groupId/leave", async (req, res) => {
       res.redirect("/");
     }
   } catch (error) {
-    console.log(error);
     res.render("errorPage", { errorMessage: error });
   }
 });
@@ -571,7 +559,6 @@ router.get("/groups/:groupId/events", async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
     res.render("errorPage", { errorMessage: error });
   }
 });
@@ -632,7 +619,6 @@ router.post("/groups/:groupId/events/create", async (req, res) => {
       }
     }
   } catch (error) {
-    console.log(error);
     res.render("errorPage", { errorMessage: error });
   }
 });
@@ -678,7 +664,6 @@ router.get("/groups/:groupId/events/:eventId", async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
     res.render("errorPage", { errorMessage: error });
   }
 });
@@ -696,7 +681,6 @@ router.post("/groups/:groupId/events/:eventId/join", async (req, res) => {
       );
     }
   } catch (error) {
-    console.log(error);
     res.render("errorPage", { errorMessage: error });
   }
 });
@@ -773,7 +757,6 @@ router.post("/groups/:groupId/events/:eventId/delete", async (req, res) => {
       );
     }
   } catch (error) {
-    console.log(error);
     res.render("errorPage", { errorMessage: error });
   }
 });
@@ -791,7 +774,6 @@ router.post("/groups/:groupId/events/:eventId/leave", async (req, res) => {
       );
     }
   } catch (error) {
-    console.log(error);
     res.render("errorPage", { errorMessage: error });
   }
 });

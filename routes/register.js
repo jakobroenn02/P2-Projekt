@@ -30,7 +30,6 @@ router.get("/", async (req, res) => {
       res.render("register", { isLoggedIn: true, hasTypeWrong: false });
     }
   } catch (error) {
-    console.log(error);
     res.render("errorPage", { errorMessage: error });
   }
 });
@@ -89,7 +88,6 @@ router.post("/", async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
     res.render("errorPage", { errorMessage: error });
   }
 });

@@ -25,7 +25,6 @@ router.get("/", async (req, res) => {
       res.render("login", { isLoggedIn: true, hasTypeWrong: false, user });
     }
   } catch (error) {
-    console.log(error);
     res.render("errorPage", { errorMessage: error });
   }
 });
@@ -62,7 +61,6 @@ router.post("/", async (req, res) => {
       return res.render("login", { isLoggedIn: false, hasTypeWrong: true });
     }
   } catch (error) {
-    console.log(error);
     res.render("errorPage", { errorMessage: error });
   }
 });
@@ -72,7 +70,6 @@ router.get("/logout", (req, res) => {
     res.clearCookie("token");
     return res.redirect("/login");
   } catch (error) {
-    console.log(error);
     res.render("errorPage", { errorMessage: error });
   }
 });

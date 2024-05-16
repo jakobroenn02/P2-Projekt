@@ -240,7 +240,6 @@ async function deleteAllButOneEmptyGroup(interest, requirements, location) {
     groupId: { $in: groupsToDeleteIds },
   });
 
-  console.log(res);
 
   await db.collection("groups").deleteMany({
     interest: interest,
@@ -566,19 +565,29 @@ async function addEventToGroup(eventId, groupId) {
   );
 }
 
-// Returns a random date which is in the same year and month as the current date.
+// Returns a random date which is the next saturday or sunday. And a random time that is between 12 and 20
 function getRandomEventDate() {
-  const currentDate = new Date();
-  const year = currentDate.getFullYear();
-  const month = currentDate.getMonth();
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const workingDate = new Date();
+
+  //Get next saturday
+  while( workingDate.getDay() != 6 && workingDate.getDay() != 0){
+    workingDate.setDate(workingDate.getDate() + 1);
+  }
+  // Randomly chose between saturday and sunday
+  if (Math.random() > 0.5) {
+    workingDate.setDate(workingDate.getDate() + 1);
+  }
+
+  const day = workingDate.getDate();
+  const month = workingDate.getMonth();
+  const year = workingDate.getFullYear();
 
   return {
     year: year,
     month: month + 1,
-    day: Math.floor(Math.random() * daysInMonth) + 1,
-    hour: 12 + Math.floor(Math.random() * 12),
-    minute: Math.floor(Math.random() * 60),
+    day: day,
+    hour: 12 + Math.floor(Math.random() * 8),   // Random time between 12 and 20
+    minute: Math.floor(Math.random() * 60),     // Random minute
   };
 }
 

@@ -59,7 +59,6 @@ router.get("/", async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
     res.render("errorPage", { errorMessage: error });
   }
 });
@@ -87,7 +86,6 @@ router.get("/:groupId", async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
     res.render("errorPage", { errorMessage: error });
   }
 });
@@ -139,7 +137,6 @@ router.post("/:groupId/join", async (req, res) => {
       return res.redirect(`/user/groups/${req.params.groupId}`);
     }
   } catch (error) {
-    console.log(error);
     res.render("errorPage", { errorMessage: error });
   }
 });
