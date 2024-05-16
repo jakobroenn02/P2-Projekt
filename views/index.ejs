@@ -52,8 +52,8 @@ include("./partials/signinRedirect.ejs")%>
   </div>
   <div class="homepage-events-container">
     <div class="homepage-title">Upcoming Events</div>
-    <!--Hardcoded max entries to 3 to avoid overflow-->
-    <% for(let i = 0; i < userEvents.length && i < 3; i++) {%>
+    <!--Hardcoded max entries to 2 to avoid overflow-->
+    <% for(let i = 0; i < userEvents.length && i < 2; i++) {%>
     <a
       href="/user/groups/<%=userEvents[i].groupId%>/events/<%=userEvents[i]._id%>"
       class="homepage-event"
