@@ -7,9 +7,6 @@
       </div>
     </div>
     <div class="create-event-modal-body">
-      <!--TODO Hvis vi laver så man kan lave events fra events siden, skal dette ikke med, og man 
-        skal der kunne vælge hvilken gruppen man laver eventet til.
-      -->
       <form method="post" <%if(typeof group !== "undefined") {%>
         action="/user/groups/<%=group._id%>/events/create" <%} else {%>
           action="/user/groups/undefined/events/create" <%} %>
