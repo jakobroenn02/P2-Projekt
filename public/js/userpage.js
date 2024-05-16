@@ -108,7 +108,7 @@ const confirmDeleteButton = document.querySelector(
 );
 
 confirmDeleteButton.addEventListener("click", (e) => {
-  fetch("http://localhost:3000/user/delete", {
+  fetch("/user/delete", {
     method: "DELETE",
     headers: {
       "Content-type": "application/json; charset=UTF-8",
@@ -118,7 +118,7 @@ confirmDeleteButton.addEventListener("click", (e) => {
     if (res.ok) {
       window.location.href = "/";
     } else {
-      console.error("Error deleting user");
+      
     }
   });
 });
