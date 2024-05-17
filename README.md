@@ -5,9 +5,9 @@ When pulling from git:
 - create .env file with DBURL to db you want to connect to, and JWTSECRET.
 
 ***********EXAMPLE********
-* DBURL = "example"      *
-* JWTSECRET = "EXAMPLE"  *
-**************************
+* DBURL = "example"      
+* JWTSECRET = "EXAMPLE"  
+
 
 
 To run the application
