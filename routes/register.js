@@ -6,6 +6,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { verifyToken } = require("../utils/cookiesUtils");
 const { getLocations, isUsernameTaken } = require("../utils/dbUtils");
+const { getAgeFromBirthDate } = require("../utils/generalUtil");
 
 //connect to db
 let db;
@@ -23,13 +24,16 @@ router.get("/", async (req, res) => {
       const locations = await getLocations();
       return res.render("register", {
         isLoggedIn: false,
-        hasTypeWrong: false,
+        usernameTaken: false,
         locations,
+        underage: false, 
+        passwordNoMatch: false, 
       });
     } else {
-      res.render("register", { isLoggedIn: true, hasTypeWrong: false });
+      res.render("register", { isLoggedIn: true, usernameTaken: false, underage: false, passwordNoMatch: false });
     }
   } catch (error) {
+    console.log(error);
     res.render("errorPage", { errorMessage: error });
   }
 });
@@ -58,6 +62,32 @@ router.post("/", async (req, res) => {
       gender: req.body.gender,
     };
 
+    // Checks if user is underage
+    if (getAgeFromBirthDate(user.birth) < 18) {
+      const locations = await getLocations();
+
+      return res.render("register", {
+        isLoggedIn: false,
+        usernameTaken: false,
+        locations,
+        underage: true, 
+        passwordNoMatch: false, 
+      });
+    }
+
+    // Check if passwords match
+    if (req.body.password != req.body.confirmedPassword) {
+      const locations = await getLocations();
+
+      return res.render("register", {
+        isLoggedIn: false,
+        usernameTaken: false,
+        locations,
+        underage: false, 
+        passwordNoMatch: true, 
+      });
+    }
+
     // Checks if username is taken
     if (!(await isUsernameTaken(req.body.username))) {
       //Inserts user in db
@@ -83,11 +113,14 @@ router.post("/", async (req, res) => {
 
       return res.render("register", {
         isLoggedIn: false,
-        hasTypeWrong: true,
+        usernameTaken: true,
         locations,
+        underage: false, 
+        passwordNoMatch: false, 
       });
     }
   } catch (error) {
+    console.log(error);
     res.render("errorPage", { errorMessage: error });
   }
 });

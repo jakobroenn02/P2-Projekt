@@ -54,6 +54,7 @@ router.get("/:id", async (req, res) => {
       }
     }
   } catch (error) {
+    console.log(error);
     res.render("errorPage", { errorMessage: error });
   }
 });

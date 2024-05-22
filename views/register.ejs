@@ -2,10 +2,18 @@
 <div>You are already logged in</div>
 <% } else { %>
 <div class="register-container">
-  <% if(hasTypeWrong){%>
+  <% if(usernameTaken){%>
   <div class="register-input-error">
     Username is already taken. Try a different one.
   </div>
+  <%} else if(underage){%>
+    <div class="register-input-error">
+      Minimum age is 18!
+    </div>
+  <%} else if(passwordNoMatch){%>
+    <div class="register-input-error">
+      Provided passwords do not match.
+    </div>
   <%}%>
   <form action="/register" method="post">
     <label for="firstName"><b>First Name</b></label>
