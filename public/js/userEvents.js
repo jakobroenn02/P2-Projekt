@@ -13,6 +13,9 @@ const backtrackButton = document.querySelector(".calendarMonth-backtrack-button"
 // Offset counter for backtracking
 let backtrackOffset = 0;
 
+// Focus variable for arrow key event listener
+let inFocus = true;
+
 // User events passed from hidden input
 const eventsJSON = document.querySelector(".events");
 const events = JSON.parse(eventsJSON.value);
@@ -58,18 +61,20 @@ scaleUpMonthBtn.addEventListener("click", () => {
 
 // Allows use of arrow keys to change month
 window.addEventListener("keydown", (e) => {
-  if (e.key === "ArrowLeft") {
-    backtrackOffset--;
-    workingDate.setMonth(workingDate.getMonth() - 1);
-    displayMonth = stringifyMonth(workingDate);
-    monthTitle.textContent = displayMonth + " " + workingDate.getFullYear();
-    drawCalendar(workingDate, events);
-  } else if (e.key === "ArrowRight") {
-    backtrackOffset++;
-    workingDate.setMonth(workingDate.getMonth() + 1);
-    displayMonth = stringifyMonth(workingDate);
-    monthTitle.textContent = displayMonth + " " + workingDate.getFullYear();
-    drawCalendar(workingDate, events);
+  if(inFocus){
+    if (e.key === "ArrowLeft") {
+      backtrackOffset--;
+      workingDate.setMonth(workingDate.getMonth() - 1);
+      displayMonth = stringifyMonth(workingDate);
+      monthTitle.textContent = displayMonth + " " + workingDate.getFullYear();
+      drawCalendar(workingDate, events);
+    } else if (e.key === "ArrowRight") {
+      backtrackOffset++;
+      workingDate.setMonth(workingDate.getMonth() + 1);
+      displayMonth = stringifyMonth(workingDate);
+      monthTitle.textContent = displayMonth + " " + workingDate.getFullYear();
+      drawCalendar(workingDate, events);
+    }
   }
 });
 
@@ -267,12 +272,19 @@ function checkCorrectTime(hour, minute) {
 let createEventButton = document.querySelector(
   ".user-events-create-event-button"
 );
+const closeEventModal = document.querySelector(".create-event-modal-header-close");
 const creatEventModal = document.querySelector(".create-event-modal");
 
 createEventButton.addEventListener("click", () => {
   if (creatEventModal.hidden) {
     creatEventModal.hidden = false;
+    inFocus = false;
   } else {
     creatEventModal.hidden = true;
+    inFocus = true;
   }
 });
+closeEventModal.addEventListener("click", () => {
+  inFocus = true;
+});
+
