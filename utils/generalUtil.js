@@ -2,6 +2,7 @@ function getRandomElement(array) {
   return array[Math.floor(Math.random() * array.length)];
 }
 
+// DOES NOT TAKE A DATE OBJECT AS INPUT, but instead uses birth object from db. Returns age as a number.
 function getAgeFromBirthDate(date) {
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();

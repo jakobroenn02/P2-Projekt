@@ -78,6 +78,7 @@ window.addEventListener("keydown", (e) => {
   }
 });
 
+// Backtrack button for returning to current month
 backtrackButton.addEventListener("click", () => {
   backtrackOffset = 0;
   workingDate = new Date();
@@ -96,9 +97,6 @@ let workingDate = todayDate;
 // Update HTML content
 monthTitle.textContent = displayMonth + " " + todayDate.getFullYear();
 drawCalendar(workingDate, events);
-
-
-
 
 // Main calendar function
 function drawCalendar(currentDate, events) {
@@ -235,7 +233,6 @@ function drawCalendar(currentDate, events) {
     }); 
 
   }
-
   if (backtrackOffset != 0) {
     backtrackButton.hidden = false;
   } else {
@@ -268,7 +265,6 @@ function checkCorrectTime(hour, minute) {
 }
 
 // JS for creating new event
-
 let createEventButton = document.querySelector(
   ".user-events-create-event-button"
 );

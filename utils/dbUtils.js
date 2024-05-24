@@ -109,9 +109,6 @@ async function getUserUnattendedGroups(userId) {
 
   return groups;
 }
-function getCommonGroups() {
-  //Should take user1 and user2, and return their common groups
-}
 
 async function getGroupUsers(groupId) {
   // returns the list of users from a group
@@ -438,9 +435,7 @@ async function getGroupSuggestedEvents(groupId) {
     .find({ _id: { $in: group.suggestedEventIds } })
     .toArray();
 }
-function getCommonEvents() {
-  //Should take user1 and user2 and return the events they have in common
-}
+
 async function getEvent(eventId) {
   //Takes event id and return event related to id
   return await db.collection("events").findOne({ _id: new ObjectId(eventId) });

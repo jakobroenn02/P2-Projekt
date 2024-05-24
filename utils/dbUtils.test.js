@@ -274,7 +274,7 @@ describe("getGroupUsers", () => {
     expect(users).toBeDefined();
     expect(users).toEqual(
       expect.arrayContaining([expect.objectContaining({ _id: testUserId })])
-    ); //TODO: Ikke helt sikker på om det her er korrekt
+    );
   });
 });
 
@@ -402,9 +402,6 @@ describe("addMessageToGroup", () => {
   });
 });
 
-describe("createGroupObject", () => {
-  //TODO: Ikke helt sikker på den her
-});
 
 describe("emptyGroupsInterestAndRequirementsAmount", () => {
   let db;
@@ -619,12 +616,6 @@ describe("getGroupSuggestedEvents", () => {
     expect(Array.isArray(events)).toBe(true);
   });
 });
-
-//Get event does not need to be tested, as this functionality has already been tested in getEvents
-
-//TODO Det virker, hvis input kan være objectId, igen, hvorfor roder vi så meget rundt i om det skal være string eller objectID???
-//+ Kan vi please blive enige om at starte med userID eller groupId eller EventId...
-//Nogle gange er første parameter eventId, andre gange userid osv... Irriterende
 
 describe("Event and User operations", () => {
   let db;

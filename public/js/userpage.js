@@ -13,17 +13,11 @@ modalCloseButton.addEventListener("mousedown", function () {
   modal.style.display = "none";
 });
 
-const modalConfirmButton = document.querySelector(
-  ".userpage-profilePictureChangeConfirm"
-);
+const modalConfirmButton = document.querySelector(".userpage-profilePictureChangeConfirm");
 let modalProfilePicture = document.querySelector(".userpage-modalProfPic");
-let profileImageIdNumberInput = document.querySelector(
-  ".userpage-profileImageIdNumber"
-);
+let profileImageIdNumberInput = document.querySelector(".userpage-profileImageIdNumber");
+const profilePictureOptions = document.querySelectorAll(".userpage-pictureOption");
 
-const profilePictureOptions = document.querySelectorAll(
-  ".userpage-pictureOption"
-);
 profilePictureOptions.forEach((option) => {
   option.addEventListener("click", () => {
     // Each image choice in modal can be clicked and will change the id of profile picture in DB. Is updated on button post.
@@ -39,7 +33,6 @@ profilePictureOptions.forEach((option) => {
 //
 //
 //JS related to user settings (three dots/ellipsis on the user page)
-
 const settingButton = document.querySelector(".userpage-left-settings-button");
 const settingsContainer = document.querySelector(
   ".userpage-left-settings-container"

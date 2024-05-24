@@ -18,6 +18,7 @@ groupLeaveButton.addEventListener("click", (e) => {
   }
 });
 
+// Close menu if window is clicked
 document.addEventListener("click", (e) => {
   if (
     !settingsDropdownButton.contains(e.target) &&
@@ -171,6 +172,7 @@ function scrollToBottom() {
   lastMessage.scrollIntoView();
 }
 
+// On send message, reset input
 function resetMessageInput() {
   const messageInput = document.querySelector(
     '.group-message-input-form [name="message"]'
