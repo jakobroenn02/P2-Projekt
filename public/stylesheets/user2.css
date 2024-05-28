@@ -1,0 +1,855 @@
+.userpage {
+  background-color: rgb(243, 243, 243);
+  height: calc(100vh - 88px - 48px);
+  display: flex;
+  justify-content: space-between;
+  padding: 24px;
+  gap: 24px;
+  overflow-y: hidden;
+  overflow-x: auto;
+}
+
+.userpage-left {
+  background-color: white;
+  border-radius: 8px;
+  width: 400px;
+  border: 1px solid rgb(239, 239, 239);
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+.userpage-left-top {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  height: 200px;
+  width: 100%;
+  z-index: 2;
+}
+.userpage-left-top-top {
+  flex: 5;
+}
+.userpage-left-top-bottom {
+  flex: 1;
+  border-bottom: 2px solid rgb(239, 239, 239);
+}
+.userpage-left-image-relative {
+  position: absolute;
+  top: 0px;
+  right: 0;
+  left: 0;
+  height: 250px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.userpage-left-image-container {
+  background-color: white;
+  width: 200px;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  object-fit: cover;
+  overflow: hidden;
+  border-radius: 50%;
+  border: 6px solid white;
+}
+
+.userpage-left-image-container img {
+  min-width: 100%;
+  min-height: 100%;
+}
+
+.userpage-left-image-change {
+  position: absolute;
+  right: 100px;
+  top: 180px;
+  background-color: rgb(255, 223, 218);
+  padding: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  border: 4px solid white;
+  cursor: pointer;
+  transition: all 0.1s;
+}
+
+.userpage-left-image-change:hover {
+  background-color: rgb(255, 215, 209);
+}
+
+.userpage-left-settings-button {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  height: 32px;
+  width: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border: none;
+  border-radius: 50%;
+  background-color: white;
+  transition: all 0.1s;
+}
+
+.userpage-left-settings-container {
+  position: absolute;
+  right: 24px;
+  top: 40px;
+  background-color: white;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  border-radius: 4px;
+}
+
+.userpage-left-settings-edit {
+  padding: 12px;
+  cursor: pointer;
+  border-bottom: 1px solid rgb(245, 245, 245);
+}
+
+.userpage-left-settings-change {
+  padding: 12px;
+  cursor: pointer;
+  border-bottom: 1px solid rgb(245, 245, 245);
+}
+
+.userpage-left-settings-delete {
+  cursor: pointer;
+  padding: 12px;
+}
+
+.userpage-left-settings-edit:hover,
+.userpage-left-settings-change:hover,
+.userpage-left-settings-delete:hover {
+  background-color: rgb(245, 245, 245);
+}
+
+.userpage-delete-confirm-modal {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.4);
+  justify-content: center;
+  align-items: center;
+  z-index: 3;
+}
+
+.userpage-delete-confirm-modal-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -100px;
+  margin-left: -250px;
+  width: 500px;
+  background-color: white;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  display: flex;
+  flex-direction: column;
+  border-top: 10px solid rgb(246, 60, 60);
+  border-radius: 4px;
+}
+
+.userpage-delete-confirm-modal-container-upper {
+  border-bottom: 1px solid rgb(222, 222, 222);
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.userpage-delete-confirm-modal-image-container {
+  width: 100px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  object-fit: cover;
+}
+.userpage-delete-confirm-modal-image-container img {
+  min-width: 100%;
+  max-width: 100%;
+}
+
+.userpage-delete-confirm-modal-text {
+}
+
+.userpage-delete-confirm-modal-title {
+  font-size: 22px;
+  margin: 0 0 12px 0;
+}
+
+.userpage-delete-confirm-modal-description {
+  margin: 0;
+  color: grey;
+}
+
+.userpage-delete-confirm-modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  padding: 12px 24px;
+  gap: 24px;
+}
+
+.userpage-delete-confirm-modal-delete-button {
+  padding: 8px 32px;
+  background-color: rgb(246, 60, 60);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.1s;
+}
+.userpage-delete-confirm-modal-cancel-button {
+  padding: 8px 32px;
+  background-color: rgb(232, 232, 232);
+  border: none;
+  border-radius: 4px;
+  transition: all 0.1s;
+  cursor: pointer;
+}
+.userpage-delete-confirm-modal-delete-button:hover,
+.userpage-delete-confirm-modal-cancel-button:hover {
+  opacity: 0.9;
+}
+
+.userpage-change-password-modal {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.4);
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+}
+
+.userpage-change-password-modal-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -200px;
+  margin-left: -250px;
+  width: 500px;
+  background-color: white;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  border-top: 10px solid rgb(35, 65, 141);
+  border-radius: 4px;
+}
+
+.userpage-change-password-modal-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  background-color: rgb(249, 249, 249);
+  padding: 16px;
+}
+.userpage-change-password-modal-container legend {
+  font-size: 20px;
+}
+
+.userpage-change-password-current-container,
+.userpage-change-password-new-container,
+.userpage-change-password-confirm-new-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.userpage-change-password-confirm-new-container label,
+.userpage-change-password-new-container label,
+.userpage-change-password-current-container label {
+  color: grey;
+  font-size: 12px;
+}
+
+.userpage-change-password-confirm-new-container input,
+.userpage-change-password-new-container input,
+.userpage-change-password-current-container input {
+  border: none;
+  padding: 8px 12px;
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 4px;
+  resize: none;
+  font-family: sans-serif;
+}
+
+.userpage-change-password-confirm-new-container input:focus,
+.userpage-change-password-new-container input:focus,
+.userpage-change-password-current-container input:focus {
+  outline: none;
+}
+
+.userpage-left-change-password-buttons {
+  padding: 6px 16px;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.userpage-left-change-password-save-button {
+  padding: 6px 12px;
+  border: none;
+  color: white;
+  background-color: rgb(47, 140, 47);
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  display: flex;
+  justify-content: flex-start;
+  gap: 7px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.1s;
+}
+
+.userpage-left-change-password-save-button:hover {
+  background-color: rgb(57, 156, 57);
+}
+
+.userpage-left-change-password-cancel-button {
+  padding: 6px 12px;
+  border: none;
+  color: white;
+  background-color: rgb(179, 179, 179);
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  display: flex;
+  justify-content: flex-start;
+  gap: 7px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.1s;
+}
+
+.userpage-left-change-password-cancel-button:hover {
+  background-color: rgb(170, 170, 170);
+}
+
+.userpage-left-info {
+  background-color: rgb(245, 245, 245);
+  width: 100%;
+  position: relative;
+  height: 100%;
+}
+
+.userpage-left-info-warning {
+  position: absolute;
+  top: 4px;
+  z-index: 3;
+  color: rgb(214, 58, 58);
+  font-size: 14px;
+  -webkit-animation: cssAnimation 5s forwards;
+  animation: cssAnimation 5s forwards;
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+
+.userpage-left-info-message {
+  position: absolute;
+  top: 4px;
+  z-index: 3;
+  color: rgb(70, 110, 212);
+  font-size: 14px;
+  -webkit-animation: cssAnimation 5s forwards;
+  animation: cssAnimation 5s forwards;
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+
+@keyframes cssAnimation {
+  0% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@-webkit-keyframes cssAnimation {
+  0% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.userpage-left-info-row1 {
+  display: flex;
+  flex-direction: column;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 36px 0 0px 0;
+}
+.userpage-left-info-name {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+}
+.userpage-left-info-username {
+  margin: 0;
+  font-size: 14px;
+  color: grey;
+}
+.userpage-left-info-row2,
+.userpage-left-info-row3,
+.userpage-left-info-row4,
+.userpage-left-info-row5 {
+  padding: 0px 16px;
+}
+
+.userpage-left-info-bio-text {
+  color: rgb(84, 84, 84);
+  font-size: 14px;
+  margin: 0;
+}
+
+.userpage-left-info-birthday,
+.userpage-left-info-location,
+.userpage-left-info-gender,
+.userpage-left-info-bio {
+  border-bottom: 1px solid rgb(220, 220, 220);
+  padding: 12px 0;
+  display: flex;
+}
+
+.userpage-left-info-birthday i,
+.userpage-left-info-location i,
+.userpage-left-info-gender i {
+  display: flex;
+  align-items: center;
+  color: rgb(84, 84, 84);
+  height: 32px;
+  width: 24px;
+}
+
+.userpage-left-info-birthday-text,
+.userpage-left-info-location-text,
+.userpage-left-info-gender-text {
+  height: 32px;
+  margin: 0;
+  align-items: center;
+  display: flex;
+  padding-top: 1px;
+  margin-left: 12px;
+  color: rgb(84, 84, 84);
+  font-size: 14px;
+}
+
+.userpage-left-info-edit {
+  background-color: rgb(245, 245, 245);
+  width: 100%;
+  height: 100%;
+}
+.userpage-left-info-row1-edit {
+  display: flex;
+  flex-direction: column;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 36px 0 0px 0;
+}
+.userpage-left-info-name-edit {
+  display: flex;
+  gap: 12px;
+  padding: 0 16px;
+}
+
+.userpage-left-info-first-name-title-edit,
+.userpage-left-info-last-name-title-edit,
+.userpage-left-info-username-title-edit,
+.userpage-left-info-bio-title-edit,
+.userpage-left-info-birth-title-edit,
+.userpage-left-info-gender-title-edit,
+.userpage-left-info-location-title-edit {
+  font-size: 10px;
+  color: grey;
+}
+
+.userpage-left-info-first-name-input-edit,
+.userpage-left-info-last-name-input-edit,
+.userpage-left-info-username-input-edit,
+.userpage-left-info-bio-input-edit,
+.userpage-left-info-birth-input-edit,
+.userpage-left-info-location-input-edit,
+.userpage-left-info-gender-input-edit {
+  border: none;
+  padding: 8px 12px;
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 4px;
+  resize: none;
+  font-family: sans-serif;
+}
+
+.userpage-left-info-first-name-input-edit:focus,
+.userpage-left-info-last-name-input-edit:focus,
+.userpage-left-info-username-input-edit:focus,
+.userpage-left-info-bio-input-edit:focus,
+.userpage-left-info-birth-input-edit:focus,
+.userpage-left-info-location-input-edit:focus,
+.userpage-left-info-gender-input-edit:focus {
+  outline: none;
+}
+.userpage-left-info-birth-super-title {
+  padding: 16px 0 0 0;
+  font-size: 12px;
+  color: grey;
+}
+
+.userpage-left-info-username-edit {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 16px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.userpage-left-info-row2-edit {
+  padding: 0 16px;
+}
+.userpage-left-info-bio-edit {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid rgb(220, 220, 220);
+  padding: 12px 0;
+}
+
+.userpage-left-info-bio-input-edit::placeholder {
+  font-family: sans-serif;
+}
+
+.userpage-left-info-row3-edit,
+.userpage-left-info-row4-edit,
+.userpage-left-info-row5-edit {
+  padding: 0px 16px;
+}
+
+.userpage-left-info-row4-edit {
+  position: relative;
+}
+
+.userpage-left-info-location-edit,
+.userpage-left-info-gender-edit {
+  padding: 16px 0;
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid rgb(220, 220, 220);
+}
+
+.userpage-left-info-birth-edit {
+  padding: 0 0 16px 0;
+  display: flex;
+  border-bottom: 1px solid rgb(220, 220, 220);
+  gap: 16px;
+}
+
+.userpage-left-info-location-input-edit {
+  width: 100%;
+  padding: 12px 20px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  margin-bottom: 20px;
+}
+
+.userpage-left-info-locations-list {
+  position: absolute;
+  top: 68px;
+  left: 16px;
+  right: 16px;
+  max-height: 150px;
+  overflow-y: auto;
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+}
+
+.userpage-left-info-location-option {
+  background-color: white;
+  width: 100%;
+  font-size: 12px;
+  padding-left: 8px;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: all 0.1s;
+}
+
+.userpage-left-info-location-option:hover {
+  background-color: rgb(240, 240, 240);
+}
+
+.userpage-left-info-buttons {
+  padding: 16px;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.userpage-left-info-save-button {
+  padding: 6px 12px;
+  border: none;
+  color: white;
+  background-color: rgb(47, 140, 47);
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  display: flex;
+  justify-content: flex-start;
+  gap: 7px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.1s;
+}
+
+.userpage-left-info-save-button:hover {
+  background-color: rgb(57, 156, 57);
+}
+
+.userpage-left-info-cancel-button {
+  padding: 6px 12px;
+  border: none;
+  color: white;
+  background-color: rgb(179, 179, 179);
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  display: flex;
+  justify-content: flex-start;
+  gap: 7px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.1s;
+}
+
+.userpage-left-info-cancel-button:hover {
+  background-color: rgb(170, 170, 170);
+}
+
+.userpage-right {
+  background-color: white;
+  flex: 1;
+  border-radius: 8px;
+  border: 1px solid rgb(239, 239, 239);
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  height: 400px;
+  overflow: hidden;
+}
+
+.userpage-right-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid rgb(239, 239, 239);
+  height: 64px;
+}
+
+.userpage-right-header-title {
+  font-weight: 600;
+  font-size: 20px;
+  margin-left: 20px;
+}
+.userpage-right-header-buttons {
+  margin-right: 20px;
+}
+
+.userpage-right-header-buttons-edit {
+  padding: 8px 24px;
+  background-color: rgb(230, 230, 230);
+  color: rgb(108, 108, 108);
+  border-radius: 200px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.05s;
+  font-size: 12px;
+}
+.userpage-right-header-buttons-edit:hover {
+  background-color: rgb(220, 220, 220);
+}
+.userpage-right-interests {
+  height: calc(100% - 64px);
+  overflow: auto;
+}
+
+.userpage-right-interests-scroll {
+  flex-wrap: wrap;
+  display: flex;
+  padding: 20px;
+  gap: 20px;
+  overflow: auto;
+}
+
+.userpage-right-interest {
+  background-color: rgb(240, 240, 240);
+  border-radius: 10px;
+  display: flex;
+  border-radius: 8px;
+  overflow: hidden;
+  height: 48px;
+}
+
+.userpage-interest-left {
+  display: flex;
+  flex-direction: column;
+  padding: 6px 10px 6px 10px;
+  justify-content: space-between;
+  height: 38px;
+}
+
+.userpage-interest-name {
+  text-wrap: nowrap;
+  font-weight: 600;
+  margin: 0;
+}
+
+.userpage-interest-info {
+  font-size: 14px;
+  color: grey;
+  text-wrap: nowrap;
+  margin: 0;
+}
+
+.userpage-interest-right {
+  width: 48px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+.userpage-interest-right img {
+  min-width: 100%;
+  min-height: 100%;
+  object-fit: cover;
+}
+.userpage-pictures-modal {
+  display: none;
+  flex-direction: column;
+  border-radius: 10px;
+  padding: 6px;
+  background-color: rgb(251, 251, 251);
+  position: fixed;
+  top: 50%;
+  height: 500px;
+  width: 700px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 4px 4px 10px 10px rgb(0, 0, 0, 0.2);
+  z-index: 100;
+}
+
+.userpage-profilePictureChangeConfirm {
+  position: absolute;
+  right: calc(50% - 50px + 4px);
+  bottom: 0%;
+  border: none;
+  width: 100px;
+  height: fit-content;
+  margin-bottom: 10px;
+
+  background-color: rgb(0, 92, 0);
+  padding: 4px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  color: white;
+  transition: all 0.15s;
+}
+
+.userpage-profilePictureChangeConfirm:hover {
+  background-color: rgb(0, 109, 0);
+}
+
+.userpage-modal-header {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.userpage-modal-header-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: rgb(71, 71, 71);
+}
+.userpage-modal-header-close {
+  color: rgb(71, 71, 71);
+}
+
+.userpage-modal-pictures {
+  height: 100%;
+  width: 100%;
+}
+
+.userpage-modal-pictures-main {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50%;
+  border-bottom: 2px solid black;
+}
+
+.userpage-modal-main-picture-container {
+  background-color: green;
+  width: 200px;
+  height: 200px;
+  overflow: hidden;
+  border-radius: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.userpage-modal-main-picture-container img {
+  min-width: 100%;
+  min-height: 100%;
+  object-fit: cover;
+}
+
+.userpage-modal-pictures-options {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 50%;
+}
+.userpage-modal-pictures-options-container {
+  display: flex;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  height: 150px;
+  width: 150px;
+  border-radius: 100%;
+  cursor: pointer;
+  transition: all 0.1s;
+}
+
+.userpage-modal-pictures-options-container:hover {
+  opacity: 0.9;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.userpage-modal-pictures-options-container img {
+  object-fit: cover;
+  min-width: 100%;
+  min-height: 100%;
+}
+
+.userpage-close-mark {
+  transition: all 0.15s;
+}
+
+.userpage-close-mark:hover {
+  cursor: pointer;
+  color: rgb(201, 22, 22);
+}

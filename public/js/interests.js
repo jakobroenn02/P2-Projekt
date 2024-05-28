@@ -53,6 +53,7 @@ specificInterestCheckboxes.forEach((box) => {
   });
 });
 
+// On click, remove interest from right box and uncheck interest in left box
 document.querySelectorAll(".specificSelectedInterest").forEach((elem) => {
   elem.addEventListener("click", () => {
     const interest = elem.innerText
@@ -91,12 +92,14 @@ function removeSelectedInterest(interestId) {
   unSelectedElement.remove();
 }
 
+// Flips the checkbox of a specific interest to unchecked
 function uncheckSpecificInterest(interest) {
   document.getElementById(
     `specific-${interest.replaceAll(" ", "-")}-checkbox`
   ).checked = false;
 }
 
+// Alert if part of group with selected interest
 document.querySelectorAll('.specificInterest').forEach(interest => {
   interest.addEventListener('click', function(e) {
     const checkbox = this.querySelector('.specificInterestCheckbox');
