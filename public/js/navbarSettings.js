@@ -6,6 +6,7 @@ window.addEventListener("click", (e) => {
   settingDropdown.hidden = true;
 });
 
+// Dropdown menu for settings
 settingIcon.addEventListener("click", (e) => {
   e.stopPropagation();
   settingDropdown.hidden

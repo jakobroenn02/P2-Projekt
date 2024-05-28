@@ -1,33 +1,61 @@
 <%- include("./partials/header.ejs") %> <% if (!isLoggedIn) {%> <%-
 include("./partials/signinRedirect.ejs")%> <% } else { %>
-<div class="userEvents">
-  <h1 class="events-title">Your events</h1>
-  <div class="events-container">
-    <% events.forEach(event => { %>
-    <a href="/user/groups/<%=event.groupId%>/events/<%=event._id%>">
-      <div class="event-div">
-        <div class="event-name"><%= event.eventName %></div>
-        <div class="event-description"><%=event.description%></div>
-        <div class="event-address">
-          <%= event.location.name%> | <%= event.location.address %>
-        </div>
-        <div class="event-date">
-          <%= event.date.day < 10 ? "0": ""%><%=event.date.day%>/<%=
-          event.date.month < 10 ? "0": ""%><%=event.date.month%>/<%=
-          event.date.year%> <%= event.date.hour < 10 ? "0":
-          ""%><%=event.date.hour%>:<%= event.date.minute < 10 ? "0":
-          ""%><%=event.date.minute%>
-        </div>
+<main class="calendar-main-container">
+  <div class="calendarMisc-container">
+    <div class="user-events-createEventModal">
+      <div class="user-events-create-event-button">
+        <i class="fa-solid fa-plus add-event-icon"></i>
       </div>
-    </a>
+      <p class="user-events-modalDesc">Create An Event</p>
+      <button type="button" class="calendarMonth-backtrack-button" hidden>Today</button>
+    </div>
 
-    <%})%>
-    <div class="user-events-create-event-button">
-      <i class="fa-solid fa-plus add-event-icon"></i>
+    <div class="calendarMonth-container">
+      <i
+        class="fa-solid fa-angle-left changeDateButton"
+        id="scaleDownMonth"
+      ></i>
+      <h2 class="calendarMonth-title"></h2>
+      <i class="fa-solid fa-angle-right changeDateButton" id="scaleUpMonth"></i>
+    </div>
+
+    <div class="user-events-legend">
+      <div class="user-events-legend-item">
+        <div
+          class="user-events-legend-color-nonPart">
+        </div>
+        <p class="user-events-legend-text">Not Participating</p>
+      </div>
+      <div class="user-events-legend-item">
+        <div
+          class="user-events-legend-color-part"
+        ></div>
+        <p class="user-events-legend-text">Participating</p>
+      </div>
     </div>
   </div>
-</div>
 
+  <div class="calendarContent-container">
+    <div class="calendarContent-header">
+      <div class="calendarContent-header-item">Monday</div>
+      <div class="calendarContent-header-item">Tuesday</div>
+      <div class="calendarContent-header-item">Wednesday</div>
+      <div class="calendarContent-header-item">Thursday</div>
+      <div class="calendarContent-header-item">Friday</div>
+      <div class="calendarContent-header-item">Saturday</div>
+      <div class="calendarContent-header-item">Sunday</div>
+    </div>
+    <div class="calendarContent-body">
+      <!-- Content is generated in js script-->
+    </div>
+    <input type="hidden" class="events" value="<%= JSON.stringify(events) %>" />
+    <input
+      type="hidden"
+      class="nonParticipantEvents"
+      value="<%= JSON.stringify(notParticipatingEvents) %>"
+    />
+  </div>
+</main>
 <%- include("./partials/createEventModal.ejs") %>
 <script src="/js/userEvents.js"></script>
 <%}%>

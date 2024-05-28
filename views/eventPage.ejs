@@ -115,7 +115,7 @@ include("./partials/signinRedirect.ejs")%> <% } else { %>
         <i class="fa-solid fa-users"></i>
         <div class="event-page-bottom-details-people-text">
           <%=eventParticipants.length%> <% if(eventParticipants.length == 1) {%>
-          person is<%} else{%> people are <%}%> partitioning,
+          person is<%} else{%> people are <%}%> participating,
           <%if(eventParticipants.length == 0) {%> be the first! <%} else {%>
           including <%for (let i = 0; i < 3; i++) {%> <% if
           (i<=eventParticipants.length-1) {%> <%=

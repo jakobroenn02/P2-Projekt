@@ -8,10 +8,6 @@ connectToDb((err) => {
   }
 });
 
-function countLocations(users) {
-  let locations = [];
-}
-
 // Takes a list of interests, an amount of groups you want, and returns an equal amount of random groups from each interest. (If there are enough groups) -
 function getGroupsBasedOnInterests(interests, amount, allGroups) {
   if (interests.length == 0) {
@@ -105,4 +101,4 @@ function shuffleSortedGroups(sortedGroups) {
   });
 }
 
-module.exports = { getGroupsBasedOnInterests };
+module.exports = { getGroupsBasedOnInterests, shuffleArray };

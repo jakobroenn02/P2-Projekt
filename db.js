@@ -8,7 +8,9 @@ let dbConnection;
 
 module.exports = {
   connectToDb: (cb) => {
+
     MongoClient.connect(process.env.DBURL , {tls: true})
+
       .then((client) => {
         dbConnection = client.db('database');
         console.log("DB connection established.");

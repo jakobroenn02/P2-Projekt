@@ -12,3 +12,4 @@ let createEventButton = document.querySelector(
       creatEventModal.hidden = true;
     }
   });
+

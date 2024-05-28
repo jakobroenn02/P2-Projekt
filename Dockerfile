@@ -4,7 +4,8 @@ FROM node:21.6.2
 # Create and change to the app directory.
 WORKDIR /usr/src/app
 
-ENV DBURL="mongodb+srv://jakobhroenn:9Dn6ixRsD5ny8CxB@cluster0.zc1t2pm.mongodb.net/?retryWrites=true&w=majority&ssl=true&appName=Cluster0"
+
+ENV DBURL="mongodb+srv://lasse301003:LWpUdRZ1vcmOfLUx@cluster0.umqdk3l.mongodb.net/database?retryWrites=true&w=majority&appName=Cluster0"
 ENV JWTSECRET="hello"
 
 

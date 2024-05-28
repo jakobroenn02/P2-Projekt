@@ -226,9 +226,15 @@
   color: rgb(59, 59, 59);
 }
 
-.group-users-list,
-.group-events-list {
+.group-events-list{
   width: 100%;
+}
+
+.group-users-list {
+  width: 100%;
+  height: fit-content;
+  max-height: 35vh;
+  overflow-y: auto;
 }
 
 .group-events-calendar-button,

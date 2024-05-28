@@ -1,7 +1,6 @@
 <%- include("./partials/header.ejs") %> <% if (!isLoggedIn) {%>
   <%- include("./partials/signinRedirect.ejs")%>
 <% } else { %>
-<!-- TODO make thing so that every group has a hobby header and so that it shows the ones wtih interest first -->
 <div class="discover-groups-container">
 
   <% for(let y=0; y<sortedGroups.length ;y++) { %>
