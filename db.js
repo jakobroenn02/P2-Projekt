@@ -13,7 +13,6 @@ module.exports = {
 
       .then((client) => {
         dbConnection = client.db('database');
-        console.log("DB connection established.");
         return cb();
 
       })

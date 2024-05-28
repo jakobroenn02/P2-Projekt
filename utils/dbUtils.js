@@ -6,7 +6,6 @@ const { getRandomElement, getAgeFromBirthDate } = require("./generalUtil");
 let db;
 connectToDb((err) => {
   if (!err) {
-    console.error("Failed to connect to database:", err);
     db = getDb();
   }
 });
