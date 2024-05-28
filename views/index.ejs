@@ -1,6 +1,5 @@
 <%- include("./partials/header.ejs") %> <% if (!isLoggedIn) {%> <%-
 include("./partials/signinRedirect.ejs")%>
-<!--TODO forside som landingpage hvis ikke logget ind-->
 <% } else { %>
 <div class="homepage">
   <div class="homepage-groups-container">
@@ -83,7 +82,6 @@ include("./partials/signinRedirect.ejs")%>
   </div>
   <div class="homepage-discover-container">
     <div class="homepage-title">Discover</div>
-    <!-- TODO: Check user is not already in group before rendering -->
     <% for(let i = 0; i < discoverGroups.length; i++){%>
     <a href="/discover/<%=discoverGroups[i]._id%>" class="homepage-discover">
       <div class="homepage-discover-image-container">

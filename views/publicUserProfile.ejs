@@ -7,7 +7,7 @@
             <div class="PUF-leftContainer">
 
                 <div class="PUF-imageContainer">
-                    <img src="/img/profileImg/profileImg<%=user.profileImageId%>.jpeg" alt="Profile Picture" class="PUF-image">
+                    <img src="/img/profileImg/profileImg<%=publicUser.profileImageId%>.jpeg" alt="Profile Picture" class="PUF-image">
                 </div>
                 <div class="PUF-username"><%=publicUser.username%></div>
 
@@ -22,7 +22,7 @@
                         <div>Name: <span class="PUF-userInfo"><%= publicUser.name.firstName %></span></div>
                         <div>Surname: <span class="PUF-userInfo"><%= publicUser.name.lastName %></span></div>
                     </div>
-                    <div>Birth: <span class="PUF-userInfo"><%=publicUser.birth.day%>/<%=publicUser.birth.month%> <%=publicUser.birth.year%></span></div>
+                    <div>Birthday: <span class="PUF-userInfo"><%=publicUser.birth.day%>/<%=publicUser.birth.month%>/<%=publicUser.birth.year%></span></div>
                     <div>Gender: <span class="PUF-userInfo"><%=publicUser.gender%></span></div>
                     <div>From: <span class="PUF-userInfo"><%=publicUser.location%></span></div>
                 </div>

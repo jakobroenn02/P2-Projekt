@@ -8,6 +8,13 @@ const calenderHeaderContainer = document.querySelector(
   ".calendarContent-header"
 );
 const calenderContent = document.querySelector(".calendarContent-body");
+const backtrackButton = document.querySelector(".calendarMonth-backtrack-button");
+
+// Offset counter for backtracking
+let backtrackOffset = 0;
+
+// Focus variable for arrow key event listener
+let inFocus = true;
 
 // User events passed from hidden input
 const eventsJSON = document.querySelector(".events");
@@ -37,6 +44,7 @@ nonParticipantEvents.forEach((event) => {
 
 // Add eventlisteners
 scaleDownMonthBtn.addEventListener("click", () => {
+  backtrackOffset--;
   workingDate.setMonth(workingDate.getMonth() - 1);
   displayMonth = stringifyMonth(workingDate);
   monthTitle.textContent = displayMonth + " " + workingDate.getFullYear();
@@ -44,6 +52,7 @@ scaleDownMonthBtn.addEventListener("click", () => {
 });
 
 scaleUpMonthBtn.addEventListener("click", () => {
+  backtrackOffset++;
   workingDate.setMonth(workingDate.getMonth() + 1);
   displayMonth = stringifyMonth(workingDate);
   monthTitle.textContent = displayMonth + " " + workingDate.getFullYear();
@@ -52,17 +61,30 @@ scaleUpMonthBtn.addEventListener("click", () => {
 
 // Allows use of arrow keys to change month
 window.addEventListener("keydown", (e) => {
-  if (e.key === "ArrowLeft") {
-    workingDate.setMonth(workingDate.getMonth() - 1);
-    displayMonth = stringifyMonth(workingDate);
-    monthTitle.textContent = displayMonth + " " + workingDate.getFullYear();
-    drawCalendar(workingDate, events);
-  } else if (e.key === "ArrowRight") {
-    workingDate.setMonth(workingDate.getMonth() + 1);
-    displayMonth = stringifyMonth(workingDate);
-    monthTitle.textContent = displayMonth + " " + workingDate.getFullYear();
-    drawCalendar(workingDate, events);
+  if(inFocus){
+    if (e.key === "ArrowLeft") {
+      backtrackOffset--;
+      workingDate.setMonth(workingDate.getMonth() - 1);
+      displayMonth = stringifyMonth(workingDate);
+      monthTitle.textContent = displayMonth + " " + workingDate.getFullYear();
+      drawCalendar(workingDate, events);
+    } else if (e.key === "ArrowRight") {
+      backtrackOffset++;
+      workingDate.setMonth(workingDate.getMonth() + 1);
+      displayMonth = stringifyMonth(workingDate);
+      monthTitle.textContent = displayMonth + " " + workingDate.getFullYear();
+      drawCalendar(workingDate, events);
+    }
   }
+});
+
+// Backtrack button for returning to current month
+backtrackButton.addEventListener("click", () => {
+  backtrackOffset = 0;
+  workingDate = new Date();
+  displayMonth = stringifyMonth(workingDate);
+  monthTitle.textContent = displayMonth + " " + workingDate.getFullYear();
+  drawCalendar(workingDate, events);
 });
 
 // Get current date
@@ -76,12 +98,11 @@ let workingDate = todayDate;
 monthTitle.textContent = displayMonth + " " + todayDate.getFullYear();
 drawCalendar(workingDate, events);
 
-
 // Main calendar function
 function drawCalendar(currentDate, events) {
   // Clear previous content
   calenderContent.innerHTML = "";
-  const todayDate = new Date(); //TODO TodayDate keeps being updated for some reason, so this fixes the issue
+  const todayDate = new Date();
 
   // If day 1 is not monday, add days from previous month until first monday
   let firstDay = new Date(
@@ -212,19 +233,18 @@ function drawCalendar(currentDate, events) {
     }); 
 
   }
+  if (backtrackOffset != 0) {
+    backtrackButton.hidden = false;
+  } else {
+    backtrackButton.hidden = true;
+  }
 }
 
 
 // Helper Functions
 function stringifyMonth(date) {
   // Takes date object and returns month in string format
-  date = date.toLocaleString("default", { month: "long" });
-  return date.charAt(0).toUpperCase() + date.slice(1);
-}
-
-function stringifyDay(date) {
-  // Takes date object and returns month in string format
-  date = date.toLocaleString("default", { weekday: "long" });
+  date = date.toLocaleString("en-GB", { month: "long" });
   return date.charAt(0).toUpperCase() + date.slice(1);
 }
 
@@ -245,16 +265,22 @@ function checkCorrectTime(hour, minute) {
 }
 
 // JS for creating new event
-
 let createEventButton = document.querySelector(
   ".user-events-create-event-button"
 );
+const closeEventModal = document.querySelector(".create-event-modal-header-close");
 const creatEventModal = document.querySelector(".create-event-modal");
 
 createEventButton.addEventListener("click", () => {
   if (creatEventModal.hidden) {
     creatEventModal.hidden = false;
+    inFocus = false;
   } else {
     creatEventModal.hidden = true;
+    inFocus = true;
   }
 });
+closeEventModal.addEventListener("click", () => {
+  inFocus = true;
+});
+

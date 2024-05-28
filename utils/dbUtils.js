@@ -109,9 +109,6 @@ async function getUserUnattendedGroups(userId) {
 
   return groups;
 }
-function getCommonGroups() {
-  //Should take user1 and user2, and return their common groups
-}
 
 async function getGroupUsers(groupId) {
   // returns the list of users from a group
@@ -240,7 +237,6 @@ async function deleteAllButOneEmptyGroup(interest, requirements, location) {
     groupId: { $in: groupsToDeleteIds },
   });
 
-  console.log(res);
 
   await db.collection("groups").deleteMany({
     interest: interest,
@@ -439,9 +435,7 @@ async function getGroupSuggestedEvents(groupId) {
     .find({ _id: { $in: group.suggestedEventIds } })
     .toArray();
 }
-function getCommonEvents() {
-  //Should take user1 and user2 and return the events they have in common
-}
+
 async function getEvent(eventId) {
   //Takes event id and return event related to id
   return await db.collection("events").findOne({ _id: new ObjectId(eventId) });
@@ -566,14 +560,29 @@ async function addEventToGroup(eventId, groupId) {
   );
 }
 
-//TODO Is hardcoded, but should return a random date in the current future (Maybe random choose saturday or sunday, and a random time of the day between 12 and 18)
+// Returns a random date which is the next saturday or sunday. And a random time that is between 12 and 20
 function getRandomEventDate() {
+  const workingDate = new Date();
+
+  //Get next saturday
+  while( workingDate.getDay() != 6 && workingDate.getDay() != 0){
+    workingDate.setDate(workingDate.getDate() + 1);
+  }
+  // Randomly chose between saturday and sunday
+  if (Math.random() > 0.5) {
+    workingDate.setDate(workingDate.getDate() + 1);
+  }
+
+  const day = workingDate.getDate();
+  const month = workingDate.getMonth();
+  const year = workingDate.getFullYear();
+
   return {
-    year: 2024,
-    month: 7,
-    day: 10,
-    hour: 12,
-    minute: 30,
+    year: year,
+    month: month + 1,
+    day: day,
+    hour: 12 + Math.floor(Math.random() * 8),   // Random time between 12 and 20
+    minute: Math.floor(Math.random() * 60),     // Random minute
   };
 }
 

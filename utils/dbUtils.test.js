@@ -31,14 +31,10 @@ const {
   setUserInterests,
 } = require("./dbUtils");
 
-//TODO: Tør ikke rode med deleteAllButOneEmptyGroup, repopulateGroups
-//TODO: Generelt lidt rod med ObjectId. Nogle gange forventes der input der er objectId, andre gange strings. Ville nok være bedst hvis det altid var ObjectId
-//TODO: Én fejl indtil videre. I addMessageToGroup, var year lig null, da den ikke gjorde brug af createdAt
-//TODO: Mangler nok try catch i mange af funktionerne, f.eks. i tilfælde af at arrays er empty. F.eks. melder getGroupEvents fejl hvis arrayet er tomt
 
 //Helper functions....
-const testGroupId = new ObjectId("66256b923b56d9bc4924e93c"); //TODO Temp group object added to DB, MUST BE DELETED AFTER TEST
-const testEventId = new ObjectId("662593ec3b56d9bc4924e952"); //TODO Temp event object added to DB, MUST BE DELETED AFTER TEST
+const testGroupId = new ObjectId("66256b923b56d9bc4924e93c"); // Temp group object added to DB, MUST BE DELETED AFTER TEST
+const testEventId = new ObjectId("662593ec3b56d9bc4924e952"); // Temp event object added to DB, MUST BE DELETED AFTER TEST
 
 async function addTestUser(db, testGroupId) {
   const result = await db.collection("users").insertOne({
@@ -61,8 +57,6 @@ async function getAllGroupIds(db) {
   const groups = await db.collection("groups").find({}).toArray();
   return groups.map((group) => group._id);
 }
-
-//TODO Generel note: Jeg tror grunden til testene fejler nogle gange, er fordi connection sjældent lukkes ordentligt. Tag getGroups funktionen som eksempel...
 
 describe("getGroup", () => {
   let db;
@@ -280,7 +274,7 @@ describe("getGroupUsers", () => {
     expect(users).toBeDefined();
     expect(users).toEqual(
       expect.arrayContaining([expect.objectContaining({ _id: testUserId })])
-    ); //TODO: Ikke helt sikker på om det her er korrekt
+    );
   });
 });
 
@@ -408,9 +402,6 @@ describe("addMessageToGroup", () => {
   });
 });
 
-describe("createGroupObject", () => {
-  //TODO: Ikke helt sikker på den her
-});
 
 describe("emptyGroupsInterestAndRequirementsAmount", () => {
   let db;
@@ -625,12 +616,6 @@ describe("getGroupSuggestedEvents", () => {
     expect(Array.isArray(events)).toBe(true);
   });
 });
-
-//Get event does not need to be tested, as this functionality has already been tested in getEvents
-
-//TODO Det virker, hvis input kan være objectId, igen, hvorfor roder vi så meget rundt i om det skal være string eller objectID???
-//+ Kan vi please blive enige om at starte med userID eller groupId eller EventId...
-//Nogle gange er første parameter eventId, andre gange userid osv... Irriterende
 
 describe("Event and User operations", () => {
   let db;
